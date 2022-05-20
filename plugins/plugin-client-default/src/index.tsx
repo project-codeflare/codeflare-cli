@@ -36,6 +36,15 @@ import { productName } from '@kui-shell/client/config.d/name.json'
  */
 // const welcomeBit = 'plugin-client-default.welcome-was-dismissed'
 
+// to replay a guidebook on startup, add this <Kui/> property
+//      commandLine={
+//        props.commandLine || [
+//          'replay',
+//          // '-r', // with this, AnimalApp opens showing only the animalapp.json notebook
+//          '/kui/welcome.md'
+//        ]
+//      }
+
 /**
  * Format our body, with extra status stripe widgets
  *   - <CurrentGitBranch />
@@ -51,13 +60,6 @@ export default function renderMain(props: KuiProps) {
       {...props}
       toplevel={!Capabilities.inBrowser() && <Search />}
       guidebooks={guidebooks.submenu}
-      commandLine={
-        props.commandLine || [
-          'replay',
-          // '-r', // with this, AnimalApp opens showing only the animalapp.json notebook
-          '/kui/welcome.md'
-        ]
-      }
     >
       <ContextWidgets>
         <CurrentWorkingDirectory />
