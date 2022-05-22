@@ -19,9 +19,7 @@ import React from 'react'
 import { Capabilities } from '@kui-shell/core'
 import { Kui, KuiProps, ContextWidgets, MeterWidgets, CurrentWorkingDirectory, SpaceFiller } from '@kui-shell/plugin-client-common'
 
-import { CurrentGitBranch } from '@kui-shell/plugin-git'
 import { CurrentContext, CurrentNamespace } from '@kui-shell/plugin-kubectl/components'
-import { ProxyOfflineIndicator } from '@kui-shell/plugin-proxy-support'
 import { Search } from '@kui-shell/plugin-electron-components'
 
 import { version } from '@kui-shell/client/package.json'
@@ -45,33 +43,25 @@ import { productName } from '@kui-shell/client/config.d/name.json'
 //        ]
 //      }
 
-/**
- * Format our body, with extra status stripe widgets
- *   - <CurrentGitBranch />
- *   - <ProxyOfflineIndicator />
- *
- */
 export default function renderMain(props: KuiProps) {
   return (
     <Kui
+      noHelp
       version={version}
       productName={productName}
       lightweightTables
       {...props}
+      isPopup={false}
+      quietExecCommand={false}
       toplevel={!Capabilities.inBrowser() && <Search />}
       guidebooks={guidebooks.submenu}
     >
       <ContextWidgets>
-        <CurrentWorkingDirectory />
-        <CurrentContext />
-        <CurrentNamespace />
-        <CurrentGitBranch className="kui--hide-in-narrower-windows" />
       </ContextWidgets>
 
-      <SpaceFiller />
-
       <MeterWidgets>
-        {Capabilities.inBrowser() && <ProxyOfflineIndicator />}
+        <CurrentContext />
+        <CurrentNamespace />
       </MeterWidgets>
     </Kui>
   )

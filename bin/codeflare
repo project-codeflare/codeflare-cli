@@ -1,0 +1,129 @@
+#!/usr/bin/env bash
+# -*- mode: shell-script
+
+#export KUI_HEADLESS=true
+#export ELECTRON_RUN_AS_NODE=true
+
+export NODE_NO_WARNINGS=1
+export NODE_OPTIONS="--no-warnings"
+
+# use a special window sizing and positioning
+export KUI_POPUP_WINDOW_RESIZE=true
+
+# This tells the core Kui plugin resolver that we are using webpack to
+# build our headless bundles, not the old headless hacks
+export KUI_HEADLESS_WEBPACK=true
+
+SCRIPTDIR=$(cd $(dirname "$0") && pwd)        
+
+if [ -n "$NODE" ] && [ -n "$HEADLESS" ]; then
+    # no-op; use built-in node
+    ______USING_BUILTIN=true # not needed, just making bash happy
+elif [ -f ${SCRIPTDIR}/../node_modules/electron/dist/Electron.app/Contents/MacOS/Electron ]; then
+    # development mode on MacOS
+    NODE=${SCRIPTDIR}/../node_modules/electron/dist/Electron.app/Contents/MacOS/Electron
+    HEADLESS=${SCRIPTDIR}/../dist/headless
+elif [ -f ${SCRIPTDIR}/../node_modules/electron/dist/electron ]; then
+    # development mode on Linux
+    NODE=${SCRIPTDIR}/../node_modules/electron/dist/electron
+    HEADLESS=${SCRIPTDIR}/../dist/headless
+elif [ -f /Applications/CodeFlare.app/Contents/MacOS/CodeFlare ]; then
+    # CodeFlare installed in /Applications on macOS
+    BASE=/Applications/CodeFlare.app
+    NODE="$BASE/Contents/MacOS/CodeFlare"
+    HEADLESS=$BASE/Contents/Resources/app/dist/headless
+elif [ -f ./CodeFlare.app/Contents/MacOS/CodeFlare ]; then
+    # CodeFlare installed in CWD on macOS
+    BASE="$PWD/CodeFlare.app"
+    NODE="$BASE/Contents/MacOS/CodeFlare"
+    HEADLESS="$BASE/Contents/Resources/app/dist/headless"
+elif [ -f /usr/local/bin/CodeFlare/CodeFlare ]; then
+    # CodeFlare installed in /usr/local/bin on Linux or Windows
+    BASE=/usr/local/bin/CodeFlare
+    NODE="$BASE/CodeFlare"
+    HEADLESS="$BASE/resources/headless"
+elif [ -f "$SCRIPTDIR/../CodeFlare.app/Contents/MacOS/CodeFlare" ]; then
+    # CodeFlare installed in SCRIPTDIR on macOS
+    BASE="$SCRIPTDIR/../CodeFlare.app"
+    NODE="$BASE/Contents/MacOS/CodeFlare"
+    HEADLESS="$BASE/Contents/Resources/app/dist/headless"
+elif [ -f "$SCRIPTDIR/../MacOS/CodeFlare" ]; then
+    # CodeFlare installed inside of macOS Resources directory
+    BASE="$SCRIPTDIR/../.."
+    NODE="$BASE/Contents/MacOS/CodeFlare"
+    HEADLESS="$BASE/Contents/Resources/app/dist/headless"
+elif [ -f "$SCRIPTDIR/../CodeFlare/CodeFlare" ]; then
+    # CodeFlare installed in SCRIPTDIR on Linux or Windows
+    BASE="$SCRIPTDIR/../CodeFlare"
+    NODE="$BASE/CodeFlare"
+    HEADLESS="$BASE/resources/headless"
+elif [ -f "$SCRIPTDIR/../CodeFlare" ]; then
+    # CodeFlare installed in SCRIPTDIR on Linux or Windows (variant)
+    BASE="$SCRIPTDIR/.."
+    NODE="$BASE/CodeFlare"
+    HEADLESS="$BASE/resources/headless"
+elif [ -f "$CODEFLARE_HOME/CodeFlare.app/Contents/MacOS/CodeFlare" ]; then
+    # CodeFlare installed in CODEFLARE_HOME on macOS
+    BASE="$CODEFLARE_HOME/CodeFlare.app"
+    NODE="$BASE/Contents/MacOS/CodeFlare"
+    HEADLESS="$BASE/Contents/Resources/app/dist/headless"
+elif [ -f "$CODEFLARE_HOME/CodeFlare" ]; then
+    # CodeFlare installed in CODEFLARE_HOME on Linux or Windows
+    BASE="$CODEFLARE_HOME"
+    NODE="$BASE/CodeFlare"
+    HEADLESS="$BASE/resources/headless"
+elif [ -f ./CodeFlare/CodeFlare ]; then
+    # CodeFlare installed in CWD on Linux or Windows
+    BASE="$PWD/CodeFlare"
+    NODE="$BASE/CodeFlare"
+    HEADLESS="$BASE/resources/headless"
+elif [ -f ./CodeFlare ]; then
+    # CodeFlare installed in CWD on Linux or Windows (variant)
+    # !! CAREFUL !! place this last, so we don't confuse CodeFlare and
+    # codeflare on case-insensitive filesystems
+    BASE="$PWD"
+    NODE="$BASE/CodeFlare"
+    HEADLESS="$BASE/resources/headless"
+else
+    echo "Error: Could not find CodeFlare. Try setting CODEFLARE_HOME=/path/to/CodeFlare"
+    exit 1
+fi
+
+# This points the headless->electron launcher to our Electron
+export KUI_ELECTRON_HOME="${KUI_ELECTRON_HOME-$NODE}"
+
+# Linux may not have the prereqs needed to run Electron
+if [ ! -f ~/.codeflare ] && [ $(uname) = Linux ]; then
+    if [ $(grep '^ID_LIKE' /etc/os-release) = "ID_LIKE=debian" ]; then
+        if [ $(apt -qq list sudo curl libx11-6 libglib2.0-0 libx11-xcb1 libxcb-dri3-0 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6 libxtst6 libnss3 libatk1.0-0 libdrm2 libgbm1 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libasound2 | grep installed 2> /dev/null | wc -l) != 20 ]; then
+            # it's also possible we didn't see these in the list, because we have an out-of-date package list
+            # so apt update to refresh that, then recheck
+            apt update
+            if [ $(apt -qq list sudo curl libx11-6 libglib2.0-0 libx11-xcb1 libxcb-dri3-0 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6 libxtst6 libnss3 libatk1.0-0 libdrm2 libgbm1 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libasound2 | grep installed 2> /dev/null | wc -l) != 20 ]; then
+                # we really don't have them installed, so install them
+                apt install -y sudo curl libx11-6 libglib2.0-0 libx11-xcb1 libxcb-dri3-0 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6 libxtst6 libnss3 libatk1.0-0 libdrm2 libgbm1 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libasound2
+                touch ~/.codeflare
+            else
+                touch ~/.codeflare
+            fi
+        else
+            touch ~/.codeflare
+        fi
+    else
+        touch ~/.codeflare
+    fi
+fi
+
+if [ $# = 1 ] && [ "$1" = "-v" ] || [ "$1" = "--version" ]; then
+    shift
+    args=(version)
+elif [ $# = 1 ] && [ "$1" = "-c" ] || [ "$1" = "--check" ]; then
+    shift
+    args=("help -c")
+else
+    args=$@
+fi
+
+export CODEFLARE_HEADLESS_ZIP=$HEADLESS/../headless.zip
+
+exec "$NODE" "$HEADLESS"/codeflare.min.js -- $args
