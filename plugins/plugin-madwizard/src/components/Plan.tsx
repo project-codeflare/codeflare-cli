@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import Debug from 'debug'
-import React from 'react'
-import { TreeView, TreeViewProps } from '@patternfly/react-core'
-import { encodeComponent, pexecInCurrentTab } from '@kui-shell/core'
-import { CardResponse, Markdown, Icons, SupportedIcon } from '@kui-shell/plugin-client-common'
+import Debug from "debug"
+import React from "react"
+import { TreeView, TreeViewProps } from "@patternfly/react-core"
+import { encodeComponent, pexecInCurrentTab } from "@kui-shell/core"
+import { CardResponse, Markdown, Icons, SupportedIcon } from "@kui-shell/plugin-client-common"
 
 import {
   sameGraph,
@@ -32,15 +32,15 @@ import {
   Choices,
   Decoration,
   Treeifier,
-  UI
-} from 'madwizard'
+  UI,
+} from "madwizard"
 
-import read from '../read'
+import read from "../read"
 
-import '@kui-shell/plugin-client-common/web/scss/components/Tree/_index.scss'
-import '@kui-shell/plugin-client-common/web/scss/components/Wizard/Imports.scss'
+import "@kui-shell/plugin-client-common/web/scss/components/Tree/_index.scss"
+import "@kui-shell/plugin-client-common/web/scss/components/Wizard/Imports.scss"
 
-const debug = Debug('plugins/plugin-madwizard/components/Plan')
+const debug = Debug("plugins/plugin-madwizard/components/Plan")
 
 class ReactUI implements UI<React.ReactNode> {
   public markdown(body: string) {
@@ -52,25 +52,25 @@ class ReactUI implements UI<React.ReactNode> {
       return content
     } else {
       const className = decorations
-        .map(decoration =>
-          decoration === 'blue'
-            ? 'color-base0D'
-            : decoration === 'red'
-            ? 'color-base08'
-            : decoration === 'magenta'
-            ? 'color-base0E'
-            : decoration === 'cyan'
-            ? 'color-base0C'
-            : decoration === 'yellow'
-            ? 'color-base09'
-            : decoration === 'dim'
-            ? 'sub-text'
-            : ''
+        .map((decoration) =>
+          decoration === "blue"
+            ? "color-base0D"
+            : decoration === "red"
+            ? "color-base08"
+            : decoration === "magenta"
+            ? "color-base0E"
+            : decoration === "cyan"
+            ? "color-base0C"
+            : decoration === "yellow"
+            ? "color-base09"
+            : decoration === "dim"
+            ? "sub-text"
+            : ""
         )
         .filter(Boolean)
-        .join(' ')
+        .join(" ")
 
-      if (decorations.includes('bold')) {
+      if (decorations.includes("bold")) {
         return <strong className={className}>{content}</strong>
       } else {
         return <span className={className}>{content}</span>
@@ -92,7 +92,7 @@ class ReactUI implements UI<React.ReactNode> {
 
   public statusToIcon(status: Status) {
     switch (status) {
-      case 'success':
+      case "success":
         return <Icons className="pf-m-success" icon="Checkmark" />
     }
   }
@@ -104,12 +104,12 @@ class ReactUI implements UI<React.ReactNode> {
           {title.map((_, idx, A) => (
             <span key={idx}>
               {this.title(_, status)}
-              {idx < A.length - 1 ? ' ' : ''}
+              {idx < A.length - 1 ? " " : ""}
             </span>
           ))}
         </React.Fragment>
       )
-    } else if (status === 'error') {
+    } else if (status === "error") {
       return <span className="red-text">{title}</span>
     } else {
       return title
@@ -121,7 +121,7 @@ class ReactUI implements UI<React.ReactNode> {
       <button
         className="kui--tree-action pf-c-button pf-m-plain"
         onClick={() => {
-          debug('drilling down to notebook', filepath)
+          debug("drilling down to notebook", filepath)
           pexecInCurrentTab(`replay ${encodeComponent(filepath)}`, undefined, true, true)
         }}
       >
@@ -137,13 +137,13 @@ type Props = Choices &
     blocks: CodeBlockProps[]
   }
 
-type Progress = { nDone: number; nError: number; nTotal: number }
+// type Progress = { nDone: number; nError: number; nTotal: number }
 
 /** Map from treeModel node ID to the cumulative progress of that subtree */
-type ProgressMap = Record<string, Progress>
+// type ProgressMap = Record<string, Progress> */
 
 type State = Choices &
-  Pick<TreeViewProps, 'data'> & {
+  Pick<TreeViewProps, "data"> & {
     error?: Error
 
     graph: OrderedGraph
@@ -160,15 +160,15 @@ export default class Plan extends React.PureComponent<Props, State> {
       data: null,
       graph: undefined,
       choices: props.choices,
-      codeBlockStatus: undefined
+      codeBlockStatus: undefined,
     }
   }
 
-  private async init(props: Props, useTheseChoices?: State['choices']) {
+  private async init(props: Props, useTheseChoices?: State["choices"]) {
     const choices = useTheseChoices || props.choices
-    const newGraph = await compile(props.blocks, choices, undefined, 'sequence', props.title, props.description)
+    const newGraph = await compile(props.blocks, choices, undefined, "sequence", props.title, props.description)
 
-    this.setState(state => {
+    this.setState((state) => {
       const noChange = state && sameGraph(state.graph, newGraph)
 
       const graph = noChange ? state.graph : order(newGraph)
@@ -182,7 +182,7 @@ export default class Plan extends React.PureComponent<Props, State> {
             choices,
             graph,
             error: undefined,
-            codeBlockStatus
+            codeBlockStatus,
           }
     })
   }
@@ -218,12 +218,12 @@ export default class Plan extends React.PureComponent<Props, State> {
     imports = this.state.graph,
     status = this.state.codeBlockStatus,
     doValidate = true
-  ): Pick<State, 'data'> {
+  ): Pick<State, "data"> {
     try {
       return {
         data: new Treeifier<React.ReactNode>(new ReactUI(), status, doValidate && this.validate.bind(this)).toTree(
           imports
-        )
+        ),
       }
     } catch (error) {
       console.error(error)
@@ -232,17 +232,17 @@ export default class Plan extends React.PureComponent<Props, State> {
   }
 
   private async validate(props: CodeBlockProps) {
-    const status = this.state.codeBlockStatus ? this.state.codeBlockStatus[props.id] : 'blank'
+    const status = this.state.codeBlockStatus ? this.state.codeBlockStatus[props.id] : "blank"
 
-    if (props.validate && status !== 'in-progress' && status !== 'success') {
+    if (props.validate && status !== "in-progress" && status !== "success") {
       try {
-        this.onValidate(props.id, 'in-progress')
+        this.onValidate(props.id, "in-progress")
         // emitLinkUpdate(this.props.codeBlockId, 'in-progress')
         await pexecInCurrentTab(props.validate.toString(), undefined, true, true)
-        this.onValidate(props.id, 'success')
+        this.onValidate(props.id, "success")
         // emitLinkUpdate(this.props.codeBlockId, 'success')
       } catch (err) {
-        this.onValidate(props.id, 'blank')
+        this.onValidate(props.id, "blank")
         // this.setState({ status: 'blank' })
         // emitLinkUpdate(this.props.codeBlockId, 'blank')
       }
@@ -250,7 +250,7 @@ export default class Plan extends React.PureComponent<Props, State> {
   }
 
   private readonly onValidate = (id: string, status: Status) => {
-    this.setState(curState => {
+    this.setState((curState) => {
       const codeBlockStatus = Object.assign({}, curState.codeBlockStatus, { [id]: status })
       const { data } = this.computeTreeModel(curState.graph, codeBlockStatus, false)
       return { data, codeBlockStatus }
@@ -259,7 +259,7 @@ export default class Plan extends React.PureComponent<Props, State> {
 
   public render() {
     if (this.state.error) {
-      return 'Internal Error'
+      return "Internal Error"
     }
 
     return !this.state.data ? (
@@ -300,12 +300,12 @@ class LabelWithStatus extends React.PureComponent<LabelWithStatusProps> {
   }
 } */
 
-export async function plan(filepath: string, props: Pick<Props, 'title' | 'description'> = {}) {
+export async function plan(filepath: string, props: Pick<Props, "title" | "description"> = {}) {
   return (
     <CardResponse>
-        <div className="padding-content marked-content page-content" data-is-nested>
-      <Plan {...props} {...await read(filepath)}/>
-        </div>
+      <div className="padding-content marked-content page-content" data-is-nested>
+        <Plan {...props} {...await read(filepath)} />
+      </div>
     </CardResponse>
   )
 }

@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import { Status } from 'madwizard'
-import { Icons, SupportedIcon } from '@kui-shell/plugin-client-common'
+import React from "react"
+import { Status } from "madwizard"
+import { Icons, SupportedIcon } from "@kui-shell/plugin-client-common"
 
 export function statusToClassName(status: Status) {
   return [`pf-m-${status}`]
 }
 
-const icons: Record<Status, { icon: SupportedIcon | ''; className?: string }> = {
-  info: { icon: 'Info' },
-  minor: { icon: '' },
-  blank: { icon: '' },
-  success: { icon: 'Checkmark' },
-  warning: { icon: 'Warning', className: 'yellow-text' },
-  error: { icon: 'Error', className: 'red-text' },
-  unknown: { icon: 'Unknown', className: 'yellow-text' },
-  current: { icon: 'Current' },
+const icons: Record<Status, { icon: SupportedIcon | ""; className?: string }> = {
+  info: { icon: "Info" },
+  minor: { icon: "" },
+  blank: { icon: "" },
+  success: { icon: "Checkmark" },
+  warning: { icon: "Warning", className: "yellow-text" },
+  error: { icon: "Error", className: "red-text" },
+  unknown: { icon: "Unknown", className: "yellow-text" },
+  current: { icon: "Current" },
   pending: { icon: undefined },
-  'in-progress': { icon: 'InProgress', className: 'kui--spin-animation yellow-text' }
+  "in-progress": { icon: "InProgress", className: "kui--spin-animation yellow-text" },
 }
 
 export function statusToIcon(status: Status) {

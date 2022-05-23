@@ -14,34 +14,40 @@
  * limitations under the License.
  */
 
-import { Registrar } from '@kui-shell/core'
-import { setTabReadonly } from './util'
+import { Registrar } from "@kui-shell/core"
+import { setTabReadonly } from "./util"
 
 /** Register Kui Commands */
 export default function registerMadwizardCommands(registrar: Registrar) {
-  registrar.listen('/guide', async ({ tab, argvNoOptions }) => {
-    const filepath = argvNoOptions[1]
-    setTabReadonly({ tab })
-    return {
-      react: await import('./components/PlanAndGuide').then(_ => _.planAndGuide(filepath, { tab }))
-    }
-  }, { outputOnly: true })
+  registrar.listen(
+    "/guide",
+    async ({ tab, argvNoOptions }) => {
+      const filepath = argvNoOptions[1]
+      setTabReadonly({ tab })
+      return {
+        react: await import("./components/PlanAndGuide").then((_) => _.planAndGuide(filepath, { tab })),
+      }
+    },
+    { outputOnly: true }
+  )
 
-  registrar.listen('/wizard', async ({ tab, argvNoOptions }) => {
+  registrar.listen("/wizard", async ({ tab, argvNoOptions }) => {
     const filepath = argvNoOptions[1]
     setTabReadonly({ tab })
     return {
-      react: await import('./components/Guide').then(_ => _.guide(filepath, {
-        tab
-      }))
+      react: await import("./components/Guide").then((_) =>
+        _.guide(filepath, {
+          tab,
+        })
+      ),
     }
   })
-  
-  registrar.listen('/plan', async ({ tab, argvNoOptions }) => {
+
+  registrar.listen("/plan", async ({ tab, argvNoOptions }) => {
     const filepath = argvNoOptions[1]
     setTabReadonly({ tab })
     return {
-      react: await import('./components/Plan').then(_ => _.plan(filepath))
+      react: await import("./components/Plan").then((_) => _.plan(filepath)),
     }
   })
 }

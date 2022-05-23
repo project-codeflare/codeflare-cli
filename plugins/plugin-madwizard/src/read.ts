@@ -15,6 +15,6 @@
  */
 
 export default async function read(filepath: string) {
-  const { blockify, reader } = await import('madwizard')
+  const { blockify, reader } = await import("madwizard")
   return blockify(filepath, await reader())
 }

@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from "react"
 
-import { Capabilities } from '@kui-shell/core'
-import { Kui, KuiProps, ContextWidgets, MeterWidgets, CurrentWorkingDirectory, SpaceFiller } from '@kui-shell/plugin-client-common'
+import { Capabilities } from "@kui-shell/core"
+import { Kui, KuiProps, ContextWidgets, MeterWidgets } from "@kui-shell/plugin-client-common"
 
-import { CurrentContext, CurrentNamespace } from '@kui-shell/plugin-kubectl/components'
-import { Search } from '@kui-shell/plugin-electron-components'
+import { CurrentContext, CurrentNamespace } from "@kui-shell/plugin-kubectl/components"
+import { Search } from "@kui-shell/plugin-electron-components"
 
-import { version } from '@kui-shell/client/package.json'
-import guidebooks from '@kui-shell/client/config.d/notebooks.json'
-import { productName } from '@kui-shell/client/config.d/name.json'
+import { version } from "@kui-shell/client/package.json"
+import guidebooks from "@kui-shell/client/config.d/notebooks.json"
+import { productName } from "@kui-shell/client/config.d/name.json"
 
 /**
  * We will set this bit when the user dismisses the Welcome to Kui
@@ -56,8 +56,7 @@ export default function renderMain(props: KuiProps) {
       toplevel={!Capabilities.inBrowser() && <Search />}
       guidebooks={guidebooks.submenu}
     >
-      <ContextWidgets>
-      </ContextWidgets>
+      <ContextWidgets></ContextWidgets>
 
       <MeterWidgets>
         <CurrentContext />

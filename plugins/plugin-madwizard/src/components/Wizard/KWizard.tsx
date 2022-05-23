@@ -22,16 +22,16 @@
  *
  */
 
-import React from 'react'
-import { i18n } from '@kui-shell/core'
-import { Title, TitleSizes, Wizard, WizardProps } from '@patternfly/react-core'
-import { Icons } from '@kui-shell/plugin-client-common'
+import React from "react"
+import { i18n } from "@kui-shell/core"
+import { Title, TitleSizes, Wizard, WizardProps } from "@patternfly/react-core"
+import { Icons } from "@kui-shell/plugin-client-common"
 
-import Footer, { KuiFooterExtraProps } from './Footer'
+import Footer, { KuiFooterExtraProps } from "./Footer"
 
-import '@kui-shell/plugin-client-common/web/scss/components/Wizard/PatternFly.scss'
+import "@kui-shell/plugin-client-common/web/scss/components/Wizard/PatternFly.scss"
 
-const strings = i18n('plugin-client-common')
+const strings = i18n("plugin-client-common")
 
 type HeaderState = {
   /** Is the wizard in "collapsed" mode, where we only show the title and progress bar? */
@@ -42,7 +42,7 @@ type FooterState = {
   activeStep: number
 }
 
-export type Props = Omit<WizardProps, 'title'> &
+export type Props = Omit<WizardProps, "title"> &
   KuiFooterExtraProps &
   Partial<HeaderState> & {
     title: React.ReactNode
@@ -57,18 +57,18 @@ export default class KWizard extends React.PureComponent<Props, State> {
 
     this.state = {
       activeStep: props.startAtStep || 1,
-      collapsedHeader: props.collapsedHeader || false
+      collapsedHeader: props.collapsedHeader || false,
     }
   }
 
   private readonly _toggleCollapsedHeader = () =>
-    this.setState(curState => ({ collapsedHeader: !curState.collapsedHeader }))
+    this.setState((curState) => ({ collapsedHeader: !curState.collapsedHeader }))
 
   private headerActions() {
     return (
       <div className="kui--wizard-header-action-buttons">
         <a className="kui--wizard-collapse-button kui--block-action" onClick={this._toggleCollapsedHeader}>
-          <Icons icon={this.state.collapsedHeader ? 'WindowMaximize' : 'WindowMinimize'} />
+          <Icons icon={this.state.collapsedHeader ? "WindowMaximize" : "WindowMinimize"} />
         </a>
       </div>
     )
@@ -79,9 +79,9 @@ export default class KWizard extends React.PureComponent<Props, State> {
     return (
       <Title
         headingLevel="h2"
-        size={TitleSizes['3xl']}
+        size={TitleSizes["3xl"]}
         className="kui--wizard-header-title pf-c-wizard__title"
-        aria-label={typeof label === 'string' ? label : 'wizard title'}
+        aria-label={typeof label === "string" ? label : "wizard title"}
       >
         {label}
       </Title>
@@ -105,9 +105,9 @@ export default class KWizard extends React.PureComponent<Props, State> {
     )
   }
 
-  private readonly onBack = () => this.setState(curState => ({ activeStep: Math.max(1, curState.activeStep - 1) }))
+  private readonly onBack = () => this.setState((curState) => ({ activeStep: Math.max(1, curState.activeStep - 1) }))
   private readonly onNext = () =>
-    this.setState(curState => ({ activeStep: Math.min(this.props.steps.length, curState.activeStep + 1) }))
+    this.setState((curState) => ({ activeStep: Math.min(this.props.steps.length, curState.activeStep + 1) }))
 
   private readonly onClose = () => {
     /* noop */
@@ -127,9 +127,9 @@ export default class KWizard extends React.PureComponent<Props, State> {
           isValid={this.state.activeStep < this.props.steps.length}
           firstStep={this.state.activeStep === 1}
           activeStep={this.props.steps[this.state.activeStep - 1]}
-          nextButtonText={strings('Next')}
-          backButtonText={strings('Back')}
-          cancelButtonText={strings('Cancel')}
+          nextButtonText={strings("Next")}
+          backButtonText={strings("Back")}
+          cancelButtonText={strings("Cancel")}
           boxShadow={this.props.boxShadow}
           leftButtons={this.props.leftButtons}
           rightButtons={this.props.rightButtons}
@@ -153,7 +153,7 @@ export default class KWizard extends React.PureComponent<Props, State> {
         <div className="kui--wizard-main-content">
           <Wizard
             key={this.state.activeStep}
-            steps={steps.length === 0 ? [{ name: '', component: '' }] : steps}
+            steps={steps.length === 0 ? [{ name: "", component: "" }] : steps}
             startAtStep={this.state.activeStep}
             footer={this.footer()}
           />

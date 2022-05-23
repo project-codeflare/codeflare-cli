@@ -14,28 +14,28 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import { v4 } from 'uuid'
+import React from "react"
+import { v4 } from "uuid"
 
-import Plan from './Plan'
-import Guide, { Props as GuideProps } from './Guide'
+import Plan from "./Plan"
+import Guide, { Props as GuideProps } from "./Guide"
 
-import read from '../read'
-import LeftRightSplit from './LeftRightSplit'
+import read from "../read"
+import LeftRightSplit from "./LeftRightSplit"
 
-export async function planAndGuide(filepath: string, props: Pick<GuideProps, 'tab' | 'title' | 'description'>) {
+export async function planAndGuide(filepath: string, props: Pick<GuideProps, "tab" | "title" | "description">) {
   try {
     const uuid = v4()
     const data = await read(filepath)
 
     return (
       <LeftRightSplit tab={props.tab}>
-        <Plan {...props} {...data}/>
-        <Guide {...props} {...data} uuid={uuid}/>
+        <Plan {...props} {...data} />
+        <Guide {...props} {...data} uuid={uuid} />
       </LeftRightSplit>
     )
   } catch (err) {
     console.error(err)
-    return 'Internal Error'
+    return "Internal Error"
   }
 }

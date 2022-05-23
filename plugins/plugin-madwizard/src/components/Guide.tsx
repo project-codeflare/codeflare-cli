@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import { v4 } from 'uuid'
-import { i18n, Tab } from '@kui-shell/core'
-import { Markdown, Card, CardResponse, Icons } from '@kui-shell/plugin-client-common'
-import { Chip, ChipGroup, Grid, GridItem, Progress, Tile, WizardStep } from '@patternfly/react-core'
+import React from "react"
+import { v4 } from "uuid"
+import { i18n, Tab } from "@kui-shell/core"
+import { Markdown, Card, CardResponse, Icons } from "@kui-shell/plugin-client-common"
+import { Chip, ChipGroup, Grid, GridItem, Progress, Tile, WizardStep } from "@patternfly/react-core"
 
 import {
   Choice,
@@ -40,16 +40,16 @@ import {
   ChoiceStep,
   isChoiceStep,
   TaskStep,
-  isTaskStep
-} from 'madwizard'
+  isTaskStep,
+} from "madwizard"
 
-import read from '../read'
-import Wizard, { Props as WizardProps } from './Wizard/KWizard'
-import { statusToClassName, statusToIcon } from './StatusUI'
+import read from "../read"
+import Wizard, { Props as WizardProps } from "./Wizard/KWizard"
+import { statusToClassName, statusToIcon } from "./StatusUI"
 
-import '@kui-shell/plugin-client-common/web/scss/components/Wizard/Guide.scss'
+import "@kui-shell/plugin-client-common/web/scss/components/Wizard/Guide.scss"
 
-const strings = i18n('plugin-client-common', 'code')
+const strings = i18n("plugin-client-common", "code")
 
 export type Props = Choices &
   Partial<Title> &
@@ -103,7 +103,7 @@ export default class Guide extends React.PureComponent<Props, State> {
       frontier: undefined,
       wizard: undefined,
       wizardStepStatus: undefined,
-      choices: props.choices
+      choices: props.choices,
     }
     setTimeout(() => this.init(props))
   }
@@ -112,14 +112,14 @@ export default class Guide extends React.PureComponent<Props, State> {
    * TODO move to a more common location?
    */
   private static isValidFrontier(frontier: ReturnType<typeof findChoiceFrontier>): boolean {
-    return frontier.length > 0 && frontier.every(_ => _.prereqs.length > 0 || !!_.choice)
+    return frontier.length > 0 && frontier.every((_) => _.prereqs.length > 0 || !!_.choice)
   }
 
-  private async init(props: Props, useTheseChoices?: State['choices']) {
+  private async init(props: Props, useTheseChoices?: State["choices"]) {
     const choices = useTheseChoices || props.choices
-    const newGraph = await compile(props.blocks, choices, undefined, 'sequence', props.title, props.description)
+    const newGraph = await compile(props.blocks, choices, undefined, "sequence", props.title, props.description)
 
-    this.setState(state => {
+    this.setState((state) => {
       const noChangeToGraph = state && sameGraph(state.graph, newGraph)
 
       const graph = noChangeToGraph ? state.graph : order(newGraph)
@@ -154,14 +154,14 @@ export default class Guide extends React.PureComponent<Props, State> {
   }
 
   /** @return a UI component to visualize the given markdown source */
-  private renderContent(source: TaskStep['step']['content']) {
+  private renderContent(source: TaskStep["step"]["content"]) {
     return (
       source &&
       this.stepContent(
         <Markdown
           tab={this.props.tab}
           nested
-          source={typeof source === 'string' ? source : source()}
+          source={typeof source === "string" ? source : source()}
           choices={this.state.choices}
           executeImmediately={this.state.isRunning}
         />
@@ -183,8 +183,8 @@ export default class Guide extends React.PureComponent<Props, State> {
    * `this.onChoiceFromAbove()`
    */
   private readonly onChoice = (evt: React.MouseEvent) => {
-    const group = evt.currentTarget.getAttribute('data-choice-group')
-    const title = evt.currentTarget.getAttribute('data-choice-title')
+    const group = evt.currentTarget.getAttribute("data-choice-group")
+    const title = evt.currentTarget.getAttribute("data-choice-title")
     this.props.choices.set(group, title)
   }
 
@@ -192,7 +192,7 @@ export default class Guide extends React.PureComponent<Props, State> {
   private tilesForChoice(choice: Choice) {
     return this.stepContent(
       <Grid hasGutter span={4}>
-        {choice.choices.map(_ => {
+        {choice.choices.map((_) => {
           return (
             <GridItem key={_.title}>
               <Tile
@@ -214,12 +214,12 @@ export default class Guide extends React.PureComponent<Props, State> {
     )
   }
 
-  private withStatus(name: WizardStep['name'], status: Status) {
+  private withStatus(name: WizardStep["name"], status: Status) {
     const icon = status && statusToIcon(status)
     if (icon) {
       return (
         <React.Fragment>
-          {name} <span className={statusToClassName(status).join(' ') + ' kui--validator'}>{icon}</span>
+          {name} <span className={statusToClassName(status).join(" ") + " kui--validator"}>{icon}</span>
         </React.Fragment>
       )
     } else {
@@ -249,9 +249,9 @@ export default class Guide extends React.PureComponent<Props, State> {
         stepNavItemProps: isFirstChoice && {
           children: this.wizardStepDescription(
             <span className="sub-text">{this.choiceIcon1} This step requires you to choose how to proceed</span>
-          )
-        }
-      })
+          ),
+        },
+      }),
     }
   }
 
@@ -261,12 +261,12 @@ export default class Guide extends React.PureComponent<Props, State> {
       status,
       graph,
       step: {
-        name: step.name === 'Missing title' ? <span className="red-text">{step.name}</span> : step.name,
+        name: step.name === "Missing title" ? <span className="red-text">{step.name}</span> : step.name,
         component: this.renderContent(step.content),
         stepNavItemProps: {
-          children: this.wizardStepDescription(extractDescription(graph))
-        }
-      }
+          children: this.wizardStepDescription(extractDescription(graph)),
+        },
+      },
     }
   }
 
@@ -294,29 +294,29 @@ export default class Guide extends React.PureComponent<Props, State> {
   private validateStepsIfNeeded(steps: ReturnType<typeof this.wizardSteps>): WizardStep[] {
     Promise.all(
       steps.map(async (_, idx) => {
-        if (!this.state.wizardStepStatus[idx] || this.state.wizardStepStatus[idx] === 'blank') {
+        if (!this.state.wizardStepStatus[idx] || this.state.wizardStepStatus[idx] === "blank") {
           const status = await validate(_.graph, { validator: (cmdline: string) => this.props.tab.REPL.qexec(cmdline) })
           if (status !== this.state.wizardStepStatus[idx]) {
-            this.setState(curState => ({
+            this.setState((curState) => ({
               wizardStepStatus: [
                 ...curState.wizardStepStatus.slice(0, idx),
                 status,
-                ...curState.wizardStepStatus.slice(idx + 1)
-              ]
+                ...curState.wizardStepStatus.slice(idx + 1),
+              ],
             }))
           }
         }
       })
     )
 
-    return steps.map(_ => _.step)
+    return steps.map((_) => _.step)
   }
 
   /** User clicked to remove a chip */
   private readonly removeChip = (evt: React.MouseEvent) => {
     const node = evt.currentTarget.parentElement
     if (node) {
-      const key = node.getAttribute('data-ouia-component-id')
+      const key = node.getAttribute("data-ouia-component-id")
       if (key) {
         this.state.choices.remove(key)
       }
@@ -348,15 +348,15 @@ export default class Guide extends React.PureComponent<Props, State> {
    */
   private progress(steps: WizardStep[]) {
     const nTotal = steps.length
-    const nError = this.state.wizardStepStatus.filter(_ => _ === 'error').length
-    const nDone = this.state.wizardStepStatus.filter(_ => _ === 'success').length
+    const nError = this.state.wizardStepStatus.filter((_) => _ === "error").length
+    const nDone = this.state.wizardStepStatus.filter((_) => _ === "success").length
 
     const label =
       nError > 0
-        ? strings(nError === 1 ? 'xOfyFailingz' : 'xOfyFailingsz', nDone, nError, nTotal)
-        : strings('xOfy', nDone, nTotal)
+        ? strings(nError === 1 ? "xOfyFailingz" : "xOfyFailingsz", nDone, nError, nTotal)
+        : strings("xOfy", nDone, nTotal)
 
-    const variant = nDone === nTotal ? 'success' : nError > 0 ? 'danger' : undefined
+    const variant = nDone === nTotal ? "success" : nError > 0 ? "danger" : undefined
 
     return (
       <Progress
@@ -365,7 +365,7 @@ export default class Guide extends React.PureComponent<Props, State> {
         min={0}
         max={nTotal}
         value={nDone}
-        title={strings('Completed Tasks')}
+        title={strings("Completed Tasks")}
         label={label}
         valueText={label}
         size="sm"
@@ -390,19 +390,19 @@ export default class Guide extends React.PureComponent<Props, State> {
   }
 
   private hasRemainingChoices() {
-    return !!this.state.frontier.find(_ => _.choice !== undefined)
+    return !!this.state.frontier.find((_) => _.choice !== undefined)
   }
 
   /** Commence automated execution of code blocks */
   private readonly startRun = () => {
-    this.setState(curState => {
-      const firstNotDoneStepIdx = curState.wizardStepStatus.findIndex(_ => _ !== 'success')
+    this.setState((curState) => {
+      const firstNotDoneStepIdx = curState.wizardStepStatus.findIndex((_) => _ !== "success")
 
       return {
         isRunning: true,
 
         // remember that startAtStep is 1-indexed
-        startAtStep: firstNotDoneStepIdx < 0 ? curState.startAtStep : firstNotDoneStepIdx + 1
+        startAtStep: firstNotDoneStepIdx < 0 ? curState.startAtStep : firstNotDoneStepIdx + 1,
       }
     })
   }
@@ -412,18 +412,18 @@ export default class Guide extends React.PureComponent<Props, State> {
     this.setState({ isRunning: false })
   }
 
-  private runAction(): WizardProps['rightButtons'][any] {
+  private runAction(): WizardProps["rightButtons"][number] {
     return (
       !this.hasRemainingChoices() && {
-        className: 'kui--guidebook-run',
+        className: "kui--guidebook-run",
         onClick: this.state.isRunning ? this.stopRun : this.startRun,
-        children: strings(this.state.isRunning ? 'Stop' : 'Run'),
-        isDisabled: this.hasRemainingChoices() // ??? this does not seem to take...
+        children: strings(this.state.isRunning ? "Stop" : "Run"),
+        isDisabled: this.hasRemainingChoices(), // ??? this does not seem to take...
       }
     )
   }
 
-  private actions(): Partial<WizardProps['rightButtons']> {
+  private actions(): Partial<WizardProps["rightButtons"]> {
     // return [this.runAction()].filter(Boolean)
     return undefined
   }
@@ -432,7 +432,7 @@ export default class Guide extends React.PureComponent<Props, State> {
     const steps = this.validateStepsIfNeeded(this.wizardSteps()).map(this.addCommonWizardStepProperties)
 
     return steps.length === 0 ? (
-      'Nothing to do!'
+      "Nothing to do!"
     ) : (
       <div className="kui--guide">
         <div className="kui--wizard">
@@ -456,7 +456,7 @@ export default class Guide extends React.PureComponent<Props, State> {
   }
 
   private allDoneWithChoices() {
-    return 'all done with choices'
+    return "all done with choices"
   }
 
   public render() {
@@ -464,7 +464,7 @@ export default class Guide extends React.PureComponent<Props, State> {
       if (!this.state || !this.state.frontier) {
         return <React.Fragment />
       } else if (this.state.error) {
-        return 'Internal error'
+        return "Internal error"
       } else if (this.state.frontier.length === 0) {
         return this.allDoneWithChoices()
       } else {
@@ -473,16 +473,20 @@ export default class Guide extends React.PureComponent<Props, State> {
     } catch (error) {
       console.error(error)
       this.setState({ error })
-      return 'Internal Error'
+      return "Internal Error"
     }
   }
 }
 
-export async function guide(filepath: string, props: Pick<Props, 'tab' | 'title' | 'description'>) {
+export async function guide(filepath: string, props: Pick<Props, "tab" | "title" | "description">) {
   try {
-    return <CardResponse><Guide {...props} {...await read(filepath)} uuid={v4()}/></CardResponse>
+    return (
+      <CardResponse>
+        <Guide {...props} {...await read(filepath)} uuid={v4()} />
+      </CardResponse>
+    )
   } catch (err) {
     console.error(err)
-    return 'Internal Error'
+    return "Internal Error"
   }
 }

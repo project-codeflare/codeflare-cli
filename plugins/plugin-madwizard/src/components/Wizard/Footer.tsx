@@ -28,13 +28,13 @@
  *   - @starpit 20220412 Added `leftActions` and `rightContent` properties
  */
 
-import React from 'react'
-import { css } from '@patternfly/react-styles'
-import styles from '@patternfly/react-styles/css/components/Wizard/wizard'
-import { WizardStep } from '@patternfly/react-core'
-import { Button, ButtonProps } from '@kui-shell/plugin-client-common'
+import React from "react"
+import { css } from "@patternfly/react-styles"
+import styles from "@patternfly/react-styles/css/components/Wizard/wizard"
+import { WizardStep } from "@patternfly/react-core"
+import { Button, ButtonProps } from "@kui-shell/plugin-client-common"
 
-import '@kui-shell/plugin-client-common/web/scss/components/Wizard/Footer.scss'
+import "@kui-shell/plugin-client-common/web/scss/components/Wizard/Footer.scss"
 
 export type KuiFooterExtraProps = {
   /** Add a box shadow effect? [default: false] */
@@ -60,9 +60,9 @@ export type KuiFooterExtraProps = {
 }
 
 export interface WizardFooterInternalProps extends KuiFooterExtraProps {
-  onNext: any
-  onBack: any
-  onClose: any
+  onNext: () => void
+  onBack: () => void
+  onClose: () => void
   isValid: boolean
   firstStep: boolean
   activeStep: WizardStep
@@ -85,9 +85,9 @@ export const WizardFooterInternal: React.FunctionComponent<WizardFooterInternalP
   boxShadow,
   leftButtons,
   rightButtons,
-  topContent
+  topContent,
 }: WizardFooterInternalProps) => (
-  <footer className={css(styles.wizardFooter) + ' kui--wizard-footer'} data-has-box-shadow={boxShadow || undefined}>
+  <footer className={css(styles.wizardFooter) + " kui--wizard-footer"} data-has-box-shadow={boxShadow || undefined}>
     {topContent && <span className="kui--wizard-footer--top">{topContent}</span>}
 
     <span className="kui--wizard-footer--bottom">
@@ -117,6 +117,6 @@ export const WizardFooterInternal: React.FunctionComponent<WizardFooterInternalP
     </span>
   </footer>
 )
-WizardFooterInternal.displayName = 'WizardFooterInternal'
+WizardFooterInternal.displayName = "WizardFooterInternal"
 
 export default WizardFooterInternal

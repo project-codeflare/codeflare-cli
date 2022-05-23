@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import { v4 } from 'uuid'
-import { Tab } from '@kui-shell/core'
-import { CardResponse, SplitInjector } from '@kui-shell/plugin-client-common'
+import React from "react"
+import { v4 } from "uuid"
+import { Tab } from "@kui-shell/core"
+import { CardResponse, SplitInjector } from "@kui-shell/plugin-client-common"
 
 /** TODO we should probably mvoe this into @kui-shell/plugin-client-common */
 
@@ -26,10 +26,10 @@ interface Props {
   tab: Tab
 
   /** The left and right nodes, respectively */
-  children: [ React.ReactNode, React.ReactNode]
+  children: [React.ReactNode, React.ReactNode]
 
   /** Whether the left-hand content is to be a thin strip, or a normal-width split. [default: 'left-strip'] */
-  left?: 'left-strip' | 'default'
+  left?: "left-strip" | "default"
 }
 
 /**
@@ -51,13 +51,13 @@ export default class LeftRightSplit extends React.PureComponent<Props> {
       uuid: v4(),
       count: 1,
       node: this.left,
-      position: this.props.left || 'left-strip' as const,
-      opts: { inverseColors: true }
+      position: this.props.left || ("left-strip" as const),
+      opts: { inverseColors: true },
     }
-     
+
     return (
       <SplitInjector.Consumer>
-        {injector => {
+        {(injector) => {
           setTimeout(() => injector.inject([left]))
           return injector.modify(this.props.tab.uuid, this.right, { maximized: true })
         }}

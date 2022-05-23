@@ -28,6 +28,8 @@
     "build:electron:all": "KUI_KEEP_NODE_MODULE=\"$(cat mw-node-modules.txt)\" KUI_HEADLESS_WEBPACK=true KUI_LAUNCHER=$PWD/bin/codeflare kui-build-electron",
     "build": "npm run compile && webpack --mode production",
     "postinstall": "npm run compile",
+    "format": "prettier --write '**/*.{scss,css,html,js,json,md,ts,tsx}'",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "open": "electron . shell",
     "start": "WATCH_ARGS='-open' npm run watch",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -35,16 +37,61 @@
   "keywords": [],
   "author": "@starpit",
   "license": "Apache-2.0",
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "rules": {
+      "@typescript-eslint/no-unused-vars": "error"
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended"
+    ]
+  },
+  "eslintIgnore": [
+    "mdist",
+    "dist",
+    ".#*",
+    "*~"
+  ],
+  "lint-staged": {
+    "**/*.{scss,css,html,js,json,md,ts,tsx}": [
+      "prettier --write",
+      "git add"
+    ],
+    "**/*.{js,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "semi": false,
+    "printWidth": 120
+  },
   "devDependencies": {
     "@kui-shell/builder": "11.5.0-dev-20220523-155545",
     "@kui-shell/proxy": "11.5.0-dev-20220523-155545",
     "@kui-shell/react": "11.5.0-dev-20220523-155545",
     "@kui-shell/webpack": "11.5.0-dev-20220523-155545",
+    "@types/debug": "^4.1.7",
     "@types/node": "14.11.8",
     "@types/react": "17.0.39",
     "@types/react-dom": "17.0.11",
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.25.0",
+    "@typescript-eslint/parser": "^5.25.0",
     "concurrently": "7.2.0",
     "electron": "18.2.4",
+    "eslint": "^8.15.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^12.4.1",
+    "prettier": "^2.6.2",
     "typescript": "4.6.4"
   },
   "dependencies": {
