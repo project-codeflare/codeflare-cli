@@ -14,12 +14,4 @@
  * limitations under the License.
  */
 
-import { Registrar } from '@kui-shell/core'
-
-/** Register Kui Commands */
-export default function registerCodeflareCommands(registrar: Registrar) {
-  /* e.g. this command will executable as "run"
-  registrar.listen('/run', args => {
-  })
-  */
-}
+/* Your exported API */

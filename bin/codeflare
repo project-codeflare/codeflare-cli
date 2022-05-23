@@ -5,7 +5,7 @@
 #export ELECTRON_RUN_AS_NODE=true
 
 export NODE_NO_WARNINGS=1
-export NODE_OPTIONS="--no-warnings"
+# export NODE_OPTIONS="--no-warnings"
 
 # use a special window sizing and positioning
 export KUI_POPUP_WINDOW_RESIZE=true
@@ -126,4 +126,25 @@ fi
 
 export CODEFLARE_HEADLESS_ZIP=$HEADLESS/../headless.zip
 
-exec "$NODE" "$HEADLESS"/codeflare.min.js -- $args
+# check if the user wants us to run the headless version (currently
+# indicated by the -c option)
+while getopts "c" opt
+do
+    case $opt in
+    (c) do_cli=1; shift; continue;;
+    esac
+done
+
+if [ -n "$do_cli" ]; then
+    # launch headless version; here, we use madwizard directly, but
+    # using electron as the nodejs binary (this is what
+    # ELECTRON_RUN_AS_NODE does for us)
+    export ELECTRON_RUN_AS_NODE=true
+    exec "$NODE" \
+         --experimental-specifier-resolution=node --no-warnings --experimental-import-meta-resolve \
+         "$HEADLESS"/../../node_modules/madwizard/bin/madwizard.js \
+         $*
+fi
+
+# otherwise, we launch the UI version
+exec "$NODE" "$HEADLESS"/codeflare.min.js -- $args 3>&1 1>&2 2>&3 3>&- | grep -v WebSwapCGLLayer 
