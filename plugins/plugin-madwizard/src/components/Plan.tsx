@@ -18,7 +18,7 @@ import Debug from "debug"
 import React from "react"
 import { TreeView, TreeViewProps } from "@patternfly/react-core"
 import { encodeComponent, pexecInCurrentTab } from "@kui-shell/core"
-import { CardResponse, Markdown, Icons, SupportedIcon } from "@kui-shell/plugin-client-common"
+import { CardResponse, Icons, Loading, Markdown, SupportedIcon } from "@kui-shell/plugin-client-common"
 
 import {
   sameGraph,
@@ -142,49 +142,55 @@ type Props = Choices &
 /** Map from treeModel node ID to the cumulative progress of that subtree */
 // type ProgressMap = Record<string, Progress> */
 
-type State = Choices &
-  Pick<TreeViewProps, "data"> & {
-    error?: Error
+type State = Partial<
+  Choices & {
+    /** The Tree UI model */
+    data?: void | TreeViewProps["data"]
 
-    graph: OrderedGraph
+    /** Any error while computing the Tree UI model */
+    error?: unknown
 
-    /** Map from CodeBlockProps.id to execution status of that code block */
-    codeBlockStatus: Record<string, Status>
+    graph?: OrderedGraph
   }
+> & {
+  /** Map from CodeBlockProps.id to execution status of that code block */
+  codeBlockStatus: Record<string, Status>
+}
 
 export default class Plan extends React.PureComponent<Props, State> {
   public constructor(props: Props) {
     super(props)
-
     this.state = {
-      data: null,
-      graph: undefined,
-      choices: props.choices,
-      codeBlockStatus: undefined,
+      codeBlockStatus: {},
     }
   }
 
   private async init(props: Props, useTheseChoices?: State["choices"]) {
-    const choices = useTheseChoices || props.choices
-    const newGraph = await compile(props.blocks, choices, undefined, "sequence", props.title, props.description)
+    try {
+      const choices = useTheseChoices || props.choices
+      const newGraph = await compile(props.blocks, choices, undefined, "sequence", props.title, props.description)
+      choices.onChoice(this.onChoice)
 
-    this.setState((state) => {
-      const noChange = state && sameGraph(state.graph, newGraph)
+      this.setState((state) => {
+        const noChange = state && state.graph && sameGraph(state.graph, newGraph)
 
-      const graph = noChange ? state.graph : order(newGraph)
-      const codeBlockStatus = state ? this.state.codeBlockStatus : {}
-      const data = noChange ? state.data : this.computeTreeModel(graph, codeBlockStatus).data
+        const graph = noChange ? state.graph : order(newGraph)
+        const codeBlockStatus = state ? this.state.codeBlockStatus : {}
+        const data = noChange ? state.data : this.computeTreeModel(graph, codeBlockStatus).data
 
-      return noChange
-        ? null
-        : {
-            data,
-            choices,
-            graph,
-            error: undefined,
-            codeBlockStatus,
-          }
-    })
+        return noChange
+          ? null
+          : {
+              data,
+              choices,
+              graph,
+              error: undefined,
+              codeBlockStatus,
+            }
+      })
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   private readonly onChoice = ({ choices }: Choices) => this.init(this.props, choices.clone())
@@ -195,12 +201,13 @@ export default class Plan extends React.PureComponent<Props, State> {
   }
 
   public componentDidMount() {
-    this.state.choices.onChoice(this.onChoice)
     this.computeTreeModelIfNeeded()
   }
 
   public componentWillUnmount() {
-    this.state.choices.offChoice(this.onChoice)
+    if (this.state && this.state.choices) {
+      this.state.choices.offChoice(this.onChoice)
+    }
   }
 
   public componentDidUpdate() {
@@ -209,26 +216,31 @@ export default class Plan extends React.PureComponent<Props, State> {
 
   /** Compute or re-compute tree model */
   private computeTreeModelIfNeeded() {
-    if (!this.state.data) {
+    if (!this.state || !this.state.data) {
       this.init(this.props)
     }
   }
 
   private computeTreeModel(
-    imports = this.state.graph,
-    status = this.state.codeBlockStatus,
+    graph: State["graph"],
+    status: State["codeBlockStatus"],
     doValidate = true
-  ): Pick<State, "data"> {
-    try {
-      return {
-        data: new Treeifier<React.ReactNode>(new ReactUI(), status, doValidate && this.validate.bind(this)).toTree(
-          imports
-        ),
+  ): Partial<Pick<State, "data">> {
+    if (graph) {
+      try {
+        return {
+          data: new Treeifier<React.ReactNode>(
+            new ReactUI(),
+            status,
+            doValidate ? this.validate.bind(this) : undefined
+          ).toTree(graph),
+        }
+      } catch (error) {
+        console.error(error)
+        this.setState({ error })
       }
-    } catch (error) {
-      console.error(error)
-      this.setState({ error })
     }
+    return { data: undefined }
   }
 
   private async validate(props: CodeBlockProps) {
@@ -258,15 +270,13 @@ export default class Plan extends React.PureComponent<Props, State> {
   }
 
   public render() {
-    if (this.state.error) {
+    if (!this.state || !this.state.graph || !this.state.data) {
+      return <Loading />
+    } else if (this.state.error) {
       return "Internal Error"
+    } else {
+      return <TreeView className="kui--dependence-tree kui--tree" hasGuides data={this.state.data} />
     }
-
-    return !this.state.data ? (
-      <React.Fragment />
-    ) : (
-      <TreeView className="kui--dependence-tree kui--tree" hasGuides data={this.state.data} />
-    )
   }
 }
 

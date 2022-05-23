@@ -17,8 +17,8 @@
 import React from "react"
 import { v4 } from "uuid"
 import { i18n, Tab } from "@kui-shell/core"
-import { Markdown, Card, CardResponse, Icons } from "@kui-shell/plugin-client-common"
-import { Chip, ChipGroup, Grid, GridItem, Progress, Tile, WizardStep } from "@patternfly/react-core"
+import { Card, CardResponse, Icons, Loading, Markdown } from "@kui-shell/plugin-client-common"
+import { ButtonProps, Chip, ChipGroup, Grid, GridItem, Progress, Tile, WizardStep } from "@patternfly/react-core"
 
 import {
   Choice,
@@ -44,7 +44,7 @@ import {
 } from "madwizard"
 
 import read from "../read"
-import Wizard, { Props as WizardProps } from "./Wizard/KWizard"
+import Wizard from "./Wizard/KWizard"
 import { statusToClassName, statusToIcon } from "./StatusUI"
 
 import "@kui-shell/plugin-client-common/web/scss/components/Wizard/Guide.scss"
@@ -69,7 +69,7 @@ export type Props = Choices &
 
 type State = Choices & {
   /** Internal error in rendering? */
-  error?: Error
+  error?: unknown
 
   /** Graph of code blocks to be executed */
   graph: OrderedGraph
@@ -96,15 +96,6 @@ export default class Guide extends React.PureComponent<Props, State> {
 
   public constructor(props: Props) {
     super(props)
-    this.state = {
-      startAtStep: 0,
-      isRunning: false,
-      graph: undefined,
-      frontier: undefined,
-      wizard: undefined,
-      wizardStepStatus: undefined,
-      choices: props.choices,
-    }
     setTimeout(() => this.init(props))
   }
 
@@ -112,12 +103,13 @@ export default class Guide extends React.PureComponent<Props, State> {
    * TODO move to a more common location?
    */
   private static isValidFrontier(frontier: ReturnType<typeof findChoiceFrontier>): boolean {
-    return frontier.length > 0 && frontier.every((_) => _.prereqs.length > 0 || !!_.choice)
+    return frontier.length > 0 && frontier.every((_) => (_.prereqs && _.prereqs.length > 0) || !!_.choice)
   }
 
   private async init(props: Props, useTheseChoices?: State["choices"]) {
     const choices = useTheseChoices || props.choices
     const newGraph = await compile(props.blocks, choices, undefined, "sequence", props.title, props.description)
+    choices.onChoice(this.onChoiceFromAbove)
 
     this.setState((state) => {
       const noChangeToGraph = state && sameGraph(state.graph, newGraph)
@@ -126,7 +118,7 @@ export default class Guide extends React.PureComponent<Props, State> {
       const frontier = noChangeToGraph && state && state.frontier ? state.frontier : findChoiceFrontier(graph)
 
       const startAtStep = state ? state.startAtStep : 1
-      const wizard = wizardify(graph, { previous: state.wizard })
+      const wizard = wizardify(graph, { previous: state ? state.wizard : undefined })
       const wizardStepStatus = noChangeToGraph && state ? state.wizardStepStatus : []
 
       const isRunning = state ? state.isRunning : false
@@ -135,12 +127,10 @@ export default class Guide extends React.PureComponent<Props, State> {
     })
   }
 
-  public componentDidMount() {
-    this.state.choices.onChoice(this.onChoiceFromAbove)
-  }
-
   public componentWillUnmount() {
-    this.state.choices.offChoice(this.onChoiceFromAbove)
+    if (this.state) {
+      this.state.choices.offChoice(this.onChoiceFromAbove)
+    }
   }
 
   /** @return a wrapper UI for the content of a wizard step */
@@ -185,7 +175,9 @@ export default class Guide extends React.PureComponent<Props, State> {
   private readonly onChoice = (evt: React.MouseEvent) => {
     const group = evt.currentTarget.getAttribute("data-choice-group")
     const title = evt.currentTarget.getAttribute("data-choice-title")
-    this.props.choices.set(group, title)
+    if (group && title) {
+      this.props.choices.set(group, title)
+    }
   }
 
   /** @return UI that offers the user a choice */
@@ -246,11 +238,13 @@ export default class Guide extends React.PureComponent<Props, State> {
       step: Object.assign({}, step, {
         name: graph.title,
         component: this.tilesForChoice(graph),
-        stepNavItemProps: isFirstChoice && {
-          children: this.wizardStepDescription(
-            <span className="sub-text">{this.choiceIcon1} This step requires you to choose how to proceed</span>
-          ),
-        },
+        stepNavItemProps: isFirstChoice
+          ? {
+              children: this.wizardStepDescription(
+                <span className="sub-text">{this.choiceIcon1} This step requires you to choose how to proceed</span>
+              ),
+            }
+          : undefined,
       }),
     }
   }
@@ -273,22 +267,20 @@ export default class Guide extends React.PureComponent<Props, State> {
   /** @return the `WizardStep` models for this Guide */
   private wizardSteps() {
     let isFirstChoice = true
-    return this.state.wizard
-      .reduce((uiSteps, _, idx, A) => {
-        if (isChoiceStep(_)) {
-          const ui = this.choiceUI(_, isFirstChoice)
-          isFirstChoice = false
-          uiSteps.push(ui)
-        } else if (isTaskStep(_)) {
-          const previous = A[idx - 1]
-          if (!previous || !isTaskStep(previous) || previous.step.name !== _.step.name) {
-            // task steps with multiple code blocks... combine them into one ui step
-            uiSteps.push(this.taskUI(_))
-          }
+    return this.state.wizard.reduce((uiSteps, _, idx, A) => {
+      if (isChoiceStep(_)) {
+        const ui = this.choiceUI(_, isFirstChoice)
+        isFirstChoice = false
+        uiSteps.push(ui)
+      } else if (isTaskStep(_)) {
+        const previous = A[idx - 1]
+        if (!previous || !isTaskStep(previous) || previous.step.name !== _.step.name) {
+          // task steps with multiple code blocks... combine them into one ui step
+          uiSteps.push(this.taskUI(_))
         }
-        return uiSteps
-      }, [])
-      .filter(Boolean)
+      }
+      return uiSteps
+    }, [] as (ReturnType<typeof this.choiceUI> | ReturnType<typeof this.taskUI>)[])
   }
 
   private validateStepsIfNeeded(steps: ReturnType<typeof this.wizardSteps>): WizardStep[] {
@@ -412,18 +404,18 @@ export default class Guide extends React.PureComponent<Props, State> {
     this.setState({ isRunning: false })
   }
 
-  private runAction(): WizardProps["rightButtons"][number] {
-    return (
-      !this.hasRemainingChoices() && {
+  private runAction(): ButtonProps | void {
+    if (this.hasRemainingChoices()) {
+      return {
         className: "kui--guidebook-run",
         onClick: this.state.isRunning ? this.stopRun : this.startRun,
         children: strings(this.state.isRunning ? "Stop" : "Run"),
         isDisabled: this.hasRemainingChoices(), // ??? this does not seem to take...
       }
-    )
+    }
   }
 
-  private actions(): Partial<WizardProps["rightButtons"]> {
+  private actions(): ButtonProps[] | undefined {
     // return [this.runAction()].filter(Boolean)
     return undefined
   }
@@ -438,7 +430,7 @@ export default class Guide extends React.PureComponent<Props, State> {
         <div className="kui--wizard">
           <div className="kui--wizard-main-content">
             <Wizard
-              key={this.state.isRunning && v4()}
+              key={this.state.isRunning ? v4() : undefined}
               boxShadow
               hideClose
               steps={steps}
@@ -462,7 +454,7 @@ export default class Guide extends React.PureComponent<Props, State> {
   public render() {
     try {
       if (!this.state || !this.state.frontier) {
-        return <React.Fragment />
+        return <Loading />
       } else if (this.state.error) {
         return "Internal error"
       } else if (this.state.frontier.length === 0) {

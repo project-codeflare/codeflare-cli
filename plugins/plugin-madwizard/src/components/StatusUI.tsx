@@ -22,7 +22,7 @@ export function statusToClassName(status: Status) {
   return [`pf-m-${status}`]
 }
 
-const icons: Record<Status, { icon: SupportedIcon | ""; className?: string }> = {
+const icons: Record<Status, { icon?: SupportedIcon | ""; className?: string }> = {
   info: { icon: "Info" },
   minor: { icon: "" },
   blank: { icon: "" },
