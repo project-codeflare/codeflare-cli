@@ -18,12 +18,13 @@ import { resolve } from "path"
 import { Arguments, ReactResponse, Registrar, Tab } from "@kui-shell/core"
 import { setTabReadonly } from "./util"
 
-function withFilepath(cb: (filepath: string, tab: Tab) => Promise<ReactResponse["react"]>) {
+function withFilepath(readonly: boolean, cb: (filepath: string, tab: Tab) => Promise<ReactResponse["react"]>) {
   return async ({ tab, argvNoOptions }: Arguments) => {
-    const filepath = resolve(argvNoOptions[1])
-    setTabReadonly({ tab })
+    if (readonly) {
+      setTabReadonly({ tab })
+    }
     return {
-      react: await cb(filepath, tab),
+      react: await cb(resolve(argvNoOptions[1]), tab),
     }
   }
 }
@@ -32,17 +33,19 @@ function withFilepath(cb: (filepath: string, tab: Tab) => Promise<ReactResponse[
 export default function registerMadwizardCommands(registrar: Registrar) {
   registrar.listen(
     "/guide",
-    withFilepath((filepath, tab) => import("./components/PlanAndGuide").then((_) => _.planAndGuide(filepath, { tab }))),
+    withFilepath(true, (filepath, tab) =>
+      import("./components/PlanAndGuide").then((_) => _.planAndGuide(filepath, { tab }))
+    ),
     { outputOnly: true }
   )
 
   registrar.listen(
     "/wizard",
-    withFilepath((filepath, tab) => import("./components/Guide").then((_) => _.guide(filepath, { tab })))
+    withFilepath(false, (filepath, tab) => import("./components/Guide").then((_) => _.guide(filepath, { tab })))
   )
 
   registrar.listen(
     "/plan",
-    withFilepath((filepath) => import("./components/Plan").then((_) => _.plan(filepath)))
+    withFilepath(false, (filepath) => import("./components/Plan").then((_) => _.plan(filepath)))
   )
 }
