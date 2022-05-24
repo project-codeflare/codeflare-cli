@@ -1,13 +1,14 @@
 language: node_js
 node_js: 16
 
-before_script:
-  - export DISPLAY=:1; Xvfb $DISPLAY -screen 0 ${WINDOW_WIDTH}x${WINDOW_HEIGHT}x24 $DISPLAY -ac > /dev/null &
+services:
+  - xvfb
 
-# default install script
 install:
   - npm ci
-  - RUNNING_KUI_TEST=true npm run watch
+
+before_script:
+  - RUNNING_KUI_TEST=true npm run watch:electron
 
 script:
   - npm test

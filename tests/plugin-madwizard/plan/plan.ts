@@ -18,19 +18,15 @@ import { join, relative } from "path"
 
 import { test, expect } from "@playwright/test"
 import { Page, _electron as electron } from "playwright"
-import { ElectronApplication } from "playwright-core"
 
 import { main } from "../../../package.json"
 
 import { Tree } from "./Input"
 
-let app: ElectronApplication
-
 async function startElectron() {
-  // Launch Electron app.
-  if (!app) {
-    app = electron.launch({ args: [main] })
-  }
+  // Launch Electron app; "shell" tells Kui to ignore the command line
+  // and just launch a plain shell
+  const app = await electron.launch({ args: [main, "shell"] })
 
   const page = await (await app).firstWindow()
 
@@ -41,7 +37,7 @@ async function startElectron() {
 
   await page.click(".repl-block.repl-active .repl-input-element")
 
-  return page
+  return { app, page }
 }
 
 async function checkNode(page: Page, tree: Tree, containerSelector: string) {
@@ -89,7 +85,7 @@ async function scanNodes(page: Page, children: Tree[], containerSelector: string
 
 export default function doPlan(markdown: Input) {
   test(markdown.input, async () => {
-    const page = await startElectron()
+    const { app, page } = await startElectron()
 
     // the path.relative is not needed, but we are using it to test
     // that relative paths work
@@ -102,6 +98,6 @@ export default function doPlan(markdown: Input) {
     await page.isVisible(treeSelector)
     await scanNodes(page, tree, treeSelector)
 
-    await page.reload()
+    await app.close()
   })
 }
