@@ -32,7 +32,9 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "open": "electron . shell",
     "start": "WATCH_ARGS='-open' npm run watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "mirror": "T=$(mktemp -d); (cd $T && git clone --depth=1 git@github.com:guidebooks/store.git) && echo \"mirror stage in $T/store\" && ./bin/madwizard.js mirror $T/store/guidebooks ./store",
+    "mirror-if-needed": "if [ ! -d ./store ]; then npm run mirror; fi",
+    "test": "playwright test --workers 1"
   },
   "keywords": [],
   "author": "@starpit",
@@ -79,6 +81,7 @@
     "@kui-shell/proxy": "11.5.0-dev-20220523-155545",
     "@kui-shell/react": "11.5.0-dev-20220523-155545",
     "@kui-shell/webpack": "11.5.0-dev-20220523-155545",
+    "@playwright/test": "^1.22.2",
     "@types/debug": "^4.1.7",
     "@types/node": "14.11.8",
     "@types/react": "17.0.39",
@@ -91,21 +94,22 @@
     "eslint": "^8.15.0",
     "husky": "^8.0.1",
     "lint-staged": "^12.4.1",
+    "playwright": "^1.22.2",
     "prettier": "^2.6.2",
     "typescript": "4.6.4"
   },
   "dependencies": {
     "@kui-shell/client": "file:./plugins/plugin-client-default",
-    "@kui-shell/plugin-codeflare": "file:./plugins/plugin-codeflare",
-    "@kui-shell/plugin-madwizard": "file:./plugins/plugin-madwizard",
     "@kui-shell/core": "11.5.0-dev-20220523-155545",
     "@kui-shell/plugin-bash-like": "11.5.0-dev-20220523-155545",
     "@kui-shell/plugin-carbon-themes": "11.5.0-dev-20220523-155545",
     "@kui-shell/plugin-client-common": "11.5.0-dev-20220523-155545",
+    "@kui-shell/plugin-codeflare": "file:./plugins/plugin-codeflare",
     "@kui-shell/plugin-core-support": "11.5.0-dev-20220523-155545",
     "@kui-shell/plugin-electron-components": "11.5.0-dev-20220523-155545",
     "@kui-shell/plugin-git": "11.5.0-dev-20220523-155545",
     "@kui-shell/plugin-kubectl": "11.5.0-dev-20220523-155545",
+    "@kui-shell/plugin-madwizard": "file:./plugins/plugin-madwizard",
     "@kui-shell/plugin-patternfly4-themes": "11.5.0-dev-20220523-155545",
     "@kui-shell/plugin-proxy-support": "11.5.0-dev-20220523-155545",
     "@kui-shell/plugin-s3": "11.5.0-dev-20220523-155545"

@@ -1,3 +1,5 @@
 /dist
 plugins/*/dist
 plugins/*/mdist
+tests/**/*.md
+store/**/*.md
