@@ -92,28 +92,6 @@ fi
 # This points the headless->electron launcher to our Electron
 export KUI_ELECTRON_HOME="${KUI_ELECTRON_HOME-$NODE}"
 
-# Linux may not have the prereqs needed to run Electron
-if [ ! -f ~/.codeflare ] && [ $(uname) = Linux ]; then
-    if [ $(grep '^ID_LIKE' /etc/os-release) = "ID_LIKE=debian" ]; then
-        if [ $(apt -qq list sudo curl libx11-6 libglib2.0-0 libx11-xcb1 libxcb-dri3-0 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6 libxtst6 libnss3 libatk1.0-0 libdrm2 libgbm1 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libasound2 | grep installed 2> /dev/null | wc -l) != 20 ]; then
-            # it's also possible we didn't see these in the list, because we have an out-of-date package list
-            # so apt update to refresh that, then recheck
-            apt update
-            if [ $(apt -qq list sudo curl libx11-6 libglib2.0-0 libx11-xcb1 libxcb-dri3-0 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6 libxtst6 libnss3 libatk1.0-0 libdrm2 libgbm1 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libasound2 | grep installed 2> /dev/null | wc -l) != 20 ]; then
-                # we really don't have them installed, so install them
-                apt install -y sudo curl libx11-6 libglib2.0-0 libx11-xcb1 libxcb-dri3-0 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6 libxtst6 libnss3 libatk1.0-0 libdrm2 libgbm1 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libasound2
-                touch ~/.codeflare
-            else
-                touch ~/.codeflare
-            fi
-        else
-            touch ~/.codeflare
-        fi
-    else
-        touch ~/.codeflare
-    fi
-fi
-
 if [ $# = 1 ] && [ "$1" = "-v" ] || [ "$1" = "--version" ]; then
     shift
     args=(version)
@@ -147,10 +125,33 @@ if [ -n "$do_cli" ]; then
     # using electron as the nodejs binary (this is what
     # ELECTRON_RUN_AS_NODE does for us)
     export ELECTRON_RUN_AS_NODE=true
+    export MWSTORE="$GUIDEBOOK_STORE"
     exec "$NODE" \
          --experimental-specifier-resolution=node --no-warnings --experimental-import-meta-resolve \
          "$HEADLESS"/../../node_modules/madwizard/bin/madwizard.js \
          $*
+fi
+
+# Linux may not have the prereqs needed to run Electron
+if [ ! -f ~/.codeflare ] && [ $(uname) = Linux ]; then
+    if [ $(grep '^ID_LIKE' /etc/os-release) = "ID_LIKE=debian" ]; then
+        if [ $(apt -qq list sudo curl libx11-6 libglib2.0-0 libx11-xcb1 libxcb-dri3-0 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6 libxtst6 libnss3 libatk1.0-0 libdrm2 libgbm1 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libasound2 | grep installed 2> /dev/null | wc -l) != 20 ]; then
+            # it's also possible we didn't see these in the list, because we have an out-of-date package list
+            # so apt update to refresh that, then recheck
+            apt update
+            if [ $(apt -qq list sudo curl libx11-6 libglib2.0-0 libx11-xcb1 libxcb-dri3-0 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6 libxtst6 libnss3 libatk1.0-0 libdrm2 libgbm1 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libasound2 | grep installed 2> /dev/null | wc -l) != 20 ]; then
+                # we really don't have them installed, so install them
+                apt install -y sudo curl libx11-6 libglib2.0-0 libx11-xcb1 libxcb-dri3-0 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6 libxtst6 libnss3 libatk1.0-0 libdrm2 libgbm1 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libasound2
+                touch ~/.codeflare
+            else
+                touch ~/.codeflare
+            fi
+        else
+            touch ~/.codeflare
+        fi
+    else
+        touch ~/.codeflare
+    fi
 fi
 
 # otherwise, we launch the UI version
