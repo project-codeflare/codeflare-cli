@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { resolve } from "path"
 import { Arguments, ReactResponse, Registrar, Tab } from "@kui-shell/core"
 import { setTabReadonly } from "./util"
 
@@ -24,7 +23,7 @@ function withFilepath(readonly: boolean, cb: (filepath: string, tab: Tab) => Pro
       setTabReadonly({ tab })
     }
     return {
-      react: await cb(resolve(argvNoOptions[1]), tab),
+      react: await cb(argvNoOptions[1], tab),
     }
   }
 }

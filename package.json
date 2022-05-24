@@ -30,7 +30,7 @@
     "postinstall": "npm run compile",
     "format": "prettier --write '**/*.{scss,css,html,js,json,md,ts,tsx}'",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "open": "electron . shell",
+    "open": "./bin/codeflare shell",
     "start": "WATCH_ARGS='-open' npm run watch",
     "mirror": "T=$(mktemp -d); (cd $T && git clone --depth=1 git@github.com:guidebooks/store.git) && echo \"mirror stage in $T/store\" && ./bin/madwizard.js mirror $T/store/guidebooks ./store",
     "mirror-if-needed": "if [ ! -d ./store ]; then npm run mirror; fi",

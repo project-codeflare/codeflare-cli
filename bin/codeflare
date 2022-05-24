@@ -126,6 +126,13 @@ fi
 
 export CODEFLARE_HEADLESS_ZIP=$HEADLESS/../headless.zip
 
+SCRIPTDIR=$(cd $(dirname "$0") && pwd)
+if [  -d "$SCRIPTDIR"/../store ]; then
+    export GUIDEBOOK_STORE="$SCRIPTDIR"/../store
+else
+    export GUIDEBOOK_STORE=git
+fi
+
 # check if the user wants us to run the headless version (currently
 # indicated by the -c option)
 while getopts "c" opt
