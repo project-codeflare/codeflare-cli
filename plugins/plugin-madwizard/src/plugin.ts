@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
+import { resolve } from "path"
 import { Arguments, ReactResponse, Registrar, Tab } from "@kui-shell/core"
 import { setTabReadonly } from "./util"
 
 function withFilepath(cb: (filepath: string, tab: Tab) => Promise<ReactResponse["react"]>) {
   return async ({ tab, argvNoOptions }: Arguments) => {
-    const filepath = argvNoOptions[1]
+    const filepath = resolve(argvNoOptions[1])
     setTabReadonly({ tab })
     return {
       react: await cb(filepath, tab),
