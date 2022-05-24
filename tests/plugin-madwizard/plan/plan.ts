@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { join } from "path"
+import { join, relative } from "path"
 
 import { test, expect } from "@playwright/test"
 import { Page, _electron as electron } from "playwright"
@@ -91,7 +91,9 @@ export default function doPlan(markdown: Input) {
   test(markdown.input, async () => {
     const page = await startElectron()
 
-    await page.keyboard.type(`plan ${join(__dirname, "../markdowns", markdown.input)}`)
+    // the path.relative is not needed, but we are using it to test
+    // that relative paths work
+    await page.keyboard.type(`plan ${relative(process.cwd(), join(__dirname, "../markdowns", markdown.input))}`)
     await page.keyboard.press("Enter")
 
     const tree = markdown.tree("guide")
