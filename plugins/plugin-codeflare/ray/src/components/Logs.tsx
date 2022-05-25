@@ -14,12 +14,21 @@
  * limitations under the License.
  */
 
-// import { Registrar } from '@kui-shell/core'
+import React from "react"
 
-/** Register Kui Commands */
-export default function registerCodeflareCommands(/* registrar: Registrar */) {
-  /* e.g. this command will executable as "run"
-  registrar.listen('/run', args => {
-  })
-  */
+interface Props {
+  jobid: string
+}
+
+/** TODO. Probably follow the lead from here:
+ * https://github.com/kubernetes-sigs/kui/blob/master/plugins/plugin-kubectl/src/lib/view/modes/Terminal.tsx
+ */
+export default class Logs extends React.PureComponent<Props> {
+  public constructor(props: Props) {
+    super(props)
+  }
+
+  public render() {
+    return "TODO"
+  }
 }

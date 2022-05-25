@@ -14,12 +14,27 @@
  * limitations under the License.
  */
 
-// import { Registrar } from '@kui-shell/core'
+import React from "react"
+import { Mode, ReactProvider, Registrar } from "@kui-shell/core"
+
+import Logs from "./components/Logs"
 
 /** Register Kui Commands */
-export default function registerCodeflareCommands(/* registrar: Registrar */) {
-  /* e.g. this command will executable as "run"
-  registrar.listen('/run', args => {
+export default function registerCodeflareCommands(registrar: Registrar) {
+  registrar.listen("/ray/job/logs", (args) => {
+    const jobid = args.argvNoOptions[args.argvNoOptions.indexOf("logs") + 1]
+
+    const logsMode: Mode & ReactProvider = {
+      mode: "Logs",
+      react: () => React.createElement(Logs, { jobid }),
+    }
+
+    return {
+      metadata: {
+        name: "Ray Logs",
+        namespace: jobid,
+      },
+      modes: [logsMode],
+    }
   })
-  */
 }
