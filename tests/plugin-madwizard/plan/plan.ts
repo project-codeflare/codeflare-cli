@@ -89,7 +89,7 @@ export default function doPlan(markdown: Input) {
 
     // the path.relative is not needed, but we are using it to test
     // that relative paths work
-    await page.keyboard.type(`plan ${relative(process.cwd(), join(__dirname, "../markdowns", markdown.input))}`)
+    await page.keyboard.type(`plan -u ${relative(process.cwd(), join(__dirname, "../markdowns", markdown.input))}`)
     await page.keyboard.press("Enter")
 
     const tree = markdown.tree("guide")
