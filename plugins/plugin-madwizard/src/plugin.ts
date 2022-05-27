@@ -14,12 +14,28 @@
  * limitations under the License.
  */
 
-import { Arguments, ReactResponse, Registrar, Tab } from "@kui-shell/core"
+import { Arguments, ParsedOptions, ReactResponse, Registrar, Tab } from "@kui-shell/core"
 import { setTabReadonly } from "./util"
 
-function withFilepath(readonly: boolean, cb: (filepath: string, tab: Tab) => Promise<ReactResponse["react"]>) {
-  return async ({ tab, argvNoOptions }: Arguments) => {
-    if (readonly) {
+interface Options extends ParsedOptions {
+  c: boolean
+}
+
+// TODO export this from madwizard
+type Task = "guide" | "plan"
+
+function withFilepath(
+  readonly: boolean,
+  task: Task,
+  cb: (filepath: string, tab: Tab) => Promise<true | ReactResponse["react"]>
+) {
+  return async ({ tab, argvNoOptions, parsedOptions }: Arguments<Options>) => {
+    if (parsedOptions.c) {
+      await import("madwizard").then((_) =>
+        _.CLI.cli(["madwizard", task, ...argvNoOptions.slice(1)], undefined, { store: process.env.GUIDEBOOK_STORE })
+      )
+      return true
+    } else if (readonly) {
       setTabReadonly({ tab })
     }
     return {
@@ -30,21 +46,29 @@ function withFilepath(readonly: boolean, cb: (filepath: string, tab: Tab) => Pro
 
 /** Register Kui Commands */
 export default function registerMadwizardCommands(registrar: Registrar) {
+  const flags = {
+    boolean: ["c"],
+  }
+
   registrar.listen(
     "/guide",
-    withFilepath(true, (filepath, tab) =>
+    withFilepath(true, "guide", (filepath, tab) =>
       import("./components/PlanAndGuide").then((_) => _.planAndGuide(filepath, { tab }))
     ),
-    { outputOnly: true }
+    { outputOnly: true, flags }
   )
 
   registrar.listen(
     "/wizard",
-    withFilepath(false, (filepath, tab) => import("./components/Guide").then((_) => _.guide(filepath, { tab })))
+    withFilepath(false, "guide", (filepath, tab) =>
+      import("./components/Guide").then((_) => _.guide(filepath, { tab }))
+    ),
+    { flags }
   )
 
   registrar.listen(
     "/plan",
-    withFilepath(false, (filepath) => import("./components/Plan").then((_) => _.plan(filepath)))
+    withFilepath(false, "plan", (filepath) => import("./components/Plan").then((_) => _.plan(filepath))),
+    { flags }
   )
 }

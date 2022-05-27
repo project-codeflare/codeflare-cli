@@ -111,12 +111,13 @@ else
     export GUIDEBOOK_STORE=git
 fi
 
-# check if the user wants us to run the headless version (currently
-# indicated by the -c option)
-while getopts "c" opt
+# check if the user wants us to run the graphical version (currently
+# indicated by the -u option)
+do_cli=1
+while getopts "u" opt
 do
     case $opt in
-    (c) do_cli=1; shift; continue;;
+    (u) do_cli=0; shift; continue;;
     esac
 done
 

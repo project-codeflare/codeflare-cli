@@ -15,6 +15,6 @@
  */
 
 export default async function read(filepath: string) {
-  const { blockify, reader } = await import("madwizard")
-  return blockify(filepath, await reader(), undefined, undefined, { store: process.env.GUIDEBOOK_STORE })
+  const { Parser, reader } = await import("madwizard")
+  return Parser.blockify(filepath, await reader(), undefined, undefined, { store: process.env.GUIDEBOOK_STORE })
 }

@@ -20,20 +20,7 @@ import { TreeView, TreeViewProps } from "@patternfly/react-core"
 import { encodeComponent, pexecInCurrentTab } from "@kui-shell/core"
 import { CardResponse, Icons, Loading, Markdown, SupportedIcon } from "@kui-shell/plugin-client-common"
 
-import {
-  sameGraph,
-  OrderedGraph,
-  CodeBlockProps,
-  Status,
-  Title,
-  Description,
-  order,
-  compile,
-  Choices,
-  Decoration,
-  Treeifier,
-  UI,
-} from "madwizard"
+import { Graph, CodeBlock, Choices, Tree } from "madwizard"
 
 import read from "../read"
 
@@ -42,12 +29,12 @@ import "@kui-shell/plugin-client-common/web/scss/components/Wizard/Imports.scss"
 
 const debug = Debug("plugins/plugin-madwizard/components/Plan")
 
-class ReactUI implements UI<React.ReactNode> {
+class ReactUI implements Tree.UI<React.ReactNode> {
   public markdown(body: string) {
     return <Markdown nested source={body} />
   }
 
-  public span(content: string, ...decorations: Decoration[]) {
+  public span(content: string, ...decorations: Tree.Decoration[]) {
     if (decorations.length === 0) {
       return content
     } else {
@@ -90,14 +77,14 @@ class ReactUI implements UI<React.ReactNode> {
     return <Icons className="kui--dependence-tree-subtask--icon" icon={cls as SupportedIcon} />
   }
 
-  public statusToIcon(status: Status) {
+  public statusToIcon(status: Graph.Status) {
     switch (status) {
       case "success":
         return <Icons className="pf-m-success" icon="Checkmark" />
     }
   }
 
-  public title(title: string | string[], status?: Status) {
+  public title(title: string | string[], status?: Graph.Status) {
     if (Array.isArray(title)) {
       return (
         <React.Fragment>
@@ -131,10 +118,10 @@ class ReactUI implements UI<React.ReactNode> {
   }
 }
 
-type Props = Choices &
-  Partial<Title> &
-  Partial<Description> & {
-    blocks: CodeBlockProps[]
+type Props = Choices.Choices &
+  Partial<CodeBlock.Title> &
+  Partial<CodeBlock.Description> & {
+    blocks: CodeBlock.CodeBlockProps[]
   }
 
 // type Progress = { nDone: number; nError: number; nTotal: number }
@@ -143,18 +130,18 @@ type Props = Choices &
 // type ProgressMap = Record<string, Progress> */
 
 type State = Partial<
-  Choices & {
+  Choices.Choices & {
     /** The Tree UI model */
     data?: void | TreeViewProps["data"]
 
     /** Any error while computing the Tree UI model */
     error?: unknown
 
-    graph?: OrderedGraph
+    graph?: Graph.OrderedGraph
   }
 > & {
-  /** Map from CodeBlockProps.id to execution status of that code block */
-  codeBlockStatus: Record<string, Status>
+  /** Map from CodeBlock.CodeBlockProps.id to execution status of that code block */
+  codeBlockStatus: Record<string, Graph.Status>
 }
 
 export default class Plan extends React.PureComponent<Props, State> {
@@ -168,13 +155,13 @@ export default class Plan extends React.PureComponent<Props, State> {
   private async init(props: Props, useTheseChoices?: State["choices"]) {
     try {
       const choices = useTheseChoices || props.choices
-      const newGraph = await compile(props.blocks, choices, undefined, "sequence", props.title, props.description)
+      const newGraph = await Graph.compile(props.blocks, choices, undefined, "sequence", props.title, props.description)
       choices.onChoice(this.onChoice)
 
       this.setState((state) => {
-        const noChange = state && state.graph && sameGraph(state.graph, newGraph)
+        const noChange = state && state.graph && Graph.sameGraph(state.graph, newGraph)
 
-        const graph = noChange ? state.graph : order(newGraph)
+        const graph = noChange ? state.graph : Graph.order(newGraph)
         const codeBlockStatus = state ? this.state.codeBlockStatus : {}
         const data = noChange ? state.data : this.computeTreeModel(graph, codeBlockStatus).data
 
@@ -193,7 +180,7 @@ export default class Plan extends React.PureComponent<Props, State> {
     }
   }
 
-  private readonly onChoice = ({ choices }: Choices) => this.init(this.props, choices.clone())
+  private readonly onChoice = ({ choices }: Choices.Choices) => this.init(this.props, choices.clone())
 
   public static getDerivedStateFromError(error: Error) {
     console.error(error)
@@ -229,7 +216,7 @@ export default class Plan extends React.PureComponent<Props, State> {
     if (graph) {
       try {
         return {
-          data: new Treeifier<React.ReactNode>(
+          data: new Tree.Treeifier<React.ReactNode>(
             new ReactUI(),
             status,
             doValidate ? this.validate.bind(this) : undefined
@@ -243,7 +230,7 @@ export default class Plan extends React.PureComponent<Props, State> {
     return { data: undefined }
   }
 
-  private async validate(props: CodeBlockProps) {
+  private async validate(props: CodeBlock.CodeBlockProps) {
     const status = this.state.codeBlockStatus ? this.state.codeBlockStatus[props.id] : "blank"
 
     if (props.validate && status !== "in-progress" && status !== "success") {
@@ -261,7 +248,7 @@ export default class Plan extends React.PureComponent<Props, State> {
     }
   }
 
-  private readonly onValidate = (id: string, status: Status) => {
+  private readonly onValidate = (id: string, status: Graph.Status) => {
     this.setState((curState) => {
       const codeBlockStatus = Object.assign({}, curState.codeBlockStatus, { [id]: status })
       const { data } = this.computeTreeModel(curState.graph, codeBlockStatus, false)
@@ -280,7 +267,7 @@ export default class Plan extends React.PureComponent<Props, State> {
   }
 }
 
-/* type LabelWithStatusProps = { label?: string; status: Status }
+/* type LabelWithStatusProps = { label?: string; status: Graph.Status }
 
 class LabelWithStatus extends React.PureComponent<LabelWithStatusProps> {
   private get status() {

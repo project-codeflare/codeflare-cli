@@ -15,14 +15,14 @@
  */
 
 import React from "react"
-import { Status } from "madwizard"
+import { Graph } from "madwizard"
 import { Icons, SupportedIcon } from "@kui-shell/plugin-client-common"
 
-export function statusToClassName(status: Status) {
+export function statusToClassName(status: Graph.Status) {
   return [`pf-m-${status}`]
 }
 
-const icons: Record<Status, { icon?: SupportedIcon | ""; className?: string }> = {
+const icons: Record<Graph.Status, { icon?: SupportedIcon | ""; className?: string }> = {
   info: { icon: "Info" },
   minor: { icon: "" },
   blank: { icon: "" },
@@ -35,7 +35,7 @@ const icons: Record<Status, { icon?: SupportedIcon | ""; className?: string }> =
   "in-progress": { icon: "InProgress", className: "kui--spin-animation yellow-text" },
 }
 
-export function statusToIcon(status: Status) {
+export function statusToIcon(status: Graph.Status) {
   const { icon, className } = icons[status]
   return icon && <Icons icon={icon} className={className} />
 }
