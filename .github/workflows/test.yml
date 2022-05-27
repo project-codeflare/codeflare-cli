@@ -31,6 +31,4 @@ jobs:
     - name: Run Tests
       uses: GabrielBB/xvfb-action@v1
       with:
-        run:
-          - RUNNING_KUI_TEST=true npm run watch:electron
-          - npm test
+        run: RUNNING_KUI_TEST=true npm run watch:electron && npm test
