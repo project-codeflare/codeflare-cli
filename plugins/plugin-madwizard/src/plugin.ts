@@ -18,7 +18,7 @@ import { Arguments, ParsedOptions, ReactResponse, Registrar, Tab } from "@kui-sh
 import { setTabReadonly } from "./util"
 
 interface Options extends ParsedOptions {
-  c: boolean
+  u: boolean
 }
 
 // TODO export this from madwizard
@@ -32,9 +32,8 @@ function withFilepath(
   return async ({ tab, argvNoOptions, parsedOptions }: Arguments<Options>) => {
     if (!parsedOptions.u) {
       // CLI path
-      await import("madwizard").then((_) =>
-        _.CLI.cli(["madwizard", task, ...argvNoOptions.slice(1)], undefined, { store: process.env.GUIDEBOOK_STORE })
-      )
+      const { CLI } = await import("madwizard")
+      await CLI.cli(["madwizard", task, ...argvNoOptions.slice(1)], undefined, { store: process.env.GUIDEBOOK_STORE })
       return true
     }
 
