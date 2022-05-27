@@ -1,3 +1,5 @@
+[![Node.js CI](https://github.com/project-codeflare/codeflare-cli/actions/workflows/test.yml/badge.svg)](https://github.com/project-codeflare/codeflare-cli/actions/workflows/test.yml)
+
 # CodeFlare Desktop Client
 
 <p align="center">
