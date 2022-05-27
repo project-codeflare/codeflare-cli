@@ -121,7 +121,7 @@ do
     esac
 done
 
-if [ -n "$do_cli" ]; then
+if [ "$do_cli" = "1" ]; then
     # launch headless version; here, we use madwizard directly, but
     # using electron as the nodejs binary (this is what
     # ELECTRON_RUN_AS_NODE does for us)
