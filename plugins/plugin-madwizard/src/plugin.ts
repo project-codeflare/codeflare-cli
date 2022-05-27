@@ -30,12 +30,16 @@ function withFilepath(
   cb: (filepath: string, tab: Tab) => Promise<true | ReactResponse["react"]>
 ) {
   return async ({ tab, argvNoOptions, parsedOptions }: Arguments<Options>) => {
-    if (parsedOptions.c) {
+    if (!parsedOptions.u) {
+      // CLI path
       await import("madwizard").then((_) =>
         _.CLI.cli(["madwizard", task, ...argvNoOptions.slice(1)], undefined, { store: process.env.GUIDEBOOK_STORE })
       )
       return true
-    } else if (readonly) {
+    }
+
+    // UI path
+    if (readonly) {
       setTabReadonly({ tab })
     }
     return {
@@ -47,7 +51,7 @@ function withFilepath(
 /** Register Kui Commands */
 export default function registerMadwizardCommands(registrar: Registrar) {
   const flags = {
-    boolean: ["c"],
+    boolean: ["u"],
   }
 
   registrar.listen(
