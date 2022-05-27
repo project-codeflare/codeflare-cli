@@ -27,8 +27,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: npm run build
+    - run: RUNNING_KUI_TEST=true npm run watch:electron
     - name: Run Tests
       uses: GabrielBB/xvfb-action@v1
       with:
-        run: RUNNING_KUI_TEST=true npm run watch:electron && npm test
+        run: npm test
