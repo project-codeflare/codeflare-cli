@@ -8,7 +8,11 @@ export NODE_NO_WARNINGS=1
 # export NODE_OPTIONS="--no-warnings"
 
 # use a special window sizing and positioning
-export KUI_POPUP_WINDOW_RESIZE=true
+# export KUI_POPUP_WINDOW_RESIZE=true
+
+# use a fixed popup window sizing of our choosing
+export WINDOW_WIDTH=1024
+export WIDTH_HEIGHT=768
 
 # This tells the core Kui plugin resolver that we are using webpack to
 # build our headless bundles, not the old headless hacks
@@ -27,21 +31,11 @@ elif [ -f ${SCRIPTDIR}/../node_modules/electron/dist/electron ]; then
     # development mode on Linux
     NODE=${SCRIPTDIR}/../node_modules/electron/dist/electron
     HEADLESS=${SCRIPTDIR}/../dist/headless
-elif [ -f /Applications/CodeFlare.app/Contents/MacOS/CodeFlare ]; then
-    # CodeFlare installed in /Applications on macOS
-    BASE=/Applications/CodeFlare.app
-    NODE="$BASE/Contents/MacOS/CodeFlare"
-    HEADLESS=$BASE/Contents/Resources/app/dist/headless
 elif [ -f ./CodeFlare.app/Contents/MacOS/CodeFlare ]; then
     # CodeFlare installed in CWD on macOS
     BASE="$PWD/CodeFlare.app"
     NODE="$BASE/Contents/MacOS/CodeFlare"
     HEADLESS="$BASE/Contents/Resources/app/dist/headless"
-elif [ -f /usr/local/bin/CodeFlare/CodeFlare ]; then
-    # CodeFlare installed in /usr/local/bin on Linux or Windows
-    BASE=/usr/local/bin/CodeFlare
-    NODE="$BASE/CodeFlare"
-    HEADLESS="$BASE/resources/headless"
 elif [ -f "$SCRIPTDIR/../CodeFlare.app/Contents/MacOS/CodeFlare" ]; then
     # CodeFlare installed in SCRIPTDIR on macOS
     BASE="$SCRIPTDIR/../CodeFlare.app"
@@ -84,6 +78,16 @@ elif [ -f ./CodeFlare ]; then
     BASE="$PWD"
     NODE="$BASE/CodeFlare"
     HEADLESS="$BASE/resources/headless"
+elif [ -f /Applications/CodeFlare.app/Contents/MacOS/CodeFlare ]; then
+    # CodeFlare installed in /Applications on macOS
+    BASE=/Applications/CodeFlare.app
+    NODE="$BASE/Contents/MacOS/CodeFlare"
+    HEADLESS=$BASE/Contents/Resources/app/dist/headless
+elif [ -f /usr/local/bin/CodeFlare/CodeFlare ]; then
+    # CodeFlare installed in /usr/local/bin on Linux or Windows
+    BASE=/usr/local/bin/CodeFlare
+    NODE="$BASE/CodeFlare"
+    HEADLESS="$BASE/resources/headless"
 else
     echo "Error: Could not find CodeFlare. Try setting CODEFLARE_HOME=/path/to/CodeFlare"
     exit 1
@@ -91,23 +95,18 @@ fi
 
 # This points the headless->electron launcher to our Electron
 export KUI_ELECTRON_HOME="${KUI_ELECTRON_HOME-$NODE}"
-
-if [ $# = 1 ] && [ "$1" = "-v" ] || [ "$1" = "--version" ]; then
-    shift
-    args=(version)
-elif [ $# = 1 ] && [ "$1" = "-c" ] || [ "$1" = "--check" ]; then
-    shift
-    args=("help -c")
-else
-    args=$@
-fi
-
 export CODEFLARE_HEADLESS_ZIP=$HEADLESS/../headless.zip
 
 SCRIPTDIR=$(cd $(dirname "$0") && pwd)
 if [  -d "$SCRIPTDIR"/../store ]; then
+    # development builds
     export GUIDEBOOK_STORE="$SCRIPTDIR"/../store
+elif [  -d "$SCRIPTDIR"/app/store ]; then
+    # production builds
+    export GUIDEBOOK_STORE="$SCRIPTDIR"/app/store
 else
+    # otherwise, we can't find a local mirror, so pull directly from
+    # git (network transfers!)
     export GUIDEBOOK_STORE=git
 fi
 
@@ -117,9 +116,14 @@ do_cli=1
 while getopts "u" opt
 do
     case $opt in
-    (u) do_cli=0; shift; continue;;
+        (u) do_cli=0; shift; continue;;
     esac
 done
+
+if [ $# = 1 ]; then
+    # use the "guide" command if none was given
+    EXTRAPREFIX="guide"
+fi
 
 if [ "$do_cli" = "1" ]; then
     # launch headless version; here, we use madwizard directly, but
@@ -131,6 +135,9 @@ if [ "$do_cli" = "1" ]; then
          --experimental-specifier-resolution=node --no-warnings --experimental-import-meta-resolve \
          "$HEADLESS"/../../node_modules/madwizard/bin/madwizard.js \
          $*
+else
+    # tell the command handlers to run in UI mode
+    EXTRAPREFIX="$EXTRAPREFIX -u"
 fi
 
 # Linux may not have the prereqs needed to run Electron
@@ -156,4 +163,4 @@ if [ ! -f ~/.codeflare ] && [ $(uname) = Linux ]; then
 fi
 
 # otherwise, we launch the UI version
-exec "$NODE" "$HEADLESS"/codeflare.min.js -- $args 3>&1 1>&2 2>&3 3>&- | grep -v WebSwapCGLLayer 
+exec "$NODE" "$HEADLESS"/codeflare.min.js -- $EXTRAPREFIX $* 3>&1 1>&2 2>&3 3>&- | grep -v WebSwapCGLLayer 
