@@ -31,6 +31,10 @@ elif [ -f ${SCRIPTDIR}/../node_modules/electron/dist/electron ]; then
     # development mode on Linux
     NODE=${SCRIPTDIR}/../node_modules/electron/dist/electron
     HEADLESS=${SCRIPTDIR}/../dist/headless
+elif [ -f ${SCRIPTDIR}/../node_modules/electron/dist/electron.exe ]; then
+    # development mode on Windows
+    NODE=${SCRIPTDIR}/../node_modules/electron/dist/electron.exe
+    HEADLESS=${SCRIPTDIR}/../dist/headless
 elif [ -f ./CodeFlare.app/Contents/MacOS/CodeFlare ]; then
     # CodeFlare installed in CWD on macOS
     BASE="$PWD/CodeFlare.app"
