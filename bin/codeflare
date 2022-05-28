@@ -125,12 +125,14 @@ if [ "$do_cli" = "1" ]; then
     # launch headless version; here, we use madwizard directly, but
     # using electron as the nodejs binary (this is what
     # ELECTRON_RUN_AS_NODE does for us)
+    export KUI_HEADLESS=true
+    export KUI_S3=false
     export ELECTRON_RUN_AS_NODE=true
-    export MWSTORE="$GUIDEBOOK_STORE"
-    exec "$NODE" \
-         --experimental-specifier-resolution=node --no-warnings --experimental-import-meta-resolve \
-         "$HEADLESS"/../../node_modules/madwizard/bin/madwizard.js \
-         $*
+#    export MWSTORE="$GUIDEBOOK_STORE"
+#    exec "$NODE" \
+#         --experimental-specifier-resolution=node --no-warnings --experimental-import-meta-resolve \
+#         "$HEADLESS"/../../node_modules/madwizard/bin/madwizard.js \
+#         $*
 else
     # tell the command handlers to run in UI mode
     EXTRAPREFIX="$EXTRAPREFIX -u"
@@ -159,4 +161,5 @@ if [ ! -f ~/.codeflare ] && [ $(uname) = Linux ]; then
 fi
 
 # otherwise, we launch the UI version
-exec "$NODE" "$HEADLESS"/codeflare.min.js -- $EXTRAPREFIX $* 3>&1 1>&2 2>&3 3>&- | grep -v WebSwapCGLLayer 
+"$NODE" "$HEADLESS"/codeflare.min.js -- $EXTRAPREFIX $*
+stty sane
