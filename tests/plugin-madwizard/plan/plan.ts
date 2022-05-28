@@ -14,19 +14,49 @@
  * limitations under the License.
  */
 
+import slash from "slash"
 import { join, relative } from "path"
 
 import { test, expect } from "@playwright/test"
 import { Page, _electron as electron } from "playwright"
 
 import { main } from "../../../package.json"
+import { productName } from "../../../plugins/plugin-client-default/config.d/name.json"
 
 import { Tree } from "./Input"
+
+function githubActionsOS() {
+  return process.env.RUNNER_OS
+    .replace(/macOS/, "darwin")
+    .replace(/Linux/, "linux")
+    .replace(/Windows/, "win32")
+}
+
+function githubActionsArch() {
+  return process.env.RUNNER_ARCH
+    .replace(/X64/, 'x64')
+    .replace(/ARM64/, 'arm64')
+}
+
+function electronProductionPath() {
+  return process.platform === 'linux' ? productName
+    : process.platform === 'win32' ? `${productName}.exe`
+    : join(productName + ".app", "Contents/MacOS", productName)
+}
 
 async function startElectron() {
   // Launch Electron app; "shell" tells Kui to ignore the command line
   // and just launch a plain shell
-  const app = await electron.launch({ args: [main, "shell"] })
+  const executablePath = !process.env.EXECUTABLE_PATH ? undefined
+    : process.env.EXECUTABLE_PATH !== "github-actions-production"
+    ? process.env.EXECUTABLE_PATH
+    : join(process.env.GITHUB_WORKSPACE,
+           'dist/electron',
+           `${productName}-${githubActionsOS()}-${githubActionsArch()}`,
+           electronProductionPath()
+          )
+
+  const app = await electron.launch({ args: [main, "shell"], executablePath })
 
   const page = await (await app).firstWindow()
 
@@ -89,7 +119,7 @@ export default function doPlan(markdown: Input) {
 
     // the path.relative is not needed, but we are using it to test
     // that relative paths work
-    await page.keyboard.type(`plan -u ${relative(process.cwd(), join(__dirname, "../markdowns", markdown.input))}`)
+    await page.keyboard.type(`plan -u ${slash(relative(process.cwd(), join(__dirname, "../markdowns", markdown.input)))}`)
     await page.keyboard.press("Enter")
 
     const tree = markdown.tree("guide")
