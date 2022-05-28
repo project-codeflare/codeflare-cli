@@ -97,13 +97,9 @@ fi
 export KUI_ELECTRON_HOME="${KUI_ELECTRON_HOME-$NODE}"
 export CODEFLARE_HEADLESS_ZIP=$HEADLESS/../headless.zip
 
-SCRIPTDIR=$(cd $(dirname "$0") && pwd)
-if [  -d "$SCRIPTDIR"/../store ]; then
+if [  -d "$HEADLESS"/../../store ]; then
     # development builds
-    export GUIDEBOOK_STORE="$SCRIPTDIR"/../store
-elif [  -d "$SCRIPTDIR"/app/store ]; then
-    # production builds
-    export GUIDEBOOK_STORE="$SCRIPTDIR"/app/store
+    export GUIDEBOOK_STORE="$HEADLESS"/../../store
 else
     # otherwise, we can't find a local mirror, so pull directly from
     # git (network transfers!)
