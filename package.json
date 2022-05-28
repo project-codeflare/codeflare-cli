@@ -108,7 +108,6 @@
     "@kui-shell/plugin-codeflare": "file:./plugins/plugin-codeflare",
     "@kui-shell/plugin-core-support": "11.5.0-dev-20220527-135831",
     "@kui-shell/plugin-electron-components": "11.5.0-dev-20220527-135831",
-    "@kui-shell/plugin-git": "11.5.0-dev-20220527-135831",
     "@kui-shell/plugin-kubectl": "11.5.0-dev-20220527-135831",
     "@kui-shell/plugin-madwizard": "file:./plugins/plugin-madwizard",
     "@kui-shell/plugin-patternfly4-themes": "11.5.0-dev-20220527-135831",
