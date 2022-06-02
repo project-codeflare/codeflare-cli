@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 # -*- mode: shell-script
 
-#export KUI_HEADLESS=true
-#export ELECTRON_RUN_AS_NODE=true
-
 export NODE_NO_WARNINGS=1
-# export NODE_OPTIONS="--no-warnings"
 
 # use a special window sizing and positioning
 # export KUI_POPUP_WINDOW_RESIZE=true
@@ -99,7 +95,6 @@ fi
 
 # This points the headless->electron launcher to our Electron
 export KUI_ELECTRON_HOME="${KUI_ELECTRON_HOME-$NODE}"
-export CODEFLARE_HEADLESS_ZIP=$HEADLESS/../headless.zip
 
 if [  -d "$HEADLESS"/../../store ]; then
     # development builds
@@ -130,7 +125,7 @@ if [ "$do_cli" = "1" ]; then
     # using electron as the nodejs binary (this is what
     # ELECTRON_RUN_AS_NODE does for us)
     export KUI_HEADLESS=true
-    export KUI_S3=false
+    export KUI_S3=false # we don't need plugin-s3 capabilities when in headless mode
     export ELECTRON_RUN_AS_NODE=true
 #    export MWSTORE="$GUIDEBOOK_STORE"
 #    exec "$NODE" \
