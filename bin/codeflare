@@ -132,7 +132,7 @@ if [ "$do_cli" = "1" ]; then
 #         --experimental-specifier-resolution=node --no-warnings --experimental-import-meta-resolve \
 #         "$HEADLESS"/../../node_modules/madwizard/bin/madwizard.js \
 #         $*
-else
+elif [ $# -gt 0 ]; then
     # tell the command handlers to run in UI mode
     EXTRAPREFIX="$EXTRAPREFIX -u"
 fi
