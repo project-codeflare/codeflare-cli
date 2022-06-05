@@ -1,8 +1,8 @@
 ---
 imports:
-    - importgg.md
-    - importaa.md
-    - importdd.md
+    - ./snippets/importgg.md
+    - ./snippets/importaa.md
+    - ./snippets/importdd.md
 ---
 
 ::imports
