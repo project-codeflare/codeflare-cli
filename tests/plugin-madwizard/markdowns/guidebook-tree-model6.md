@@ -1,8 +1,8 @@
 ---
 imports:
-    - importg.md
-    - importa.md
-    - importd.md
+    - ./snippets/importg.md
+    - ./snippets/importa.md
+    - ./snippets/importd.md
 ---
 
 ::imports

@@ -1,7 +1,7 @@
 ---
 imports:
-    - importd.md
-    - snippets-in-tab5.md
+    - ./snippets/importd.md
+    - ./snippets/snippets-in-tab5.md
 ---
 
 <!-- You should see a tree view. This is the Imports.tsx component -->
