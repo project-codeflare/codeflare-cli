@@ -21,41 +21,28 @@ interface Props {
 }
 
 interface State {
-  jobid: string,
-  jobInfo: object,
-  logs: string
+  jobInfo: object
 }
 
-/** TODO. Probably follow the lead from here:
- * https://github.com/kubernetes-sigs/kui/blob/master/plugins/plugin-kubectl/src/lib/view/modes/Terminal.tsx
- */
-export default class Logs extends React.PureComponent<Props, State> {
+export default class Info extends React.PureComponent<Props, State> {
   public constructor(props: Props) {
     super(props)
     this.state = {
-      jobid: props.jobid,
-      jobInfo: {},
-      logs: ''
+      jobInfo: {}
     }
   }
 
-  public async componentWillMount() {
-    this.getJobLogs()
+  async retrieveJobInfo() {
+    const response = await fetch(`http://127.0.0.1:8265/api/jobs/${this.props.jobid}`)
+    const jobInfo = await response.json()
+    this.setState({ jobInfo })
   }
 
-  async getJobLogs() {
-    const response = await fetch(`http://127.0.0.1:8265/api/jobs/${this.state.jobid}/logs`)
-    const { logs } = await response.json()
-    this.setState({ logs })
-  }
-
-  formatLogs(logs: string) {
-    return logs.split('\n').map((log, i) => {
-      return <p style={{margin: 0, marginLeft: 10}} key={i}>{log}</p>
-    })
+  async componentWillMount() {
+    await this.retrieveJobInfo()
   }
 
   public render() {
-    return this.formatLogs(this.state.logs)
+    return <pre>{JSON.stringify(this.state.jobInfo, null, 2)}</pre>
   }
 }

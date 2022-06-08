@@ -21,6 +21,7 @@ import { Kui, KuiProps, ContextWidgets, MeterWidgets, SpaceFiller } from "@kui-s
 
 import { CurrentContext, CurrentNamespace } from "@kui-shell/plugin-kubectl/components"
 import { Search } from "@kui-shell/plugin-electron-components"
+import CurrentJob from "./components/CurrentJob"
 
 import { version } from "@kui-shell/client/package.json"
 import guidebooks from "@kui-shell/client/config.d/notebooks.json"
@@ -59,6 +60,7 @@ export default function renderMain(props: KuiProps) {
       <ContextWidgets></ContextWidgets>
       <SpaceFiller />
       <MeterWidgets>
+        <CurrentJob />
         <CurrentContext />
         <CurrentNamespace />
       </MeterWidgets>
