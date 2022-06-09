@@ -20,12 +20,7 @@ import { importd } from "./1.spec"
 
 const IN5: Input = {
   input: "guidebook-tree-model5.md",
-  tree: () => [
-    {
-      name: "Prerequisites",
-      children: [importd],
-    },
-  ],
+  tree: () => importd,
 }
 
 doPlan(IN5)
