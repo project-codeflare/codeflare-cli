@@ -152,10 +152,10 @@ export default class Guide extends React.PureComponent<Props, State> {
    * `this.onChoiceFromAbove()`
    */
   private readonly onChoice = (evt: React.MouseEvent) => {
-    const group = evt.currentTarget.getAttribute("data-choice-group")
+    const key = evt.currentTarget.getAttribute("data-choice-key")
     const title = evt.currentTarget.getAttribute("data-choice-title")
-    if (group && title) {
-      this.props.choices.set(group, title)
+    if (key && title) {
+      this.props.choices.setKey(key, title)
     }
   }
 
@@ -171,9 +171,9 @@ export default class Guide extends React.PureComponent<Props, State> {
                 title={_.title}
                 className="kui--tile"
                 icon={this.choiceIcon2}
-                isSelected={this.state.choices && this.state.choices.get(choice.group) === _.title}
+                isSelected={this.state.choices && this.state.choices.get(choice) === _.title}
                 onClick={this.onChoice}
-                data-choice-group={choice.group}
+                data-choice-key={choice.groupContext}
                 data-choice-title={_.title}
               >
                 {_.description && <Markdown nested source={_.description} />}
@@ -291,7 +291,7 @@ export default class Guide extends React.PureComponent<Props, State> {
     if (node) {
       const key = node.getAttribute("data-ouia-component-id")
       if (key) {
-        this.state.choices.remove(key)
+        this.state.choices.removeKey(key)
       }
     }
   }
