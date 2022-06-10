@@ -55,7 +55,6 @@ export default class CurrentJob extends React.PureComponent<Props, State> {
     await this.retrieveRunningJobs()
     await this.setDefaultRunningJob()
     this.setState({ currentTab: getCurrentTab() })
-    console.log(this.state)
   }
 
   public render() {
