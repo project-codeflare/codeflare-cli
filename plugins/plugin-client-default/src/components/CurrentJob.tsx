@@ -52,11 +52,13 @@ export default class CurrentJob extends React.PureComponent<Props, State> {
   }
 
   public render() {
+    const { currentJob, viewLevel } = this.state
+
     return (
       <TextWithIconWidget
-        text={this.state.currentJob}
-        viewLevel={this.state.viewLevel}
-        textOnclick={`ray job info ${this.state.currentJob}`}>
+        text={currentJob}
+        viewLevel={viewLevel}
+        textOnclick={`ray job info ${currentJob}`}>
           <RayIcon />
       </TextWithIconWidget>
     )

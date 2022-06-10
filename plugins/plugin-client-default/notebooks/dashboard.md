@@ -2,13 +2,14 @@
 layout:
   1: default
   2: default
+  3: default
 ---
 
 ```bash
 ---
 execute: now
 ---
-ray job info raysubmit_RuMRMETjA7SfLaKG
+ray job info raysubmit_mP8gXdLKVTkdEwfX
 ```
 
 ---
@@ -17,5 +18,14 @@ ray job info raysubmit_RuMRMETjA7SfLaKG
 ---
 execute: now
 ---
-ray job logs raysubmit_RuMRMETjA7SfLaKG
+ray job logs raysubmit_mP8gXdLKVTkdEwfX
+```
+
+---
+
+```bash
+---
+execute: now
+---
+echo "Nvidia GPU uitilization"
 ```

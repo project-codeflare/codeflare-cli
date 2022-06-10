@@ -43,6 +43,7 @@ export default class Info extends React.PureComponent<Props, State> {
   }
 
   public render() {
-    return <pre>{JSON.stringify(this.state.jobInfo, null, 2)}</pre>
+    const { jobInfo } = this.state
+    return <pre>{JSON.stringify(jobInfo, null, 2)}</pre>
   }
 }
