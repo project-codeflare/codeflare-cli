@@ -114,6 +114,9 @@ async function scanNodes(page: Page, children: Tree[], containerSelector: string
 }
 
 export default function doPlan(markdown: Input) {
+  // on macos, sometimes things take a long time to start, try this
+  test.setTimeout(120000)
+
   test(markdown.input, async () => {
     const { app, page } = await startElectron()
 
