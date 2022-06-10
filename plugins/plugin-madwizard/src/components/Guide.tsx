@@ -20,7 +20,7 @@ import { i18n, Tab } from "@kui-shell/core"
 import { Card, CardResponse, Icons, Loading, Markdown } from "@kui-shell/plugin-client-common"
 import { ButtonProps, Chip, ChipGroup, Grid, GridItem, Progress, Tile, WizardStep } from "@patternfly/react-core"
 
-import { Graph, CodeBlock, Choices, Wizard as Wiz } from "madwizard"
+import { Graph, CodeBlock, Choices, Memoizer, Wizard as Wiz } from "madwizard"
 
 import read from "../read"
 import Wizard from "./Wizard/KWizard"
@@ -72,6 +72,7 @@ type State = Choices.Choices & {
 export default class Guide extends React.PureComponent<Props, State> {
   private readonly choiceIcon1 = (<Icons className="yellow-text" icon="Warning" />)
   private readonly choiceIcon2 = (<Icons icon="PlusSquare" />)
+  private readonly memos = new Memoizer()
 
   public constructor(props: Props) {
     super(props)
@@ -87,7 +88,7 @@ export default class Guide extends React.PureComponent<Props, State> {
 
   private async init(props: Props, useTheseChoices?: State["choices"]) {
     const choices = useTheseChoices || props.choices
-    const newGraph = await Graph.compile(props.blocks, choices, undefined, "sequence", props.title, props.description)
+    const newGraph = await Graph.compile(props.blocks, choices, this.memos, undefined, "sequence", props.title, props.description)
     choices.onChoice(this.onChoiceFromAbove)
 
     this.setState((state) => {
@@ -97,7 +98,7 @@ export default class Guide extends React.PureComponent<Props, State> {
       const frontier = noChangeToGraph && state && state.frontier ? state.frontier : Graph.findChoiceFrontier(graph)
 
       const startAtStep = state ? state.startAtStep : 1
-      const wizard = Wiz.wizardify(graph, { previous: state ? state.wizard : undefined })
+      const wizard = Wiz.wizardify(graph, this.memos, { previous: state ? state.wizard : undefined })
       const wizardStepStatus = noChangeToGraph && state ? state.wizardStepStatus : []
 
       const isRunning = state ? state.isRunning : false
@@ -266,7 +267,7 @@ export default class Guide extends React.PureComponent<Props, State> {
     Promise.all(
       steps.map(async (_, idx) => {
         if (!this.state.wizardStepStatus[idx] || this.state.wizardStepStatus[idx] === "blank") {
-          const status = await Graph.validate(_.graph, {
+          const status = await Graph.validate(_.graph, this.memos, {
             validator: (cmdline: string) => this.props.tab.REPL.qexec(cmdline),
           })
           if (status !== this.state.wizardStepStatus[idx]) {
