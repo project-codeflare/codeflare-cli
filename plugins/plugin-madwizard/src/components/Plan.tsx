@@ -20,7 +20,7 @@ import { TreeView, TreeViewProps } from "@patternfly/react-core"
 import { encodeComponent, pexecInCurrentTab } from "@kui-shell/core"
 import { CardResponse, Icons, Loading, Markdown, SupportedIcon } from "@kui-shell/plugin-client-common"
 
-import { Graph, CodeBlock, Choices, Tree } from "madwizard"
+import { Graph, CodeBlock, Choices, Memoizer, Tree } from "madwizard"
 
 import read from "../read"
 
@@ -145,6 +145,8 @@ type State = Partial<
 }
 
 export default class Plan extends React.PureComponent<Props, State> {
+  private readonly memos = new Memoizer()
+
   public constructor(props: Props) {
     super(props)
     this.state = {
@@ -155,7 +157,7 @@ export default class Plan extends React.PureComponent<Props, State> {
   private async init(props: Props, useTheseChoices?: State["choices"]) {
     try {
       const choices = useTheseChoices || props.choices
-      const newGraph = await Graph.compile(props.blocks, choices, undefined, "sequence", props.title, props.description)
+      const newGraph = await Graph.compile(props.blocks, choices, this.memos, undefined, "sequence", props.title, props.description)
       choices.onChoice(this.onChoice)
 
       this.setState((state) => {
