@@ -20,12 +20,3 @@ execute: now
 ---
 ray job logs raysubmit_mP8gXdLKVTkdEwfX
 ```
-
----
-
-```bash
----
-execute: now
----
-echo "Nvidia GPU uitilization"
-```
