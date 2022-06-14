@@ -40,20 +40,21 @@ export default class Logs extends React.PureComponent<Props, State> {
   }
 
   public async componentWillMount() {
-    this.getJobLogs()
+    this.streamingLogs()
   }
 
-  async getJobLogs() {
-    const response = await fetch(`http://127.0.0.1:8265/api/jobs/${this.state.jobid}/logs`)
-    const { logs } = await response.json()
-    this.setState({ logs })
+  streamingLogs() {
+    const socket = new WebSocket(`ws://127.0.0.1:8265/api/jobs/${this.state.jobid}/logs/tail`)
+    socket.addEventListener('message', event => {
+      this.setState({ logs: this.state.logs + event.data })
+    })
   }
 
   formatLogs(logs: string) {
     if (!logs.length) {
       return 'No logs available'
     }
-    return logs.split('\n').map((log, i) => {
+    return logs.split('\n').slice(-25).map((log, i) => {
       return <p style={{margin: 0, marginLeft: 10}} key={i}>{log}</p>
     })
   }
