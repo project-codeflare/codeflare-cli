@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-// import { Registrar } from '@kui-shell/core'
+import { Arguments, Registrar } from '@kui-shell/core'
+
+function help() {
+  return 'Usage: codeflare [run] [<task>] [-s /path/to/store] [-u]'
+}
 
 /** Register Kui Commands */
-export default function registerCodeflareCommands(/* registrar: Registrar */) {
-  /* e.g. this command will executable as "run"
-  registrar.listen('/run', args => {
-  })
-  */
+export default function registerCodeflareCommands(registrar: Registrar) {
+  registrar.listen('/help', help)
 }

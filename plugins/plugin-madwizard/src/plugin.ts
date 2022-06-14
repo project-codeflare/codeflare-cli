@@ -29,6 +29,10 @@ function withFilepath(
   cb: (filepath: string, tab: Tab) => Promise<true | ReactResponse["react"]>
 ) {
   return async ({ tab, argvNoOptions, parsedOptions }: Arguments<Options>) => {
+    if (!argvNoOptions[1]) {
+      argvNoOptions.push('ml/codeflare')
+    }
+
     if (!parsedOptions.u) {
       // CLI path
       const { cli } = await import("madwizard/dist/fe/cli/index.js")
