@@ -15,7 +15,6 @@
  */
 
 import { Arguments, ParsedOptions, ReactResponse, Registrar, Tab } from "@kui-shell/core"
-import { setTabReadonly } from "./util"
 
 interface Options extends ParsedOptions {
   u: boolean
@@ -32,13 +31,14 @@ function withFilepath(
   return async ({ tab, argvNoOptions, parsedOptions }: Arguments<Options>) => {
     if (!parsedOptions.u) {
       // CLI path
-      const { CLI } = await import("madwizard")
-      await CLI.cli(["madwizard", task, ...argvNoOptions.slice(1)], undefined, { store: process.env.GUIDEBOOK_STORE })
+      const { cli } = await import("madwizard/dist/fe/cli/index.js")
+      await cli(["madwizard", task, ...argvNoOptions.slice(1)], undefined, { store: process.env.GUIDEBOOK_STORE })
       return true
     }
 
     // UI path
     if (readonly) {
+      const { setTabReadonly } = await import("./util")
       setTabReadonly({ tab })
     }
     return {
