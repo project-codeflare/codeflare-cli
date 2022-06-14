@@ -14,9 +14,4 @@
  * limitations under the License.
  */
 
-import { Arguments, Events, getPrimaryTabId } from "@kui-shell/core"
-
-/** TODO: move to core Tab api? */
-export function setTabReadonly({ tab }: Pick<Arguments, "tab">) {
-  Events.eventBus.emitWithTabId("/kui/tab/edit/unset", getPrimaryTabId(tab))
-}
+export { setTabReadonly } from "./util"
