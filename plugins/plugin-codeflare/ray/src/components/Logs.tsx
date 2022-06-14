@@ -26,6 +26,8 @@ interface State {
   logs: string
 }
 
+const pagination = -25
+
 /** TODO. Probably follow the lead from here:
  * https://github.com/kubernetes-sigs/kui/blob/master/plugins/plugin-kubectl/src/lib/view/modes/Terminal.tsx
  */
@@ -54,7 +56,7 @@ export default class Logs extends React.PureComponent<Props, State> {
     if (!logs.length) {
       return 'No logs available'
     }
-    return logs.split('\n').slice(-25).map((log, i) => {
+    return logs.split('\n').slice(pagination).map((log, i) => {
       return <p style={{margin: 0, marginLeft: 10}} key={i}>{log}</p>
     })
   }
