@@ -50,12 +50,20 @@ export default class Logs extends React.PureComponent<Props, State> {
   }
 
   formatLogs(logs: string) {
+    if (!logs.length) {
+      return 'No logs available'
+    }
     return logs.split('\n').map((log, i) => {
       return <p style={{margin: 0, marginLeft: 10}} key={i}>{log}</p>
     })
   }
 
   public render() {
-    return this.formatLogs(this.state.logs)
+    const { jobid, logs } = this.state
+
+    if (!jobid) {
+      return <div>No job selected</div>
+    }
+    return this.formatLogs(logs)
   }
 }

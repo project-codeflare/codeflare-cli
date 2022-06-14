@@ -2,7 +2,6 @@
 layout:
   1: default
   2: default
-  3: default
 ---
 
 ```bash
