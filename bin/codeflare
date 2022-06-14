@@ -96,22 +96,25 @@ fi
 # This points the headless->electron launcher to our Electron
 export KUI_ELECTRON_HOME="${KUI_ELECTRON_HOME-$NODE}"
 
-if [  -d "$HEADLESS"/../../store ]; then
-    # development builds
-    export GUIDEBOOK_STORE="$HEADLESS"/../../store
-else
-    # otherwise, we can't find a local mirror, so pull directly from
-    # git (network transfers!)
-    export GUIDEBOOK_STORE=git
+if [ -z "$GUIDEBOOK_STORE" ]; then
+    if [  -d "$HEADLESS"/../../store ]; then
+        # development builds
+        export GUIDEBOOK_STORE="$HEADLESS"/../../store
+    else
+        # otherwise, we can't find a local mirror, so pull directly from
+        # git (network transfers!)
+        export GUIDEBOOK_STORE=git
+    fi
 fi
 
 # check if the user wants us to run the graphical version (currently
 # indicated by the -u option)
 do_cli=1
-while getopts "u" opt
+while getopts "us:" opt
 do
     case $opt in
         (u) do_cli=0; shift; continue;;
+        (s) GUIDEBOOK_STORE=$OPTARG; shift; shift; continue;;
     esac
 done
 
