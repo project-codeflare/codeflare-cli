@@ -17,9 +17,14 @@
 import { Arguments, ParsedOptions, ReactResponse, Registrar, Tab } from "@kui-shell/core"
 
 interface Options extends ParsedOptions {
+  /** Run in UI mode */
   u: boolean
 
+  /** verbose output */
   V: boolean
+
+  /** do not load prior choices (the default "profile") */
+  n: boolean
 }
 
 // TODO export this from madwizard
@@ -38,7 +43,7 @@ function withFilepath(
     if (!parsedOptions.u) {
       // CLI path
       const { cli } = await import("madwizard/dist/fe/cli/index.js")
-      await cli(["madwizard", task, ...argvNoOptions.slice(1)], undefined, { store: process.env.GUIDEBOOK_STORE, verbose: parsedOptions.V })
+      await cli(["madwizard", task, ...argvNoOptions.slice(1), ...(parsedOptions.n ? ['--no-profile'] : [])], undefined, { store: process.env.GUIDEBOOK_STORE, verbose: parsedOptions.V })
       return true
     }
 
@@ -56,7 +61,7 @@ function withFilepath(
 /** Register Kui Commands */
 export default function registerMadwizardCommands(registrar: Registrar) {
   const flags = {
-    boolean: ["u", "V"],
+    boolean: ["u", "V", "n"],
   }
 
   registrar.listen(
