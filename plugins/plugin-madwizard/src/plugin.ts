@@ -18,6 +18,8 @@ import { Arguments, ParsedOptions, ReactResponse, Registrar, Tab } from "@kui-sh
 
 interface Options extends ParsedOptions {
   u: boolean
+
+  V: boolean
 }
 
 // TODO export this from madwizard
@@ -36,7 +38,7 @@ function withFilepath(
     if (!parsedOptions.u) {
       // CLI path
       const { cli } = await import("madwizard/dist/fe/cli/index.js")
-      await cli(["madwizard", task, ...argvNoOptions.slice(1)], undefined, { store: process.env.GUIDEBOOK_STORE })
+      await cli(["madwizard", task, ...argvNoOptions.slice(1)], undefined, { store: process.env.GUIDEBOOK_STORE, verbose: parsedOptions.V })
       return true
     }
 
@@ -54,7 +56,7 @@ function withFilepath(
 /** Register Kui Commands */
 export default function registerMadwizardCommands(registrar: Registrar) {
   const flags = {
-    boolean: ["u"],
+    boolean: ["u", "V"],
   }
 
   registrar.listen(
