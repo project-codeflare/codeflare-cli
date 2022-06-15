@@ -110,14 +110,16 @@ fi
 # check if the user wants us to run the graphical version (currently
 # indicated by the -u option)
 do_cli=1
-while getopts "Vus:" opt
+while getopts "nVus:" opt
 do
     case $opt in
-        (u) do_cli=0; shift; continue;;
-        (s) GUIDEBOOK_STORE=$OPTARG; shift; shift; continue;;
-        (V) EXTRAPREFIX="-V"; shift; continue;;
+        (u) do_cli=0; continue;;
+        (s) GUIDEBOOK_STORE=$OPTARG; continue;;
+        (n) EXTRAPREFIX="$EXTRAPREFIX -n"; continue;;
+        (V) EXTRAPREFIX="$EXTRAPREFIX -V"; continue;;
     esac
 done
+shift $((OPTIND-1))
 
 if  [ $# = 0 ] || [ $# = 1 ] && [ "$1" != "version" ]; then
     # use the "guide" command if none was given
