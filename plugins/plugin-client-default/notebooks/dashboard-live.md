@@ -18,14 +18,24 @@ layout:
 
 === "Application Logs"
 
-    ```ansi
-    --8<-- "$LOGDIR/logs/job.txt"
+    ```shell
+    ---
+    execute: now
+    maximize: true
+    outputOnly: true
+    ---
+    tail -f $LOGDIR/logs/job.txt
     ```
 
 === "GPU Utilization"
 
-    ```ansi
-    --8<-- "$LOGDIR/resources/gpu.txt"
+    ```shell
+    ---
+    execute: now
+    maximize: true
+    outputOnly: true
+    ---
+    tail -f $LOGDIR/resources/gpu.txt
     ```
 
 
