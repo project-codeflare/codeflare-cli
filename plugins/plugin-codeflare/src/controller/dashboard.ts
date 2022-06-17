@@ -38,7 +38,6 @@ async function dashboardui(args: Arguments<DashboardOptions>) {
   const filepath = args.argvNoOptions[2]
   process.env.LOGDIR = filepath
 
-  console.error('!!!!!!!', args.parsedOptions)
   if (args.parsedOptions.follow) {
     process.env.TAIL = 'tail -f'
   } else {
