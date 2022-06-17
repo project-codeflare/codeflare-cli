@@ -20,15 +20,53 @@ interface Props {
   jobid: string
 }
 
+interface State {
+  jobid: string,
+  jobInfo: object,
+  logs: string
+}
+
+const pagination = -25
+
 /** TODO. Probably follow the lead from here:
  * https://github.com/kubernetes-sigs/kui/blob/master/plugins/plugin-kubectl/src/lib/view/modes/Terminal.tsx
  */
-export default class Logs extends React.PureComponent<Props> {
+export default class Logs extends React.PureComponent<Props, State> {
   public constructor(props: Props) {
     super(props)
+    this.state = {
+      jobid: props.jobid,
+      jobInfo: {},
+      logs: ''
+    }
+  }
+
+  public async componentWillMount() {
+    this.streamingLogs()
+  }
+
+  streamingLogs() {
+    const socket = new WebSocket(`ws://127.0.0.1:8265/api/jobs/${this.state.jobid}/logs/tail`)
+    socket.addEventListener('message', event => {
+      this.setState({ logs: this.state.logs + event.data })
+    })
+  }
+
+  formatLogs(logs: string) {
+    if (!logs.length) {
+      return 'No logs available'
+    }
+    return logs.split('\n').slice(pagination).map((log, i) => {
+      return <p style={{margin: 0, marginLeft: 10}} key={i}>{log}</p>
+    })
   }
 
   public render() {
-    return "TODO"
+    const { jobid, logs } = this.state
+
+    if (!jobid) {
+      return <div>No job selected</div>
+    }
+    return this.formatLogs(logs)
   }
 }

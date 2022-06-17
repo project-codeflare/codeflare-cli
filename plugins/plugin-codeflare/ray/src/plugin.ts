@@ -18,6 +18,8 @@ import React from "react"
 import { Mode, ReactProvider, Registrar } from "@kui-shell/core"
 
 import Logs from "./components/Logs"
+import Info from "./components/Info"
+import List from "./components/List"
 
 /** Register Kui Commands */
 export default function registerCodeflareCommands(registrar: Registrar) {
@@ -31,10 +33,33 @@ export default function registerCodeflareCommands(registrar: Registrar) {
 
     return {
       metadata: {
-        name: "Ray Logs",
+        name: "Logs",
         namespace: jobid,
       },
       modes: [logsMode],
+    }
+  })
+
+  registrar.listen("/ray/job/info", (args) => {
+    const jobid = args.argvNoOptions[args.argvNoOptions.indexOf("info") + 1]
+
+    const infoMode: Mode & ReactProvider = {
+      mode: "Summary",
+      react: () => React.createElement(Info, { jobid }),
+    }
+
+    return {
+      metadata: {
+        name: "Summary",
+        namespace: jobid,
+      },
+      modes: [infoMode],
+    }
+  })
+
+  registrar.listen("/ray/job/list", () => {
+    return {
+      react: React.createElement(List)
     }
   })
 }
