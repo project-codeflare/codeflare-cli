@@ -1,4 +1,6 @@
 {
   "label": "Notebooks",
-  "submenu": []
+  "submenu": [
+    { "notebook": "Dashboard", "filepath": "dashboard.md" }
+  ]
 }
