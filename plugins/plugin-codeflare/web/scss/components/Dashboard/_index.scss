@@ -14,17 +14,31 @@
  * limitations under the License.
  */
 
-import { Registrar } from "@kui-shell/core"
-import dashboard from "./controller/dashboard"
+@import "@kui-shell/plugin-client-common/web/scss/components/Terminal/_mixins";
+@import "@kui-shell/plugin-client-common/web/scss/components/Terminal/Maximized";
 
-function help() {
-  return `Usage:
-codeflare [run] [<task>] [-s /path/to/store] [-u]
-codeflare dashboard /path/to/logdir`
-}
+@include Scrollback {
+  @include Block {
+    @include IsMaximized {
+      overflow: hidden;
+    }
+    @include MarkdownTabContent {
+      overflow: auto;
+      font-size: 0.875em;
+    }
+  }
 
-/** Register Kui Commands */
-export default function registerCodeflareCommands(registrar: Registrar) {
-  dashboard(registrar)
-  registrar.listen("/help", help)
+  @include Markdown {
+    pre > .paragraph {
+      padding: 0;
+    }
+    code.kui--code--editor {
+      padding: 0;
+    }
+  }
+  .xterm-container.xterm-terminated {
+    padding: 0;
+    border: none;
+    background: none;
+  }
 }

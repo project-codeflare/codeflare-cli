@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-import { Arguments, CommandOptions, Registrar } from '@kui-shell/core'
+import { Arguments, CommandOptions, Registrar } from "@kui-shell/core"
+
+import "../../web/scss/components/Dashboard/_index.scss"
 
 interface DashboardOptions {
   f: boolean
@@ -24,10 +26,10 @@ interface DashboardOptions {
 function dashboardcli(args: Arguments) {
   const filepath = args.argvNoOptions[1]
   if (!filepath) {
-    throw new Error('Usage: codeflare dashboard <filepath>')
+    throw new Error("Usage: codeflare dashboard <filepath>")
   }
 
-  const restIdx = args.command.indexOf('dashboard') + 'dashboard'.length
+  const restIdx = args.command.indexOf("dashboard") + "dashboard".length
   return args.REPL.qexec(`codeflare dashboardui ${args.command.slice(restIdx)}`)
 }
 
@@ -38,21 +40,16 @@ async function dashboardui(args: Arguments<DashboardOptions>) {
   const filepath = args.argvNoOptions[2]
   process.env.LOGDIR = filepath
 
-  if (args.parsedOptions.follow) {
-    process.env.TAIL = 'tail -f'
-  } else {
-    process.env.TAIL = 'cat'
-  }
-
-  return args.REPL.qexec(`commentary -f /kui/client/dashboard.md`)
+  const db = args.parsedOptions.follow ? "dashboard-live.md" : "dashboard.md"
+  return args.REPL.qexec(`commentary -f /kui/client/${db}`)
 }
 
 export default function registerDashboardCommands(registrar: Registrar) {
-  const flags: CommandOptions['flags'] = {
-    boolean: ['f', 'follow'],
-    alias: { follow: ['f'] }
+  const flags: CommandOptions["flags"] = {
+    boolean: ["f", "follow"],
+    alias: { follow: ["f"] },
   }
 
-  registrar.listen('/dashboard', dashboardcli, { flags })
-  registrar.listen('/codeflare/dashboardui', dashboardui, { needsUI: true, outputOnly: true, flags })
+  registrar.listen("/dashboard", dashboardcli, { flags })
+  registrar.listen("/codeflare/dashboardui", dashboardui, { needsUI: true, outputOnly: true, flags })
 }
