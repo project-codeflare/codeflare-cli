@@ -113,10 +113,9 @@ do_cli=1
 while getopts "nVus:" opt
 do
     case $opt in
-        (u) do_cli=0; continue;;
-        (s) GUIDEBOOK_STORE=$OPTARG; continue;;
-        (n) EXTRAPREFIX="$EXTRAPREFIX -n"; continue;;
-        (V) EXTRAPREFIX="$EXTRAPREFIX -V"; continue;;
+        u) do_cli=0; continue;;
+        s) GUIDEBOOK_STORE=$OPTARG; continue;;
+        *) EXTRAPREFIX="$EXTRAPREFIX -$opt"; continue;;
     esac
 done
 shift $((OPTIND-1))

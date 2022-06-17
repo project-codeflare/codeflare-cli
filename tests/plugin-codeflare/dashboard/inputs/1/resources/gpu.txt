@@ -1,0 +1,270 @@
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:17.138[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:17.138[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:17.138[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:17.138[0m
+[31;1m 41 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:17.138[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:22.139[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:22.139[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:22.139[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:22.139[0m
+[31;1m 41 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:22.139[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:27.140[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:27.140[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:27.140[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:27.140[0m
+[31;1m 41 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:27.140[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:32.141[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:32.141[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:32.141[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:32.141[0m
+[31;1m 41 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:32.141[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:37.142[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:37.142[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:37.142[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:37.142[0m
+[31;1m 41 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:37.142[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:42.142[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:42.142[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:42.142[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:42.142[0m
+[31;1m 41 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:42.142[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:47.143[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:47.143[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:47.143[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:47.143[0m
+[31;1m 41 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:47.143[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:52.144[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:52.144[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:52.144[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:52.144[0m
+[31;1m 41 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:52.144[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:57.145[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:57.145[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:57.145[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:57.145[0m
+[31;1m 41 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:06:57.145[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:02.145[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:02.145[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:02.145[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:02.145[0m
+[31;1m 41 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:02.145[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:07.146[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:07.146[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:07.146[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:07.146[0m
+[31;1m 41 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:07.146[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:12.147[0m
+[31;1m 3 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:12.147[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:12.147[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:12.147[0m
+[31;1m 42 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:12.147[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:17.148[0m
+[31;1m 89 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:17.148[0m
+[31;1m 39 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:17.148[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:17.148[0m
+[31;1m 51 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:17.148[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:22.149[0m
+[31;1m 95 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:22.149[0m
+[31;1m 37 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:22.149[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:22.149[0m
+[31;1m 54 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:22.149[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:27.149[0m
+[31;1m 89 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:27.149[0m
+[31;1m 39 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:27.149[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:27.149[0m
+[31;1m 56 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:27.149[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:32.150[0m
+[31;1m 87 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:32.150[0m
+[31;1m 40 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:32.150[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:32.150[0m
+[31;1m 57 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:32.150[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:37.151[0m
+[31;1m 89 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:37.151[0m
+[31;1m 39 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:37.151[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:37.151[0m
+[31;1m 59 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:37.151[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:42.151[0m
+[31;1m 44 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:42.151[0m
+[31;1m 17 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:42.151[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:42.151[0m
+[31;1m 57 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:42.151[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:47.152[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:47.152[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:47.152[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:47.152[0m
+[31;1m 50 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:47.152[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:52.153[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:52.153[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:52.153[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:52.153[0m
+[31;1m 49 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:52.153[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:57.154[0m
+[31;1m 4 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:57.154[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:57.154[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:57.154[0m
+[31;1m 49 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:07:57.154[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:02.154[0m
+[31;1m 89 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:02.154[0m
+[31;1m 38 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:02.154[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:02.154[0m
+[31;1m 58 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:02.154[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:07.155[0m
+[31;1m 89 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:07.155[0m
+[31;1m 39 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:07.155[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:07.155[0m
+[31;1m 60 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:07.155[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:12.156[0m
+[31;1m 84 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:12.156[0m
+[31;1m 37 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:12.156[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:12.156[0m
+[31;1m 60 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:12.156[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:17.157[0m
+[31;1m 89 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:17.157[0m
+[31;1m 39 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:17.157[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:17.157[0m
+[31;1m 61 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:17.157[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:22.157[0m
+[31;1m 80 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:22.157[0m
+[31;1m 36 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:22.157[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:22.157[0m
+[31;1m 60 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:22.157[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:27.158[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:27.158[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:27.158[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:27.158[0m
+[31;1m 54 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:27.158[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:32.159[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:32.159[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:32.159[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:32.159[0m
+[31;1m 52 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:32.159[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:37.160[0m
+[31;1m 4 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:37.160[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:37.160[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:37.160[0m
+[31;1m 51 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:37.160[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:42.161[0m
+[31;1m 87 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:42.161[0m
+[31;1m 39 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:42.161[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:42.161[0m
+[31;1m 56 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:42.161[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:47.162[0m
+[31;1m 90 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:47.162[0m
+[31;1m 39 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:47.162[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:47.162[0m
+[31;1m 58 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:47.162[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:52.162[0m
+[31;1m 92 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:52.162[0m
+[31;1m 36 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:52.162[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:52.162[0m
+[31;1m 59 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:52.162[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:57.163[0m
+[31;1m 94 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:57.163[0m
+[31;1m 40 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:57.163[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:57.163[0m
+[31;1m 61 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:08:57.163[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:02.164[0m
+[31;1m 100 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:02.164[0m
+[31;1m 38 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:02.164[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:02.164[0m
+[31;1m 62 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:02.164[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:07.164[0m
+[31;1m 89 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:07.164[0m
+[31;1m 38 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:07.164[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:07.164[0m
+[31;1m 62 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:07.164[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:12.165[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:12.165[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:12.165[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:12.165[0m
+[31;1m 54 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:12.165[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:17.166[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:17.166[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:17.166[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:17.166[0m
+[31;1m 53 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:17.166[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:22.167[0m
+[31;1m 4 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:22.167[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:22.167[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:22.167[0m
+[31;1m 51 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:22.167[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:27.167[0m
+[31;1m 98 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:27.167[0m
+[31;1m 38 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:27.167[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:27.167[0m
+[31;1m 58 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:27.167[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:32.168[0m
+[31;1m 84 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:32.168[0m
+[31;1m 36 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:32.168[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:32.168[0m
+[31;1m 59 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:32.168[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:37.169[0m
+[31;1m 90 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:37.169[0m
+[31;1m 40 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:37.169[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:37.169[0m
+[31;1m 60 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:37.169[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:42.170[0m
+[31;1m 100 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:42.170[0m
+[31;1m 38 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:42.170[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:42.170[0m
+[31;1m 59 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:42.170[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:47.170[0m
+[31;1m 94 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:47.170[0m
+[31;1m 36 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:47.170[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:47.170[0m
+[31;1m 60 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:47.170[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:52.171[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:52.171[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:52.171[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:52.171[0m
+[31;1m 57 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:52.171[0m
+
+[31;1m Tesla V100-SXM2-16GB [0;31mGPUType		[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:57.172[0m
+[31;1m 0 % [0;31mUtilization.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:57.172[0m
+[31;1m 0 % [0;31mUtilization.Memory			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:57.172[0m
+[31;1m 16384 MiB [0;31mMemory.Total			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:57.172[0m
+[31;1m 53 [0;31mTemperature.GPU			[0;2mmycluster-ray-worker-type-78bjh 2022/06/17 07:09:57.172[0m
