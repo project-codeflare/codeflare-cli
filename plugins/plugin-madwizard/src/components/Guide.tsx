@@ -88,7 +88,15 @@ export default class Guide extends React.PureComponent<Props, State> {
 
   private async init(props: Props, useTheseChoices?: State["choices"]) {
     const choices = useTheseChoices || props.choices
-    const newGraph = await Graph.compile(props.blocks, choices, this.memos, undefined, "sequence", props.title, props.description)
+    const newGraph = await Graph.compile(
+      props.blocks,
+      choices,
+      this.memos,
+      undefined,
+      "sequence",
+      props.title,
+      props.description
+    )
     choices.onChoice(this.onChoiceFromAbove)
 
     this.setState((state) => {

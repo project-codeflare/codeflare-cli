@@ -37,13 +37,17 @@ function withFilepath(
 ) {
   return async ({ tab, argvNoOptions, parsedOptions }: Arguments<Options>) => {
     if (!argvNoOptions[1]) {
-      argvNoOptions.push('ml/codeflare')
+      argvNoOptions.push("ml/codeflare")
     }
 
     if (!parsedOptions.u) {
       // CLI path
       const { cli } = await import("madwizard/dist/fe/cli/index.js")
-      await cli(["madwizard", task, ...argvNoOptions.slice(1), ...(parsedOptions.n ? ['--no-profile'] : [])], undefined, { store: process.env.GUIDEBOOK_STORE, verbose: parsedOptions.V })
+      await cli(
+        ["madwizard", task, ...argvNoOptions.slice(1), ...(parsedOptions.n ? ["--no-profile"] : [])],
+        undefined,
+        { store: process.env.GUIDEBOOK_STORE, verbose: parsedOptions.V }
+      )
       return true
     }
 

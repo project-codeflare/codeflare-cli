@@ -3,3 +3,9 @@ plugins/*/dist
 plugins/*/mdist
 tests/**/*.md
 store/**/*.md
+
+# don't pretty-print notebooks, since spacing is important, e.g. for tabs and tips
+plugins/*/notebooks/**/*.md
+plugins/*/notebooks/**/*.json
+
+tests/**/inputs/*.json

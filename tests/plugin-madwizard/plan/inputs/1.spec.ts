@@ -21,7 +21,7 @@ const importa: (name?: string) => Tree = (name = "importa.md") => ({ name, child
 
 const importc: Tree = { name: "importc.md", children: [{ name: "echo CCC" }] }
 
-const option2Tab2: Tree = { name: 'Option 2: Tab2', children: [importc] }
+const option2Tab2: Tree = { name: "Option 2: Tab2", children: [importc] }
 
 const importe: Tree = { name: "EEE", children: [{ name: "Option 1: TabE1", children: [{ name: "echo EEE" }] }] }
 
@@ -45,10 +45,12 @@ const mainTasks = {
 
 const IN1: Input = {
   input: "guidebook-tree-model1.md",
-  tree: () => [{
-    name: 'AAA',
-    children: [prerequisites, mainTasks],
-  }]
+  tree: () => [
+    {
+      name: "AAA",
+      children: [prerequisites, mainTasks],
+    },
+  ],
 }
 
 export { importa, importc, importe, importd }

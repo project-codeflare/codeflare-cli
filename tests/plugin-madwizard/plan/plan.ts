@@ -26,35 +26,36 @@ import { productName } from "../../../plugins/plugin-client-default/config.d/nam
 import { Tree } from "./Input"
 
 function githubActionsOS() {
-  return process.env.RUNNER_OS
-    .replace(/macOS/, "darwin")
+  return process.env.RUNNER_OS.replace(/macOS/, "darwin")
     .replace(/Linux/, "linux")
     .replace(/Windows/, "win32")
 }
 
 function githubActionsArch() {
-  return process.env.RUNNER_ARCH
-    .replace(/X64/, 'x64')
-    .replace(/ARM64/, 'arm64')
+  return process.env.RUNNER_ARCH.replace(/X64/, "x64").replace(/ARM64/, "arm64")
 }
 
 function electronProductionPath() {
-  return process.platform === 'linux' ? productName
-    : process.platform === 'win32' ? `${productName}.exe`
+  return process.platform === "linux"
+    ? productName
+    : process.platform === "win32"
+    ? `${productName}.exe`
     : join(productName + ".app", "Contents/MacOS", productName)
 }
 
 async function startElectron() {
   // Launch Electron app; "shell" tells Kui to ignore the command line
   // and just launch a plain shell
-  const executablePath = !process.env.EXECUTABLE_PATH ? undefined
+  const executablePath = !process.env.EXECUTABLE_PATH
+    ? undefined
     : process.env.EXECUTABLE_PATH !== "github-actions-production"
     ? process.env.EXECUTABLE_PATH
-    : join(process.env.GITHUB_WORKSPACE,
-           'dist/electron',
-           `${productName}-${githubActionsOS()}-${githubActionsArch()}`,
-           electronProductionPath()
-          )
+    : join(
+        process.env.GITHUB_WORKSPACE,
+        "dist/electron",
+        `${productName}-${githubActionsOS()}-${githubActionsArch()}`,
+        electronProductionPath()
+      )
 
   const app = await electron.launch({ args: [main, "shell"], executablePath })
 
@@ -122,7 +123,9 @@ export default function doPlan(markdown: Input) {
 
     // the path.relative is not needed, but we are using it to test
     // that relative paths work
-    await page.keyboard.type(`plan -u ${slash(relative(process.cwd(), join(__dirname, "../markdowns", markdown.input)))}`)
+    await page.keyboard.type(
+      `plan -u ${slash(relative(process.cwd(), join(__dirname, "../markdowns", markdown.input)))}`
+    )
     await page.keyboard.press("Enter")
 
     const tree = markdown.tree("guide")
