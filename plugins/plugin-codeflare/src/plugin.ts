@@ -16,11 +16,31 @@
 
 import { Arguments, Registrar } from '@kui-shell/core'
 
+function dashboardcli(args: Arguments) {
+  const filepath = args.argvNoOptions[2]
+  if (!filepath) {
+    throw new Error('Usage: codeflare dashboard <filepath>')
+  }
+
+  return args.REPL.qexec(`codeflare dashboardui "${filepath}"`)
+}
+
 function help() {
   return 'Usage: codeflare [run] [<task>] [-s /path/to/store] [-u]'
 }
 
 /** Register Kui Commands */
 export default function registerCodeflareCommands(registrar: Registrar) {
+  registrar.listen('/codeflare/dashboard', dashboardcli)
+
+  registrar.listen('/codeflare/dashboardui', async args => {
+    const { setTabReadonly } = await import("@kui-shell/plugin-madwizard")
+    setTabReadonly(args)
+
+    const filepath = args.argvNoOptions[2]
+    process.env.LOGDIR = filepath
+    return args.REPL.qexec(`commentary -f /Users/_pablocarmona/_dev/temp/codeflare-cli/plugins/plugin-client-default/notebooks/db.md`)
+  }, { needsUI: true, outputOnly: true })
+
   registrar.listen('/help', help)
 }
