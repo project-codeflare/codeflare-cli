@@ -11,6 +11,23 @@ layout:
 === "Summary"
 
     ```json
+    ---
+    language: yaml
+    exclude:
+        - source
+        - language
+        - runtimeEnv
+    ---
+    --8<-- "$LOGDIR/job.json"
+    ```
+
+=== "Environment"
+
+    ```json
+    ---
+    language: yaml
+    include: runtimeEnv
+    ---
     --8<-- "$LOGDIR/job.json"
     ```
 
@@ -26,6 +43,16 @@ layout:
 
     ```ansi
     --8<-- "$LOGDIR/resources/gpu.txt"
+    ```
+
+=== "Application Source"
+
+    ```json
+    ---
+    include: source
+    languageFrom: language
+    ---
+    --8<-- "$LOGDIR/job.json"
     ```
 
 
