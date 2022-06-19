@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@import "@kui-shell/plugin-client-common/web/scss/components/Card/_mixins";
+@import "@kui-shell/plugin-client-common/web/scss/components/Editor/_mixins";
 @import "@kui-shell/plugin-client-common/web/scss/components/Terminal/_mixins";
 @import "@kui-shell/plugin-client-common/web/scss/components/Terminal/Maximized";
 
@@ -23,10 +25,25 @@
   grid-template-areas: "T1" "T2" "T2";
 }
 
+@mixin Fill {
+                    display: flex;
+                flex-direction: column;
+                flex: 1;
+}
+
 @include Scrollback {
   @include Block {
     @include IsMaximized {
-      overflow: hidden;
+        overflow: hidden;
+
+        @include CardBody {
+            & > pre > .paragraph {
+                @include Fill;
+            }
+            @include EditorInMarkdown {
+                @include Fill;
+            }
+        }
     }
     @include MarkdownTabContent {
       overflow: auto;
