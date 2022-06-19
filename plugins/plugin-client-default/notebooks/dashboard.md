@@ -3,10 +3,10 @@ layout:
     1:
         position: default
         maximized: true
-        inverseColors: true
     2:
         position: default
         maximized: true
+        inverseColors: true
 ---
 
 === "Summary"
@@ -15,9 +15,9 @@ layout:
     ---
     language: yaml
     exclude:
-        - source
-        - language
-        - runtimeEnv
+        - .source
+        - .language
+        - .runtimeEnv
     ---
     --8<-- "$LOGDIR/job.json"
     ```
@@ -27,7 +27,17 @@ layout:
     ```json
     ---
     language: yaml
-    include: runtimeEnv
+    include: .runtimeEnv.env_vars
+    ---
+    --8<-- "$LOGDIR/job.json"
+    ```
+
+=== "Pip Dependencies"
+
+    ```json
+    ---
+    language: yaml
+    include: .runtimeEnv.pip
     ---
     --8<-- "$LOGDIR/job.json"
     ```
@@ -50,8 +60,8 @@ layout:
 
     ```json
     ---
-    include: source
-    languageFrom: language
+    include: .source
+    languageFrom: .language
     ---
     --8<-- "$LOGDIR/job.json"
     ```
