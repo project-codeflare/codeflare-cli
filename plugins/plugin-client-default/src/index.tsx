@@ -17,9 +17,9 @@
 import React from "react"
 
 import { Capabilities } from "@kui-shell/core"
-import { Kui, KuiProps, ContextWidgets, MeterWidgets } from "@kui-shell/plugin-client-common"
+import { Kui, KuiProps, ContextWidgets, MeterWidgets, SpaceFiller } from "@kui-shell/plugin-client-common"
 
-import { CurrentContext, CurrentNamespace } from "@kui-shell/plugin-kubectl/components"
+// import { CurrentContext, CurrentNamespace } from "@kui-shell/plugin-kubectl/components"
 import { Search } from "@kui-shell/plugin-electron-components"
 
 import { version } from "@kui-shell/client/package.json"
@@ -56,11 +56,13 @@ export default function renderMain(props: KuiProps) {
       quietExecCommand={false}
       toplevel={!Capabilities.inBrowser() && <Search />}
     >
-      <ContextWidgets></ContextWidgets>
+      <ContextWidgets>
+      {/* <CurrentContext />
+       <CurrentNamespace /> */}
+      </ContextWidgets>
 
+      <SpaceFiller/>
       <MeterWidgets>
-        <CurrentContext />
-        <CurrentNamespace />
       </MeterWidgets>
     </Kui>
   )
