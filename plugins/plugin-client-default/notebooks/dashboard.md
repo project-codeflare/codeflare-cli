@@ -1,8 +1,9 @@
 ---
 layout:
     1:
-        position: left
+        position: default
         maximized: true
+        inverseColors: true
     2:
         position: default
         maximized: true

@@ -23,7 +23,6 @@ import { CurrentContext, CurrentNamespace } from "@kui-shell/plugin-kubectl/comp
 import { Search } from "@kui-shell/plugin-electron-components"
 
 import { version } from "@kui-shell/client/package.json"
-import guidebooks from "@kui-shell/client/config.d/notebooks.json"
 import { productName } from "@kui-shell/client/config.d/name.json"
 
 /**
@@ -51,10 +50,11 @@ export default function renderMain(props: KuiProps) {
       productName={productName}
       lightweightTables
       {...props}
-      isPopup={false}
+    isPopup={false}
+    noTopTabs
+    guidebooks={false}
       quietExecCommand={false}
       toplevel={!Capabilities.inBrowser() && <Search />}
-      guidebooks={guidebooks.submenu}
     >
       <ContextWidgets></ContextWidgets>
 

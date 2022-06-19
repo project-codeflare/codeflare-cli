@@ -17,6 +17,12 @@
 @import "@kui-shell/plugin-client-common/web/scss/components/Terminal/_mixins";
 @import "@kui-shell/plugin-client-common/web/scss/components/Terminal/Maximized";
 
+@include Split(2) {
+  @include Rows(3);
+  @include Columns(1);
+  grid-template-areas: "T1" "T2" "T2";
+}
+
 @include Scrollback {
   @include Block {
     @include IsMaximized {
