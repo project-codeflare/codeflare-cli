@@ -31,6 +31,10 @@
   flex: 1;
 }
 
+@include SplitContainer {
+  grid-gap: 0;
+}
+
 @include Scrollback {
   @include Block {
     @include IsMaximized {
