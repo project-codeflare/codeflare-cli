@@ -110,6 +110,7 @@
     "@kui-shell/core": "11.5.0-dev-20220620-111420",
     "@kui-shell/plugin-bash-like": "11.5.0-dev-20220620-111420",
     "@kui-shell/plugin-carbon-themes": "11.5.0-dev-20220620-111420",
+    "@kui-shell/plugin-core-themes": "11.5.0-dev-20220620-111420",
     "@kui-shell/plugin-client-common": "11.5.0-dev-20220620-111420",
     "@kui-shell/plugin-codeflare": "file:./plugins/plugin-codeflare",
     "@kui-shell/plugin-core-support": "11.5.0-dev-20220620-111420",
