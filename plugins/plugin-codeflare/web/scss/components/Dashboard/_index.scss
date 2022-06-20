@@ -36,6 +36,16 @@
 }
 
 @include Scrollback {
+  .kui--ignore-if-empty {
+    display: flex;
+  }
+  .xterm-container {
+    display: flex;
+    flex: 1;
+    & > div {
+      flex: 1;
+    }
+  }
   @include Block {
     @include IsMaximized {
       overflow: hidden;
