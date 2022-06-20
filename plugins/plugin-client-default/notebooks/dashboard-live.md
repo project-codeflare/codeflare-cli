@@ -1,19 +1,15 @@
 ---
 layout:
     1:
-        position: left
+        position: default
         maximized: true
     2:
         position: default
         maximized: true
+        inverseColors: true
 ---
 
-=== "Summary"
-
-    ```json
-    --8<-- "$LOGDIR/job.json"
-    ```
-
+--8<-- "./dashboard-summary.md"
 ---
 
 === "Application Logs"
@@ -38,18 +34,15 @@ layout:
     tail -f $LOGDIR/resources/gpu.txt
     ```
 
+=== "Kubernetes Events"
 
-<!--
----
+    ```shell
+    ---
+    execute: now
+    maximize: true
+    outputOnly: true
+    ---
+    tail -f $LOGDIR/events/kubernetes.txt
+    ```
 
-# Kubernetes Events
-
-```shell
----
-execute: now
-maximize: true
-outputOnly: true
----
-$TAIL $LOGDIR/events/kubernetes.txt
-```
--->
+--8<-- "./dashboard-source.md"

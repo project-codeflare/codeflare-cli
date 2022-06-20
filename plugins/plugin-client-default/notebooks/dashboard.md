@@ -9,38 +9,7 @@ layout:
         inverseColors: true
 ---
 
-=== "Summary"
-
-    ```json
-    ---
-    language: yaml
-    exclude:
-        - .source
-        - .language
-        - .runtimeEnv
-    ---
-    --8<-- "$LOGDIR/job.json"
-    ```
-
-=== "Environment"
-
-    ```json
-    ---
-    language: yaml
-    include: .runtimeEnv.env_vars
-    ---
-    --8<-- "$LOGDIR/job.json"
-    ```
-
-=== "Pip Dependencies"
-
-    ```json
-    ---
-    language: yaml
-    include: .runtimeEnv.pip
-    ---
-    --8<-- "$LOGDIR/job.json"
-    ```
+--8<-- "./dashboard-summary.md"
 
 ---
 
@@ -66,12 +35,4 @@ layout:
     --8<-- "$LOGDIR/events/kubernetes.txt"
     ```
 
-=== "Application Source"
-
-    ```json
-    ---
-    include: .source
-    languageFrom: .language
-    ---
-    --8<-- "$LOGDIR/job.json"
-    ```
+--8<-- "./dashboard-source.md"
