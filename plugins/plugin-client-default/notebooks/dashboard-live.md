@@ -20,7 +20,7 @@ layout:
     maximize: true
     outputOnly: true
     ---
-    tail -f $LOGDIR/logs/job.txt
+    tail -n 500 -f $LOGDIR/logs/job.txt
     ```
 
 === "GPU Utilization"
@@ -31,7 +31,7 @@ layout:
     maximize: true
     outputOnly: true
     ---
-    tail -f $LOGDIR/resources/gpu.txt
+    tail -n 500 -f $LOGDIR/resources/gpu.txt
     ```
 
 === "Kubernetes Events"
@@ -42,7 +42,7 @@ layout:
     maximize: true
     outputOnly: true
     ---
-    tail -f $LOGDIR/events/kubernetes.txt
+    tail -n 500 -f $LOGDIR/events/kubernetes.txt
     ```
 
 --8<-- "./dashboard-source.md"
