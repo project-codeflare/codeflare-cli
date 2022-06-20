@@ -11,7 +11,6 @@ export default function doDashboard(directory: string) {
 
     await page.keyboard.type(`dashboard -f ${slash(relative(process.cwd(), join(__dirname, "./inputs", directory)))}`)
 
-
     await page.keyboard.press("Enter")
 
     const splitSelector = ".kui--terminal-split-container"

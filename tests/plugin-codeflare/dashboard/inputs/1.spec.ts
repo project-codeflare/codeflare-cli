@@ -1,3 +1,3 @@
-import doDashboard from "../dashboard";
+import doDashboard from "../dashboard"
 
 doDashboard("1")

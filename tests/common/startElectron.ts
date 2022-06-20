@@ -17,8 +17,8 @@ function electronProductionPath() {
   return process.platform === "linux"
     ? productName
     : process.platform === "win32"
-      ? `${productName}.exe`
-      : join(productName + ".app", "Contents/MacOS", productName)
+    ? `${productName}.exe`
+    : join(productName + ".app", "Contents/MacOS", productName)
 }
 
 export default async function startElectron() {
@@ -27,8 +27,8 @@ export default async function startElectron() {
   const executablePath = !process.env.EXECUTABLE_PATH
     ? undefined
     : process.env.EXECUTABLE_PATH !== "github-actions-production"
-      ? process.env.EXECUTABLE_PATH
-      : join(
+    ? process.env.EXECUTABLE_PATH
+    : join(
         process.env.GITHUB_WORKSPACE,
         "dist/electron",
         `${productName}-${githubActionsOS()}-${githubActionsArch()}`,
