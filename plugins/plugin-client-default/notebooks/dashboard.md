@@ -56,6 +56,16 @@ layout:
     --8<-- "$LOGDIR/resources/gpu.txt"
     ```
 
+=== "Kubernetes Events"
+
+    ```json
+    ---
+    include: .source
+    languageFrom: .language
+    ---
+    --8<-- "$LOGDIR/events/kubernetes.txt"
+    ```
+
 === "Application Source"
 
     ```json
@@ -65,19 +75,3 @@ layout:
     ---
     --8<-- "$LOGDIR/job.json"
     ```
-
-
-<!--
----
-
-# Kubernetes Events
-
-```shell
----
-execute: now
-maximize: true
-outputOnly: true
----
-$TAIL $LOGDIR/events/kubernetes.txt
-```
--->
