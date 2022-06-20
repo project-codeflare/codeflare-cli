@@ -50,20 +50,19 @@ export default function renderMain(props: KuiProps) {
       productName={productName}
       lightweightTables
       {...props}
-    isPopup={false}
-    noTopTabs
-    guidebooks={false}
+      isPopup={false}
+      noTopTabs
+      guidebooks={false}
       quietExecCommand={false}
       toplevel={!Capabilities.inBrowser() && <Search />}
     >
       <ContextWidgets>
-      {/* <CurrentContext />
+        {/* <CurrentContext />
        <CurrentNamespace /> */}
       </ContextWidgets>
 
-      <SpaceFiller/>
-      <MeterWidgets>
-      </MeterWidgets>
+      <SpaceFiller />
+      <MeterWidgets></MeterWidgets>
     </Kui>
   )
 }
