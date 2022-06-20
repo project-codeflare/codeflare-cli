@@ -82,10 +82,10 @@
     "printWidth": 120
   },
   "devDependencies": {
-    "@kui-shell/builder": "11.5.0-dev-20220619-174511",
-    "@kui-shell/proxy": "11.5.0-dev-20220619-174511",
-    "@kui-shell/react": "11.5.0-dev-20220619-174511",
-    "@kui-shell/webpack": "11.5.0-dev-20220619-174511",
+    "@kui-shell/builder": "11.5.0-dev-20220619-204739",
+    "@kui-shell/proxy": "11.5.0-dev-20220619-204739",
+    "@kui-shell/react": "11.5.0-dev-20220619-204739",
+    "@kui-shell/webpack": "11.5.0-dev-20220619-204739",
     "@playwright/test": "^1.22.2",
     "@types/debug": "^4.1.7",
     "@types/node": "14.11.8",
@@ -107,17 +107,17 @@
   },
   "dependencies": {
     "@kui-shell/client": "file:./plugins/plugin-client-default",
-    "@kui-shell/core": "11.5.0-dev-20220619-174511",
-    "@kui-shell/plugin-bash-like": "11.5.0-dev-20220619-174511",
-    "@kui-shell/plugin-carbon-themes": "11.5.0-dev-20220619-174511",
-    "@kui-shell/plugin-client-common": "11.5.0-dev-20220619-174511",
+    "@kui-shell/core": "11.5.0-dev-20220619-204739",
+    "@kui-shell/plugin-bash-like": "11.5.0-dev-20220619-204739",
+    "@kui-shell/plugin-carbon-themes": "11.5.0-dev-20220619-204739",
+    "@kui-shell/plugin-client-common": "11.5.0-dev-20220619-204739",
     "@kui-shell/plugin-codeflare": "file:./plugins/plugin-codeflare",
-    "@kui-shell/plugin-core-support": "11.5.0-dev-20220619-174511",
-    "@kui-shell/plugin-electron-components": "11.5.0-dev-20220619-174511",
-    "@kui-shell/plugin-kubectl": "11.5.0-dev-20220619-174511",
+    "@kui-shell/plugin-core-support": "11.5.0-dev-20220619-204739",
+    "@kui-shell/plugin-electron-components": "11.5.0-dev-20220619-204739",
+    "@kui-shell/plugin-kubectl": "11.5.0-dev-20220619-204739",
     "@kui-shell/plugin-madwizard": "file:./plugins/plugin-madwizard",
-    "@kui-shell/plugin-patternfly4-themes": "11.5.0-dev-20220619-174511",
-    "@kui-shell/plugin-proxy-support": "11.5.0-dev-20220619-174511",
-    "@kui-shell/plugin-s3": "11.5.0-dev-20220619-174511"
+    "@kui-shell/plugin-patternfly4-themes": "11.5.0-dev-20220619-204739",
+    "@kui-shell/plugin-proxy-support": "11.5.0-dev-20220619-204739",
+    "@kui-shell/plugin-s3": "11.5.0-dev-20220619-204739"
   }
 }
