@@ -26,24 +26,24 @@
 }
 
 @mixin Fill {
-                    display: flex;
-                flex-direction: column;
-                flex: 1;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 @include Scrollback {
   @include Block {
     @include IsMaximized {
-        overflow: hidden;
+      overflow: hidden;
 
-        @include CardBody {
-            & > pre > .paragraph {
-                @include Fill;
-            }
-            @include EditorInMarkdown {
-                @include Fill;
-            }
+      @include CardBody {
+        & > pre > .paragraph {
+          @include Fill;
         }
+        @include EditorInMarkdown {
+          @include Fill;
+        }
+      }
     }
     @include MarkdownTabContent {
       overflow: auto;
@@ -52,6 +52,10 @@
   }
 
   @include Markdown {
+    @include EditorBackground {
+      background-color: transparent;
+    }
+
     pre > .paragraph {
       padding: 0;
     }
