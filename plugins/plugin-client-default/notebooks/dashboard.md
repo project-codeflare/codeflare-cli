@@ -29,8 +29,7 @@ layout:
 
     ```json
     ---
-    include: .source
-    languageFrom: .language
+    language: shell
     ---
     --8<-- "$LOGDIR/events/kubernetes.txt"
     ```
