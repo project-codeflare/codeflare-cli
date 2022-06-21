@@ -15,10 +15,31 @@
  */
 
 import { Arguments, Registrar } from "@kui-shell/core"
+import stripAnsi from "strip-ansi"
 
-function chart(args: Arguments) {
+function formatLogs(logs: string) {
+  return logs
+    .split(/(\n)/gi)
+    .flatMap((line) => line.trim())
+    .filter((line) => line.length > 0)
+}
+
+async function chart(args: Arguments) {
   const filepath = args.argvNoOptions[1]
-  return `Usage codeflare chart ${filepath}`
+  if (!filepath) {
+    return `Usage codeflare chart ${filepath}`
+  }
+
+  const logs = stripAnsi(await args.REPL.qexec(`cat ${filepath}`))
+  const formattedLogs = formatLogs(logs)
+  const logsMap = new Map()
+  formattedLogs.forEach((log) => {
+    const [value, key] = log.split(/\t\t/gi)
+    logsMap.set(key, value)
+  })
+  console.log(logsMap)
+
+  return logs
 }
 
 export default function registerChartCommands(registrar: Registrar) {

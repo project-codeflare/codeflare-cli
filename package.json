@@ -111,15 +111,16 @@
     "@kui-shell/core": "11.5.0-dev-20220620-111420",
     "@kui-shell/plugin-bash-like": "11.5.0-dev-20220620-111420",
     "@kui-shell/plugin-carbon-themes": "11.5.0-dev-20220620-111420",
-    "@kui-shell/plugin-core-themes": "11.5.0-dev-20220620-111420",
     "@kui-shell/plugin-client-common": "11.5.0-dev-20220620-111420",
     "@kui-shell/plugin-codeflare": "file:./plugins/plugin-codeflare",
     "@kui-shell/plugin-core-support": "11.5.0-dev-20220620-111420",
+    "@kui-shell/plugin-core-themes": "11.5.0-dev-20220620-111420",
     "@kui-shell/plugin-electron-components": "11.5.0-dev-20220620-111420",
     "@kui-shell/plugin-kubectl": "11.5.0-dev-20220620-111420",
     "@kui-shell/plugin-madwizard": "file:./plugins/plugin-madwizard",
     "@kui-shell/plugin-patternfly4-themes": "11.5.0-dev-20220620-111420",
     "@kui-shell/plugin-proxy-support": "11.5.0-dev-20220620-111420",
-    "@kui-shell/plugin-s3": "11.5.0-dev-20220620-111420"
+    "@kui-shell/plugin-s3": "11.5.0-dev-20220620-111420",
+    "strip-ansi": "^7.0.1"
   }
 }
