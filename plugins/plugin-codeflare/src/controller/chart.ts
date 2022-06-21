@@ -17,11 +17,39 @@
 import { Arguments, Registrar } from "@kui-shell/core"
 import stripAnsi from "strip-ansi"
 
+type Log = {
+  cluster: string
+  timestamp: number
+  typeGPU: string
+  utilizationGPU: number
+  utilizationMemory: number
+  totalMemory: number
+  temperatureGPU: number
+}
+
 function formatLogs(logs: string) {
   return logs
-    .split(/(\n)/gi)
+    .split(/\n\n/gi)
     .flatMap((line) => line.trim())
-    .filter((line) => line.length > 0)
+    .map((line) => line.split(/\n/gi))
+}
+
+function formatLogObject(logLine: string[]) {
+  const splittedLine = logLine[0].split(/\s|\t\t/gi)
+  const timestamp = new Date(splittedLine.slice(splittedLine.length - 2).join(" ")).getTime()
+
+  const cluster = splittedLine[splittedLine.length - 3]
+
+  const newObj: Log = {
+    cluster,
+    timestamp,
+    typeGPU: "",
+    utilizationGPU: 0,
+    utilizationMemory: 0,
+    totalMemory: 0,
+    temperatureGPU: 0,
+  }
+  return newObj
 }
 
 async function chart(args: Arguments) {
@@ -32,14 +60,9 @@ async function chart(args: Arguments) {
 
   const logs = stripAnsi(await args.REPL.qexec(`cat ${filepath}`))
   const formattedLogs = formatLogs(logs)
-  const logsMap = new Map()
-  formattedLogs.forEach((log) => {
-    const [value, key] = log.split(/\t\t/gi)
-    logsMap.set(key, value)
-  })
-  console.log(logsMap)
+  const objLogs = formattedLogs.map((logLine) => formatLogObject(logLine))
 
-  return logs
+  return JSON.stringify(objLogs)
 }
 
 export default function registerChartCommands(registrar: Registrar) {
