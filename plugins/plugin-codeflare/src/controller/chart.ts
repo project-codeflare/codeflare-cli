@@ -14,20 +14,13 @@
  * limitations under the License.
  */
 
-import { Registrar } from "@kui-shell/core"
-import dashboard from "./controller/dashboard"
-import chart from "./controller/chart"
+import { Arguments, Registrar } from "@kui-shell/core"
 
-function help() {
-  return `Usage:
-codeflare [run] [<task>] [-s /path/to/store] [-u]
-codeflare dashboard /path/to/logdir
-codeflare chart /path/to/logdir`
+function chart(args: Arguments) {
+  const filepath = args.argvNoOptions[1]
+  return `Usage codeflare chart ${filepath}`
 }
 
-/** Register Kui Commands */
-export default function registerCodeflareCommands(registrar: Registrar) {
-  dashboard(registrar)
-  chart(registrar)
-  registrar.listen("/help", help)
+export default function registerChartCommands(registrar: Registrar) {
+  registrar.listen("/chart", chart)
 }
