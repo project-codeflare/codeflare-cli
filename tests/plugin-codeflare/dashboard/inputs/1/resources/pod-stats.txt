@@ -1,0 +1,60 @@
+Sample 2022-06-21T09:01:50-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-worker-type-np2vr   1        1        32Gi
+
+Sample 2022-06-21T09:02:06-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-worker-type-np2vr   1        1        32Gi
+
+Sample 2022-06-21T09:02:21-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-worker-type-np2vr   1        1        32Gi
+
+Sample 2022-06-21T09:02:36-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-worker-type-np2vr   1        1        32Gi
+
+Sample 2022-06-21T09:02:52-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-worker-type-np2vr   1        1        32Gi
+
+Sample 2022-06-21T09:03:07-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-worker-type-np2vr   1        1        32Gi
+
+Sample 2022-06-21T09:03:22-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-worker-type-np2vr   1        1        32Gi
+
+Sample 2022-06-21T09:03:38-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-worker-type-np2vr   1        1        32Gi
+
+Sample 2022-06-21T09:03:53-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-worker-type-np2vr   1        1        32Gi
+
+Sample 2022-06-21T09:04:08-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-worker-type-np2vr   1        1        32Gi
+
+Sample 2022-06-21T09:04:24-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-worker-type-np2vr   1        1        32Gi
+
+Sample 2022-06-21T09:04:39-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-worker-type-np2vr   1        1        32Gi
+
+Sample 2022-06-21T09:04:54-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-worker-type-np2vr   1        1        32Gi
+
+Sample 2022-06-21T09:05:10-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-worker-type-np2vr   1        1        32Gi
+
+Sample 2022-06-21T09:05:25-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-worker-type-np2vr   1        1        32Gi
+
