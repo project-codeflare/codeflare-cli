@@ -10,6 +10,8 @@ layout:
 ---
 
 --8<-- "./dashboard-summary.md"
+--8<-- "./dashboard-source.md"
+
 ---
 
 === "Application Logs"
@@ -34,15 +36,37 @@ layout:
     tail -n 500 -f $LOGDIR/resources/gpu.txt
     ```
 
-=== "Kubernetes Events"
+=== "Advanced"
+    === "Node Utilization"
 
-    ```shell
-    ---
-    execute: now
-    maximize: true
-    outputOnly: true
-    ---
-    tail -n 500 -f $LOGDIR/events/kubernetes.txt
-    ```
+        ```shell
+        ---
+        execute: now
+        maximize: true
+        outputOnly: true
+        ---
+        tail -n 500 -f $LOGDIR/resources/node-stats.txt
+        ```
 
---8<-- "./dashboard-source.md"
+    === "Pod Utilization"
+
+        ```shell
+        ---
+        execute: now
+        maximize: true
+        outputOnly: true
+        ---
+        tail -n 500 -f $LOGDIR/resources/pod-stats.txt
+        ```
+
+    === "Kubernetes Events"
+
+        ```shell
+        ---
+        execute: now
+        maximize: true
+        outputOnly: true
+        ---
+        tail -n 500 -f $LOGDIR/events/kubernetes.txt
+        ```
+

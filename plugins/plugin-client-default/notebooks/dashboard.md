@@ -10,6 +10,7 @@ layout:
 ---
 
 --8<-- "./dashboard-summary.md"
+--8<-- "./dashboard-source.md"
 
 ---
 
@@ -25,13 +26,25 @@ layout:
     --8<-- "$LOGDIR/resources/gpu.txt"
     ```
 
-=== "Kubernetes Events"
+=== "Advanced"
+    === "Node Utilization"
 
-    ```json
-    ---
-    language: shell
-    ---
-    --8<-- "$LOGDIR/events/kubernetes.txt"
-    ```
+        ```ansi
+        --8<-- "$LOGDIR/resources/node-stats.txt"
+        ```
 
---8<-- "./dashboard-source.md"
+    === "Pod Utilization"
+
+        ```ansi
+        --8<-- "$LOGDIR/resources/pod-stats.txt"
+        ```
+
+    === "Kubernetes Events"
+
+        ```json
+        ---
+        language: shell
+        ---
+        --8<-- "$LOGDIR/events/kubernetes.txt"
+        ```
+
