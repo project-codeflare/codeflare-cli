@@ -57,6 +57,7 @@ async function chart(args: Arguments) {
   const objLogs = formattedLogs.map((logLine) => formatLogObject(logLine))
   const React = await import("react")
   const GPUChart = await import("../components/GPUChart")
+  console.log(objLogs)
 
   return {
     react: React.createElement(GPUChart.default, { logs: objLogs }),
