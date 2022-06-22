@@ -121,6 +121,6 @@
     "@kui-shell/plugin-patternfly4-themes": "11.5.0-dev-20220620-111420",
     "@kui-shell/plugin-proxy-support": "11.5.0-dev-20220620-111420",
     "@kui-shell/plugin-s3": "11.5.0-dev-20220620-111420",
-    "strip-ansi": "^7.0.1"
+    "strip-ansi": "6.0.0"
   }
 }
