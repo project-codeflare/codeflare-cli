@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-import React from "react"
 import { Arguments, Registrar } from "@kui-shell/core"
 import stripAnsi from "strip-ansi"
-import GPUChart from "../components/GPUChart"
 import { Log } from "../types"
 
 function formatLogs(logs: string) {
@@ -57,12 +55,14 @@ async function chart(args: Arguments) {
   const logs = stripAnsi(await args.REPL.qexec(`cat ${filepath}`))
   const formattedLogs = formatLogs(logs)
   const objLogs = formattedLogs.map((logLine) => formatLogObject(logLine))
+  const React = await import("react")
+  const GPUChart = await import("../components/GPUChart")
 
   return {
-    react: React.createElement(GPUChart, { logs: objLogs }),
+    react: React.createElement(GPUChart.default, { logs: objLogs }),
   }
 }
 
 export default function registerChartCommands(registrar: Registrar) {
-  registrar.listen("/chart", chart)
+  registrar.listen("/chart", chart, { needsUI: true })
 }

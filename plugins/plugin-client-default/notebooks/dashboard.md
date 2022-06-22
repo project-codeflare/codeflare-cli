@@ -22,8 +22,12 @@ layout:
 
 === "GPU Utilization"
 
-    ```ansi
-    --8<-- "$LOGDIR/resources/gpu.txt"
+    ```shell
+    ---
+    execute: now
+    outputOnly: true
+    ---
+    chart "$LOGDIR/resources/gpu.txt"
     ```
 
 === "Advanced"

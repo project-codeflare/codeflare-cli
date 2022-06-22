@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { Chart, ChartAxis, ChartGroup, ChartLine } from "@patternfly/react-charts"
 import { Log } from "../types"
 
@@ -8,9 +8,7 @@ type Props = {
 
 const GPUChart = (props: Props) => {
   const { logs } = props
-  useEffect(() => {
-    console.log(logs)
-  })
+
   return (
     <div style={{ height: "250px", width: "600px" }}>
       <Chart
