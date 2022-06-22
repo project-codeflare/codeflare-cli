@@ -1,0 +1,157 @@
+Sample 2022-06-21T09:01:50-04:00
+NAME   GPUCap   GPUFree   CPUCap   CPUFree   MemCap   MemFree   DiskCap   DiskFree   Type
+
+Sample 2022-06-21T09:02:10-04:00
+NAME                           GPUCap   GPUFree   CPUCap   CPUFree   MemCap       MemFree      DiskCap       DiskFree       Type
+ip-10-0-131-199.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-131-59.ec2.internal    <none>   <none>    4        3500m     16407104Ki   15256128Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-136-165.ec2.internal   1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-138-45.ec2.internal    1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-154-249.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-158-5.ec2.internal     <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-167-175.ec2.internal   <none>   <none>    2        1500m     8149572Ki    6998596Ki    125293548Ki   115470533646   m4.large
+ip-10-0-169-105.ec2.internal   <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+
+Sample 2022-06-21T09:02:26-04:00
+NAME                           GPUCap   GPUFree   CPUCap   CPUFree   MemCap       MemFree      DiskCap       DiskFree       Type
+ip-10-0-131-199.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-131-59.ec2.internal    <none>   <none>    4        3500m     16407104Ki   15256128Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-136-165.ec2.internal   1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-138-45.ec2.internal    1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-154-249.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-158-5.ec2.internal     <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-167-175.ec2.internal   <none>   <none>    2        1500m     8149572Ki    6998596Ki    125293548Ki   115470533646   m4.large
+ip-10-0-169-105.ec2.internal   <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+
+Sample 2022-06-21T09:02:41-04:00
+NAME                           GPUCap   GPUFree   CPUCap   CPUFree   MemCap       MemFree      DiskCap       DiskFree       Type
+ip-10-0-131-199.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-131-59.ec2.internal    <none>   <none>    4        3500m     16407104Ki   15256128Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-136-165.ec2.internal   1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-138-45.ec2.internal    1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-154-249.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-158-5.ec2.internal     <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-167-175.ec2.internal   <none>   <none>    2        1500m     8149572Ki    6998596Ki    125293548Ki   115470533646   m4.large
+ip-10-0-169-105.ec2.internal   <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+
+Sample 2022-06-21T09:02:57-04:00
+NAME                           GPUCap   GPUFree   CPUCap   CPUFree   MemCap       MemFree      DiskCap       DiskFree       Type
+ip-10-0-131-199.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-131-59.ec2.internal    <none>   <none>    4        3500m     16407104Ki   15256128Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-136-165.ec2.internal   1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-138-45.ec2.internal    1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-154-249.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-158-5.ec2.internal     <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-167-175.ec2.internal   <none>   <none>    2        1500m     8149572Ki    6998596Ki    125293548Ki   115470533646   m4.large
+ip-10-0-169-105.ec2.internal   <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+
+Sample 2022-06-21T09:03:12-04:00
+NAME                           GPUCap   GPUFree   CPUCap   CPUFree   MemCap       MemFree      DiskCap       DiskFree       Type
+ip-10-0-131-199.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-131-59.ec2.internal    <none>   <none>    4        3500m     16407104Ki   15256128Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-136-165.ec2.internal   1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-138-45.ec2.internal    1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-154-249.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-158-5.ec2.internal     <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-167-175.ec2.internal   <none>   <none>    2        1500m     8149572Ki    6998596Ki    125293548Ki   115470533646   m4.large
+ip-10-0-169-105.ec2.internal   <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+
+Sample 2022-06-21T09:03:28-04:00
+NAME                           GPUCap   GPUFree   CPUCap   CPUFree   MemCap       MemFree      DiskCap       DiskFree       Type
+ip-10-0-131-199.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-131-59.ec2.internal    <none>   <none>    4        3500m     16407104Ki   15256128Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-136-165.ec2.internal   1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-138-45.ec2.internal    1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-154-249.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-158-5.ec2.internal     <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-167-175.ec2.internal   <none>   <none>    2        1500m     8149572Ki    6998596Ki    125293548Ki   115470533646   m4.large
+ip-10-0-169-105.ec2.internal   <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+
+Sample 2022-06-21T09:03:43-04:00
+NAME                           GPUCap   GPUFree   CPUCap   CPUFree   MemCap       MemFree      DiskCap       DiskFree       Type
+ip-10-0-131-199.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-131-59.ec2.internal    <none>   <none>    4        3500m     16407104Ki   15256128Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-136-165.ec2.internal   1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-138-45.ec2.internal    1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-154-249.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-158-5.ec2.internal     <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-167-175.ec2.internal   <none>   <none>    2        1500m     8149572Ki    6998596Ki    125293548Ki   115470533646   m4.large
+ip-10-0-169-105.ec2.internal   <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+
+Sample 2022-06-21T09:03:59-04:00
+NAME                           GPUCap   GPUFree   CPUCap   CPUFree   MemCap       MemFree      DiskCap       DiskFree       Type
+ip-10-0-131-199.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-131-59.ec2.internal    <none>   <none>    4        3500m     16407104Ki   15256128Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-136-165.ec2.internal   1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-138-45.ec2.internal    1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-154-249.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-158-5.ec2.internal     <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-167-175.ec2.internal   <none>   <none>    2        1500m     8149572Ki    6998596Ki    125293548Ki   115470533646   m4.large
+ip-10-0-169-105.ec2.internal   <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+
+Sample 2022-06-21T09:04:14-04:00
+NAME                           GPUCap   GPUFree   CPUCap   CPUFree   MemCap       MemFree      DiskCap       DiskFree       Type
+ip-10-0-131-199.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-131-59.ec2.internal    <none>   <none>    4        3500m     16407104Ki   15256128Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-136-165.ec2.internal   1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-138-45.ec2.internal    1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-154-249.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-158-5.ec2.internal     <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-167-175.ec2.internal   <none>   <none>    2        1500m     8149572Ki    6998596Ki    125293548Ki   115470533646   m4.large
+ip-10-0-169-105.ec2.internal   <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+
+Sample 2022-06-21T09:04:29-04:00
+NAME                           GPUCap   GPUFree   CPUCap   CPUFree   MemCap       MemFree      DiskCap       DiskFree       Type
+ip-10-0-131-199.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-131-59.ec2.internal    <none>   <none>    4        3500m     16407104Ki   15256128Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-136-165.ec2.internal   1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-138-45.ec2.internal    1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-154-249.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-158-5.ec2.internal     <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-167-175.ec2.internal   <none>   <none>    2        1500m     8149572Ki    6998596Ki    125293548Ki   115470533646   m4.large
+ip-10-0-169-105.ec2.internal   <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+
+Sample 2022-06-21T09:04:45-04:00
+NAME                           GPUCap   GPUFree   CPUCap   CPUFree   MemCap       MemFree      DiskCap       DiskFree       Type
+ip-10-0-131-199.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-131-59.ec2.internal    <none>   <none>    4        3500m     16407104Ki   15256128Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-136-165.ec2.internal   1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-138-45.ec2.internal    1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-154-249.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-158-5.ec2.internal     <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-167-175.ec2.internal   <none>   <none>    2        1500m     8149572Ki    6998596Ki    125293548Ki   115470533646   m4.large
+ip-10-0-169-105.ec2.internal   <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+
+Sample 2022-06-21T09:05:00-04:00
+NAME                           GPUCap   GPUFree   CPUCap   CPUFree   MemCap       MemFree      DiskCap       DiskFree       Type
+ip-10-0-131-199.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-131-59.ec2.internal    <none>   <none>    4        3500m     16407104Ki   15256128Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-136-165.ec2.internal   1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-138-45.ec2.internal    1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-154-249.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-158-5.ec2.internal     <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-167-175.ec2.internal   <none>   <none>    2        1500m     8149572Ki    6998596Ki    125293548Ki   115470533646   m4.large
+ip-10-0-169-105.ec2.internal   <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+
+Sample 2022-06-21T09:05:16-04:00
+NAME                           GPUCap   GPUFree   CPUCap   CPUFree   MemCap       MemFree      DiskCap       DiskFree       Type
+ip-10-0-131-199.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-131-59.ec2.internal    <none>   <none>    4        3500m     16407104Ki   15256128Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-136-165.ec2.internal   1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-138-45.ec2.internal    1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-154-249.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-158-5.ec2.internal     <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-167-175.ec2.internal   <none>   <none>    2        1500m     8149572Ki    6998596Ki    125293548Ki   115470533646   m4.large
+ip-10-0-169-105.ec2.internal   <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+
+Sample 2022-06-21T09:05:31-04:00
+NAME                           GPUCap   GPUFree   CPUCap   CPUFree   MemCap       MemFree      DiskCap       DiskFree       Type
+ip-10-0-131-199.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-131-59.ec2.internal    <none>   <none>    4        3500m     16407104Ki   15256128Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-136-165.ec2.internal   1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-138-45.ec2.internal    1        1         8        7500m     62855724Ki   61704748Ki   125293548Ki   115470533646   p3.2xlarge
+ip-10-0-154-249.ec2.internal   <none>   <none>    2        1500m     8149576Ki    6998600Ki    125293548Ki   115470533646   m4.large
+ip-10-0-158-5.ec2.internal     <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+ip-10-0-167-175.ec2.internal   <none>   <none>    2        1500m     8149572Ki    6998596Ki    125293548Ki   115470533646   m4.large
+ip-10-0-169-105.ec2.internal   <none>   <none>    4        3500m     16407108Ki   15256132Ki   125293548Ki   115470533646   m4.xlarge
+
