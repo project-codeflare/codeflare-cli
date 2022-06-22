@@ -20,7 +20,7 @@ import stripAnsi from "strip-ansi"
 type Log = {
   cluster: string
   timestamp: number
-  typeGPU: string
+  gpuType: string
   utilizationGPU: number
   utilizationMemory: number
   totalMemory: number
@@ -36,18 +36,21 @@ function formatLogs(logs: string) {
 
 function formatLogObject(logLine: string[]) {
   const splittedLine = logLine[0].split(/\s|\t\t/gi)
-  const timestamp = new Date(splittedLine.slice(splittedLine.length - 2).join(" ")).getTime()
-
   const cluster = splittedLine[splittedLine.length - 3]
+  const timestamp = new Date(splittedLine.slice(splittedLine.length - 2).join(" ")).getTime()
+  const gpuType = splittedLine.slice(0, splittedLine.length - 5).join(" ")
+
+  const utilizationData = logLine.map((line) => parseInt(line.trim().split(" ")[0]))
+  const [, utilizationGPU, utilizationMemory, totalMemory, temperatureGPU] = utilizationData
 
   const newObj: Log = {
     cluster,
     timestamp,
-    typeGPU: "",
-    utilizationGPU: 0,
-    utilizationMemory: 0,
-    totalMemory: 0,
-    temperatureGPU: 0,
+    gpuType,
+    utilizationGPU,
+    utilizationMemory,
+    totalMemory,
+    temperatureGPU,
   }
   return newObj
 }
@@ -62,7 +65,7 @@ async function chart(args: Arguments) {
   const formattedLogs = formatLogs(logs)
   const objLogs = formattedLogs.map((logLine) => formatLogObject(logLine))
 
-  return JSON.stringify(objLogs)
+  return JSON.stringify(objLogs, null, 2)
 }
 
 export default function registerChartCommands(registrar: Registrar) {
