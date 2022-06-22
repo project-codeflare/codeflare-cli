@@ -14,18 +14,11 @@
  * limitations under the License.
  */
 
+import React from "react"
 import { Arguments, Registrar } from "@kui-shell/core"
 import stripAnsi from "strip-ansi"
-
-type Log = {
-  cluster: string
-  timestamp: number
-  gpuType: string
-  utilizationGPU: number
-  utilizationMemory: number
-  totalMemory: number
-  temperatureGPU: number
-}
+import GPUChart from "../components/GPUChart"
+import { Log } from "../types"
 
 function formatLogs(logs: string) {
   return logs
@@ -65,7 +58,9 @@ async function chart(args: Arguments) {
   const formattedLogs = formatLogs(logs)
   const objLogs = formattedLogs.map((logLine) => formatLogObject(logLine))
 
-  return JSON.stringify(objLogs, null, 2)
+  return {
+    react: React.createElement(GPUChart, { logs: objLogs }),
+  }
 }
 
 export default function registerChartCommands(registrar: Registrar) {
