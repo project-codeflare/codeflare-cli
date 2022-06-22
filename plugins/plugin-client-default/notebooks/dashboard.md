@@ -10,6 +10,7 @@ layout:
 ---
 
 --8<-- "./dashboard-summary.md"
+--8<-- "./dashboard-choices.md"
 --8<-- "./dashboard-source.md"
 
 ---

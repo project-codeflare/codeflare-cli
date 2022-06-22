@@ -1,0 +1,21 @@
+{
+  "madwizard/apriori/use-gpu": "don't use gpus",
+  "madwizard/apriori/arch": "x64",
+  "madwizard/apriori/platform": "darwin",
+  "madwizard/apriori/mac-installer": "Homebrew",
+  "madwizard/apriori/in-terminal": "HTML",
+  "Training####Fine Tuning": "Fine Tuning",
+  "GLUE": "GLUE",
+  "AWS####IBM": "AWS",
+  "S3 Bucket for Run Data.expand([ -n \"$MC_CONFIG_DIR\" ] && mc -q --config-dir ${MC_CONFIG_DIR} ls s3 | awk '{print substr($NF, 1, length($NF) - 1)}', S3 Buckets)####separator####📁 Create a new bucket": "browsey",
+  "Run Locally####Run on a Kubernetes Cluster": "Run on a Kubernetes Cluster",
+  "Choose the bucket that contains your model and glue data.madwizard/apriori/platform": "Darwin",
+  "expand(kubectl config get-contexts -o name, Kubernetes contexts)": "default/api-codeflare-train-v11-codeflare-openshift-com:6443/kube:admin",
+  "expand([ -z ${KUBE_CONTEXT} ] && exit 1 || kubectl --context ${KUBE_CONTEXT} get ns -o name | grep -Ev 'openshift|kube-' | sed 's#namespace/##', Kubernetes namespaces)####Create a namespace": "nvidia-gpu-operator",
+  "Number of CPUs####Number of GPUs####Minimum Workers####Maximum Workers####Worker Memory####Head Memory": "{\"Number of CPUs\":\"1\",\"Number of GPUs\":\"1\",\"Minimum Workers\":\"1\",\"Maximum Workers\":\"1\",\"Worker Memory\":\"32Gi\",\"Head Memory\":\"32Gi\"}",
+  "Choose the bucket that contains your model and glue data.expand([ -n \"$MC_CONFIG_DIR\" ] && mc -q --config-dir ${MC_CONFIG_DIR} ls s3 | awk '{print substr($NF, 1, length($NF) - 1)}', S3 Buckets)####separator####📁 Create a new bucket": "browsey",
+  "Choose your Model File.expand([ -n \"$MC_CONFIG_DIR\" ] && [ -n \"$S3_FILEPATH\" ] && [ -n \"$S3_FILEPATH${S3_BUCKET_SUFFIX}\" ] && mc -q --config-dir ${MC_CONFIG_DIR} ls \"s3/$S3_FILEPATH${S3_BUCKET_SUFFIX}\" | awk '{print $NF}', S3 Objects)": "roberta-base",
+  "Choose your Glue Data File.expand([ -n \"$MC_CONFIG_DIR\" ] && [ -n \"$S3_FILEPATH\" ] && [ -n \"$S3_FILEPATH${S3_BUCKET_SUFFIX}\" ] && mc -q --config-dir ${MC_CONFIG_DIR} ls \"s3/$S3_FILEPATH${S3_BUCKET_SUFFIX}\" | awk '{print $NF}', S3 Objects)": "glue_data",
+  "BERT": "BERT",
+  "Example: Using Ray Tasks to Parallelize a Function####Example: Using Ray Actors to Parallelize a Class####Example: Creating and Transforming Datasets####Example: Training Using PyTorch####Example: Hyperparameter Tuning####Example: Serving a scikit-learn gradient boosting classifier": "Example: Using Ray Tasks to Parallelize a Function"
+}
