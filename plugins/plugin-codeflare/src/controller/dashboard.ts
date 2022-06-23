@@ -51,5 +51,11 @@ export default function registerDashboardCommands(registrar: Registrar) {
   }
 
   registrar.listen("/dashboard", dashboardcli, { flags })
-  registrar.listen("/codeflare/dashboardui", dashboardui, { needsUI: true, outputOnly: true, flags })
+  registrar.listen("/codeflare/dashboardui", dashboardui, {
+    needsUI: true,
+    outputOnly: true,
+    flags,
+    width: 1400,
+    height: 1050,
+  })
 }
