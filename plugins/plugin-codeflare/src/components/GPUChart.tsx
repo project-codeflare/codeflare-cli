@@ -15,7 +15,7 @@
  */
 
 import React from "react"
-import { Chart, ChartAxis, ChartGroup, ChartArea } from "@patternfly/react-charts"
+import { Chart, ChartAxis, ChartArea } from "@patternfly/react-charts"
 import { Log } from "../types"
 
 import "../../web/scss/components/Dashboard/Charts.scss"
@@ -42,11 +42,15 @@ const axisStyle = { tickLabels: { fontSize: 9 } }
 const yTickValues = [0, 25, 50, 75, 100]
 const yTickLabels = yTickValues.map((_) => `${_}%`)
 
+const styles = {
+  memory: { data: { fill: "var(--color-chart-0)" } },
+  gpu: { data: { fill: "var(--color-chart-1)" } },
+}
+
 const GPUChart = (props: Props) => {
   const { logs } = props
-  console.log(generateXValues(logs))
   return (
-    <div style={{ height: "auto", width: "100%" }}>
+    <div style={{ height: "auto", width: "100%", display: "flex", flexDirection: "column" }}>
       <Chart
         ariaTitle="GPU Utilization"
         ariaDesc="Chart showing GPU utilization over time"
@@ -56,12 +60,19 @@ const GPUChart = (props: Props) => {
         minDomain={{ y: 0 }}
         padding={{
           bottom: 25,
-          left: 50,
+          left: 60,
           right: 5,
           top: 10,
         }}
       >
-        <ChartAxis dependentAxis showGrid style={axisStyle} tickValues={yTickValues} tickFormat={yTickLabels} />
+        <ChartAxis
+          label="GPU"
+          dependentAxis
+          showGrid
+          style={axisStyle}
+          tickValues={yTickValues}
+          tickFormat={yTickLabels}
+        />
         <ChartAxis
           scale="time"
           style={axisStyle}
@@ -69,15 +80,52 @@ const GPUChart = (props: Props) => {
           tickFormat={generateXFormat(logs)}
           tickCount={generateXFormat(logs).length}
         />
-        <ChartGroup>
-          <ChartArea
-            data={logs.map((log) => ({
-              name: log.gpuType,
-              x: log.timestamp,
-              y: log.utilizationGPU,
-            }))}
-          />
-        </ChartGroup>
+        <ChartArea
+          style={styles.gpu}
+          data={logs.map((log) => ({
+            name: log.gpuType,
+            x: log.timestamp,
+            y: log.utilizationGPU,
+          }))}
+        />
+      </Chart>
+      <Chart
+        ariaTitle="GPU Memory Utilization"
+        ariaDesc="Chart showing GPU memory utilization over time"
+        height={135}
+        width={1000}
+        maxDomain={{ y: 100 }}
+        minDomain={{ y: 0 }}
+        padding={{
+          bottom: 25,
+          left: 60,
+          right: 5,
+          top: 10,
+        }}
+      >
+        <ChartAxis
+          label="Memory"
+          dependentAxis
+          showGrid
+          style={axisStyle}
+          tickValues={yTickValues}
+          tickFormat={yTickLabels}
+        />
+        <ChartAxis
+          scale="time"
+          style={axisStyle}
+          tickValues={generateXValues(logs)}
+          tickFormat={generateXFormat(logs)}
+          tickCount={generateXFormat(logs).length}
+        />
+        <ChartArea
+          style={styles.memory}
+          data={logs.map((log) => ({
+            name: log.gpuType,
+            x: log.timestamp,
+            y: log.utilizationMemory,
+          }))}
+        />
       </Chart>
     </div>
   )
