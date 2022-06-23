@@ -18,6 +18,8 @@ import React from "react"
 import { Chart, ChartAxis, ChartGroup, ChartArea } from "@patternfly/react-charts"
 import { Log } from "../types"
 
+import "../../web/scss/components/Dashboard/Charts.scss"
+
 type Props = {
   logs: Log[]
 }
@@ -36,6 +38,10 @@ const generateXValues = (logs: Log[]) => {
   return [...new Set(logs.filter((item) => item.utilizationGPU > 0).map((item) => item.timestamp))]
 }
 
+const axisStyle = { tickLabels: { fontSize: 9 } }
+const yTickValues = [0, 25, 50, 75, 100]
+const yTickLabels = yTickValues.map((_) => `${_}%`)
+
 const GPUChart = (props: Props) => {
   const { logs } = props
   console.log(generateXValues(logs))
@@ -44,19 +50,21 @@ const GPUChart = (props: Props) => {
       <Chart
         ariaTitle="GPU Utilization"
         ariaDesc="Chart showing GPU utilization over time"
-        height={400}
+        height={135}
         width={1000}
         maxDomain={{ y: 100 }}
         minDomain={{ y: 0 }}
         padding={{
-          bottom: 30,
-          left: 60,
-          right: 20,
-          top: 20,
+          bottom: 25,
+          left: 50,
+          right: 5,
+          top: 10,
         }}
       >
-        <ChartAxis dependentAxis showGrid tickValues={[0, 25, 50, 75, 100]} label="Percentage (%)" />
+        <ChartAxis dependentAxis showGrid style={axisStyle} tickValues={yTickValues} tickFormat={yTickLabels} />
         <ChartAxis
+          scale="time"
+          style={axisStyle}
           tickValues={generateXValues(logs)}
           tickFormat={generateXFormat(logs)}
           tickCount={generateXFormat(logs).length}

@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-@import "@kui-shell/plugin-client-common/web/scss/components/Card/_mixins";
-@import "@kui-shell/plugin-client-common/web/scss/components/Editor/_mixins";
-@import "@kui-shell/plugin-client-common/web/scss/components/Terminal/_mixins";
+@import "@kui-shell/plugin-client-common/web/scss/components/Card/mixins";
+@import "@kui-shell/plugin-client-common/web/scss/components/Editor/mixins";
+@import "@kui-shell/plugin-client-common/web/scss/components/Terminal/mixins";
+@import "@kui-shell/plugin-client-common/web/scss/components/TopLevelTab/mixins";
 @import "@kui-shell/plugin-client-common/web/scss/components/Terminal/Maximized";
 
-@include Split(2) {
-  @include Rows(3);
-  @include Columns(1);
-  grid-template-areas: "T1" "T2" "T2";
+@include TopLevelTab {
+  @include HasOnlyLeftStrip {
+    @include Split(3) {
+      @include Rows(5);
+      @include Columns(5);
+      grid-template-areas: "L1 L1 T1 T1 T1" "L1 L1 T1 T1 T1" "L1 L1 T1 T1 T1" "L1 L1 T1 T1 T1" "T2 T2 T2 T2 T2";
+    }
+  }
 }
 
 @mixin Fill {
@@ -32,7 +37,7 @@
 }
 
 @include SplitContainer {
-  grid-gap: 0;
+  grid-gap: 3px;
 }
 
 @include Scrollback {
@@ -51,6 +56,9 @@
       overflow: hidden;
 
       @include CardBody {
+        & > pre {
+          background-color: var(--color-repl-background-02);
+        }
         & > pre > .paragraph {
           @include Fill;
         }
@@ -66,6 +74,10 @@
   }
 
   @include Markdown {
+    h4 {
+      margin: 0;
+    }
+
     @include EditorBackground {
       background-color: transparent;
     }

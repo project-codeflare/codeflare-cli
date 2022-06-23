@@ -7,8 +7,8 @@ export NODE_NO_WARNINGS=1
 # export KUI_POPUP_WINDOW_RESIZE=true
 
 # use a fixed popup window sizing of our choosing
-export WINDOW_WIDTH=1024
-export WIDTH_HEIGHT=768
+# export WINDOW_WIDTH=1024
+# export WIDTH_HEIGHT=768
 
 # This tells the core Kui plugin resolver that we are using webpack to
 # build our headless bundles, not the old headless hacks
