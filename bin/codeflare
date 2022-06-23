@@ -165,5 +165,5 @@ if [ ! -f ~/.codeflare ] && [ $(uname) = Linux ]; then
 fi
 
 # otherwise, we launch the UI version
-"$NODE" "$HEADLESS"/codeflare.min.js -- $EXTRAPREFIX $*
+"$NODE" "$HEADLESS"/codeflare-dashboard.min.js -- $EXTRAPREFIX $*
 stty sane
