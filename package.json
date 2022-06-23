@@ -2,7 +2,7 @@
   "name": "CodeFlare.app",
   "version": "0.0.26",
   "description": "",
-  "main": "dist/headless/codeflare-dashboard.min.js",
+  "main": "dist/headless/codeflare.min.js",
   "scripts": {
     "watch:source": "tsc --build . --watch",
     "compile": "npx tsc --build . && npx kui-babel && npx kui-prescan",
