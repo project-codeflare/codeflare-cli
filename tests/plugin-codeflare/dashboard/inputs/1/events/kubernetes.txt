@@ -1,13 +1,13 @@
 LAST SEEN   TYPE     REASON      OBJECT                              MESSAGE
-0s          Normal   Scheduled   pod/mycluster-ray-head-type-k64tk   Successfully assigned nvidia-gpu-operator/mycluster-ray-head-type-k64tk to ip-10-0-129-173.ec2.internal
-0s          Normal   AddedInterface   pod/mycluster-ray-head-type-k64tk   Add eth0 [10.131.34.18/23] from openshift-sdn
-0s          Normal   Pulling          pod/mycluster-ray-head-type-k64tk   Pulling image "rayproject/ray-ml:1.12.2-py37-gpu"
-0s          Normal   Pulled           pod/mycluster-ray-head-type-k64tk   Successfully pulled image "rayproject/ray-ml:1.12.2-py37-gpu" in 5m15.335982782s
-0s          Normal   Created          pod/mycluster-ray-head-type-k64tk   Created container ray-node
-0s          Normal   Started          pod/mycluster-ray-head-type-k64tk   Started container ray-node
-0s          Normal   Scheduled        pod/mycluster-ray-worker-type-lbd4g   Successfully assigned nvidia-gpu-operator/mycluster-ray-worker-type-lbd4g to ip-10-0-135-132.ec2.internal
-0s          Normal   AddedInterface   pod/mycluster-ray-worker-type-lbd4g   Add eth0 [10.128.36.32/23] from openshift-sdn
-0s          Normal   Pulling          pod/mycluster-ray-worker-type-lbd4g   Pulling image "rayproject/ray-ml:1.12.2-py37-gpu"
-0s          Normal   Pulled           pod/mycluster-ray-worker-type-lbd4g   Successfully pulled image "rayproject/ray-ml:1.12.2-py37-gpu" in 6m10.715997692s
-0s          Normal   Created          pod/mycluster-ray-worker-type-lbd4g   Created container ray-node
-0s          Normal   Started          pod/mycluster-ray-worker-type-lbd4g   Started container ray-node
+0s          Normal   Scheduled   pod/mycluster-ray-head-type-krlr4   Successfully assigned nvidia-gpu-operator/mycluster-ray-head-type-krlr4 to ip-10-0-128-169.ec2.internal
+0s          Normal   AddedInterface   pod/mycluster-ray-head-type-krlr4   Add eth0 [10.128.44.144/23] from openshift-sdn
+0s          Normal   Pulling          pod/mycluster-ray-head-type-krlr4   Pulling image "rayproject/ray-ml:1.13.0-py37-gpu"
+0s          Normal   Pulled           pod/mycluster-ray-head-type-krlr4   Successfully pulled image "rayproject/ray-ml:1.13.0-py37-gpu" in 6m48.700535275s
+0s          Normal   Created          pod/mycluster-ray-head-type-krlr4   Created container ray-node
+0s          Normal   Started          pod/mycluster-ray-head-type-krlr4   Started container ray-node
+0s          Normal   Scheduled        pod/mycluster-ray-worker-type-6r7hp   Successfully assigned nvidia-gpu-operator/mycluster-ray-worker-type-6r7hp to ip-10-0-133-106.ec2.internal
+0s          Normal   AddedInterface   pod/mycluster-ray-worker-type-6r7hp   Add eth0 [10.131.42.42/23] from openshift-sdn
+0s          Normal   Pulling          pod/mycluster-ray-worker-type-6r7hp   Pulling image "rayproject/ray-ml:1.13.0-py37-gpu"
+0s          Normal   Pulled           pod/mycluster-ray-worker-type-6r7hp   Successfully pulled image "rayproject/ray-ml:1.13.0-py37-gpu" in 6m14.380152399s
+0s          Normal   Created          pod/mycluster-ray-worker-type-6r7hp   Created container ray-node
+0s          Normal   Started          pod/mycluster-ray-worker-type-6r7hp   Started container ray-node

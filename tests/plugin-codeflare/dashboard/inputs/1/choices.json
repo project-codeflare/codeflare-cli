@@ -3,7 +3,7 @@
   "madwizard/apriori/arch": "x64",
   "madwizard/apriori/platform": "darwin",
   "madwizard/apriori/mac-installer": "Homebrew",
-  "madwizard/apriori/in-terminal": "HTML",
+  "madwizard/apriori/in-terminal": "Text",
   "Training####Fine Tuning": "Fine Tuning",
   "GLUE": "GLUE",
   "AWS####IBM": "AWS",
@@ -17,5 +17,9 @@
   "Choose your Model File.expand([ -n \"$MC_CONFIG_DIR\" ] && [ -n \"$S3_FILEPATH\" ] && [ -n \"$S3_FILEPATH${S3_BUCKET_SUFFIX}\" ] && mc -q --config-dir ${MC_CONFIG_DIR} ls \"s3/$S3_FILEPATH${S3_BUCKET_SUFFIX}\" | awk '{print $NF}', S3 Objects)": "roberta-base",
   "Choose your Glue Data File.expand([ -n \"$MC_CONFIG_DIR\" ] && [ -n \"$S3_FILEPATH\" ] && [ -n \"$S3_FILEPATH${S3_BUCKET_SUFFIX}\" ] && mc -q --config-dir ${MC_CONFIG_DIR} ls \"s3/$S3_FILEPATH${S3_BUCKET_SUFFIX}\" | awk '{print $NF}', S3 Objects)": "glue_data",
   "BERT": "BERT",
-  "Example: Using Ray Tasks to Parallelize a Function####Example: Using Ray Actors to Parallelize a Class####Example: Creating and Transforming Datasets####Example: Training Using PyTorch####Example: Hyperparameter Tuning####Example: Serving a scikit-learn gradient boosting classifier": "Example: Using Ray Tasks to Parallelize a Function"
+  "Example: Using Ray Tasks to Parallelize a Function####Example: Using Ray Actors to Parallelize a Class####Example: Creating and Transforming Datasets####Example: Training Using PyTorch####Example: Hyperparameter Tuning####Example: Serving a scikit-learn gradient boosting classifier": "Example: Using Ray Tasks to Parallelize a Function",
+  "Number of CPUs####Number of GPUs": "{\"Number of CPUs\":4,\"Number of GPUs\":3}",
+  "expand(echo ${A-error} ; echo ${B-4} ; echo ${C-5})": "3",
+  "XXXXXX.11111####222222": "11111",
+  "YYYYYY.11111####222222": "222222"
 }
