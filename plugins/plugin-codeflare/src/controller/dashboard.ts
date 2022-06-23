@@ -55,7 +55,7 @@ export default function registerDashboardCommands(registrar: Registrar) {
     needsUI: true,
     outputOnly: true,
     flags,
-    width: 1400,
-    height: 1050,
+    width: 1280,
+    height: 960,
   })
 }

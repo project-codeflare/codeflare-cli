@@ -21,12 +21,10 @@
 @import "@kui-shell/plugin-client-common/web/scss/components/Terminal/Maximized";
 
 @include TopLevelTab {
-  @include HasOnlyLeftStrip {
-    @include Split(3) {
-      @include Rows(5);
-      @include Columns(5);
-      grid-template-areas: "L1 L1 T1 T1 T1" "L1 L1 T1 T1 T1" "L1 L1 T1 T1 T1" "L1 L1 T1 T1 T1" "T2 T2 T2 T2 T2";
-    }
+  @include Split(3) {
+    @include Rows(9);
+    @include Columns(13);
+    grid-template-areas: "T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2 T2";
   }
 }
 
@@ -41,6 +39,21 @@
 }
 
 @include Scrollback {
+  &:not(.kui--inverted-color-context) {
+    /* TODO MISSING SASS MIXIN in KUI CORE */
+    @include Block {
+      @include IsMaximized {
+        @include CardBody {
+          & > pre {
+            background-color: var(--color-repl-background-02);
+          }
+        }
+      }
+    }
+  }
+}
+
+@include Scrollback {
   .kui--ignore-if-empty {
     display: flex;
   }
@@ -51,14 +64,12 @@
       flex: 1;
     }
   }
+
   @include Block {
     @include IsMaximized {
       overflow: hidden;
 
       @include CardBody {
-        & > pre {
-          background-color: var(--color-repl-background-02);
-        }
         & > pre > .paragraph {
           @include Fill;
         }
