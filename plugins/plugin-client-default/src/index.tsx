@@ -32,7 +32,7 @@ import {
 import { Search } from "@kui-shell/plugin-electron-components"
 
 import { version } from "@kui-shell/client/package.json"
-import { productName } from "@kui-shell/client/config.d/name.json"
+import { productTitle } from "@kui-shell/client/config.d/name.json"
 
 /**
  * We will set this bit when the user dismisses the Welcome to Kui
@@ -56,7 +56,7 @@ export default function renderMain(props: KuiProps) {
     <Kui
       noHelp
       version={version}
-      productName={productName}
+      productName={productTitle}
       lightweightTables
       {...props}
       isPopup={false}
