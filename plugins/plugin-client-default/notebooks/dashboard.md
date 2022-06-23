@@ -1,7 +1,7 @@
 ---
 layout:
     1:
-        position: left
+        position: default
         maximized: true
     2:
         position: default
@@ -13,7 +13,6 @@ layout:
 ---
 
 --8<-- "./dashboard-summary.md"
---8<-- "./dashboard-source.md"
 --8<-- "./dashboard-envvars.md"
 --8<-- "./dashboard-dependencies.md"
 
@@ -24,6 +23,8 @@ layout:
     ```ansi
     --8<-- "$LOGDIR/logs/job.txt"
     ```
+
+--8<-- "./dashboard-source.md"
 
 === "Advanced"
     === "Node Utilization"
@@ -51,10 +52,11 @@ layout:
 
 ---
 
-```shell
----
-execute: now
-outputOnly: true
----
-chart "$LOGDIR/resources/gpu.txt"
-```
+=== "GPU Metrics"
+    ```shell
+    ---
+    execute: now
+    outputOnly: true
+    ---
+    chart "$LOGDIR/resources/gpu.txt"
+    ```

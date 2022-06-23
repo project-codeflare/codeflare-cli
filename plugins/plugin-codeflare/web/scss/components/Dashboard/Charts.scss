@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 
-.pf-c-chart {
-  line {
-    stroke: var(--color-base01) !important;
-  }
-
-  tspan {
-    fill: var(--color-text-02) !important;
-    font-family: var(--font-sans-serif) !important;
-  }
+.codeflare-chart-container {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }

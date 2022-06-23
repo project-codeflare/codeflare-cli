@@ -15,7 +15,7 @@
  */
 
 import React from "react"
-import { Chart, ChartAxis, ChartArea } from "@patternfly/react-charts"
+import { Chart, ChartAxis, ChartArea, ChartAreaProps, ChartAxisProps } from "@patternfly/react-charts"
 import { Log } from "../types"
 
 import "../../web/scss/components/Dashboard/Charts.scss"
@@ -24,111 +24,144 @@ type Props = {
   logs: Log[]
 }
 
-const generateXFormat = (logs: Log[]) => {
-  return [
-    ...new Set(
-      logs
-        .filter((item) => item.utilizationGPU > 0)
-        .map((item) => `${new Date(item.timestamp).getHours()}:${new Date(item.timestamp).getMinutes()}`)
-    ),
+export default class GPUChart extends React.PureComponent<Props> {
+  private readonly colors = [
+    "var(--color-base04)",
+    "var(--color-latency-3)",
+    "var(--color-latency-1)",
+    "var(--color-latency-4)",
   ]
-}
+  private readonly labelColor = "var(--color-text-01)"
+  private readonly fontFamily = "var(--font-sans-serif)"
 
-const generateXValues = (logs: Log[]) => {
-  return [...new Set(logs.filter((item) => item.utilizationGPU > 0).map((item) => item.timestamp))]
-}
+  private readonly axisStyle: ChartAxisProps["style"] = {
+    tickLabels: { fontSize: 9, fontFamily: this.fontFamily, fill: this.labelColor },
+    axisLabel: { fontSize: 11, fontFamily: this.fontFamily, fill: this.labelColor },
+  }
 
-const axisStyle = { tickLabels: { fontSize: 9 } }
-const yTickValues = [0, 25, 50, 75, 100]
-const yTickLabels = yTickValues.map((_) => `${_}%`)
+  private axisStyleWithGrid: ChartAxisProps["style"] = Object.assign({}, this.axisStyle, {
+    grid: { strokeWidth: 1, stroke: this.colors[0] },
+  })
 
-const styles = {
-  memory: { data: { fill: "var(--color-chart-0)" } },
-  gpu: { data: { fill: "var(--color-chart-1)" } },
-}
+  private readonly padding = {
+    bottom: 25,
+    left: 60,
+    right: 25,
+    top: 10,
+  }
 
-const GPUChart = (props: Props) => {
-  const { logs } = props
-  return (
-    <div style={{ height: "auto", width: "100%", display: "flex", flexDirection: "column" }}>
+  private readonly styles = {
+    utilizationMemory: this.style(this.colors[1]),
+    utilizationGPU: this.style(this.colors[2]),
+    temperatureGPU: this.style(this.colors[3]),
+    cluster: undefined,
+    timestamp: undefined,
+    gpuType: undefined,
+    totalMemory: undefined,
+  }
+
+  private readonly dimensions = {
+    width: 400,
+    height: 90,
+  }
+
+  private readonly formatters = {
+    celsius: (value: number) => value + "C",
+    percentage: (value: number) => value + "%",
+    timestamp: (timestamp: number) => `${new Date(timestamp).getHours()}:${new Date(timestamp).getMinutes()}`,
+  }
+
+  private readonly minDomain = {
+    percentage: { y: 0 },
+    celsius: undefined,
+    timestamp: undefined,
+  }
+  private readonly maxDomain = {
+    percentage: { y: 100 },
+    celsius: undefined,
+    timestamp: undefined,
+  }
+
+  private xAxis() {
+    return (
+      <ChartAxis
+        scale="time"
+        style={this.axisStyle}
+        tickValues={this.props.logs.map((item) => item.timestamp)}
+        tickFormat={this.formatters.timestamp}
+        tickCount={5}
+      />
+    )
+  }
+
+  private style(color: string): ChartAreaProps["style"] {
+    return { data: { stroke: color, fill: color } }
+  }
+
+  private chart(
+    title: string,
+    desc: string,
+    label: string,
+    formatter: keyof typeof this.formatters,
+    series: keyof Log,
+    tickCount?: number
+  ) {
+    return (
       <Chart
-        ariaTitle="GPU Utilization"
-        ariaDesc="Chart showing GPU utilization over time"
-        height={135}
-        width={1000}
-        maxDomain={{ y: 100 }}
-        minDomain={{ y: 0 }}
-        padding={{
-          bottom: 25,
-          left: 60,
-          right: 5,
-          top: 10,
-        }}
+        ariaTitle={title}
+        ariaDesc={desc}
+        height={this.dimensions.height}
+        width={this.dimensions.width}
+        maxDomain={this.maxDomain[formatter]}
+        minDomain={this.minDomain[formatter]}
+        padding={this.padding}
       >
         <ChartAxis
-          label="GPU"
+          label={label}
           dependentAxis
-          showGrid
-          style={axisStyle}
-          tickValues={yTickValues}
-          tickFormat={yTickLabels}
+          style={this.axisStyleWithGrid}
+          tickFormat={this.formatters[formatter]}
+          tickCount={tickCount}
         />
-        <ChartAxis
-          scale="time"
-          style={axisStyle}
-          tickValues={generateXValues(logs)}
-          tickFormat={generateXFormat(logs)}
-          tickCount={generateXFormat(logs).length}
-        />
+        {this.xAxis()}
         <ChartArea
-          style={styles.gpu}
-          data={logs.map((log) => ({
+          style={this.styles[series]}
+          data={this.props.logs.map((log) => ({
             name: log.gpuType,
             x: log.timestamp,
-            y: log.utilizationGPU,
+            y: log[series],
           }))}
         />
       </Chart>
-      <Chart
-        ariaTitle="GPU Memory Utilization"
-        ariaDesc="Chart showing GPU memory utilization over time"
-        height={135}
-        width={1000}
-        maxDomain={{ y: 100 }}
-        minDomain={{ y: 0 }}
-        padding={{
-          bottom: 25,
-          left: 60,
-          right: 5,
-          top: 10,
-        }}
-      >
-        <ChartAxis
-          label="Memory"
-          dependentAxis
-          showGrid
-          style={axisStyle}
-          tickValues={yTickValues}
-          tickFormat={yTickLabels}
-        />
-        <ChartAxis
-          scale="time"
-          style={axisStyle}
-          tickValues={generateXValues(logs)}
-          tickFormat={generateXFormat(logs)}
-          tickCount={generateXFormat(logs).length}
-        />
-        <ChartArea
-          style={styles.memory}
-          data={logs.map((log) => ({
-            name: log.gpuType,
-            x: log.timestamp,
-            y: log.utilizationMemory,
-          }))}
-        />
-      </Chart>
-    </div>
-  )
-}
+    )
+  }
 
-export default GPUChart
+  public render() {
+    return (
+      <div className="codeflare-chart-container">
+        {this.chart(
+          "GPU Utilization",
+          "Chart showing GPU utilization over time",
+          "Utilization",
+          "percentage",
+          "utilizationGPU"
+        )}
+        {this.chart(
+          "GPU Memory Utilization",
+          "Chart showing GPU memory utilization over time",
+          "Memory",
+          "percentage",
+          "utilizationMemory"
+        )}
+        {this.chart(
+          "GPU Temperature",
+          "Chart showing GPU temperature over time",
+          "Temperature",
+          "celsius",
+          "temperatureGPU",
+          3
+        )}
+      </div>
+    )
+  }
+}
