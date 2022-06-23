@@ -6,16 +6,17 @@
   "module": "mdist/index.js",
   "types": "mdist/index.d.ts",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/IBM/kui#readme",
+  "homepage": "https://github.com/project-codeflare/codeflare-cli#readme",
   "bugs": {
-    "url": "https://github.com/IBM/kui/issues/new"
+    "url": "https://github.com/project-codeflare/codeflare-cli/issues/new"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/IBM/kui.git"
+    "url": "git+https://github.com/project-codeflare/codeflare-cli.git"
   },
   "keywords": [
     "kui",
+    "codeflare",
     "plugin"
   ],
   "private": true,
