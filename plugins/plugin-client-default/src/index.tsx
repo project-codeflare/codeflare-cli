@@ -17,7 +17,16 @@
 import React from "react"
 
 import { Capabilities } from "@kui-shell/core"
-import { Kui, KuiProps, ContextWidgets, MeterWidgets, SpaceFiller } from "@kui-shell/plugin-client-common"
+import {
+  Kui,
+  KuiProps,
+  ContextWidgets,
+  GitHubIcon,
+  MadeWithKui,
+  MeterWidgets,
+  SpaceFiller,
+  TextWithIconWidget,
+} from "@kui-shell/plugin-client-common"
 
 // import { CurrentContext, CurrentNamespace } from "@kui-shell/plugin-kubectl/components"
 import { Search } from "@kui-shell/plugin-electron-components"
@@ -57,12 +66,16 @@ export default function renderMain(props: KuiProps) {
       toplevel={!Capabilities.inBrowser() && <Search />}
     >
       <ContextWidgets>
+        <GitHubIcon />
+        <TextWithIconWidget text={version} viewLevel="normal" />
         {/* <CurrentContext />
        <CurrentNamespace /> */}
       </ContextWidgets>
 
       <SpaceFiller />
-      <MeterWidgets></MeterWidgets>
+      <MeterWidgets>
+        <MadeWithKui />
+      </MeterWidgets>
     </Kui>
   )
 }
