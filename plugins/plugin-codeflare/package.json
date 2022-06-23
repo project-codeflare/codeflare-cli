@@ -21,5 +21,9 @@
   "private": true,
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@patternfly/react-charts": "^6.74.3",
+    "strip-ansi": "6.0.0"
   }
 }
