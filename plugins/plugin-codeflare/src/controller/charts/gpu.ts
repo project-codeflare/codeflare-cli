@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-import { Arguments, Registrar } from "@kui-shell/core"
 import stripAnsi from "strip-ansi"
+import { Arguments, Registrar } from "@kui-shell/core"
+
+import { expand } from "../../lib/util"
 
 export type Log = {
   cluster: string
@@ -61,14 +63,15 @@ async function chart(args: Arguments) {
     return `Usage chart gpu ${filepath}`
   }
 
-  const logs = stripAnsi(await args.REPL.qexec(`cat ${filepath}`))
+  const React = import("react")
+  const GPUChart = import("../../components/GPUChart")
+
+  const logs = stripAnsi(await args.REPL.qexec<string>(`vfs fslice ${expand(filepath)} 0`))
   const formattedLogs = formatLogs(logs)
   const objLogs = formattedLogs.map((logLine) => formatLogObject(logLine))
-  const React = await import("react")
-  const GPUChart = await import("../../components/GPUChart")
 
   return {
-    react: React.createElement(GPUChart.default, { logs: objLogs }),
+    react: (await React).createElement((await GPUChart).default, { logs: objLogs }),
   }
 }
 
