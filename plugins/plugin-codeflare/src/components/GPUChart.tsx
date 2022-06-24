@@ -16,7 +16,7 @@
 
 import React from "react"
 import { Chart, ChartAxis, ChartArea, ChartAreaProps, ChartAxisProps } from "@patternfly/react-charts"
-import { Log } from "../types"
+import { Log } from "../controller/charts/gpu"
 
 import "../../web/scss/components/Dashboard/Charts.scss"
 

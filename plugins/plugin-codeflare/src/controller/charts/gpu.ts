@@ -16,7 +16,16 @@
 
 import { Arguments, Registrar } from "@kui-shell/core"
 import stripAnsi from "strip-ansi"
-import { Log } from "../types"
+
+export type Log = {
+  cluster: string
+  timestamp: number
+  gpuType: string
+  utilizationGPU: number
+  utilizationMemory: number
+  totalMemory: number
+  temperatureGPU: number
+}
 
 function formatLogs(logs: string) {
   return logs
@@ -47,16 +56,16 @@ function formatLogObject(logLine: string[]) {
 }
 
 async function chart(args: Arguments) {
-  const filepath = args.argvNoOptions[1]
+  const filepath = args.argvNoOptions[2]
   if (!filepath) {
-    return `Usage codeflare chart ${filepath}`
+    return `Usage chart gpu ${filepath}`
   }
 
   const logs = stripAnsi(await args.REPL.qexec(`cat ${filepath}`))
   const formattedLogs = formatLogs(logs)
   const objLogs = formattedLogs.map((logLine) => formatLogObject(logLine))
   const React = await import("react")
-  const GPUChart = await import("../components/GPUChart")
+  const GPUChart = await import("../../components/GPUChart")
 
   return {
     react: React.createElement(GPUChart.default, { logs: objLogs }),
@@ -64,5 +73,5 @@ async function chart(args: Arguments) {
 }
 
 export default function registerChartCommands(registrar: Registrar) {
-  registrar.listen("/chart", chart, { needsUI: true })
+  registrar.listen("/chart/gpu", chart, { needsUI: true })
 }

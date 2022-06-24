@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-export type Log = {
-  cluster: string
-  timestamp: number
-  gpuType: string
-  utilizationGPU: number
-  utilizationMemory: number
-  totalMemory: number
-  temperatureGPU: number
+import { Registrar } from "@kui-shell/core"
+
+import gpu from "./gpu"
+
+/** Register Kui Commands */
+export default function registerCodeflareCommands(registrar: Registrar) {
+  gpu(registrar)
 }
