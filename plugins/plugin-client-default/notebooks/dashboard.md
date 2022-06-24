@@ -58,5 +58,5 @@ layout:
     execute: now
     outputOnly: true
     ---
-    chart "$LOGDIR/resources/gpu.txt"
+    chart gpu "$LOGDIR/resources/gpu.txt"
     ```

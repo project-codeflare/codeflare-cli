@@ -16,18 +16,18 @@
 
 import { Registrar } from "@kui-shell/core"
 import dashboard from "./controller/dashboard"
-import chart from "./controller/chart"
+import charts from "./controller/charts"
 
 function help() {
   return `Usage:
 codeflare [run] [<task>] [-s /path/to/store] [-u]
 codeflare dashboard /path/to/logdir
-codeflare chart /path/to/logdir`
+codeflare chart gpu /path/to/logdir`
 }
 
 /** Register Kui Commands */
 export default function registerCodeflareCommands(registrar: Registrar) {
   dashboard(registrar)
-  chart(registrar)
+  charts(registrar)
   registrar.listen("/help", help)
 }
