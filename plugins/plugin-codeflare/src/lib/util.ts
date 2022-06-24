@@ -14,13 +14,7 @@
  * limitations under the License.
  */
 
-import { Registrar } from "@kui-shell/core"
-
-import gpu from "./gpu"
-import vmstat from "./vmstat"
-
-/** Register Kui Commands */
-export default function registerCodeflareCommands(registrar: Registrar) {
-  gpu(registrar)
-  vmstat(registrar)
+/** Expand env vars */
+export function expand(expr: string): string {
+  return expr.replace(/\${?([^}/\s]+)}?/g, (_, p1) => process.env[p1] || p1)
 }

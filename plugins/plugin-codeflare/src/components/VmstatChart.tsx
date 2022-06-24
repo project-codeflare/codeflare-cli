@@ -16,8 +16,8 @@
 
 import React from "react"
 
-import { Log } from "../controller/charts/gpu"
 import BaseChart, { BaseChartProps, Series } from "./Chart"
+import { Log } from "../controller/charts/vmstat"
 
 import "../../web/scss/components/Dashboard/Charts.scss"
 
@@ -29,7 +29,7 @@ type State = {
   charts: BaseChartProps[]
 }
 
-export default class GPUChart extends React.PureComponent<Props, State> {
+export default class VmstatChart extends React.PureComponent<Props, State> {
   private static readonly padding = Object.assign({}, BaseChart.padding, {
     right: BaseChart.padding.left,
   })
@@ -37,57 +37,43 @@ export default class GPUChart extends React.PureComponent<Props, State> {
   public constructor(props: Props) {
     super(props)
     this.state = {
-      charts: GPUChart.charts(props),
+      charts: VmstatChart.charts(props),
     }
-  }
-
-  private static data(field: "utilizationGPU" | "utilizationMemory" | "temperatureGPU", props: Props) {
-    return props.logs.map((log) => ({
-      name: log.gpuType,
-      x: log.timestamp,
-      y: log[field],
-    }))
   }
 
   private static charts(props: Props): BaseChartProps[] {
     const perNodeData = props.logs.reduce((M, line) => {
-      if (!M[line.cluster]) {
-        M[line.cluster] = [
+      if (!M[line.hostname]) {
+        M[line.hostname] = [
           { impl: "ChartArea", color: BaseChart.colors[1], data: [] },
           { impl: "ChartLine", color: BaseChart.colors[2], data: [] },
-          // { impl: "ChartLine", color: BaseChart.colors[2], data: [] },
         ]
       }
 
-      M[line.cluster][0].data.push({
-        name: line.cluster + " GPU Utilization",
+      M[line.hostname][0].data.push({
+        name: line.hostname + " CPU Utilization",
         x: line.timestamp,
-        y: line.utilizationGPU,
+        y: 100 - line.idle,
       })
 
-      M[line.cluster][1].data.push({
-        name: line.cluster + " GPU Memory Utilization",
+      M[line.hostname][1].data.push({
+        name: line.hostname + " Free Memory",
         x: line.timestamp,
-        y: line.utilizationMemory,
+        y: line.freeMemory,
       })
-
-      /* M[line.cluster][2].data.push({
-        name: line.cluster + " GPU Temperature",
-        x: line.timestamp,
-        y: line.temperatureGPU,
-      }) */
 
       return M
     }, {} as Record<string, Series[]>)
 
     return Object.keys(perNodeData).map((node) => {
       const series = perNodeData[node]
-      const data = series.map((_, idx) => BaseChart.normalize(_, idx !== 2 ? "percentage" : "celsius"))
+      const data = series.map((_, idx) => BaseChart.normalize(_, idx === 0 ? "percentage" : "memory"))
 
       return {
-        title: "GPU Utilization",
-        desc: "Chart showing GPU utilization over time",
-        padding: GPUChart.padding,
+        title: "CPU Utilization " + node,
+        desc: "Chart showing CPU utilization over time for " + node,
+        series,
+        padding: VmstatChart.padding,
         yAxes: [
           {
             label: BaseChart.nodeNameLabel(node),
@@ -98,26 +84,15 @@ export default class GPUChart extends React.PureComponent<Props, State> {
             style: BaseChart.twoAxisStyle[0],
           },
           {
-            label: "Used Memory",
-            format: "percentage",
+            label: "Free Memory",
+            format: "memory",
             orientation: "right",
             y: data[1].y,
             tickFormat: data[1].tickFormat,
             tickValues: data[1].tickValues,
             style: BaseChart.twoAxisStyle[1],
           },
-          /* {
-            label: "Temperature",
-            format: "celsius",
-            orientation: "right",
-            tickCount: 3,
-            y: data[2].y,
-            tickFormat: data[2].tickFormat,
-            tickValues: data[2].tickValues,
-            style: BaseChart.twoAxisStyle[1],
-          }, */
         ],
-        series,
       }
     })
   }

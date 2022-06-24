@@ -60,3 +60,12 @@ layout:
     ---
     chart gpu "$LOGDIR/resources/gpu.txt"
     ```
+
+=== "Node Metrics"
+    ```shell
+    ---
+    execute: now
+    outputOnly: true
+    ---
+    chart vmstat "$LOGDIR/resources/pod-vmstat.txt"
+    ```
