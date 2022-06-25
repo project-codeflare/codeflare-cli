@@ -98,7 +98,7 @@ export default class GPUChart extends React.PureComponent<Props, State> {
             style: BaseChart.twoAxisStyle[0],
           },
           {
-            label: "Used Memory",
+            label: "Free Memory",
             format: "percentage",
             orientation: "right",
             y: data[1].y,

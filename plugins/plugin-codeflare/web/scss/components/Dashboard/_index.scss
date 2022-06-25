@@ -24,7 +24,7 @@
   @include Split(3) {
     @include Rows(9);
     @include Columns(13);
-    grid-template-areas: "T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2 T2";
+    grid-template-areas: "T1 T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2";
   }
 }
 
@@ -45,7 +45,7 @@
       @include IsMaximized {
         @include CardBody {
           & > pre {
-            background-color: var(--color-repl-background-02);
+            background-color: var(--color-sidecar-background-02);
           }
         }
       }
