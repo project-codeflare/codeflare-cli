@@ -78,8 +78,8 @@ export default class BaseChart extends React.PureComponent<Props> {
   private static readonly fontFamily = "var(--font-sans-serif)"
 
   public static readonly axisStyle: ChartAxisProps["style"] = {
-    axisLabel: { fontSize: 11, fontFamily: BaseChart.fontFamily, fill: BaseChart.labelColor },
-    tickLabels: { fontSize: 9, fontFamily: BaseChart.fontFamily, fill: BaseChart.labelColor },
+    axisLabel: { fontSize: 10, fontFamily: BaseChart.fontFamily, fill: BaseChart.labelColor },
+    tickLabels: { fontSize: 8, fontFamily: BaseChart.fontFamily, fill: BaseChart.labelColor },
   }
 
   public static readonly twoAxisStyle: ChartAxisProps["style"][] = [
