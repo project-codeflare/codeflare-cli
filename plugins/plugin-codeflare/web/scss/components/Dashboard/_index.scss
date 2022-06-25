@@ -24,7 +24,7 @@
   @include Split(3) {
     @include Rows(9);
     @include Columns(13);
-    grid-template-areas: "T1 T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2";
+    grid-template-areas: "T1 T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2";
   }
 }
 
@@ -34,11 +34,25 @@
   flex: 1;
 }
 
-@include SplitContainer {
-  grid-gap: 3px;
+body.kui--patternfly4[kui-theme="PatternFly4 Light"][kui-theme-style] {
+  @include Scrollback {
+    --color-latency-1: #009596;
+    --color-latency-3: #c58c00;
+  }
+}
+
+body.kui--patternfly4[kui-theme="PatternFly4 Dark"][kui-theme-style] {
+  @include Scrollback {
+    --color-latency-1: #73c5c5;
+    --color-latency-3: #f9e0a2;
+  }
 }
 
 @include Scrollback {
+  .pf-c-tabs__link::after {
+    border-color: var(--color-base06);
+  }
+
   &:not(.kui--inverted-color-context) {
     /* TODO MISSING SASS MIXIN in KUI CORE */
     @include Block {

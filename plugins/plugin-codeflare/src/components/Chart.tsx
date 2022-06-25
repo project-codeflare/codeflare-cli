@@ -55,15 +55,15 @@ interface Props {
 }
 
 export default class BaseChart extends React.PureComponent<Props> {
-  private readonly dimensions = {
-    width: 400,
-    height: 90,
+  private static readonly dimensions = {
+    width: 320,
+    height: 160,
   }
 
   public static readonly padding = {
     bottom: 25,
-    left: 60,
-    right: 25,
+    left: 55,
+    right: 45,
     top: 10,
   }
 
@@ -84,14 +84,9 @@ export default class BaseChart extends React.PureComponent<Props> {
 
   public static readonly twoAxisStyle: ChartAxisProps["style"][] = [
     Object.assign({}, BaseChart.axisStyle || {}, {
-      axisLabel: Object.assign({}, (BaseChart.axisStyle || {}).axisLabel, {
-        fill: BaseChart.colors[1],
-        fontWeight: "bold",
-      }),
       tickLabels: Object.assign({}, (BaseChart.axisStyle || {}).tickLabels, { fill: BaseChart.colors[1] }),
     }),
     Object.assign({}, BaseChart.axisStyle, {
-      axisLabel: Object.assign({}, (BaseChart.axisStyle || {}).axisLabel, { fill: BaseChart.colors[2] }),
       tickLabels: Object.assign({}, (BaseChart.axisStyle || {}).tickLabels, { fill: BaseChart.colors[2] }),
     }),
   ]
@@ -122,7 +117,7 @@ export default class BaseChart extends React.PureComponent<Props> {
 
   private xAxis() {
     return (
-      <ChartAxis scale="time" style={BaseChart.axisStyle} tickFormat={BaseChart.formatters.timestamp} tickCount={5} />
+      <ChartAxis scale="time" style={BaseChart.axisStyle} tickFormat={BaseChart.formatters.timestamp} tickCount={2} />
     )
   }
 
@@ -163,8 +158,8 @@ export default class BaseChart extends React.PureComponent<Props> {
         ariaTitle={chart.title}
         ariaDesc={chart.desc}
         padding={chart.padding || BaseChart.padding}
-        width={this.dimensions.width}
-        height={this.dimensions.height}
+        width={BaseChart.dimensions.width}
+        height={BaseChart.dimensions.height}
         domain={chart.domain}
       >
         {this.xAxis()}

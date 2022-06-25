@@ -9,12 +9,9 @@ layout:
     3:
         position: default
         maximized: true
-        inverseColors: true
 ---
 
 --8<-- "./dashboard-summary.md"
---8<-- "./dashboard-envvars.md"
---8<-- "./dashboard-dependencies.md"
 
 ---
 
@@ -25,6 +22,8 @@ layout:
     ```
 
 --8<-- "./dashboard-source.md"
+--8<-- "./dashboard-envvars.md"
+--8<-- "./dashboard-dependencies.md"
 
 === "Advanced"
     === "Node Utilization"
