@@ -14,17 +14,30 @@
  * limitations under the License.
  */
 
+@use "sass:color";
 @import "@kui-shell/plugin-client-common/web/scss/components/Card/mixins";
 @import "@kui-shell/plugin-client-common/web/scss/components/Editor/mixins";
 @import "@kui-shell/plugin-client-common/web/scss/components/Terminal/mixins";
 @import "@kui-shell/plugin-client-common/web/scss/components/TopLevelTab/mixins";
 @import "@kui-shell/plugin-client-common/web/scss/components/Terminal/Maximized";
+@import "@kui-shell/plugin-client-common/web/scss/components/TopTabStripe/mixins";
+
+@import "mixins";
+
+@include TopTabStripe {
+  display: none !important;
+}
 
 @include TopLevelTab {
   @include Split(3) {
-    @include Rows(9);
-    @include Columns(13);
-    grid-template-areas: "T1 T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2" "T1 T1 T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2" "T3 T3 T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2";
+    @include Rows(5);
+    @include Columns(7);
+    grid-template-areas:
+      "T1 T1 T3 T3 T3 T3 T3"
+      "T1 T1 T3 T3 T3 T3 T3"
+      "T1 T1 T3 T3 T3 T3 T3"
+      "T2 T2 T2 T2 T2 T2 T2"
+      "T2 T2 T2 T2 T2 T2 T2";
   }
 }
 
@@ -36,15 +49,21 @@
 
 body.kui--patternfly4[kui-theme="PatternFly4 Light"][kui-theme-style] {
   @include Scrollback {
-    --color-latency-1: #009596;
-    --color-latency-3: #c58c00;
+    --color-latency-0: #009596;
+    --color-latency-1: #005f60;
+    --color-latency-2: #c46100;
   }
 }
 
 body.kui--patternfly4[kui-theme="PatternFly4 Dark"][kui-theme-style] {
   @include Scrollback {
-    --color-latency-1: #73c5c5;
-    --color-latency-3: #f9e0a2;
+    --color-latency-0: #73c5c5;
+    --color-latency-1: #a2d9d9;
+    --color-latency-2: #ef9234;
+
+    @include ChartContainer {
+      background-color: var(--color-base00);
+    }
   }
 }
 

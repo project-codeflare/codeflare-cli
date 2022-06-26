@@ -22,14 +22,22 @@ import {
   ChartArea,
   ChartAreaProps,
   ChartAxisProps,
+  ChartLabel,
+  ChartLabelProps,
   ChartLine,
+  ChartLineProps,
+  ChartTooltip,
+  ChartVoronoiContainer,
 } from "@patternfly/react-charts"
+
+import "../../web/scss/components/Dashboard/Charts.scss"
 
 type Format = "celsius" | "percentage" | "timestamp" | "memory"
 
 export type Series = {
-  impl: "ChartArea" | "ChartLine"
-  color: string
+  impl: "ChartArea" | "ChartLine" | "ChartDashedLine"
+  stroke: string
+  fill?: string
   data: { name?: string; x: number; y: number }[]
 }
 
@@ -55,31 +63,48 @@ interface Props {
 }
 
 export default class BaseChart extends React.PureComponent<Props> {
+  private static fontSize = 7
+  private static tickLabelFontSize = BaseChart.fontSize - 1
+
   private static readonly dimensions = {
-    width: 320,
-    height: 160,
+    width: 150,
+    height: 200,
   }
 
   public static readonly padding = {
-    bottom: 25,
-    left: 55,
-    right: 45,
-    top: 10,
+    bottom: BaseChart.fontSize * 3,
+    top: BaseChart.fontSize * 5.5,
+    left: BaseChart.fontSize * 4.25,
+    right: BaseChart.fontSize * 4.25,
   }
 
   public static readonly colors = [
     "var(--color-base04)",
-    "var(--color-latency-3)",
+    "var(--color-latency-0)",
     "var(--color-latency-1)",
+    "var(--color-latency-2)",
+    "var(--color-latency-3)",
     "var(--color-latency-4)",
+    "var(--color-latency-5)",
   ]
 
   private static readonly labelColor = "var(--color-text-01)"
   private static readonly fontFamily = "var(--font-sans-serif)"
 
   public static readonly axisStyle: ChartAxisProps["style"] = {
-    axisLabel: { fontSize: 10, fontFamily: BaseChart.fontFamily, fill: BaseChart.labelColor },
-    tickLabels: { fontSize: 8, fontFamily: BaseChart.fontFamily, fill: BaseChart.labelColor },
+    ticks: { strokeOpacity: 0 },
+    tickLabels: {
+      fontSize: BaseChart.tickLabelFontSize,
+      fontFamily: BaseChart.fontFamily,
+      fill: BaseChart.labelColor,
+      padding: 0,
+    },
+    axisLabel: {
+      fontSize: BaseChart.fontSize,
+      fontFamily: BaseChart.fontFamily,
+      fill: BaseChart.labelColor,
+      padding: BaseChart.fontSize * 3.5,
+    },
   }
 
   public static readonly twoAxisStyle: ChartAxisProps["style"][] = [
@@ -89,17 +114,43 @@ export default class BaseChart extends React.PureComponent<Props> {
     Object.assign({}, BaseChart.axisStyle, {
       tickLabels: Object.assign({}, (BaseChart.axisStyle || {}).tickLabels, { fill: BaseChart.colors[2] }),
     }),
+    Object.assign({}, BaseChart.axisStyle, {
+      tickLabels: Object.assign({}, (BaseChart.axisStyle || {}).tickLabels, { fill: BaseChart.colors[3] }),
+    }),
   ]
 
+  private static axisLabelStyle(
+    fill: string,
+    fontSize = BaseChart.fontSize,
+    fontStyle = "italic",
+    fontWeight = 300
+  ): ChartLabelProps["style"] {
+    return { fontSize, fontStyle, fontWeight, fill }
+  }
+
+  private static titleStyle(
+    fontSize = BaseChart.fontSize,
+    fill = "var(--color-text-01)",
+    fontWeight = 600,
+    fontStyle = "normal"
+  ): ChartLabelProps["style"] {
+    return { fontSize, fontStyle, fontWeight, fill }
+  }
+
   private axisStyleWithGrid: ChartAxisProps["style"] = Object.assign({}, BaseChart.axisStyle, {
-    grid: { strokeWidth: 1, stroke: BaseChart.colors[0] },
+    grid: { strokeWidth: 1, stroke: "var(--color-text-02)", strokeOpacity: 0.15 },
   })
+
+  private static readonly titleX = {
+    left: BaseChart.padding.left - BaseChart.tickLabelFontSize * 4,
+    right: BaseChart.dimensions.width - BaseChart.tickLabelFontSize * 2.5,
+  }
 
   private static readonly formatters = {
     celsius: (value: number) => ~~value + "C",
     percentage: (value: number) => value + "%",
     memory: (value: number) => ~~(value / 1024 / 1024) + " GiB",
-    timestamp: (timestamp: number) => new Date(timestamp).toLocaleTimeString(),
+    timestamp: (timestamp: number) => (timestamp / 1000 / 60).toFixed(1) + "m",
   }
 
   private readonly minDomain = {
@@ -117,16 +168,34 @@ export default class BaseChart extends React.PureComponent<Props> {
 
   private xAxis() {
     return (
-      <ChartAxis scale="time" style={BaseChart.axisStyle} tickFormat={BaseChart.formatters.timestamp} tickCount={2} />
+      <ChartAxis scale="time" style={BaseChart.axisStyle} tickFormat={BaseChart.formatters.timestamp} tickCount={3} />
     )
   }
 
   private yAxis(axis: BaseChartProps["yAxes"][number]) {
-    return (
-      axis && (
+    if (axis) {
+      // re: the + BaseChart.fontSize * N: shift the axis labels over a bit, to overlap with the ticks
+      const x = axis.orientation === "right" ? BaseChart.titleX.right : BaseChart.titleX.left
+
+      const labelColor =
+        axis.style && axis.style.tickLabels && typeof axis.style.tickLabels.fill === "string"
+          ? axis.style.tickLabels.fill
+          : "var(--color-text-01)"
+
+      const axisLabelUI = (
+        <ChartLabel
+          key="yAxisLabel"
+          x={x}
+          y={BaseChart.padding.top - BaseChart.fontSize * 1.75}
+          style={BaseChart.axisLabelStyle(labelColor)}
+          textAnchor={axis.orientation === "right" ? "end" : "start"}
+          text={axis.label}
+        />
+      )
+
+      const axisUI = (
         <ChartAxis
           key="yAxis"
-          label={axis.label}
           dependentAxis
           orientation={axis.orientation}
           style={Object.assign({}, this.axisStyleWithGrid, axis.style || {})}
@@ -135,58 +204,97 @@ export default class BaseChart extends React.PureComponent<Props> {
           tickCount={axis.tickCount}
         />
       )
+
+      return [axisLabelUI, axisUI]
+    } else {
+      return []
+    }
+  }
+
+  private areaStyle(stroke: string, fill: string, fillOpacity = 0.1): ChartAreaProps["style"] {
+    return { data: { stroke, fill, fillOpacity } }
+  }
+
+  private lineStyle(color: string, extra: Required<ChartLineProps>["style"]["data"] = {}): ChartLineProps["style"] {
+    return { data: Object.assign({ stroke: color }, extra) }
+  }
+
+  private lineDashStyle(color: string): ChartLineProps["style"] {
+    return this.lineStyle(color, { strokeDasharray: "3,0.5" })
+  }
+
+  private title(chart: BaseChartProps) {
+    return (
+      <ChartLabel
+        x={BaseChart.titleX.left}
+        y={BaseChart.fontSize * 1.5}
+        style={BaseChart.titleStyle()}
+        text={chart.title}
+      />
     )
   }
 
-  private areaStyle(color: string): ChartAreaProps["style"] {
-    return { data: { stroke: color, fill: color } }
-  }
-
-  private lineStyle(color: string): ChartAreaProps["style"] {
-    return { data: { stroke: color } }
-  }
-
-  private readonly minDomain0 = { y: 0 }
-  private readonly maxDomain100 = { y: 100 }
-  //        minDomain={chart.format === "percentage" ? this.minDomain0 : undefined}
-  //      maxDomain={chart.format === "percentage" ? this.maxDomain100 : undefined}
-
   private chart(chart: BaseChartProps, idx: number) {
     return (
-      <Chart
-        key={idx}
-        ariaTitle={chart.title}
-        ariaDesc={chart.desc}
-        padding={chart.padding || BaseChart.padding}
-        width={BaseChart.dimensions.width}
-        height={BaseChart.dimensions.height}
-        domain={chart.domain}
-      >
-        {this.xAxis()}
-        {chart.series.flatMap(({ impl, color, data }, idx) => {
-          const yAxis =
-            chart.yAxes[idx] ||
-            chart.yAxes
-              .slice(0, idx)
-              .reverse()
-              .find((_) => _ && _.y)
-          const y = yAxis ? yAxis.y : undefined
-
-          const props = {
-            style: impl === "ChartArea" ? this.areaStyle(color) : this.lineStyle(color),
-            data,
-            y,
+      <div className="codeflare-chart-container" key={idx}>
+        <Chart
+          ariaTitle={chart.title}
+          ariaDesc={chart.desc}
+          padding={chart.padding || BaseChart.padding}
+          width={BaseChart.dimensions.width}
+          height={BaseChart.dimensions.height}
+          domain={chart.domain}
+          containerComponent={
+            <ChartVoronoiContainer
+              voronoiDimension="x"
+              constrainToVisibleArea
+              labels={({ datum }) => `${datum.name.replace(/^\S+\s*/, "")}: ${datum.y}`}
+              labelComponent={
+                <ChartTooltip
+                  style={{ fontSize: BaseChart.fontSize, fill: "var(--color-text-01)", textAnchor: "end" }}
+                  flyoutStyle={{ fill: "var(--color-base00)", strokeWidth: 0.5, stroke: "var(--color-base02)" }}
+                />
+              }
+            />
           }
+        >
+          {this.title(chart)}
+          {this.xAxis()}
+          {chart.series.flatMap(({ impl, stroke, fill = stroke, data }, idx) => {
+            const yAxis =
+              chart.yAxes[idx] ||
+              chart.yAxes
+                .slice(0, idx)
+                .reverse()
+                .find((_) => _ && _.y)
+            const y = yAxis ? yAxis.y : undefined
 
-          const chartui = impl === "ChartArea" ? <ChartArea key={idx} {...props} /> : <ChartLine key={idx} {...props} />
+            const props = {
+              style:
+                impl === "ChartArea"
+                  ? this.areaStyle(stroke, fill)
+                  : impl === "ChartLine"
+                  ? this.lineStyle(fill)
+                  : this.lineDashStyle(fill),
+              data,
+              y,
+            }
 
-          if (chart.yAxes[idx]) {
-            return [this.yAxis(chart.yAxes[idx]), chartui]
-          } else {
-            return [chartui]
-          }
-        })}
-      </Chart>
+            const chartui =
+              impl === "ChartArea" ? (
+                <ChartArea key={idx} interpolation="monotoneX" {...props} />
+              ) : (
+                <ChartLine key={idx} interpolation="monotoneX" {...props} />
+              )
+
+            if (chart.yAxes[idx]) {
+              return [...this.yAxis(chart.yAxes[idx]), chartui]
+            } else {
+              return [chartui]
+            }
+          })}
+        </Chart>
+      </div>
     )
   }
 
@@ -211,7 +319,7 @@ export default class BaseChart extends React.PureComponent<Props> {
   }
 
   public render() {
-    return <div className="codeflare-chart-container">{this.props.charts.map(this.chart.bind(this))}</div>
+    return <React.Fragment>{this.props.charts.map(this.chart.bind(this))}</React.Fragment>
   }
 }
 

@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
+import React from "react"
 import stripAnsi from "strip-ansi"
-import { Arguments, Registrar } from "@kui-shell/core"
+import { Arguments } from "@kui-shell/core"
 
 import { expand } from "../../lib/util"
+import GPUChart from "../../components/GPUChart"
 
 export type Log = {
   cluster: string
@@ -57,24 +59,21 @@ function formatLogObject(logLine: string[]) {
   return newObj
 }
 
-async function chart(args: Arguments) {
+export default async function chart(args: Arguments) {
   const filepath = args.argvNoOptions[2]
   if (!filepath) {
     return `Usage chart gpu ${filepath}`
   }
-
-  const React = import("react")
-  const GPUChart = import("../../components/GPUChart")
 
   const logs = stripAnsi(await args.REPL.qexec<string>(`vfs fslice ${expand(filepath)} 0`))
   const formattedLogs = formatLogs(logs)
   const objLogs = formattedLogs.map((logLine) => formatLogObject(logLine))
 
   return {
-    react: (await React).createElement((await GPUChart).default, { logs: objLogs }),
+    react: (
+      <div className="codeflare-chart-grid flex-fill">
+        <GPUChart logs={objLogs} />
+      </div>
+    ),
   }
-}
-
-export default function registerChartCommands(registrar: Registrar) {
-  registrar.listen("/chart/gpu", chart, { needsUI: true })
 }

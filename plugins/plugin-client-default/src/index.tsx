@@ -32,7 +32,7 @@ import {
 import { Search } from "@kui-shell/plugin-electron-components"
 
 import { version } from "@kui-shell/client/package.json"
-import { productTitle } from "@kui-shell/client/config.d/name.json"
+import { productName, productTitle } from "@kui-shell/client/config.d/name.json"
 
 /**
  * We will set this bit when the user dismisses the Welcome to Kui
@@ -66,8 +66,8 @@ export default function renderMain(props: KuiProps) {
       toplevel={!Capabilities.inBrowser() && <Search />}
     >
       <ContextWidgets>
+        <TextWithIconWidget text={`${productName} ${version}`} viewLevel="normal" />
         <GitHubIcon />
-        <TextWithIconWidget text={version} viewLevel="normal" />
         {/* <CurrentContext />
        <CurrentNamespace /> */}
       </ContextWidgets>

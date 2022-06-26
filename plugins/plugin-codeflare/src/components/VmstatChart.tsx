@@ -19,8 +19,6 @@ import React from "react"
 import BaseChart, { BaseChartProps, Series } from "./Chart"
 import { Log } from "../controller/charts/vmstat"
 
-import "../../web/scss/components/Dashboard/Charts.scss"
-
 type Props = {
   logs: Log[]
 }
@@ -42,23 +40,25 @@ export default class VmstatChart extends React.PureComponent<Props, State> {
   }
 
   private static charts(props: Props): BaseChartProps[] {
+    const earliestTimestamp = props.logs.reduce((min, line) => Math.min(min, line.timestamp), Number.MAX_VALUE)
+
     const perNodeData = props.logs.reduce((M, line) => {
       if (!M[line.hostname]) {
         M[line.hostname] = [
-          { impl: "ChartArea", color: BaseChart.colors[1], data: [] },
-          { impl: "ChartLine", color: BaseChart.colors[2], data: [] },
+          { impl: "ChartArea", stroke: BaseChart.colors[1], data: [] },
+          { impl: "ChartLine", stroke: BaseChart.colors[2], data: [] },
         ]
       }
 
       M[line.hostname][0].data.push({
-        name: line.hostname + " CPU Utilization",
-        x: line.timestamp,
+        name: BaseChart.nodeNameLabel(line.hostname) + " CPU Utilization",
+        x: line.timestamp - earliestTimestamp,
         y: 100 - line.idle,
       })
 
       M[line.hostname][1].data.push({
-        name: line.hostname + " Free Memory",
-        x: line.timestamp,
+        name: BaseChart.nodeNameLabel(line.hostname) + " Free Memory",
+        x: line.timestamp - earliestTimestamp,
         y: line.freeMemory,
       })
 
@@ -70,13 +70,13 @@ export default class VmstatChart extends React.PureComponent<Props, State> {
       const data = series.map((_, idx) => BaseChart.normalize(_, idx === 0 ? "percentage" : "memory"))
 
       return {
-        title: "CPU Utilization " + node,
+        title: BaseChart.nodeNameLabel(node),
         desc: "Chart showing CPU utilization over time for " + node,
         series,
         padding: VmstatChart.padding,
         yAxes: [
           {
-            label: BaseChart.nodeNameLabel(node),
+            label: "CPU Utilization",
             format: "percentage",
             y: data[0].y,
             tickFormat: data[0].tickFormat,

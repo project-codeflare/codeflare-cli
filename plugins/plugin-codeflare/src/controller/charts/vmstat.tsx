@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-import { Arguments, Registrar } from "@kui-shell/core"
+import React from "react"
+import { Arguments } from "@kui-shell/core"
 
 import { expand } from "../../lib/util"
+import VmstatChart from "../../components/VmstatChart"
 
 export type Log = {
   hostname: string
@@ -49,26 +51,24 @@ function parse(cells: string[]): Log {
   }
 }
 
-async function chart(args: Arguments) {
+export default async function chart(args: Arguments) {
   const filepath = args.argvNoOptions[2]
   if (!filepath) {
     return `Usage chart vmstat ${filepath}`
   }
-
-  const React = import("react")
-  const VmstatChart = import("../../components/VmstatChart")
 
   const logs = (await args.REPL.qexec<string>(`vfs fslice ${expand(filepath)} 0`))
     .split(/\n/)
     .filter((logLine) => logLine && !/----|swpd/.test(logLine))
     .map((_) => _.split(/\s+/))
     .map(parse)
+    .sort((a, b) => a.hostname.localeCompare(b.hostname))
 
   return {
-    react: (await React).createElement((await VmstatChart).default, { logs }),
+    react: (
+      <div className="codeflare-chart-grid flex-fill">
+        <VmstatChart logs={logs} />
+      </div>
+    ),
   }
-}
-
-export default function registerChartCommands(registrar: Registrar) {
-  registrar.listen("/chart/vmstat", chart, { needsUI: true })
 }

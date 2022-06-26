@@ -1,0 +1,14 @@
+{
+  "themes": [
+    {
+      "name": "Mirage",
+      "css": ["themes/Mirage.scss"],
+      "style": "dark"
+    },
+    {
+      "name": "Tuatara",
+      "css": ["themes/Tuatara.scss"],
+      "style": "dark"
+    }
+  ]
+}

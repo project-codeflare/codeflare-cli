@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-@import "mixins";
-
-@include ChartGrid {
-  display: grid;
-  grid-gap: 6px;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-auto-rows: minmax(300px, max-content);
+@mixin ChartGrid {
+  .codeflare-chart-grid {
+    @content;
+  }
 }
 
-@include ChartContainer {
-  background-color: var(--color-base01);
+@mixin ChartContainer {
+  .codeflare-chart-container {
+    @content;
+  }
 }

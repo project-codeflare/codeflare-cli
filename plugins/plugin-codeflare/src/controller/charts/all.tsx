@@ -14,15 +14,21 @@
  * limitations under the License.
  */
 
-@import "mixins";
+import React from "react"
+import { Arguments, ReactResponse } from "@kui-shell/core"
 
-@include ChartGrid {
-  display: grid;
-  grid-gap: 6px;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-auto-rows: minmax(300px, max-content);
-}
+export default async function all(args: Arguments) {
+  const filepath = args.argvNoOptions[2]
+  if (!filepath) {
+    return `Usage chart all ${filepath}`
+  }
 
-@include ChartContainer {
-  background-color: var(--color-base01);
+  const charts = await Promise.all([
+    args.REPL.qexec<ReactResponse>(`chart gpu "${filepath}/resources/gpu.txt"`),
+    args.REPL.qexec<ReactResponse>(`chart vmstat "${filepath}/resources/pod-vmstat.txt"`),
+  ])
+
+  return {
+    react: <div className="codeflare-chart-grid flex-fill">{charts.flatMap((_) => _.react)}</div>,
+  }
 }
