@@ -1,0 +1,197 @@
+/*
+ * Copyright 2021 The Kubernetes Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@use "sass:color";
+@import "@kui-shell/plugin-client-common/web/scss/components/Table/mixins";
+@import "@kui-shell/plugin-client-common/web/scss/PatternFly/kui-alignment";
+@import "@kui-shell/plugin-client-common/web/scss/components/Terminal/mixins";
+@import "@kui-shell/plugin-client-common/web/scss/components/TopTabStripe/mixins";
+@import "@kui-shell/plugin-client-common/web/scss/components/Table/SequenceDiagram/mixins";
+
+@mixin Body($name) {
+  /* the '' + avoids "WARNING: You probably don't mean to use the color value gainsboro in interpolation here." */
+  /* see https://stackoverflow.com/a/62371464/5270773 */
+  body[kui-theme="#{'' + $name}"][kui-theme-style] {
+    @content;
+  }
+}
+
+@mixin Theme($name, $style: dark) {
+  @include Body($name) {
+    $color-red: #d12765 !default;
+    $color-green: $latency-5 !default;
+    $color-cyan: $latency-5 !default;
+    $color-yellow: $latency-3 !default;
+    $color-orange: $color-yellow !default;
+    $color-blue: $latency-2 !default;
+    $color-magenta: $color-red !default;
+    $color-purple: $color-red !default;
+
+    $fg2: color.scale($bg, $lightness: -10%) !default;
+    $bg3: color.scale($bg, $lightness: 10%) !default;
+    $fg3: color.scale($fg, $lightness: -30%) !default;
+    $fg4: color.scale($fg2, $lightness: -20%) !default;
+
+    --color-base00: #{$bg};
+
+    @if $style == "light" {
+      --color-base01: #{darken($bg, 4%)};
+      --color-base02: #{darken($bg, 25%)};
+      --color-base07: #{lighten($bg, 5%)};
+      .kui--inverted-color-context {
+        --color-base01: #{lighten($fg, 4%)}; /* plugin-kubectl's ExecIntoPod.tsx needs this */
+        --color-sidecar-background-01: #{lighten($fg, 4%)}; /* the rest of sidecar needs this */
+        --color-base02: #{lighten($bg, 25%)};
+      }
+    } @else {
+      --color-base01: #{$bg3};
+      --color-base02: #{color.scale($bg, $lightness: 25%)};
+      --color-base07: #{color.scale($fg, $lightness: -5%)};
+    }
+
+    --color-base03: #{$fg2};
+    --color-base04: #{$fg3};
+    --color-base05: #{$fg4};
+    --color-base06: #{$fg};
+    --color-base08: #{$color-red};
+    --color-base09: #{$color-orange};
+    --color-base0A: #{$color-yellow};
+    --color-base0B: #{$color-green};
+    --color-base0C: #{$color-cyan};
+    --color-base0D: #{$color-blue};
+    --color-base0E: #{$color-magenta};
+    --color-base0F: #{$color-purple};
+    --color-brand-01: #{$latency-1};
+    --color-brand-02: #{$latency-4};
+    --color-brand-03: #{$latency-2};
+
+    /* dunno why this isn't a core rule, oof */
+    --color-error-cell-bg: var(--color-base0E);
+    @if $style == "light" {
+      --color-error-cell-text: var(--color-base07);
+    } @else {
+      --color-error-cell-text: var(--color-text-01);
+    }
+
+    @if global-variable-exists(color-blue-inverted) {
+      .kui--inverted-color-context {
+        --color-blue: #{$color-blue-inverted};
+        --color-base0D: #{$color-blue-inverted};
+      }
+    }
+    @if global-variable-exists(color-red-inverted) {
+      .kui--inverted-color-context {
+        --color-red: #{$color-red-inverted};
+        --color-base08: #{$color-red-inverted};
+        --color-magenta: #{$color-red-inverted};
+        --color-base0F: #{$color-red-inverted};
+      }
+    }
+    @if global-variable-exists(color-green-inverted) {
+      .kui--inverted-color-context {
+        --color-green: #{$color-green-inverted};
+        --color-base0B: #{$color-green-inverted};
+        --color-ok: #{$color-green-inverted};
+      }
+    }
+    @if global-variable-exists(color-cyan-inverted) {
+      .kui--inverted-color-context {
+        --color-name: #{$color-cyan-inverted};
+        --color-cyan: #{$color-cyan-inverted};
+        --color-map-key: #{$color-cyan-inverted};
+        --color-base0C: #{$color-cyan-inverted};
+      }
+    }
+    @if global-variable-exists(color-purple-inverted) {
+      .kui--inverted-color-context {
+        --color-purple: #{$color-purple-inverted};
+        --color-base0F: #{$color-purple-inverted};
+      }
+    }
+
+    --color-stripe-01: #{lighten($bg2, 15%)};
+    --color-stripe-02: #{$bg2};
+    --color-sidecar-header: #{$bg2};
+
+    --color-latency-0: #{$latency-0};
+    --color-latency-1: #{$latency-1};
+    --color-latency-2: #{$latency-2};
+    --color-latency-3: #{$latency-3};
+    --color-latency-4: #{$latency-4};
+    --color-latency-5: #{$latency-5};
+
+    --active-tab-color: #{$latency-1};
+
+    .kui--inverted-color-context {
+      @if $style == "light" {
+        --color-sidecar-toolbar-background: #{lighten($fg, 45%)};
+        --color-sidecar-toolbar-foreground: #{$fg};
+      } @else {
+        --color-sidecar-toolbar-background: #{lighten($bg, 15%)};
+        --color-sidecar-toolbar-foreground: #{$fg};
+        --color-base03: #{lighten($bg2, 10%)};
+      }
+    }
+    .sidecar-bottom-stripe-toolbar .sidecar-toolbar-text,
+    .sidecar-bottom-stripe-toolbar .sidecar-bottom-stripe-mode-bits {
+    }
+
+    --pf-c-popover__content--BackgroundColor: #{$bg};
+
+    @include kui-patternfly-alignment-base;
+  }
+}
+
+@mixin Invert {
+  --color-text-01: #{lighten($bg, 15%)};
+  --color-text-02: #{lighten($bg, 5%)};
+
+  --color-map-value: var(--color-text-02);
+
+  --color-brand-01: #{$latency-5};
+  --color-brand-02: #{$latency-3};
+  --color-brand-03: #{$latency-5};
+}
+
+@mixin LightWithDarkSecondaryColor($name) {
+  @include Body($name) {
+    --color-text-02: #{darken($fg, 20%)};
+    .kui--inverted-color-context {
+      --color-text-02: #{lighten($bg, 20%)};
+    }
+  }
+}
+
+@mixin LightWithDarkStripe($name) {
+  @include Body($name) {
+    .kui--inverted-color-context {
+      @include Invert;
+    }
+    &:not(.kui--dashboard-mode) {
+      @include TopTabStripe {
+        @include Invert;
+        --color-text-02: #{lighten($bg, 5%)};
+        --active-tab-color: #{lighten($latency-5, 20%)};
+      }
+    }
+  }
+}
+
+@include SequenceDiagram {
+  @include TableRow {
+    --row-border: 1px solid transparent;
+  }
+}

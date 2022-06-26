@@ -16,11 +16,9 @@
 
 import { Registrar } from "@kui-shell/core"
 
-import gpu from "./gpu"
-import vmstat from "./vmstat"
-
 /** Register Kui Commands */
 export default function registerCodeflareCommands(registrar: Registrar) {
-  gpu(registrar)
-  vmstat(registrar)
+  registrar.listen("/chart/gpu", (args) => import("./gpu").then((_) => _.default(args)), { needsUI: true })
+  registrar.listen("/chart/vmstat", (args) => import("./vmstat").then((_) => _.default(args)), { needsUI: true })
+  registrar.listen("/chart/all", (args) => import("./all").then((_) => _.default(args)), { needsUI: true })
 }

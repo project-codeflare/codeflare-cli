@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 The Kubernetes Authors
+ * Copyright 2021 The Kubernetes Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,25 @@
  * limitations under the License.
  */
 
-@import "mixins";
+@use "sass:color";
+@import "fonts";
+@import "common";
 
-@include ChartGrid {
-  display: grid;
-  grid-gap: 6px;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-auto-rows: minmax(300px, max-content);
-}
+$Theme: Manhattan;
 
-@include ChartContainer {
-  background-color: var(--color-base01);
-}
+$fg: #231f20;
+$fg3: #00496a;
+$bg: #f4c7a1;
+$bg2: lighten($fg, 10%);
+$latency-0: #00496a;
+$latency-1: #02bcc3;
+$latency-2: color.scale(#e37825, $lightness: -30%);
+$latency-3: #f8ddc6;
+$latency-4: #ffffff;
+$latency-5: #e99351;
+
+$color-blue: $latency-0;
+$color-red: #f4a1a5;
+$color-cyan: color.scale($latency-1, $lightness: -30%);
+
+@include Theme($Theme, light);

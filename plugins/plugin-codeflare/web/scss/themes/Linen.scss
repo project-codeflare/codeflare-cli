@@ -1,0 +1,48 @@
+/*
+ * Copyright 2022 The Kubernetes Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@use "sass:color";
+@import "fonts";
+@import "common";
+
+$Theme: Linen;
+
+$fg: #190d06;
+$bg: #fff0e3;
+$fg2: color.scale($bg, $saturation: -40%, $lightness: 3%);
+$fg3: #594f47;
+$fg4: #d7cdc2;
+$bg2: color.scale($bg, $lightness: -10%);
+$latency-0: #0a5192; /* color.scale(color.adjust(#0a5192, $hue: -20deg), $saturation: 50%, $lightness: 15%); */
+$latency-1: color.scale(#2e8cc5, $lightness: 10%);
+$latency-2: #b4335e;
+$latency-3: #7e8330;
+$latency-4: color.scale(#da5272, $saturation: -50%, $lightness: 10%);
+$latency-5: color.scale(#0a5192, $saturation: -10%);
+
+/* #FD7B72 */
+$color-green: #b1cf6a;
+$color-red: #f74c5a;
+$color-blue: #0a5192;
+$color-cyan: #2e8cc5;
+$color-purple: #c48cbc;
+$color-magenta: #fa74a7;
+
+$color-blue-inverted: $latency-2;
+$color-cyan-inverted: $latency-5;
+$color-purple-inverted: $latency-4;
+
+@include Theme($Theme, light);
