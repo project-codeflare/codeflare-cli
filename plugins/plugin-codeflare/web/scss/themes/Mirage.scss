@@ -24,6 +24,7 @@ $fg: #f9f9f9;
 $bg: #121a25;
 $bg2: lighten($bg, 10%);
 $bg3: lighten($bg, 5%);
+$fg2: color.scale($bg, $lightness: 5%);
 $latency-0: #80b7b4;
 $latency-1: #02948e;
 $latency-2: color.scale(#d0981b, $lightness: 10%);
