@@ -1,12 +1,9 @@
 === "Summary"
 
-    ```json
+    ```shell
     ---
-    language: yaml
-    exclude:
-        - .source
-        - .language
-        - .runtimeEnv
+    execute: now
+    outputOnly: true
     ---
-    --8<-- "$LOGDIR/job.json"
+    description $LOGDIR/job.json
     ```

@@ -17,6 +17,7 @@
 import { Registrar } from "@kui-shell/core"
 import dashboard from "./controller/dashboard"
 import charts from "./controller/charts"
+import description from "./controller/description"
 
 function help() {
   return `Usage:
@@ -29,5 +30,6 @@ codeflare chart gpu /path/to/logdir`
 export default function registerCodeflareCommands(registrar: Registrar) {
   dashboard(registrar)
   charts(registrar)
+  description(registrar)
   registrar.listen("/help", help)
 }

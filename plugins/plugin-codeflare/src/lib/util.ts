@@ -18,3 +18,38 @@
 export function expand(expr: string): string {
   return expr.replace(/\${?([^}/\s]+)}?/g, (_, p1) => process.env[p1] || p1)
 }
+
+export type Summary = {
+  appClass: { label: string; value: string }
+  appName: { label: string; value: string }
+  language: { label: string; value: string }
+  pythonVersion: { label: string; value: string }
+  rayVersion: { label: string; value: string }
+  gpuClass: { label: string; value: string }
+  workerGPUs: { label: string; value: string }
+  workerMemory: { label: string; value: string }
+  workerCount: { label: string; value: string }
+  status: { label: string; value: string }
+  parameters: { label: string; value: string }
+  dataSources: { label: string; value: string }
+}
+
+export type SummaryResponse = {
+  jobid: string
+  cmdline: {
+    appPart: string
+    systemPart: string
+  }
+  runtimeEnv: {
+    env_vars: {
+      KUBE_NS: string
+      WORKER_MEMORY: string
+      NUM_GPUS: string
+      MIN_WORKERS: string
+      MAX_WORKERS: string
+      RAY_IMAGE: string
+    }
+  }
+  language: string
+  source: string
+}
