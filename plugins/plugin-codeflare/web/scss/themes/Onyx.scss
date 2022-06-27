@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+@use "sass:color";
 @import "fonts";
 @import "common";
 
@@ -23,14 +24,14 @@ $fg: #ffffff;
 $fg3: #cbcbcb;
 $bg: #0e0e0e;
 $bg2: lighten($bg, 10%);
-$latency-0: #60b1aa;
-$latency-1: #c5e6e3;
-$latency-2: #c83b22;
+$latency-0: #c5e6e3;
+$latency-1: #60b1aa;
+$latency-2: color.scale(#c83b22, $lightness: 20%);
 $latency-3: #f2bba3;
 $latency-4: #d76344;
 $latency-5: #929292;
 
-$color-red: $latency-2;
-$color-cyan: $latency-1;
+$color-red: #c83b22;
+$color-cyan: $latency-0;
 
 @include Theme($Theme);
