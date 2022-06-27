@@ -6,6 +6,11 @@
       "style": "dark"
     },
     {
+      "name": "Onyx",
+      "css": ["themes/Onyx.scss"],
+      "style": "dark"
+    },
+    {
       "name": "Tuatara",
       "css": ["themes/Tuatara.scss"],
       "style": "dark"
