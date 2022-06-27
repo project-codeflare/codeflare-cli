@@ -76,7 +76,7 @@ export default class VmstatChart extends React.PureComponent<Props, State> {
         padding: VmstatChart.padding,
         yAxes: [
           {
-            label: "CPU Utilization",
+            label: "Utilization",
             format: "percentage",
             y: data[0].y,
             tickFormat: data[0].tickFormat,

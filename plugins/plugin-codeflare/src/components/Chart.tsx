@@ -69,7 +69,7 @@ export default class BaseChart extends React.PureComponent<Props> {
   private static tickLabelFontSize = BaseChart.fontSize - 1
 
   private static readonly dimensions = {
-    width: 150,
+    width: 120,
     height: 200,
   }
 
@@ -155,7 +155,8 @@ export default class BaseChart extends React.PureComponent<Props> {
     celsius: (value: number) => ~~value + "C",
     percentage: (value: number) => value + "%",
     memory: (value: number) => ~~(value / 1024 / 1024) + " GiB",
-    timestamp: (timestamp: number) => (timestamp / 1000 / 60).toFixed(1) + "m",
+    timestamp: (timestamp: number) =>
+      timestamp < 60000 ? (timestamp / 1000).toFixed(0) + "s" : (timestamp / 1000 / 60).toFixed(1) + "m",
   }
 
   private readonly minDomain = {
@@ -172,8 +173,28 @@ export default class BaseChart extends React.PureComponent<Props> {
   }
 
   private xAxis() {
+    // TODO, factor this out into a State variable?
+    const { min, max } = this.props.charts.reduce(
+      (M, chart) =>
+        chart.series.reduce(
+          (M, series) =>
+            series.data.reduce((M, point) => {
+              M.min = Math.min(M.min, point.x)
+              M.max = Math.max(M.max, point.x)
+              return M
+            }, M),
+          M
+        ),
+      { min: Number.MAX_VALUE, max: Number.MIN_VALUE }
+    )
+
     return (
-      <ChartAxis scale="time" style={BaseChart.axisStyle} tickFormat={BaseChart.formatters.timestamp} tickCount={3} />
+      <ChartAxis
+        scale="time"
+        style={BaseChart.axisStyle}
+        tickFormat={BaseChart.formatters.timestamp}
+        tickValues={[(max - min) / 4, max]}
+      />
     )
   }
 

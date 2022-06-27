@@ -90,7 +90,7 @@ export default class GPUChart extends React.PureComponent<Props, State> {
         padding: GPUChart.padding,
         yAxes: [
           {
-            label: "GPU Utilization",
+            label: "Utilization",
             format: "percentage",
             y: data[0].y,
             tickFormat: data[0].tickFormat,
