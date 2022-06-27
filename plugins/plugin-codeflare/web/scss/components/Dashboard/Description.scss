@@ -14,22 +14,25 @@
  * limitations under the License.
  */
 
-import { Registrar } from "@kui-shell/core"
-import dashboard from "./controller/dashboard"
-import charts from "./controller/charts"
-import description from "./controller/description"
+@import "@kui-shell/plugin-client-common/web/scss/components/Terminal/mixins";
 
-function help() {
-  return `Usage:
-codeflare [run] [<task>] [-s /path/to/store] [-u]
-codeflare dashboard /path/to/logdir
-codeflare chart gpu /path/to/logdir`
-}
-
-/** Register Kui Commands */
-export default function registerCodeflareCommands(registrar: Registrar) {
-  dashboard(registrar)
-  charts(registrar)
-  description(registrar)
-  registrar.listen("/help", help)
+@include Scrollback {
+  dd {
+    margin: 0;
+  }
+  .pf-c-description-list {
+    grid-template-columns: 1fr;
+    padding: 0 1em;
+  }
+  .pf-c-description-list__group {
+    grid-template-columns: 1fr;
+  }
+  .pf-c-description-list__term,
+  .pf-c-description-list__description {
+    grid-column-start: unset;
+  }
+  .pf-c-description-list__description {
+    font-weight: 300;
+    color: var(--color-text-02);
+  }
 }
