@@ -15,6 +15,8 @@
  */
 
 import React from "react"
+import { Tile } from "@patternfly/react-core"
+
 import {
   Chart,
   ChartProps,
@@ -63,7 +65,7 @@ interface Props {
 }
 
 export default class BaseChart extends React.PureComponent<Props> {
-  private static fontSize = 7
+  private static fontSize = 9
   private static tickLabelFontSize = BaseChart.fontSize - 1
 
   private static readonly dimensions = {
@@ -72,10 +74,10 @@ export default class BaseChart extends React.PureComponent<Props> {
   }
 
   public static readonly padding = {
-    bottom: BaseChart.fontSize * 3,
-    top: BaseChart.fontSize * 5.5,
-    left: BaseChart.fontSize * 4.25,
-    right: BaseChart.fontSize * 4.25,
+    bottom: BaseChart.fontSize * 2,
+    top: BaseChart.fontSize * 4,
+    left: BaseChart.fontSize * 4,
+    right: BaseChart.fontSize * 4,
   }
 
   public static readonly colors = [
@@ -123,7 +125,7 @@ export default class BaseChart extends React.PureComponent<Props> {
     fill: string,
     fontSize = BaseChart.fontSize,
     fontStyle = "italic",
-    fontWeight = 300
+    fontWeight = 500
   ): ChartLabelProps["style"] {
     return { fontSize, fontStyle, fontWeight, fill }
   }
@@ -141,9 +143,12 @@ export default class BaseChart extends React.PureComponent<Props> {
     grid: { strokeWidth: 1, stroke: "var(--color-text-02)", strokeOpacity: 0.15 },
   })
 
-  private static readonly titleX = {
-    left: BaseChart.padding.left - BaseChart.tickLabelFontSize * 4,
-    right: BaseChart.dimensions.width - BaseChart.tickLabelFontSize * 2.5,
+  private static readonly titlePosition = {
+    x: {
+      left: BaseChart.padding.left - BaseChart.tickLabelFontSize * 4,
+      right: BaseChart.dimensions.width - BaseChart.tickLabelFontSize * 1.5,
+    },
+    y: BaseChart.padding.top - BaseChart.fontSize * 2,
   }
 
   private static readonly formatters = {
@@ -175,7 +180,7 @@ export default class BaseChart extends React.PureComponent<Props> {
   private yAxis(axis: BaseChartProps["yAxes"][number]) {
     if (axis) {
       // re: the + BaseChart.fontSize * N: shift the axis labels over a bit, to overlap with the ticks
-      const x = axis.orientation === "right" ? BaseChart.titleX.right : BaseChart.titleX.left
+      const x = axis.orientation === "right" ? BaseChart.titlePosition.x.right : BaseChart.titlePosition.x.left
 
       const labelColor =
         axis.style && axis.style.tickLabels && typeof axis.style.tickLabels.fill === "string"
@@ -186,7 +191,7 @@ export default class BaseChart extends React.PureComponent<Props> {
         <ChartLabel
           key="yAxisLabel"
           x={x}
-          y={BaseChart.padding.top - BaseChart.fontSize * 1.75}
+          y={BaseChart.titlePosition.y}
           style={BaseChart.axisLabelStyle(labelColor)}
           textAnchor={axis.orientation === "right" ? "end" : "start"}
           text={axis.label}
@@ -223,22 +228,11 @@ export default class BaseChart extends React.PureComponent<Props> {
     return this.lineStyle(stroke, "3,0.5", 2)
   }
 
-  private title(chart: BaseChartProps) {
-    return (
-      <ChartLabel
-        x={BaseChart.titleX.left}
-        y={BaseChart.fontSize * 1.5}
-        style={BaseChart.titleStyle()}
-        text={chart.title}
-      />
-    )
-  }
-
   private chart(chart: BaseChartProps, idx: number) {
+    // ariaTitle={chart.title}
     return (
-      <div className="codeflare-chart-container" key={idx}>
+      <Tile className="codeflare-chart-container" key={idx} title={chart.title}>
         <Chart
-          ariaTitle={chart.title}
           ariaDesc={chart.desc}
           padding={chart.padding || BaseChart.padding}
           width={BaseChart.dimensions.width}
@@ -258,7 +252,6 @@ export default class BaseChart extends React.PureComponent<Props> {
             />
           }
         >
-          {this.title(chart)}
           {this.xAxis()}
           {chart.series.flatMap(({ impl, stroke, fill = stroke, data }, idx) => {
             const yAxis =
@@ -294,7 +287,7 @@ export default class BaseChart extends React.PureComponent<Props> {
             }
           })}
         </Chart>
-      </div>
+      </Tile>
     )
   }
 

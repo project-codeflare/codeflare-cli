@@ -18,11 +18,17 @@
 
 @include ChartGrid {
   display: grid;
-  grid-gap: 6px;
+  grid-gap: 1em;
+  padding: 2em;
   grid-template-columns: 1fr 1fr 1fr;
   grid-auto-rows: minmax(300px, max-content);
 }
 
 @include ChartContainer {
   background-color: var(--color-base01);
+
+  &.pf-c-tile {
+    --pf-c-tile__title--Color: var(--color-text-01);
+    --pf-c-tile--before--BorderColor: var(--color-table-border3);
+  }
 }
