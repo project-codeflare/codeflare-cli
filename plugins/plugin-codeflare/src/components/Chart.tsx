@@ -211,16 +211,16 @@ export default class BaseChart extends React.PureComponent<Props> {
     }
   }
 
-  private areaStyle(stroke: string, fill: string, fillOpacity = 0.1): ChartAreaProps["style"] {
-    return { data: { stroke, fill, fillOpacity } }
+  private areaStyle(stroke: string, fill: string, strokeWidth = 1.25, fillOpacity = 0.1): ChartAreaProps["style"] {
+    return { data: { stroke, strokeWidth, fill, fillOpacity } }
   }
 
-  private lineStyle(color: string, extra: Required<ChartLineProps>["style"]["data"] = {}): ChartLineProps["style"] {
-    return { data: Object.assign({ stroke: color }, extra) }
+  private lineStyle(stroke: string, strokeDasharray = "", strokeWidth = 1.25): ChartLineProps["style"] {
+    return { data: { stroke, strokeWidth, strokeDasharray } }
   }
 
-  private lineDashStyle(color: string): ChartLineProps["style"] {
-    return this.lineStyle(color, { strokeDasharray: "3,0.5" })
+  private lineDashStyle(stroke: string): ChartLineProps["style"] {
+    return this.lineStyle(stroke, "3,0.5", 2)
   }
 
   private title(chart: BaseChartProps) {
