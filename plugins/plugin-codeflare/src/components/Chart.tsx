@@ -65,12 +65,12 @@ interface Props {
 }
 
 export default class BaseChart extends React.PureComponent<Props> {
-  private static fontSize = 9
+  private static fontSize = 7
   private static tickLabelFontSize = BaseChart.fontSize - 1
 
   private static readonly dimensions = {
     width: 120,
-    height: 160,
+    height: 140,
   }
 
   public static readonly padding = {
