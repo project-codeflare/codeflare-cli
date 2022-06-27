@@ -70,13 +70,13 @@ export default class BaseChart extends React.PureComponent<Props> {
 
   private static readonly dimensions = {
     width: 120,
-    height: 200,
+    height: 160,
   }
 
   public static readonly padding = {
-    bottom: BaseChart.fontSize * 2,
+    bottom: BaseChart.fontSize * 1.5,
     top: BaseChart.fontSize * 4,
-    left: BaseChart.fontSize * 4,
+    left: BaseChart.fontSize * 3.5,
     right: BaseChart.fontSize * 4,
   }
 
@@ -156,7 +156,7 @@ export default class BaseChart extends React.PureComponent<Props> {
     percentage: (value: number) => value + "%",
     memory: (value: number) => ~~(value / 1024 / 1024) + " GiB",
     timestamp: (timestamp: number) =>
-      timestamp < 60000 ? (timestamp / 1000).toFixed(0) + "s" : (timestamp / 1000 / 60).toFixed(1) + "m",
+      timestamp < 60 * 3 * 1000 ? (timestamp / 1000).toFixed(0) + "s" : (timestamp / 1000 / 60).toFixed(1) + "m",
   }
 
   private readonly minDomain = {
