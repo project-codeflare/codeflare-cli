@@ -60,10 +60,6 @@ body.kui--patternfly4[kui-theme="PatternFly4 Dark"][kui-theme-style] {
     --color-latency-0: #73c5c5;
     --color-latency-1: #a2d9d9;
     --color-latency-2: #ef9234;
-
-    @include ChartContainer {
-      background-color: var(--color-base00);
-    }
   }
 }
 
