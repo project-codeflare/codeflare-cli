@@ -1,0 +1,1135 @@
+
+2022-06-27 08:33:11 Starting Glue benchmark ---------------
+model: roberta-base
+gluedata: glue_data
+bucket: browsey
+tasks: WNLI
+seeds: 40 41 42 43
+learning_rate: 2e-05
+savemodel: True
+ray_service: glue-cluster-ray-head:10001
+S3 data looks good in bucket=browsey
+ Found actor=DataRefsActor with state {'glue_data': 'Cached', 'roberta-base': 'Cached'}
+2022-06-27 08:33:12 Submitted 4 subtasks
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Node ID: NodeID(496991dac9b79c3b89641b2bcbcebd62b05e50717e8b6f93dd1e8911)
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m GPU IDs: [0]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 2022-06-27 08:33:14 Get glue_data data reference from data actor
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Node ID: NodeID(92e113de1db441903d08a91398ce1af6cd894f5b36942d92a302cb41)
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m GPU IDs: [0]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 2022-06-27 08:33:14 Get glue_data data reference from data actor
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Node ID: NodeID(479a839162c41d3677b28450aa014a96ac16aad2cbb7ee52529833c5)
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m GPU IDs: [0]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 2022-06-27 08:33:14 Get glue_data data reference from data actor
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Node ID: NodeID(39541a37ec81ae20d45dbf3a4d67dce1e4adc8b5fd0047b842c95af7)
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m GPU IDs: [0]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 2022-06-27 08:33:14 Get glue_data data reference from data actor
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 2022-06-27 08:33:14 getting data length=405875765 took 0.22s
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 2022-06-27 08:33:14 getting data length=405875765 took 0.22s
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 2022-06-27 08:33:14 getting data length=405875765 took 0.20s
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 2022-06-27 08:33:14 getting data length=405875765 took 0.19s
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 2022-06-27 08:33:26 unpacking glue_data tarfile took 11.87s
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 2022-06-27 08:33:26 Get roberta-base data reference from data actor
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 2022-06-27 08:33:27 getting data length=1371970574 took 0.64s
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 2022-06-27 08:33:28 unpacking glue_data tarfile took 13.80s
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 2022-06-27 08:33:28 Get roberta-base data reference from data actor
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 2022-06-27 08:33:28 unpacking glue_data tarfile took 13.85s
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 2022-06-27 08:33:28 Get roberta-base data reference from data actor
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 2022-06-27 08:33:29 unpacking glue_data tarfile took 13.94s
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 2022-06-27 08:33:29 Get roberta-base data reference from data actor
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 2022-06-27 08:33:29 getting data length=1371970574 took 0.64s
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 2022-06-27 08:33:29 getting data length=1371970574 took 0.65s
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 2022-06-27 08:33:29 getting data length=1371970574 took 0.66s
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 2022-06-27 08:34:06 unpacking roberta-base tarfile took 38.14s
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Processing task WNLI seed 43 with model roberta-base
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m --2022-06-27 08:34:06--  https://raw.githubusercontent.com/huggingface/transformers/b0892fa0e8df02d683e05e625b3903209bff362d/examples/text-classification/run_glue.py
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.108.133, 185.199.109.133, 185.199.110.133, ...
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.108.133|:443... connected.
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m HTTP request sent, awaiting response... 
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 200 OK
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Length: 9504 (9.3K) [text/plain]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Saving to: ‘run_glue.py’
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m      0K .........                                             100% 62.3M=0s
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 2022-06-27 08:34:06 (62.3 MB/s) - ‘run_glue.py’ saved [9504/9504]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 2022-06-27 08:34:07 unpacking roberta-base tarfile took 37.23s
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Processing task WNLI seed 40 with model roberta-base
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m --2022-06-27 08:34:07--  https://raw.githubusercontent.com/huggingface/transformers/b0892fa0e8df02d683e05e625b3903209bff362d/examples/text-classification/run_glue.py
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.111.133, 185.199.108.133, 185.199.109.133, ...
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.111.133|:443... connected.
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m HTTP request sent, awaiting response... 200 OK
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Length: 9504 (9.3K) [text/plain]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Saving to: ‘run_glue.py’
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m      0K .........                                             100% 70.4M=0s
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 2022-06-27 08:34:07 (70.4 MB/s) - ‘run_glue.py’ saved [9504/9504]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 2022-06-27 08:34:07 unpacking roberta-base tarfile took 37.81s
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Processing task WNLI seed 41 with model roberta-base
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m --2022-06-27 08:34:07--  https://raw.githubusercontent.com/huggingface/transformers/b0892fa0e8df02d683e05e625b3903209bff362d/examples/text-classification/run_glue.py
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.111.133, 185.199.108.133, 185.199.109.133, ...
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.111.133|:443... connected.
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m HTTP request sent, awaiting response... 200 OK
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Length: 9504 (9.3K) [text/plain]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Saving to: ‘run_glue.py’
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m      0K .........                                             100% 70.9M=0s
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 2022-06-27 08:34:08 (70.9 MB/s) - ‘run_glue.py’ saved [9504/9504]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 2022-06-27 08:34:08 unpacking roberta-base tarfile took 38.01s
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Processing task WNLI seed 42 with model roberta-base
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m --2022-06-27 08:34:08--  https://raw.githubusercontent.com/huggingface/transformers/b0892fa0e8df02d683e05e625b3903209bff362d/examples/text-classification/run_glue.py
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.111.133, 185.199.108.133, 185.199.109.133, ...
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.111.133|:443... connected.
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m HTTP request sent, awaiting response... 200 OK
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Length: 9504 (9.3K) [text/plain]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Saving to: ‘run_glue.py’
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m      0K .........                                             100% 65.7M=0s
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 2022-06-27 08:34:08 (65.7 MB/s) - ‘run_glue.py’ saved [9504/9504]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m wandb: WARNING W&B installed but not logged in.  Run `wandb login` or set the WANDB_API_KEY env variable.
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:10 - INFO - transformers.training_args -   PyTorch: setting up devices
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:10 - WARNING - __main__ -   Process rank: -1, device: cuda:0, n_gpu: 1, distributed training: False, 16-bits training: False
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:10 - INFO - __main__ -   Training/evaluation parameters TrainingArguments(output_dir='result/roberta-base/WNLI/lr-2e-5/wnli_seed-43_lr-2e-5_TBATCH-32', overwrite_output_dir=True, do_train=True, do_eval=True, do_predict=False, evaluate_during_training=False, per_device_train_batch_size=32, per_device_eval_batch_size=8, per_gpu_train_batch_size=None, per_gpu_eval_batch_size=None, gradient_accumulation_steps=1, learning_rate=2e-05, weight_decay=0.0, adam_epsilon=1e-08, max_grad_norm=1.0, num_train_epochs=6.0, max_steps=-1, warmup_steps=0, logging_dir='runs/Jun27_08-34-10_mycluster-ray-worker-type-wxg6j', logging_first_step=False, logging_steps=500, save_steps=50000, save_total_limit=0, no_cuda=False, seed=43, fp16=False, fp16_opt_level='O1', local_rank=-1, tpu_num_cores=None, tpu_metrics_debug=False, debug=False, dataloader_drop_last=False, eval_steps=1000, past_index=-1)
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:10 - INFO - transformers.configuration_utils -   loading configuration file roberta-base/config.json
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:10 - INFO - transformers.configuration_utils -   Model config RobertaConfig {
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "architectures": [
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m     "RobertaForMaskedLM"
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   ],
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "attention_probs_dropout_prob": 0.1,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "bos_token_id": 0,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "eos_token_id": 2,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "finetuning_task": "wnli",
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "gradient_checkpointing": false,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "hidden_act": "gelu",
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "hidden_dropout_prob": 0.1,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "hidden_size": 768,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "initializer_range": 0.02,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "intermediate_size": 3072,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "layer_norm_eps": 1e-05,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "max_position_embeddings": 514,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "model_type": "roberta",
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "num_attention_heads": 12,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "num_hidden_layers": 12,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "pad_token_id": 1,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "type_vocab_size": 1,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "vocab_size": 50265
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m }
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:10 - INFO - transformers.configuration_utils -   loading configuration file roberta-base/config.json
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:10 - INFO - transformers.configuration_utils -   Model config RobertaConfig {
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "architectures": [
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m     "RobertaForMaskedLM"
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   ],
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "attention_probs_dropout_prob": 0.1,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "bos_token_id": 0,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "eos_token_id": 2,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "gradient_checkpointing": false,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "hidden_act": "gelu",
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "hidden_dropout_prob": 0.1,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "hidden_size": 768,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "initializer_range": 0.02,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "intermediate_size": 3072,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "layer_norm_eps": 1e-05,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "max_position_embeddings": 514,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "model_type": "roberta",
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "num_attention_heads": 12,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "num_hidden_layers": 12,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "pad_token_id": 1,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "type_vocab_size": 1,
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m   "vocab_size": 50265
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m }
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:10 - INFO - transformers.tokenization_utils_base -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-vocab.json from cache at /tmp/cache/d0c5776499adc1ded22493fae699da0971c1ee4c2587111707a4d177d20257a2.ef00af9e673c7160b4d41cfda1f48c5f4cba57d5142754525572a846a1ab1b9b
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:10 - INFO - transformers.tokenization_utils_base -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-merges.txt from cache at /tmp/cache/b35e7cd126cd4229a746b5d5c29a749e8e84438b14bcdb575950584fe33207e8.70bec105b4158ed9a1747fea67a43f5dee97855c64d62b6ec3742f4cfdb5feda
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:10 - INFO - transformers.modeling_utils -   loading weights file roberta-base/pytorch_model.bin
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m wandb: WARNING W&B installed but not logged in.  Run `wandb login` or set the WANDB_API_KEY env variable.
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:11 - INFO - transformers.training_args -   PyTorch: setting up devices
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:11 - WARNING - __main__ -   Process rank: -1, device: cuda:0, n_gpu: 1, distributed training: False, 16-bits training: False
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:11 - INFO - __main__ -   Training/evaluation parameters TrainingArguments(output_dir='result/roberta-base/WNLI/lr-2e-5/wnli_seed-40_lr-2e-5_TBATCH-32', overwrite_output_dir=True, do_train=True, do_eval=True, do_predict=False, evaluate_during_training=False, per_device_train_batch_size=32, per_device_eval_batch_size=8, per_gpu_train_batch_size=None, per_gpu_eval_batch_size=None, gradient_accumulation_steps=1, learning_rate=2e-05, weight_decay=0.0, adam_epsilon=1e-08, max_grad_norm=1.0, num_train_epochs=6.0, max_steps=-1, warmup_steps=0, logging_dir='runs/Jun27_08-34-11_mycluster-ray-worker-type-pdtbg', logging_first_step=False, logging_steps=500, save_steps=50000, save_total_limit=0, no_cuda=False, seed=40, fp16=False, fp16_opt_level='O1', local_rank=-1, tpu_num_cores=None, tpu_metrics_debug=False, debug=False, dataloader_drop_last=False, eval_steps=1000, past_index=-1)
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:11 - INFO - transformers.configuration_utils -   loading configuration file roberta-base/config.json
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:11 - INFO - transformers.configuration_utils -   Model config RobertaConfig {
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "architectures": [
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m     "RobertaForMaskedLM"
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   ],
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "attention_probs_dropout_prob": 0.1,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "bos_token_id": 0,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "eos_token_id": 2,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "finetuning_task": "wnli",
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "gradient_checkpointing": false,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "hidden_act": "gelu",
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "hidden_dropout_prob": 0.1,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "hidden_size": 768,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "initializer_range": 0.02,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "intermediate_size": 3072,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "layer_norm_eps": 1e-05,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "max_position_embeddings": 514,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "model_type": "roberta",
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "num_attention_heads": 12,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "num_hidden_layers": 12,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "pad_token_id": 1,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "type_vocab_size": 1,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "vocab_size": 50265
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m }
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:11 - INFO - transformers.configuration_utils -   loading configuration file roberta-base/config.json
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:11 - INFO - transformers.configuration_utils -   Model config RobertaConfig {
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "architectures": [
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m     "RobertaForMaskedLM"
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   ],
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "attention_probs_dropout_prob": 0.1,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "bos_token_id": 0,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "eos_token_id": 2,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "gradient_checkpointing": false,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "hidden_act": "gelu",
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "hidden_dropout_prob": 0.1,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "hidden_size": 768,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "initializer_range": 0.02,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "intermediate_size": 3072,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "layer_norm_eps": 1e-05,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "max_position_embeddings": 514,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "model_type": "roberta",
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "num_attention_heads": 12,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "num_hidden_layers": 12,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "pad_token_id": 1,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "type_vocab_size": 1,
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m   "vocab_size": 50265
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m }
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:11 - INFO - transformers.tokenization_utils_base -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-vocab.json from cache at /tmp/cache/d0c5776499adc1ded22493fae699da0971c1ee4c2587111707a4d177d20257a2.ef00af9e673c7160b4d41cfda1f48c5f4cba57d5142754525572a846a1ab1b9b
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:11 - INFO - transformers.tokenization_utils_base -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-merges.txt from cache at /tmp/cache/b35e7cd126cd4229a746b5d5c29a749e8e84438b14bcdb575950584fe33207e8.70bec105b4158ed9a1747fea67a43f5dee97855c64d62b6ec3742f4cfdb5feda
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:11 - INFO - transformers.modeling_utils -   loading weights file roberta-base/pytorch_model.bin
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m wandb: WARNING W&B installed but not logged in.  Run `wandb login` or set the WANDB_API_KEY env variable.
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:12 - INFO - transformers.training_args -   PyTorch: setting up devices
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:12 - WARNING - __main__ -   Process rank: -1, device: cuda:0, n_gpu: 1, distributed training: False, 16-bits training: False
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:12 - INFO - __main__ -   Training/evaluation parameters TrainingArguments(output_dir='result/roberta-base/WNLI/lr-2e-5/wnli_seed-41_lr-2e-5_TBATCH-32', overwrite_output_dir=True, do_train=True, do_eval=True, do_predict=False, evaluate_during_training=False, per_device_train_batch_size=32, per_device_eval_batch_size=8, per_gpu_train_batch_size=None, per_gpu_eval_batch_size=None, gradient_accumulation_steps=1, learning_rate=2e-05, weight_decay=0.0, adam_epsilon=1e-08, max_grad_norm=1.0, num_train_epochs=6.0, max_steps=-1, warmup_steps=0, logging_dir='runs/Jun27_08-34-12_mycluster-ray-worker-type-7ch6t', logging_first_step=False, logging_steps=500, save_steps=50000, save_total_limit=0, no_cuda=False, seed=41, fp16=False, fp16_opt_level='O1', local_rank=-1, tpu_num_cores=None, tpu_metrics_debug=False, debug=False, dataloader_drop_last=False, eval_steps=1000, past_index=-1)
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:12 - INFO - transformers.configuration_utils -   loading configuration file roberta-base/config.json
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:12 - INFO - transformers.configuration_utils -   Model config RobertaConfig {
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "architectures": [
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m     "RobertaForMaskedLM"
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   ],
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "attention_probs_dropout_prob": 0.1,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "bos_token_id": 0,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "eos_token_id": 2,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "finetuning_task": "wnli",
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "gradient_checkpointing": false,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "hidden_act": "gelu",
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "hidden_dropout_prob": 0.1,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "hidden_size": 768,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "initializer_range": 0.02,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "intermediate_size": 3072,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "layer_norm_eps": 1e-05,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "max_position_embeddings": 514,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "model_type": "roberta",
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "num_attention_heads": 12,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "num_hidden_layers": 12,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "pad_token_id": 1,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "type_vocab_size": 1,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "vocab_size": 50265
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m }
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:12 - INFO - transformers.configuration_utils -   loading configuration file roberta-base/config.json
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:12 - INFO - transformers.configuration_utils -   Model config RobertaConfig {
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "architectures": [
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m     "RobertaForMaskedLM"
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   ],
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "attention_probs_dropout_prob": 0.1,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "bos_token_id": 0,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "eos_token_id": 2,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "gradient_checkpointing": false,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "hidden_act": "gelu",
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "hidden_dropout_prob": 0.1,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "hidden_size": 768,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "initializer_range": 0.02,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "intermediate_size": 3072,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "layer_norm_eps": 1e-05,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "max_position_embeddings": 514,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "model_type": "roberta",
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "num_attention_heads": 12,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "num_hidden_layers": 12,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "pad_token_id": 1,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "type_vocab_size": 1,
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m   "vocab_size": 50265
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m }
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:12 - INFO - transformers.tokenization_utils_base -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-vocab.json from cache at /tmp/cache/d0c5776499adc1ded22493fae699da0971c1ee4c2587111707a4d177d20257a2.ef00af9e673c7160b4d41cfda1f48c5f4cba57d5142754525572a846a1ab1b9b
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:12 - INFO - transformers.tokenization_utils_base -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-merges.txt from cache at /tmp/cache/b35e7cd126cd4229a746b5d5c29a749e8e84438b14bcdb575950584fe33207e8.70bec105b4158ed9a1747fea67a43f5dee97855c64d62b6ec3742f4cfdb5feda
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:12 - INFO - transformers.modeling_utils -   loading weights file roberta-base/pytorch_model.bin
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m wandb: WARNING W&B installed but not logged in.  Run `wandb login` or set the WANDB_API_KEY env variable.
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:12 - INFO - transformers.training_args -   PyTorch: setting up devices
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:12 - WARNING - __main__ -   Process rank: -1, device: cuda:0, n_gpu: 1, distributed training: False, 16-bits training: False
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:12 - INFO - __main__ -   Training/evaluation parameters TrainingArguments(output_dir='result/roberta-base/WNLI/lr-2e-5/wnli_seed-42_lr-2e-5_TBATCH-32', overwrite_output_dir=True, do_train=True, do_eval=True, do_predict=False, evaluate_during_training=False, per_device_train_batch_size=32, per_device_eval_batch_size=8, per_gpu_train_batch_size=None, per_gpu_eval_batch_size=None, gradient_accumulation_steps=1, learning_rate=2e-05, weight_decay=0.0, adam_epsilon=1e-08, max_grad_norm=1.0, num_train_epochs=6.0, max_steps=-1, warmup_steps=0, logging_dir='runs/Jun27_08-34-12_mycluster-ray-worker-type-fn5j8', logging_first_step=False, logging_steps=500, save_steps=50000, save_total_limit=0, no_cuda=False, seed=42, fp16=False, fp16_opt_level='O1', local_rank=-1, tpu_num_cores=None, tpu_metrics_debug=False, debug=False, dataloader_drop_last=False, eval_steps=1000, past_index=-1)
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:12 - INFO - transformers.configuration_utils -   loading configuration file roberta-base/config.json
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:12 - INFO - transformers.configuration_utils -   Model config RobertaConfig {
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "architectures": [
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m     "RobertaForMaskedLM"
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   ],
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "attention_probs_dropout_prob": 0.1,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "bos_token_id": 0,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "eos_token_id": 2,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "finetuning_task": "wnli",
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "gradient_checkpointing": false,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "hidden_act": "gelu",
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "hidden_dropout_prob": 0.1,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "hidden_size": 768,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "initializer_range": 0.02,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "intermediate_size": 3072,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "layer_norm_eps": 1e-05,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "max_position_embeddings": 514,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "model_type": "roberta",
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "num_attention_heads": 12,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "num_hidden_layers": 12,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "pad_token_id": 1,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "type_vocab_size": 1,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "vocab_size": 50265
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m }
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:12 - INFO - transformers.configuration_utils -   loading configuration file roberta-base/config.json
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:12 - INFO - transformers.configuration_utils -   Model config RobertaConfig {
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "architectures": [
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m     "RobertaForMaskedLM"
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   ],
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "attention_probs_dropout_prob": 0.1,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "bos_token_id": 0,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "eos_token_id": 2,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "gradient_checkpointing": false,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "hidden_act": "gelu",
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "hidden_dropout_prob": 0.1,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "hidden_size": 768,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "initializer_range": 0.02,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "intermediate_size": 3072,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "layer_norm_eps": 1e-05,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "max_position_embeddings": 514,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "model_type": "roberta",
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "num_attention_heads": 12,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "num_hidden_layers": 12,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "pad_token_id": 1,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "type_vocab_size": 1,
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m   "vocab_size": 50265
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m }
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:12 - INFO - transformers.tokenization_utils_base -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-vocab.json from cache at /tmp/cache/d0c5776499adc1ded22493fae699da0971c1ee4c2587111707a4d177d20257a2.ef00af9e673c7160b4d41cfda1f48c5f4cba57d5142754525572a846a1ab1b9b
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:12 - INFO - transformers.tokenization_utils_base -   loading file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-merges.txt from cache at /tmp/cache/b35e7cd126cd4229a746b5d5c29a749e8e84438b14bcdb575950584fe33207e8.70bec105b4158ed9a1747fea67a43f5dee97855c64d62b6ec3742f4cfdb5feda
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:13 - INFO - transformers.modeling_utils -   loading weights file roberta-base/pytorch_model.bin
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - WARNING - transformers.modeling_utils -   Some weights of the model checkpoint at roberta-base were not used when initializing RobertaForSequenceClassification: ['lm_head.bias', 'lm_head.dense.weight', 'lm_head.dense.bias', 'lm_head.layer_norm.weight', 'lm_head.layer_norm.bias', 'lm_head.decoder.weight']
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m - This IS expected if you are initializing RobertaForSequenceClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPretraining model).
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m - This IS NOT expected if you are initializing RobertaForSequenceClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - WARNING - transformers.modeling_utils -   Some weights of RobertaForSequenceClassification were not initialized from the model checkpoint at roberta-base and are newly initialized: ['classifier.dense.weight', 'classifier.dense.bias', 'classifier.out_proj.weight', 'classifier.out_proj.bias']
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.datasets.glue -   Creating features from dataset file at glue_data/WNLI
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   guid: train-0
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 100, 4889, 10, 7756, 149, 10, 33129, 4, 520, 38, 2468, 5, 7756, 66, 6, 24, 56, 10, 4683, 4, 2, 2, 133, 33129, 56, 10, 4683, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   guid: train-1
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 10567, 1705, 75, 192, 5, 1289, 19, 7835, 11, 760, 9, 123, 142, 37, 16, 98, 765, 4, 2, 2, 10567, 16, 98, 765, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   guid: train-2
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 133, 249, 1128, 70, 9, 5, 5188, 453, 4, 252, 58, 667, 7, 912, 5, 1262, 721, 11, 5, 3757, 4, 2, 2, 133, 249, 58, 667, 7, 912, 5, 1262, 721, 11, 5, 3757, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   guid: train-3
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 21976, 3905, 7734, 18, 1246, 11, 960, 4, 91, 16882, 123, 13481, 4, 2, 2, 21976, 16882, 123, 13481, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=0)
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   guid: train-4
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 1779, 17734, 219, 1113, 1348, 5, 11657, 6, 69, 985, 21, 8416, 4, 264, 21, 7316, 45, 7, 32366, 69, 6, 2432, 9828, 8, 10907, 124, 88, 69, 16471, 4, 2, 2, 19456, 21, 7316, 45, 7, 32366, 69, 6, 2432, 9828, 8, 10907, 124, 88, 69, 16471, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=0)
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.datasets.glue -   Saving features into cached file glue_data/WNLI/cached_train_RobertaTokenizer_128_wnli [took 0.063 s]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.datasets.glue -   Creating features from dataset file at glue_data/WNLI
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   guid: dev-0
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 133, 15160, 16, 3741, 29519, 19, 2549, 4, 85, 34, 7, 28, 17317, 4, 2, 2, 133, 2549, 34, 7, 28, 17317, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=0)
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   guid: dev-1
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 35903, 6536, 15, 6470, 18, 1883, 53, 79, 222, 45, 1948, 4, 2, 2, 38621, 222, 45, 1948, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   guid: dev-2
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 387, 4774, 399, 75, 120, 5800, 19, 15282, 6, 54, 56, 847, 69, 160, 6, 142, 79, 2294, 8, 11590, 7, 2724, 4, 2, 2, 104, 2368, 2294, 8, 11590, 7, 2724, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=0)
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   guid: dev-3
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 3084, 65, 9447, 622, 7, 28, 5074, 8, 20100, 4, 125, 10, 92, 892, 31, 5, 589, 9, 4222, 19902, 1655, 5839, 10648, 14, 14, 18, 2230, 141, 24, 817, 201, 619, 4, 2, 2, 1711, 18, 2230, 141, 622, 817, 201, 619, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   guid: dev-4
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 133, 313, 1705, 75, 5258, 39, 979, 142, 37, 21, 98, 2016, 4, 2, 2, 133, 979, 21, 98, 2016, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:16 - INFO - transformers.data.datasets.glue -   Saving features into cached file glue_data/WNLI/cached_dev_RobertaTokenizer_128_wnli [took 0.007 s]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:16 - WARNING - transformers.modeling_utils -   Some weights of the model checkpoint at roberta-base were not used when initializing RobertaForSequenceClassification: ['lm_head.bias', 'lm_head.dense.weight', 'lm_head.dense.bias', 'lm_head.layer_norm.weight', 'lm_head.layer_norm.bias', 'lm_head.decoder.weight']
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m - This IS expected if you are initializing RobertaForSequenceClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPretraining model).
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m - This IS NOT expected if you are initializing RobertaForSequenceClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:16 - WARNING - transformers.modeling_utils -   Some weights of RobertaForSequenceClassification were not initialized from the model checkpoint at roberta-base and are newly initialized: ['classifier.dense.weight', 'classifier.dense.bias', 'classifier.out_proj.weight', 'classifier.out_proj.bias']
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:16 - INFO - transformers.data.datasets.glue -   Creating features from dataset file at glue_data/WNLI
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: train-0
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 100, 4889, 10, 7756, 149, 10, 33129, 4, 520, 38, 2468, 5, 7756, 66, 6, 24, 56, 10, 4683, 4, 2, 2, 133, 33129, 56, 10, 4683, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: train-1
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 10567, 1705, 75, 192, 5, 1289, 19, 7835, 11, 760, 9, 123, 142, 37, 16, 98, 765, 4, 2, 2, 10567, 16, 98, 765, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: train-2
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 133, 249, 1128, 70, 9, 5, 5188, 453, 4, 252, 58, 667, 7, 912, 5, 1262, 721, 11, 5, 3757, 4, 2, 2, 133, 249, 58, 667, 7, 912, 5, 1262, 721, 11, 5, 3757, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: train-3
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 21976, 3905, 7734, 18, 1246, 11, 960, 4, 91, 16882, 123, 13481, 4, 2, 2, 21976, 16882, 123, 13481, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=0)
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: train-4
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 1779, 17734, 219, 1113, 1348, 5, 11657, 6, 69, 985, 21, 8416, 4, 264, 21, 7316, 45, 7, 32366, 69, 6, 2432, 9828, 8, 10907, 124, 88, 69, 16471, 4, 2, 2, 19456, 21, 7316, 45, 7, 32366, 69, 6, 2432, 9828, 8, 10907, 124, 88, 69, 16471, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=0)
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.datasets.glue -   Saving features into cached file glue_data/WNLI/cached_train_RobertaTokenizer_128_wnli [took 0.065 s]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.datasets.glue -   Creating features from dataset file at glue_data/WNLI
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: dev-0
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 133, 15160, 16, 3741, 29519, 19, 2549, 4, 85, 34, 7, 28, 17317, 4, 2, 2, 133, 2549, 34, 7, 28, 17317, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=0)
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: dev-1
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 35903, 6536, 15, 6470, 18, 1883, 53, 79, 222, 45, 1948, 4, 2, 2, 38621, 222, 45, 1948, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: dev-2
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 387, 4774, 399, 75, 120, 5800, 19, 15282, 6, 54, 56, 847, 69, 160, 6, 142, 79, 2294, 8, 11590, 7, 2724, 4, 2, 2, 104, 2368, 2294, 8, 11590, 7, 2724, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=0)
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: dev-3
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 3084, 65, 9447, 622, 7, 28, 5074, 8, 20100, 4, 125, 10, 92, 892, 31, 5, 589, 9, 4222, 19902, 1655, 5839, 10648, 14, 14, 18, 2230, 141, 24, 817, 201, 619, 4, 2, 2, 1711, 18, 2230, 141, 622, 817, 201, 619, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: dev-4
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 133, 313, 1705, 75, 5258, 39, 979, 142, 37, 21, 98, 2016, 4, 2, 2, 133, 979, 21, 98, 2016, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:17 - INFO - transformers.data.datasets.glue -   Saving features into cached file glue_data/WNLI/cached_dev_RobertaTokenizer_128_wnli [took 0.007 s]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - WARNING - transformers.modeling_utils -   Some weights of the model checkpoint at roberta-base were not used when initializing RobertaForSequenceClassification: ['lm_head.bias', 'lm_head.dense.weight', 'lm_head.dense.bias', 'lm_head.layer_norm.weight', 'lm_head.layer_norm.bias', 'lm_head.decoder.weight']
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m - This IS expected if you are initializing RobertaForSequenceClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPretraining model).
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m - This IS NOT expected if you are initializing RobertaForSequenceClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - WARNING - transformers.modeling_utils -   Some weights of RobertaForSequenceClassification were not initialized from the model checkpoint at roberta-base and are newly initialized: ['classifier.dense.weight', 'classifier.dense.bias', 'classifier.out_proj.weight', 'classifier.out_proj.bias']
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.datasets.glue -   Creating features from dataset file at glue_data/WNLI
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: train-0
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 100, 4889, 10, 7756, 149, 10, 33129, 4, 520, 38, 2468, 5, 7756, 66, 6, 24, 56, 10, 4683, 4, 2, 2, 133, 33129, 56, 10, 4683, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: train-1
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 10567, 1705, 75, 192, 5, 1289, 19, 7835, 11, 760, 9, 123, 142, 37, 16, 98, 765, 4, 2, 2, 10567, 16, 98, 765, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: train-2
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 133, 249, 1128, 70, 9, 5, 5188, 453, 4, 252, 58, 667, 7, 912, 5, 1262, 721, 11, 5, 3757, 4, 2, 2, 133, 249, 58, 667, 7, 912, 5, 1262, 721, 11, 5, 3757, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: train-3
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 21976, 3905, 7734, 18, 1246, 11, 960, 4, 91, 16882, 123, 13481, 4, 2, 2, 21976, 16882, 123, 13481, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=0)
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: train-4
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 1779, 17734, 219, 1113, 1348, 5, 11657, 6, 69, 985, 21, 8416, 4, 264, 21, 7316, 45, 7, 32366, 69, 6, 2432, 9828, 8, 10907, 124, 88, 69, 16471, 4, 2, 2, 19456, 21, 7316, 45, 7, 32366, 69, 6, 2432, 9828, 8, 10907, 124, 88, 69, 16471, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=0)
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.datasets.glue -   Saving features into cached file glue_data/WNLI/cached_train_RobertaTokenizer_128_wnli [took 0.066 s]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.datasets.glue -   Creating features from dataset file at glue_data/WNLI
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: dev-0
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 133, 15160, 16, 3741, 29519, 19, 2549, 4, 85, 34, 7, 28, 17317, 4, 2, 2, 133, 2549, 34, 7, 28, 17317, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=0)
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: dev-1
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 35903, 6536, 15, 6470, 18, 1883, 53, 79, 222, 45, 1948, 4, 2, 2, 38621, 222, 45, 1948, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: dev-2
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 387, 4774, 399, 75, 120, 5800, 19, 15282, 6, 54, 56, 847, 69, 160, 6, 142, 79, 2294, 8, 11590, 7, 2724, 4, 2, 2, 104, 2368, 2294, 8, 11590, 7, 2724, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=0)
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: dev-3
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 3084, 65, 9447, 622, 7, 28, 5074, 8, 20100, 4, 125, 10, 92, 892, 31, 5, 589, 9, 4222, 19902, 1655, 5839, 10648, 14, 14, 18, 2230, 141, 24, 817, 201, 619, 4, 2, 2, 1711, 18, 2230, 141, 622, 817, 201, 619, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   guid: dev-4
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 133, 313, 1705, 75, 5258, 39, 979, 142, 37, 21, 98, 2016, 4, 2, 2, 133, 979, 21, 98, 2016, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:17 - INFO - transformers.data.datasets.glue -   Saving features into cached file glue_data/WNLI/cached_dev_RobertaTokenizer_128_wnli [took 0.008 s]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - WARNING - transformers.modeling_utils -   Some weights of the model checkpoint at roberta-base were not used when initializing RobertaForSequenceClassification: ['lm_head.bias', 'lm_head.dense.weight', 'lm_head.dense.bias', 'lm_head.layer_norm.weight', 'lm_head.layer_norm.bias', 'lm_head.decoder.weight']
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m - This IS expected if you are initializing RobertaForSequenceClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPretraining model).
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m - This IS NOT expected if you are initializing RobertaForSequenceClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - WARNING - transformers.modeling_utils -   Some weights of RobertaForSequenceClassification were not initialized from the model checkpoint at roberta-base and are newly initialized: ['classifier.dense.weight', 'classifier.dense.bias', 'classifier.out_proj.weight', 'classifier.out_proj.bias']
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.datasets.glue -   Creating features from dataset file at glue_data/WNLI
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   guid: train-0
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 100, 4889, 10, 7756, 149, 10, 33129, 4, 520, 38, 2468, 5, 7756, 66, 6, 24, 56, 10, 4683, 4, 2, 2, 133, 33129, 56, 10, 4683, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   guid: train-1
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 10567, 1705, 75, 192, 5, 1289, 19, 7835, 11, 760, 9, 123, 142, 37, 16, 98, 765, 4, 2, 2, 10567, 16, 98, 765, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   guid: train-2
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 133, 249, 1128, 70, 9, 5, 5188, 453, 4, 252, 58, 667, 7, 912, 5, 1262, 721, 11, 5, 3757, 4, 2, 2, 133, 249, 58, 667, 7, 912, 5, 1262, 721, 11, 5, 3757, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   guid: train-3
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 21976, 3905, 7734, 18, 1246, 11, 960, 4, 91, 16882, 123, 13481, 4, 2, 2, 21976, 16882, 123, 13481, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=0)
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   guid: train-4
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 1779, 17734, 219, 1113, 1348, 5, 11657, 6, 69, 985, 21, 8416, 4, 264, 21, 7316, 45, 7, 32366, 69, 6, 2432, 9828, 8, 10907, 124, 88, 69, 16471, 4, 2, 2, 19456, 21, 7316, 45, 7, 32366, 69, 6, 2432, 9828, 8, 10907, 124, 88, 69, 16471, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=0)
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.datasets.glue -   Saving features into cached file glue_data/WNLI/cached_train_RobertaTokenizer_128_wnli [took 0.066 s]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.datasets.glue -   Creating features from dataset file at glue_data/WNLI
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   guid: dev-0
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 133, 15160, 16, 3741, 29519, 19, 2549, 4, 85, 34, 7, 28, 17317, 4, 2, 2, 133, 2549, 34, 7, 28, 17317, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=0)
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   guid: dev-1
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 35903, 6536, 15, 6470, 18, 1883, 53, 79, 222, 45, 1948, 4, 2, 2, 38621, 222, 45, 1948, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   guid: dev-2
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 387, 4774, 399, 75, 120, 5800, 19, 15282, 6, 54, 56, 847, 69, 160, 6, 142, 79, 2294, 8, 11590, 7, 2724, 4, 2, 2, 104, 2368, 2294, 8, 11590, 7, 2724, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=0)
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   guid: dev-3
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 3084, 65, 9447, 622, 7, 28, 5074, 8, 20100, 4, 125, 10, 92, 892, 31, 5, 589, 9, 4222, 19902, 1655, 5839, 10648, 14, 14, 18, 2230, 141, 24, 817, 201, 619, 4, 2, 2, 1711, 18, 2230, 141, 622, 817, 201, 619, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   *** Example ***
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   guid: dev-4
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.processors.glue -   features: InputFeatures(input_ids=[0, 133, 313, 1705, 75, 5258, 39, 979, 142, 37, 21, 98, 2016, 4, 2, 2, 133, 979, 21, 98, 2016, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=None, label=1)
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:18 - INFO - transformers.data.datasets.glue -   Saving features into cached file glue_data/WNLI/cached_dev_RobertaTokenizer_128_wnli [took 0.007 s]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:20 - INFO - transformers.trainer -   You are instantiating a Trainer but W&B is not installed. To use wandb logging, run `pip install wandb; wandb login` see https://docs.wandb.com/huggingface.
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:20 - INFO - transformers.trainer -   ***** Running training *****
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:20 - INFO - transformers.trainer -     Num examples = 635
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:20 - INFO - transformers.trainer -     Num Epochs = 6
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:20 - INFO - transformers.trainer -     Instantaneous batch size per device = 32
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:20 - INFO - transformers.trainer -     Total train batch size (w. parallel, distributed & accumulation) = 32
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:20 - INFO - transformers.trainer -     Gradient Accumulation steps = 1
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:20 - INFO - transformers.trainer -     Total optimization steps = 120
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:20 - INFO - transformers.trainer -     Starting fine-tuning.
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Epoch:   0%|          | 0/6 [00:00<?, ?it/s]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:   5%|▌         | 1/20 [00:00<00:05,  3.66it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  3.99it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:04,  4.12it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:21 - INFO - transformers.trainer -   You are instantiating a Trainer but W&B is not installed. To use wandb logging, run `pip install wandb; wandb login` see https://docs.wandb.com/huggingface.
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:21 - INFO - transformers.trainer -   ***** Running training *****
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:21 - INFO - transformers.trainer -     Num examples = 635
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:21 - INFO - transformers.trainer -     Num Epochs = 6
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:21 - INFO - transformers.trainer -     Instantaneous batch size per device = 32
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:21 - INFO - transformers.trainer -     Total train batch size (w. parallel, distributed & accumulation) = 32
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:21 - INFO - transformers.trainer -     Gradient Accumulation steps = 1
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:21 - INFO - transformers.trainer -     Total optimization steps = 120
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:21 - INFO - transformers.trainer -     Starting fine-tuning.
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Epoch:   0%|          | 0/6 [00:00<?, ?it/s]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.19it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:22 - INFO - transformers.trainer -   You are instantiating a Trainer but W&B is not installed. To use wandb logging, run `pip install wandb; wandb login` see https://docs.wandb.com/huggingface.
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:22 - INFO - transformers.trainer -   ***** Running training *****
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:22 - INFO - transformers.trainer -     Num examples = 635
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:22 - INFO - transformers.trainer -     Num Epochs = 6
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:22 - INFO - transformers.trainer -     Instantaneous batch size per device = 32
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:22 - INFO - transformers.trainer -     Total train batch size (w. parallel, distributed & accumulation) = 32
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:22 - INFO - transformers.trainer -     Gradient Accumulation steps = 1
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:22 - INFO - transformers.trainer -     Total optimization steps = 120
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:22 - INFO - transformers.trainer -     Starting fine-tuning.
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Epoch:   0%|          | 0/6 [00:00<?, ?it/s]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.17it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  3.82it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.10it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.21it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:   5%|▌         | 1/20 [00:00<00:05,  3.79it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:04,  4.20it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:03,  4.16it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.09it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.26it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.19it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:23 - INFO - transformers.trainer -   You are instantiating a Trainer but W&B is not installed. To use wandb logging, run `pip install wandb; wandb login` see https://docs.wandb.com/huggingface.
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:23 - INFO - transformers.trainer -   ***** Running training *****
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:23 - INFO - transformers.trainer -     Num examples = 635
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:23 - INFO - transformers.trainer -     Num Epochs = 6
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:23 - INFO - transformers.trainer -     Instantaneous batch size per device = 32
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:23 - INFO - transformers.trainer -     Total train batch size (w. parallel, distributed & accumulation) = 32
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:23 - INFO - transformers.trainer -     Gradient Accumulation steps = 1
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:23 - INFO - transformers.trainer -     Total optimization steps = 120
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:23 - INFO - transformers.trainer -     Starting fine-tuning.
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Epoch:   0%|          | 0/6 [00:00<?, ?it/s]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:04,  4.15it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.22it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.28it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.26it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.29it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.24it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:   5%|▌         | 1/20 [00:00<00:05,  3.70it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.26it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:02,  4.34it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.26it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  3.99it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.28it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.25it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.35it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:03,  4.30it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:04,  4.07it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.33it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.24it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.12it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.32it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.36it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.24it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.16it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.33it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.37it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.26it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.33it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.08it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.36it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.14it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.34it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:03,  4.11it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.35it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  85%|████████▌ | 17/20 [00:04<00:00,  4.18it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.12it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.37it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.34it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.18it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.39it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.33it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.16it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.21it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.38it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.22it/s]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Epoch:  17%|█▋        | 1/6 [00:04<00:23,  4.74s/it]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.40it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.15it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.32it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.40it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  85%|████████▌ | 17/20 [00:03<00:00,  4.34it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.28it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.15it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.38it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.36it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.28it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.18it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  85%|████████▌ | 17/20 [00:03<00:00,  4.39it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.36it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.49it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.34it/s]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Epoch:  17%|█▋        | 1/6 [00:04<00:23,  4.61s/it]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:03,  4.27it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.03it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.38it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.23it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.09it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.41it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.57it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.36it/s]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Epoch:  17%|█▋        | 1/6 [00:04<00:22,  4.59s/it]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.36it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.23it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.11it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.37it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.27it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.16it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.36it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:03,  4.38it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:03,  4.27it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  85%|████████▌ | 17/20 [00:04<00:00,  4.15it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.35it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.33it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.28it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.16it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:03,  4.38it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.34it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.18it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.32it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.15it/s]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Epoch:  17%|█▋        | 1/6 [00:04<00:24,  4.82s/it]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.39it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.26it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.33it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.15it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.41it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:02,  4.34it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.18it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.42it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.20it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.36it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.14it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:02,  4.37it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.23it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.27it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.37it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.24it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:04,  4.17it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.30it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.25it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.20it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.38it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.31it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.21it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.39it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.27it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.33it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.38it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.25it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.17it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.30it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.37it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  85%|████████▌ | 17/20 [00:04<00:00,  4.26it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:03,  4.20it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.34it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  65%|██████▌   | 13/20 [00:02<00:01,  4.39it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.20it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.28it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.37it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.38it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.17it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.36it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.26it/s]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Epoch:  33%|███▎      | 2/6 [00:09<00:18,  4.71s/it]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.16it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.35it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.39it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.16it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  85%|████████▌ | 17/20 [00:03<00:00,  4.35it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.39it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.18it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.36it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.31it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  85%|████████▌ | 17/20 [00:03<00:00,  4.39it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.27it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.18it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.34it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.45it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.35it/s]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Epoch:  33%|███▎      | 2/6 [00:09<00:18,  4.60s/it]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.32it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:03,  4.29it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.19it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.34it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.51it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.40it/s]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Epoch:  33%|███▎      | 2/6 [00:09<00:18,  4.56s/it]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.28it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.18it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.36it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.39it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.30it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.35it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.18it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.30it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.15it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:03,  4.39it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.36it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:03,  4.29it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.35it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:03,  4.34it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  85%|████████▌ | 17/20 [00:04<00:00,  4.17it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.38it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.29it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.32it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.17it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.38it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.30it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.17it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.31it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.20it/s]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Epoch:  33%|███▎      | 2/6 [00:09<00:19,  4.79s/it]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.31it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.30it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:02,  4.34it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.31it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.29it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.36it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:03,  4.31it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.15it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.34it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.28it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.30it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.18it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.36it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.26it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.33it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:04,  4.19it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.25it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.38it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.32it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.12it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.39it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.27it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.33it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.17it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  65%|██████▌   | 13/20 [00:02<00:01,  4.39it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.27it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.33it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.08it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.38it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  85%|████████▌ | 17/20 [00:03<00:00,  4.26it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.34it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:03,  4.11it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.39it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.28it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.30it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.09it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.38it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.29it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.34it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.29it/s]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Epoch:  50%|█████     | 3/6 [00:14<00:14,  4.69s/it]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.31it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.05it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  85%|████████▌ | 17/20 [00:03<00:00,  4.37it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.33it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.06it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.38it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.28it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  85%|████████▌ | 17/20 [00:03<00:00,  4.35it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.37it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.53it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.40it/s]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Epoch:  50%|█████     | 3/6 [00:13<00:13,  4.58s/it]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.07it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.31it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.36it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.06it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:03,  4.29it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.38it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.54it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.36it/s]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Epoch:  50%|█████     | 3/6 [00:13<00:13,  4.57s/it]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.38it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.30it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.09it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.38it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.12it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.24it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.38it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:03,  4.37it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.11it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.25it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.39it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.37it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:03,  4.23it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:03,  4.41it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.12it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.37it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.42it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  85%|████████▌ | 17/20 [00:04<00:00,  4.16it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.24it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.36it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.13it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.21it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.41it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:02,  4.38it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.22it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.39it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.15it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.31it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.14it/s]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Epoch:  50%|█████     | 3/6 [00:14<00:14,  4.81s/it]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.38it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:02,  4.37it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.23it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.39it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.38it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.13it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.21it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.38it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.24it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.36it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.12it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.38it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.35it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:04,  4.14it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.26it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.36it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.34it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.13it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.26it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  65%|██████▌   | 13/20 [00:02<00:01,  4.36it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.29it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.35it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.36it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.15it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  65%|██████▌   | 13/20 [00:02<00:01,  4.30it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  85%|████████▌ | 17/20 [00:03<00:00,  4.30it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.11it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.27it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.27it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.27it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.29it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:03,  4.11it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.32it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.28it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.43it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.28it/s]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Epoch:  67%|██████▋   | 4/6 [00:18<00:09,  4.68s/it]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  85%|████████▌ | 17/20 [00:03<00:00,  4.31it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.06it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.31it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.11it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.32it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  85%|████████▌ | 17/20 [00:03<00:00,  4.32it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.29it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.34it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.48it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.37it/s]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Epoch:  67%|██████▋   | 4/6 [00:18<00:09,  4.58s/it]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.11it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.33it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.29it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.13it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.32it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.45it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.37it/s]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Epoch:  67%|██████▋   | 4/6 [00:18<00:09,  4.58s/it]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:03,  4.29it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.40it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.16it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.24it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.29it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.11it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.31it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.28it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:03,  4.30it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.11it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.31it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.26it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.32it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.12it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:03,  4.28it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.30it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:03,  4.24it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.10it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.28it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.25it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.32it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.28it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.28it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  85%|████████▌ | 17/20 [00:04<00:00,  4.12it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:03,  4.31it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.31it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.26it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.13it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.32it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.13it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.28it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.14it/s]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Epoch:  67%|██████▋   | 4/6 [00:19<00:09,  4.81s/it]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:02,  4.34it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.30it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.27it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.34it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.28it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.32it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.33it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.25it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.17it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.33it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.35it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.14it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.36it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.26it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:04,  4.15it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.37it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.35it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.27it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.35it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.28it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.18it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.34it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.35it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.17it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.33it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  85%|████████▌ | 17/20 [00:03<00:00,  4.30it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.35it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.31it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.34it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.16it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.27it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.28it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.44it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.30it/s]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Epoch:  83%|████████▎ | 5/6 [00:23<00:04,  4.67s/it]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:03,  4.15it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  85%|████████▌ | 17/20 [00:03<00:00,  4.35it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.31it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.15it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.20it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  85%|████████▌ | 17/20 [00:03<00:00,  4.33it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.13it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.23it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.41it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.33it/s]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Epoch:  83%|████████▎ | 5/6 [00:22<00:04,  4.59s/it]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.11it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.36it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.00it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.02it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.36it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.54it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.36it/s]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Epoch:  83%|████████▎ | 5/6 [00:22<00:04,  4.58s/it]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:04,  4.03it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.28it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.05it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.28it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.11it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.08it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.40it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:03,  4.32it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.17it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.43it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.12it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.33it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.20it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:03,  4.44it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.08it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.32it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:03,  4.23it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.09it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.43it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.33it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.25it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.41it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.11it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:02,  4.34it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.26it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.40it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  85%|████████▌ | 17/20 [00:04<00:00,  4.09it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.34it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.25it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:03,  4.31it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.12it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.26it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.26it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.35it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.02it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.17it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.12it/s]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Epoch:  83%|████████▎ | 5/6 [00:24<00:04,  4.83s/it]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.30it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.24it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.37it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:   0%|          | 0/20 [00:00<?, ?it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.26it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.35it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.25it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:   5%|▌         | 1/20 [00:00<00:04,  4.04it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.27it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.26it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.37it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  10%|█         | 2/20 [00:00<00:04,  4.12it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.29it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.27it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.37it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  15%|█▌        | 3/20 [00:00<00:04,  4.11it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.28it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.26it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  65%|██████▌   | 13/20 [00:02<00:01,  4.38it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  20%|██        | 4/20 [00:00<00:03,  4.13it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.38it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.30it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  85%|████████▌ | 17/20 [00:04<00:00,  4.25it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  25%|██▌       | 5/20 [00:01<00:03,  4.15it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.33it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.23it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.39it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  85%|████████▌ | 17/20 [00:03<00:00,  4.32it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.24it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.41it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.25it/s]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Epoch: 100%|██████████| 6/6 [00:28<00:00,  4.68s/it]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Epoch: 100%|██████████| 6/6 [00:28<00:00,  4.69s/it]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:48 - INFO - transformers.trainer -
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Training completed. Do not forget to share your model on huggingface.co/models =)
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:48 - INFO - transformers.trainer -   Saving model checkpoint to result/roberta-base/WNLI/lr-2e-5/wnli_seed-43_lr-2e-5_TBATCH-32
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:48 - INFO - transformers.configuration_utils -   Configuration saved in result/roberta-base/WNLI/lr-2e-5/wnli_seed-43_lr-2e-5_TBATCH-32/config.json
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  30%|███       | 6/20 [00:01<00:03,  4.15it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.40it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  35%|███▌      | 7/20 [00:01<00:03,  4.12it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  85%|████████▌ | 17/20 [00:03<00:00,  4.40it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.32it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  40%|████      | 8/20 [00:01<00:02,  4.16it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.35it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.34it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.50it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.34it/s]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Epoch: 100%|██████████| 6/6 [00:27<00:00,  4.60s/it]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Epoch: 100%|██████████| 6/6 [00:27<00:00,  4.59s/it]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:49 - INFO - transformers.trainer -
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Training completed. Do not forget to share your model on huggingface.co/models =)
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:49 - INFO - transformers.trainer -   Saving model checkpoint to result/roberta-base/WNLI/lr-2e-5/wnli_seed-40_lr-2e-5_TBATCH-32
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:49 - INFO - transformers.configuration_utils -   Configuration saved in result/roberta-base/WNLI/lr-2e-5/wnli_seed-40_lr-2e-5_TBATCH-32/config.json
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.36it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.53it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.40it/s]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Epoch: 100%|██████████| 6/6 [00:27<00:00,  4.57s/it]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Epoch: 100%|██████████| 6/6 [00:27<00:00,  4.57s/it]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:49 - INFO - transformers.trainer -
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Training completed. Do not forget to share your model on huggingface.co/models =)
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:49 - INFO - transformers.trainer -   Saving model checkpoint to result/roberta-base/WNLI/lr-2e-5/wnli_seed-41_lr-2e-5_TBATCH-32
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:49 - INFO - transformers.configuration_utils -   Configuration saved in result/roberta-base/WNLI/lr-2e-5/wnli_seed-41_lr-2e-5_TBATCH-32/config.json
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:49 - INFO - transformers.modeling_utils -   Model weights saved in result/roberta-base/WNLI/lr-2e-5/wnli_seed-43_lr-2e-5_TBATCH-32/pytorch_model.bin
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  45%|████▌     | 9/20 [00:02<00:02,  4.13it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:49 - INFO - __main__ -   *** Evaluate ***
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:49 - INFO - transformers.trainer -   ***** Running Evaluation *****
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:49 - INFO - transformers.trainer -     Num examples = 71
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:49 - INFO - transformers.trainer -     Batch size = 8
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  50%|█████     | 10/20 [00:02<00:02,  4.17it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Evaluation:   0%|          | 0/9 [00:00<?, ?it/s]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  55%|█████▌    | 11/20 [00:02<00:02,  4.13it/s][A
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Evaluation:  56%|█████▌    | 5/9 [00:00<00:00, 48.62it/s]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m Evaluation: 100%|██████████| 9/9 [00:00<00:00, 44.33it/s]
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:49 - INFO - transformers.trainer -   {'eval_loss': 0.6930272446738349, 'eval_acc': 0.4788732394366197, 'epoch': 6.0, 'step': 120}
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:49 - INFO - __main__ -   ***** Eval results wnli *****
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:49 - INFO - __main__ -     eval_loss = 0.6930272446738349
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:49 - INFO - __main__ -     eval_acc = 0.4788732394366197
+[2m[36m(Process_task pid=481, ip=10.129.46.16)[0m 06/27/2022 08:34:49 - INFO - __main__ -     epoch = 6.0
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:50 - INFO - transformers.modeling_utils -   Model weights saved in result/roberta-base/WNLI/lr-2e-5/wnli_seed-40_lr-2e-5_TBATCH-32/pytorch_model.bin
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:50 - INFO - transformers.modeling_utils -   Model weights saved in result/roberta-base/WNLI/lr-2e-5/wnli_seed-41_lr-2e-5_TBATCH-32/pytorch_model.bin
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:50 - INFO - __main__ -   *** Evaluate ***
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:50 - INFO - transformers.trainer -   ***** Running Evaluation *****
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:50 - INFO - transformers.trainer -     Num examples = 71
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:50 - INFO - transformers.trainer -     Batch size = 8
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  60%|██████    | 12/20 [00:02<00:01,  4.14it/s][A
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Evaluation:   0%|          | 0/9 [00:00<?, ?it/s]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:50 - INFO - __main__ -   *** Evaluate ***
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:50 - INFO - transformers.trainer -   ***** Running Evaluation *****
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:50 - INFO - transformers.trainer -     Num examples = 71
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:50 - INFO - transformers.trainer -     Batch size = 8
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Evaluation:  56%|█████▌    | 5/9 [00:00<00:00, 49.61it/s]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m Evaluation: 100%|██████████| 9/9 [00:00<00:00, 49.23it/s]
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:50 - INFO - transformers.trainer -   {'eval_loss': 0.6928180588616265, 'eval_acc': 0.5633802816901409, 'epoch': 6.0, 'step': 120}
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:50 - INFO - __main__ -   ***** Eval results wnli *****
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:50 - INFO - __main__ -     eval_loss = 0.6928180588616265
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:50 - INFO - __main__ -     eval_acc = 0.5633802816901409
+[2m[36m(Process_task pid=486, ip=10.131.46.17)[0m 06/27/2022 08:34:50 - INFO - __main__ -     epoch = 6.0
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  65%|██████▌   | 13/20 [00:03<00:01,  4.09it/s][A
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Evaluation:   0%|          | 0/9 [00:00<?, ?it/s]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Evaluation:  44%|████▍     | 4/9 [00:00<00:00, 36.95it/s]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Evaluation: 100%|██████████| 9/9 [00:00<00:00, 44.13it/s]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m Evaluation: 100%|██████████| 9/9 [00:00<00:00, 42.95it/s]
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:50 - INFO - transformers.trainer -   {'eval_loss': 0.6902288595835367, 'eval_acc': 0.5633802816901409, 'epoch': 6.0, 'step': 120}
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:50 - INFO - __main__ -   ***** Eval results wnli *****
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:50 - INFO - __main__ -     eval_loss = 0.6902288595835367
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:50 - INFO - __main__ -     eval_acc = 0.5633802816901409
+[2m[36m(Process_task pid=490, ip=10.128.48.16)[0m 06/27/2022 08:34:50 - INFO - __main__ -     epoch = 6.0
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  70%|███████   | 14/20 [00:03<00:01,  4.14it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  75%|███████▌  | 15/20 [00:03<00:01,  4.16it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  80%|████████  | 16/20 [00:03<00:00,  4.15it/s][A
+2022-06-27 08:34:51 roberta-base lr-2e-5 WNLI seed-43 took 44.2s on mycluster-ray-worker-type-wxg6j ... 1 of 4 subtasks done
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  85%|████████▌ | 17/20 [00:04<00:00,  4.16it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  90%|█████████ | 18/20 [00:04<00:00,  4.15it/s][A
+2022-06-27 08:34:51 roberta-base lr-2e-5 WNLI seed-40 took 43.6s on mycluster-ray-worker-type-pdtbg ... 2 of 4 subtasks done
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration:  95%|█████████▌| 19/20 [00:04<00:00,  4.14it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.31it/s][A
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Iteration: 100%|██████████| 20/20 [00:04<00:00,  4.16it/s]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Epoch: 100%|██████████| 6/6 [00:28<00:00,  4.82s/it]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Epoch: 100%|██████████| 6/6 [00:28<00:00,  4.82s/it]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:51 - INFO - transformers.trainer -
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Training completed. Do not forget to share your model on huggingface.co/models =)
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:51 - INFO - transformers.trainer -   Saving model checkpoint to result/roberta-base/WNLI/lr-2e-5/wnli_seed-42_lr-2e-5_TBATCH-32
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:51 - INFO - transformers.configuration_utils -   Configuration saved in result/roberta-base/WNLI/lr-2e-5/wnli_seed-42_lr-2e-5_TBATCH-32/config.json
+2022-06-27 08:34:52 roberta-base lr-2e-5 WNLI seed-41 took 43.5s on mycluster-ray-worker-type-7ch6t ... 3 of 4 subtasks done
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:52 - INFO - transformers.modeling_utils -   Model weights saved in result/roberta-base/WNLI/lr-2e-5/wnli_seed-42_lr-2e-5_TBATCH-32/pytorch_model.bin
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:52 - INFO - __main__ -   *** Evaluate ***
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:52 - INFO - transformers.trainer -   ***** Running Evaluation *****
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:52 - INFO - transformers.trainer -     Num examples = 71
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:52 - INFO - transformers.trainer -     Batch size = 8
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Evaluation:   0%|          | 0/9 [00:00<?, ?it/s]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Evaluation:  56%|█████▌    | 5/9 [00:00<00:00, 48.34it/s]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m Evaluation: 100%|██████████| 9/9 [00:00<00:00, 48.37it/s]
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:53 - INFO - transformers.trainer -   {'eval_loss': 0.6969749132792155, 'eval_acc': 0.38028169014084506, 'epoch': 6.0, 'step': 120}
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:53 - INFO - __main__ -   ***** Eval results wnli *****
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:53 - INFO - __main__ -     eval_loss = 0.6969749132792155
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:53 - INFO - __main__ -     eval_acc = 0.38028169014084506
+[2m[36m(Process_task pid=480, ip=10.130.46.18)[0m 06/27/2022 08:34:53 - INFO - __main__ -     epoch = 6.0
+2022-06-27 08:34:54 roberta-base lr-2e-5 WNLI seed-42 took 45.4s on mycluster-ray-worker-type-fn5j8 ... 4 of 4 subtasks done
