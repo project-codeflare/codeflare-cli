@@ -50,7 +50,7 @@ export default function registerDashboardCommands(registrar: Registrar) {
     alias: { follow: ["f"] },
   }
 
-  registrar.listen("/dashboard", dashboardcli, { flags })
+  registrar.listen("/dashboard", dashboardcli, { flags, outputOnly: true })
   registrar.listen("/codeflare/dashboardui", dashboardui, {
     needsUI: true,
     outputOnly: true,
