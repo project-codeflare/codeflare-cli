@@ -15,7 +15,6 @@
  */
 
 import React from "react"
-import { Tile } from "@patternfly/react-core"
 
 import {
   Chart,
@@ -69,15 +68,15 @@ export default class BaseChart extends React.PureComponent<Props> {
   private static tickLabelFontSize = BaseChart.fontSize - 1
 
   private static readonly dimensions = {
-    width: 120,
-    height: 140,
+    width: 140,
+    height: 160,
   }
 
   public static readonly padding = {
-    bottom: BaseChart.fontSize * 1.5,
-    top: BaseChart.fontSize * 4,
-    left: BaseChart.fontSize * 3.5,
-    right: BaseChart.fontSize * 4,
+    bottom: BaseChart.fontSize * 3,
+    top: BaseChart.fontSize * 5,
+    left: BaseChart.fontSize * 4.5,
+    right: BaseChart.fontSize * 4.5,
   }
 
   public static readonly colors = [
@@ -124,7 +123,7 @@ export default class BaseChart extends React.PureComponent<Props> {
   private static axisLabelStyle(
     fill: string,
     fontSize = BaseChart.fontSize,
-    fontStyle = "italic",
+    fontStyle = "normal",
     fontWeight = 500
   ): ChartLabelProps["style"] {
     return { fontSize, fontStyle, fontWeight, fill }
@@ -249,10 +248,21 @@ export default class BaseChart extends React.PureComponent<Props> {
     return this.lineStyle(stroke, "3,0.5", 2)
   }
 
+  private title(chart: BaseChartProps) {
+    return (
+      <ChartLabel
+        x={BaseChart.titlePosition.x.left}
+        y={BaseChart.fontSize * 1.5}
+        style={BaseChart.titleStyle()}
+        text={chart.title}
+      />
+    )
+  }
+
   private chart(chart: BaseChartProps, idx: number) {
     // ariaTitle={chart.title}
     return (
-      <Tile className="codeflare-chart-container" key={idx} title={chart.title}>
+      <div className="codeflare-chart-container" key={idx}>
         <Chart
           ariaDesc={chart.desc}
           padding={chart.padding || BaseChart.padding}
@@ -273,6 +283,7 @@ export default class BaseChart extends React.PureComponent<Props> {
             />
           }
         >
+          {this.title(chart)}
           {this.xAxis()}
           {chart.series.flatMap(({ impl, stroke, fill = stroke, data }, idx) => {
             const yAxis =
@@ -308,7 +319,7 @@ export default class BaseChart extends React.PureComponent<Props> {
             }
           })}
         </Chart>
-      </Tile>
+      </div>
     )
   }
 
