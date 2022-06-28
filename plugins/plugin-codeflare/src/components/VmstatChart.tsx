@@ -16,11 +16,12 @@
 
 import React from "react"
 
-import BaseChart, { BaseChartProps, Series } from "./Chart"
 import { Log } from "../controller/charts/vmstat"
+import BaseChart, { BaseChartProps } from "./Chart"
+import { HostMap } from "../controller/charts/LogRecord"
 
 type Props = {
-  logs: Log[]
+  logs: HostMap<Log>
 }
 
 type State = {
@@ -40,33 +41,29 @@ export default class VmstatChart extends React.PureComponent<Props, State> {
   }
 
   private static charts(props: Props): BaseChartProps[] {
-    const earliestTimestamp = props.logs.reduce((min, line) => Math.min(min, line.timestamp), Number.MAX_VALUE)
+    const earliestTimestamp: number = Object.values(props.logs).reduce(
+      (min, logs) => logs.reduce((min, line) => Math.min(min, line.timestamp), Number.MAX_VALUE),
+      Number.MAX_VALUE
+    )
 
-    const perNodeData = props.logs.reduce((M, line) => {
-      if (!M[line.hostname]) {
-        M[line.hostname] = [
-          { impl: "ChartArea", stroke: BaseChart.colors[1], data: [] },
-          { impl: "ChartLine", stroke: BaseChart.colors[2], data: [] },
-        ]
-      }
-
-      M[line.hostname][0].data.push({
-        name: BaseChart.nodeNameLabel(line.hostname) + " CPU Utilization",
+    return Object.entries(props.logs).map(([node, lines]) => {
+      const d1 = lines.map((line) => ({
+        name: BaseChart.nodeNameLabel(node) + " CPU Utilization",
         x: line.timestamp - earliestTimestamp,
         y: 100 - line.idle,
-      })
+      }))
 
-      M[line.hostname][1].data.push({
-        name: BaseChart.nodeNameLabel(line.hostname) + " Free Memory",
+      const d2 = lines.map((line) => ({
+        name: BaseChart.nodeNameLabel(node) + " Free Memory",
         x: line.timestamp - earliestTimestamp,
         y: line.freeMemory,
-      })
+      }))
 
-      return M
-    }, {} as Record<string, Series[]>)
+      const series = [
+        { impl: "ChartArea" as const, stroke: BaseChart.colors[1], data: d1 },
+        { impl: "ChartLine" as const, stroke: BaseChart.colors[2], data: d2 },
+      ]
 
-    return Object.keys(perNodeData).map((node) => {
-      const series = perNodeData[node]
       const data = series.map((_, idx) => BaseChart.normalize(_, idx === 0 ? "percentage" : "memory"))
 
       return {
@@ -76,7 +73,7 @@ export default class VmstatChart extends React.PureComponent<Props, State> {
         padding: VmstatChart.padding,
         yAxes: [
           {
-            label: "Utilization",
+            label: "CPU",
             format: "percentage",
             y: data[0].y,
             tickFormat: data[0].tickFormat,

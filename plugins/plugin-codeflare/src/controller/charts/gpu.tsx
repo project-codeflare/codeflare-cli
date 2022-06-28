@@ -19,17 +19,18 @@ import stripAnsi from "strip-ansi"
 import { Arguments } from "@kui-shell/core"
 
 import { expand } from "../../lib/util"
-import GPUChart from "../../components/GPUChart"
+import LogRecord, { toHostMap } from "./LogRecord"
 
-export type Log = {
-  cluster: string
-  timestamp: number
+import GPUChart from "../../components/GPUChart"
+import ChartGrid from "../../components/ChartGrid"
+
+export type Log = LogRecord<{
   gpuType: string
   utilizationGPU: number
   utilizationMemory: number
   totalMemory: number
   temperatureGPU: number
-}
+}>
 
 function formatLogs(logs: string) {
   return logs
@@ -40,7 +41,7 @@ function formatLogs(logs: string) {
 
 function formatLogObject(logLine: string[]) {
   const splittedLine = logLine[0].split(/\s|\t\t/gi)
-  const cluster = splittedLine[splittedLine.length - 3]
+  const hostname = splittedLine[splittedLine.length - 3]
   const timestamp = new Date(splittedLine.slice(splittedLine.length - 2).join(" ")).getTime()
   const gpuType = splittedLine.slice(0, splittedLine.length - 5).join(" ")
 
@@ -48,7 +49,7 @@ function formatLogObject(logLine: string[]) {
   const [, utilizationGPU, utilizationMemory, totalMemory, temperatureGPU] = utilizationData
 
   const newObj: Log = {
-    cluster,
+    hostname,
     timestamp,
     gpuType,
     utilizationGPU,
@@ -59,21 +60,27 @@ function formatLogObject(logLine: string[]) {
   return newObj
 }
 
-export default async function chart(args: Arguments) {
-  const filepath = args.argvNoOptions[2]
-  if (!filepath) {
-    return `Usage chart gpu ${filepath}`
-  }
-
-  const logs = stripAnsi(await args.REPL.qexec<string>(`vfs fslice ${expand(filepath)} 0`))
+export async function parse(filepath: string, REPL: Arguments["REPL"]) {
+  const logs = stripAnsi(await REPL.qexec<string>(`vfs fslice ${expand(filepath)} 0`))
   const formattedLogs = formatLogs(logs)
-  const objLogs = formattedLogs.map((logLine) => formatLogObject(logLine))
+  return toHostMap(formattedLogs.map((logLine) => formatLogObject(logLine)))
+}
 
+export function chart(logs: Awaited<ReturnType<typeof parse>>) {
   return {
     react: (
-      <div className="codeflare-chart-grid flex-fill">
-        <GPUChart logs={objLogs} />
-      </div>
+      <ChartGrid>
+        <GPUChart logs={logs} />
+      </ChartGrid>
     ),
   }
+}
+
+export default async function chartCmd(args: Arguments) {
+  const filepath = args.argvNoOptions[2]
+  if (!filepath) {
+    throw new Error(`Usage chart vmstat ${filepath}`)
+  }
+
+  return chart(await parse(filepath, args.REPL))
 }
