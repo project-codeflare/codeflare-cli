@@ -1,4 +1,5 @@
 ---
+title: Dashboard
 layout:
     1:
         position: default

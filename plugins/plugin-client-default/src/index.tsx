@@ -58,15 +58,16 @@ export default function renderMain(props: KuiProps) {
       version={version}
       productName={productTitle}
       lightweightTables
+      noNewTabButton
+      noNewSplitButton
       {...props}
+      initialTabTitle="Dashboard"
       isPopup={false}
-      noTopTabs
-      guidebooks={false}
       quietExecCommand={false}
       toplevel={!Capabilities.inBrowser() && <Search />}
     >
       <ContextWidgets>
-        <TextWithIconWidget text={`${productName} ${version}`} viewLevel="normal" />
+        <TextWithIconWidget text={`${productName} v${version}`} viewLevel="normal" />
         <GitHubIcon />
         {/* <CurrentContext />
        <CurrentNamespace /> */}
