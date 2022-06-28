@@ -28,11 +28,4 @@
 
 @include ChartContainer {
   background-color: var(--color-base00);
-
-  &.pf-c-tile {
-    padding-left: 1em;
-    padding-right: 1em;
-    --pf-c-tile__title--Color: var(--color-text-01);
-    --pf-c-tile--before--BorderColor: var(--color-base00);
-  }
 }
