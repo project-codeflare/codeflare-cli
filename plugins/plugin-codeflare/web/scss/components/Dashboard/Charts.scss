@@ -17,11 +17,13 @@
 @import "mixins";
 
 @include ChartGrid {
+  $gap: 0.6875em;
+
   display: grid;
-  grid-gap: 0.6875em;
-  padding: 2em;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: minmax(300px, max-content);
+  grid-gap: $gap;
+  padding: $gap;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: minmax(250px, max-content);
 
   font-family: var(--font-sans-serif);
 }

@@ -29,17 +29,12 @@
 
 @include TopLevelTab {
   @include Split(3) {
-    /* @include Rows(7); */
-    @include Columns(13);
-    grid-template-rows: repeat(3, 10vmax) repeat(4, auto);
+    grid-template-rows: 200px 1fr;
+    grid-template-columns: repeat(4, minmax(100px, 200px)) repeat(9, minmax(150px, auto));
+
     grid-template-areas:
-      "T1 T1 T1 T3 T3 T3 T3 T3 T3 T3 T3 T3 T3"
-      "T1 T1 T1 T3 T3 T3 T3 T3 T3 T3 T3 T3 T3"
-      "T1 T1 T1 T3 T3 T3 T3 T3 T3 T3 T3 T3 T3"
-      "T1 T1 T1 T2 T2 T2 T2 T2 T2 T2 T2 T2 T2"
-      "T1 T1 T1 T2 T2 T2 T2 T2 T2 T2 T2 T2 T2"
-      "T1 T1 T1 T2 T2 T2 T2 T2 T2 T2 T2 T2 T2"
-      "T1 T1 T1 T2 T2 T2 T2 T2 T2 T2 T2 T2 T2";
+      "T1 T1 T1 T1 T1 T1 T1 T1 T1 T1 T1 T1 T1"
+      "T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2 T2 T2";
   }
 }
 
