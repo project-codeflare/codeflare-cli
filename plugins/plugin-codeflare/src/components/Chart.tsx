@@ -27,13 +27,55 @@ import {
   ChartLabelProps,
   ChartLine,
   ChartLineProps,
-  ChartTooltip,
-  ChartVoronoiContainer,
+  ChartLegendTooltip,
+  ChartLegendTooltipContent,
+  ChartLegendTooltipContentProps,
+  ChartLegendTooltipLabel,
+  ChartLegendTooltipProps,
+  ChartLegendLabelProps,
+  createContainer,
 } from "@patternfly/react-charts"
 
 import "../../web/scss/components/Dashboard/Charts.scss"
 
 type Format = "celsius" | "percentage" | "timestamp" | "memory"
+
+class MyTooltipLabel extends React.PureComponent<ChartLabelProps> {
+  public render() {
+    return <ChartLabel {...this.props} style={BaseChart.legendLabelStyle} />
+  }
+}
+
+class MyTooltipLegendLabel extends React.PureComponent<ChartLegendLabelProps> {
+  public render() {
+    const dx =
+      typeof this.props.dx === "number"
+        ? this.props.dx
+        : typeof this.props.dx === "string"
+        ? parseInt(this.props.dx, 10)
+        : 0
+    return (
+      <ChartLegendTooltipLabel
+        {...this.props}
+        dx={((dx || 0) * BaseChart.legendLabelStyle.fontSize) / 14 - 6}
+        style={BaseChart.legendLabelStyle}
+        legendLabelComponent={<MyTooltipLabel />}
+      />
+    )
+  }
+}
+
+class MyTooltipContent extends React.PureComponent<ChartLegendTooltipContentProps> {
+  public render() {
+    return (
+      <ChartLegendTooltipContent
+        {...this.props}
+        labelComponent={<MyTooltipLegendLabel />}
+        titleComponent={<ChartLabel style={BaseChart.legendTitleStyle} />}
+      />
+    )
+  }
+}
 
 export type Series = {
   impl: "ChartArea" | "ChartLine" | "ChartDashedLine"
@@ -98,6 +140,14 @@ export default class BaseChart extends React.PureComponent<Props> {
 
   private static readonly labelColor = "var(--color-text-01)"
   private static readonly fontFamily = "var(--font-sans-serif)"
+
+  /** See our overrides above */
+  public static readonly legendLabelStyle = {
+    fontSize: BaseChart.fontSize,
+    fontFamily: BaseChart.fontFamily,
+    fill: "var(--color-base00)",
+  }
+  public static readonly legendTitleStyle = Object.assign({}, BaseChart.legendLabelStyle, { fontWeight: "bold" })
 
   public static readonly axisStyle: ChartAxisProps["style"] = {
     ticks: { strokeOpacity: 0 },
@@ -255,8 +305,22 @@ export default class BaseChart extends React.PureComponent<Props> {
     )
   }
 
+  private getTooltipLabels({ datum }: { datum: { name: string; y: number } }) {
+    // TODO: format these e.g. x% or xC or x Gi
+    return `${datum.y}`
+  }
+
+  private getLegendData(chart: BaseChartProps): ChartLegendTooltipProps["legendData"] {
+    return chart.series.map(({ data, stroke, fill }) => ({
+      childName: data[0].name,
+      name: data[0].name?.replace(/^\S+\s*/, ""),
+      symbol: { fill: fill || stroke },
+    }))
+  }
+
   private chart(chart: BaseChartProps, idx: number) {
     // ariaTitle={chart.title}
+    const CursorVoronoiContainer = createContainer("voronoi", "cursor")
     return (
       <div className="codeflare-chart-container" key={idx}>
         <Chart
@@ -266,16 +330,18 @@ export default class BaseChart extends React.PureComponent<Props> {
           height={BaseChart.dimensions.height}
           domain={chart.domain}
           containerComponent={
-            <ChartVoronoiContainer
-              voronoiDimension="x"
-              constrainToVisibleArea
-              labels={({ datum }) => `${datum.name.replace(/^\S+\s*/, "")}: ${datum.y}`}
+            <CursorVoronoiContainer
+              labels={this.getTooltipLabels}
               labelComponent={
-                <ChartTooltip
-                  style={{ fontSize: BaseChart.fontSize, fill: "var(--color-text-01)", textAnchor: "end" }}
-                  flyoutStyle={{ fill: "var(--color-base00)", strokeWidth: 0.5, stroke: "var(--color-base02)" }}
+                <ChartLegendTooltip
+                  isCursorTooltip
+                  labelComponent={<MyTooltipContent />}
+                  legendData={this.getLegendData(chart)}
+                  title={(datum: any) => `${new Date(datum.x + this.props.timeRange.min).toLocaleString()}`}
                 />
               }
+              mouseFollowTooltips
+              voronoiPadding={20}
             />
           }
         >
@@ -303,9 +369,9 @@ export default class BaseChart extends React.PureComponent<Props> {
 
             const chartui =
               impl === "ChartArea" ? (
-                <ChartArea key={idx} interpolation="monotoneX" {...props} />
+                <ChartArea key={idx} interpolation="monotoneX" name={data[idx].name} {...props} />
               ) : (
-                <ChartLine key={idx} interpolation="monotoneX" {...props} />
+                <ChartLine key={idx} interpolation="monotoneX" name={data[idx].name} {...props} />
               )
 
             if (chart.yAxes[idx]) {
