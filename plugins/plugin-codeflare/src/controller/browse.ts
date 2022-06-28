@@ -14,25 +14,19 @@
  * limitations under the License.
  */
 
-import { Registrar } from "@kui-shell/core"
+import { Arguments, Registrar } from "@kui-shell/core"
 
-import browse from "./controller/browse"
-import dashboard from "./controller/dashboard"
-import charts from "./controller/charts"
-import description from "./controller/description"
+import "../../web/scss/components/Dashboard/s3.scss"
 
-function help() {
-  return `Usage:
-codeflare [run] [<task>] [-s /path/to/store] [-u]
-codeflare dashboard /path/to/logdir
-codeflare chart gpu /path/to/logdir`
+async function browseS3(args: Arguments) {
+  await import("@kui-shell/plugin-s3").then((_) => _.enable())
+  return args.REPL.qexec("ls /s3")
 }
 
-/** Register Kui Commands */
-export default function registerCodeflareCommands(registrar: Registrar) {
-  browse(registrar)
-  dashboard(registrar)
-  charts(registrar)
-  description(registrar)
-  registrar.listen("/help", help)
+export default function registerBrowseCommands(registrar: Registrar) {
+  registrar.listen("/browse/s3", browseS3, {
+    needsUI: true,
+    width: 1280,
+    height: 960,
+  })
 }

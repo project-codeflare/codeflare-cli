@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-@use "sass:color";
 @import "@kui-shell/plugin-client-common/web/scss/components/Card/mixins";
 @import "@kui-shell/plugin-client-common/web/scss/components/Editor/mixins";
 @import "@kui-shell/plugin-client-common/web/scss/components/Terminal/mixins";
@@ -24,9 +23,9 @@
 
 @import "mixins";
 
-@include TopTabStripe {
+/*@include TopTabStripe {
   display: none !important;
-}
+}*/
 
 @include TopLevelTab {
   @include Split(3) {

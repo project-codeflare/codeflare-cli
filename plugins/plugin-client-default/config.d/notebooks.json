@@ -1,7 +1,7 @@
 {
   "label": "Notebooks",
   "submenu": [
-    { "notebook": "Dashboard", "filepath": "dashboard.md" },
-    { "notebook": "Dashboard (live)", "filepath": "dashboard-live.md" }
+    { "notebook": "Dashboard", "filepath": "/kui/client/dashboard.md" },
+    { "notebook": "S3 Browser", "filepath": "/kui/client/s3.md" }
   ]
 }
