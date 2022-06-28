@@ -17,20 +17,9 @@
 import { Arguments, Registrar } from "@kui-shell/core"
 import { expand } from "../lib/util"
 
-export type Summary = {
-  appClass: { label: string; value: string }
-  appName: { label: string; value: string }
-  language: { label: string; value: string }
-  pythonVersion: { label: string; value: string }
-  rayVersion: { label: string; value: string }
-  gpuClass: { label: string; value: string }
-  workerGPUs: { label: string; value: string }
-  workerMemory: { label: string; value: string }
-  workerCount: { label: string; value: string }
-  status: { label: string; value: string }
-  parameters: { label: string; value: string }
-  dataSources: { label: string; value: string }
-}
+type Item = { label: string; value: string }
+
+export type Summary = Item[]
 
 export type SummaryResponse = {
   jobid: string
@@ -40,6 +29,7 @@ export type SummaryResponse = {
   }
   runtimeEnv: {
     env_vars: {
+      KUBE_CONTEXT: string
       KUBE_NS: string
       WORKER_MEMORY: string
       NUM_GPUS: string
@@ -59,22 +49,18 @@ async function description(args: Arguments) {
   }
 
   const summaryCmd = JSON.parse(await args.REPL.qexec<string>(`vfs fslice ${expand(filepath)} 0`))
-  const { KUBE_NS, WORKER_MEMORY, NUM_GPUS, MIN_WORKERS, MAX_WORKERS, RAY_IMAGE } = summaryCmd.runtimeEnv.env_vars
+  const { KUBE_CONTEXT, KUBE_NS, WORKER_MEMORY, MIN_WORKERS, MAX_WORKERS, RAY_IMAGE } = summaryCmd.runtimeEnv.env_vars
 
-  const summaryData = {
-    appClass: { label: "Application Class", value: "Unknown" },
-    appName: { label: "Application Name", value: "Unknown" },
-    language: { label: "Source Language", value: summaryCmd.language },
-    pythonVersion: { label: "Python Version", value: "Unknown" },
-    rayVersion: { label: "Ray Version", value: RAY_IMAGE },
-    gpuClass: { label: "GPU Class", value: KUBE_NS },
-    workerGPUs: { label: "GPUs per Worker", value: NUM_GPUS },
-    workerMemory: { label: "Memory per Worker", value: WORKER_MEMORY },
-    workerCount: { label: "Worker Count", value: `${MIN_WORKERS}-${MAX_WORKERS}` },
-    status: { label: "Status", value: "Unknown" },
-    parameters: { label: "Parameters", value: "Unknown" },
-    dataSources: { label: "Data Sources", value: "Unknown" },
-  }
+  const summaryData = [
+    { label: "Application Class", value: "Unknown" },
+    { label: "Application Name", value: "Unknown" },
+    { label: "Cluster Context", value: KUBE_CONTEXT.replace(/^[^/]+\//, "") },
+    { label: "Cluster Namespace", value: KUBE_NS },
+    { label: "Base Image", value: RAY_IMAGE },
+    { label: "GPU Class", value: "Unknown" },
+    { label: "Memory per Worker", value: WORKER_MEMORY },
+    { label: "Worker Count", value: `${MIN_WORKERS}-${MAX_WORKERS}` },
+  ]
 
   const React = await import("react")
   const Description = await import("../components/Description")

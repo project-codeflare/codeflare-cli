@@ -36,7 +36,7 @@ const Description = (props: Props) => {
 
   return (
     <DescriptionList>
-      {Object.values(summaryData).map(({ label, value }, index) => (
+      {summaryData.map(({ label, value }, index) => (
         <DescriptionListGroup key={index}>
           <DescriptionListTerm>{label}</DescriptionListTerm>
           <DescriptionListDescription>{value}</DescriptionListDescription>
