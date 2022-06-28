@@ -27,8 +27,8 @@ import {
   ChartLabelProps,
   ChartLine,
   ChartLineProps,
-  ChartTooltip,
-  ChartVoronoiContainer,
+  ChartLegendTooltip,
+  createContainer,
 } from "@patternfly/react-charts"
 
 import "../../web/scss/components/Dashboard/Charts.scss"
@@ -260,7 +260,13 @@ export default class BaseChart extends React.PureComponent<Props> {
   }
 
   private chart(chart: BaseChartProps, idx: number) {
+    console.log(chart.yAxes.map((item) => console.log(item)))
     // ariaTitle={chart.title}
+    const CursorVoronoiContainer = createContainer("voronoi", "cursor")
+    const legendData = chart.yAxes.map((item) => ({
+      childName: item?.label,
+      name: item?.label,
+    }))
     return (
       <div className="codeflare-chart-container" key={idx}>
         <Chart
@@ -270,22 +276,21 @@ export default class BaseChart extends React.PureComponent<Props> {
           height={BaseChart.dimensions.height}
           domain={chart.domain}
           containerComponent={
-            <ChartVoronoiContainer
-              voronoiDimension="x"
+            <CursorVoronoiContainer
               constrainToVisibleArea
-              labels={({ datum }) => `${datum.name.replace(/^\S+\s*/, "")}: ${datum.y}`}
-              labelComponent={
-                <ChartTooltip
-                  style={{ fontSize: BaseChart.fontSize, fill: "var(--color-text-01)", textAnchor: "end" }}
-                  flyoutStyle={{ fill: "var(--color-base00)", strokeWidth: 0.5, stroke: "var(--color-base02)" }}
-                />
-              }
+              cursorDimension="x"
+              labels={({ datum }: { datum: any }) => `${datum.name.replace(/^\S+\s*/, "")}: ${datum.y}`}
+              labelComponent={<ChartLegendTooltip legendData={legendData} title={(datum: any) => datum.x} />}
+              mouseFollowTooltips
+              voronoiDimension="x"
+              voronoiPadding={20}
             />
           }
         >
           {this.title(chart)}
           {this.xAxis()}
           {chart.series.flatMap(({ impl, stroke, fill = stroke, data }, idx) => {
+            console.log(data[idx].name?.replace(/^\S+\s*/, ""))
             const yAxis =
               chart.yAxes[idx] ||
               chart.yAxes
@@ -307,9 +312,19 @@ export default class BaseChart extends React.PureComponent<Props> {
 
             const chartui =
               impl === "ChartArea" ? (
-                <ChartArea key={idx} interpolation="monotoneX" {...props} />
+                <ChartArea
+                  key={idx}
+                  interpolation="monotoneX"
+                  name={data[idx].name?.replace(/^\S+\s*/, "")}
+                  {...props}
+                />
               ) : (
-                <ChartLine key={idx} interpolation="monotoneX" {...props} />
+                <ChartLine
+                  key={idx}
+                  interpolation="monotoneX"
+                  name={data[idx].name?.replace(/^\S+\s*/, "")}
+                  {...props}
+                />
               )
 
             if (chart.yAxes[idx]) {
