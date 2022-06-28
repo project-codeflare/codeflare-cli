@@ -260,7 +260,6 @@ export default class BaseChart extends React.PureComponent<Props> {
   }
 
   private chart(chart: BaseChartProps, idx: number) {
-    console.log(chart.yAxes.map((item) => console.log(item)))
     // ariaTitle={chart.title}
     const CursorVoronoiContainer = createContainer("voronoi", "cursor")
     const legendData = chart.yAxes.map((item) => ({
@@ -290,7 +289,6 @@ export default class BaseChart extends React.PureComponent<Props> {
           {this.title(chart)}
           {this.xAxis()}
           {chart.series.flatMap(({ impl, stroke, fill = stroke, data }, idx) => {
-            console.log(data[idx].name?.replace(/^\S+\s*/, ""))
             const yAxis =
               chart.yAxes[idx] ||
               chart.yAxes
