@@ -29,3 +29,9 @@
 @include ChartContainer {
   background-color: var(--color-base00);
 }
+
+body[kui-theme-style="light"] {
+  @include ChartContainer {
+    filter: drop-shadow(1px 1px 2px var(--color-base02));
+  }
+}
