@@ -74,7 +74,7 @@ export default class BaseChart extends React.PureComponent<Props> {
 
   public static readonly padding = {
     bottom: BaseChart.fontSize * 1.5,
-    top: BaseChart.fontSize * 4,
+    top: BaseChart.fontSize * 5,
     left: BaseChart.fontSize * 4.5,
     right: BaseChart.fontSize * 4.5,
   }
@@ -147,7 +147,7 @@ export default class BaseChart extends React.PureComponent<Props> {
       left: BaseChart.padding.left - BaseChart.tickLabelFontSize * 4,
       right: BaseChart.dimensions.width - BaseChart.tickLabelFontSize * 1.5,
     },
-    y: BaseChart.padding.top - BaseChart.fontSize * 2,
+    y: BaseChart.padding.top - BaseChart.fontSize * 1.5,
   }
 
   private static readonly formatters = {
@@ -236,23 +236,23 @@ export default class BaseChart extends React.PureComponent<Props> {
     }
   }
 
-  private areaStyle(stroke: string, fill: string, strokeWidth = 1.25, fillOpacity = 0.1): ChartAreaProps["style"] {
+  private areaStyle(stroke: string, fill: string, strokeWidth = 2.5, fillOpacity = 0.1): ChartAreaProps["style"] {
     return { data: { stroke, strokeWidth, fill, fillOpacity } }
   }
 
-  private lineStyle(stroke: string, strokeDasharray = "", strokeWidth = 1.25): ChartLineProps["style"] {
+  private lineStyle(stroke: string, strokeDasharray = "", strokeWidth = 2.5): ChartLineProps["style"] {
     return { data: { stroke, strokeWidth, strokeDasharray } }
   }
 
   private lineDashStyle(stroke: string): ChartLineProps["style"] {
-    return this.lineStyle(stroke, "3,0.5", 2)
+    return this.lineStyle(stroke, "3,0.5", 3)
   }
 
   private title(chart: BaseChartProps) {
     return (
       <ChartLabel
         x={BaseChart.titlePosition.x.left}
-        y={BaseChart.fontSize / 2}
+        y={BaseChart.fontSize}
         style={BaseChart.titleStyle()}
         text={chart.title}
       />
