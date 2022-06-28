@@ -53,22 +53,12 @@ layout:
 
 ---
 
-=== "GPU Charts"
+=== "Utilization Charts"
     ```shell
     ---
     execute: now
     maximize: true
     outputOnly: true
     ---
-    chart gpu "${LOGDIR}/resources/gpu.txt"
-    ```
-
-=== "CPU Charts"
-    ```shell
-    ---
-    execute: now
-    maximize: true
-    outputOnly: true
-    ---
-    chart vmstat "${LOGDIR}/resources/pod-vmstat.txt"
+    chart all "${LOGDIR}"
     ```

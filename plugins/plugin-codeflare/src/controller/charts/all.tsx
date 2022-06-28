@@ -15,20 +15,52 @@
  */
 
 import React from "react"
-import { Arguments, ReactResponse } from "@kui-shell/core"
+import { join } from "path"
+import { Arguments } from "@kui-shell/core"
 
+/** Oops, sometimes we have no data for a give node */
+function noData(node: string, kind: "CPU Utilization" | "GPU Utilization") {
+  return (
+    <div className="flex-layout" title={`No ${kind} for ${node}`}>
+      <span className="flex-fill flex-layout flex-align-center">no data</span>
+    </div>
+  )
+}
+
+/**
+ * Render a combo chart that interleaves GPU utilization and CPU
+ * utilization charts, so that the two (for a given node) are
+ * side-by-side.
+ *
+ */
 export default async function all(args: Arguments) {
   const filepath = args.argvNoOptions[2]
   if (!filepath) {
     return `Usage chart all ${filepath}`
   }
 
-  const charts = await Promise.all([
-    args.REPL.qexec<ReactResponse>(`chart gpu "${filepath}/resources/gpu.txt"`),
-    args.REPL.qexec<ReactResponse>(`chart vmstat "${filepath}/resources/pod-vmstat.txt"`),
+  const [gpuData, cpuData] = await Promise.all([
+    import("./gpu").then((_) => _.parse(join(filepath, "resources/gpu.txt"), args.REPL)),
+    import("./vmstat").then((_) => _.parse(join(filepath, "resources/pod-vmstat.txt"), args.REPL)),
   ])
 
+  const [GPUChart, VmstatChart] = await Promise.all([
+    import("../../components/GPUChart").then((_) => _.default),
+    import("../../components/VmstatChart").then((_) => _.default),
+  ])
+
+  const nodes = Array.from(new Set(Object.keys(gpuData).concat(Object.keys(cpuData))))
+
+  const linearized = nodes.map((node) => {
+    const gpuForNode = gpuData[node]
+    const cpuForNode = cpuData[node]
+    return [
+      !gpuForNode ? noData(node, "GPU Utilization") : <GPUChart logs={{ [node]: gpuForNode }} />,
+      !cpuForNode ? noData(node, "CPU Utilization") : <VmstatChart logs={{ [node]: cpuData[node] }} />,
+    ]
+  })
+
   return {
-    react: <div className="codeflare-chart-grid flex-fill">{charts.flatMap((_) => _.react)}</div>,
+    react: <div className="codeflare-chart-grid flex-fill">{linearized.flatMap((_) => _)}</div>,
   }
 }

@@ -18,19 +18,20 @@ import React from "react"
 import { Arguments } from "@kui-shell/core"
 
 import { expand } from "../../lib/util"
+import LogRecord, { toHostMap } from "./LogRecord"
+
+import ChartGrid from "../../components/ChartGrid"
 import VmstatChart from "../../components/VmstatChart"
 
-export type Log = {
-  hostname: string
-  timestamp: number
+export type Log = LogRecord<{
   user: number
   system: number
   idle: number
   iowait: number
   freeMemory: number
-}
+}>
 
-function parse(cells: string[]): Log {
+function parseLine(cells: string[]): Log {
   const N = cells.length
   const hostname = cells[0]
   const freeMemory = parseInt(cells[4], 10)
@@ -51,24 +52,32 @@ function parse(cells: string[]): Log {
   }
 }
 
-export default async function chart(args: Arguments) {
-  const filepath = args.argvNoOptions[2]
-  if (!filepath) {
-    return `Usage chart vmstat ${filepath}`
-  }
+export async function parse(filepath: string, REPL: Arguments["REPL"]) {
+  return toHostMap(
+    (await REPL.qexec<string>(`vfs fslice ${expand(filepath)} 0`))
+      .split(/\n/)
+      .filter((logLine) => logLine && !/----|swpd/.test(logLine))
+      .map((_) => _.split(/\s+/))
+      .map(parseLine)
+      .sort((a, b) => a.hostname.localeCompare(b.hostname))
+  )
+}
 
-  const logs = (await args.REPL.qexec<string>(`vfs fslice ${expand(filepath)} 0`))
-    .split(/\n/)
-    .filter((logLine) => logLine && !/----|swpd/.test(logLine))
-    .map((_) => _.split(/\s+/))
-    .map(parse)
-    .sort((a, b) => a.hostname.localeCompare(b.hostname))
-
+export function chart(logs: Awaited<ReturnType<typeof parse>>) {
   return {
     react: (
-      <div className="codeflare-chart-grid flex-fill">
+      <ChartGrid>
         <VmstatChart logs={logs} />
-      </div>
+      </ChartGrid>
     ),
   }
+}
+
+export default async function chartCmd(args: Arguments) {
+  const filepath = args.argvNoOptions[2]
+  if (!filepath) {
+    throw new Error(`Usage chart vmstat ${filepath}`)
+  }
+
+  return chart(await parse(filepath, args.REPL))
 }
