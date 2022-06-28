@@ -73,8 +73,8 @@ export default class BaseChart extends React.PureComponent<Props> {
   }
 
   public static readonly padding = {
-    bottom: BaseChart.fontSize * 3,
-    top: BaseChart.fontSize * 5,
+    bottom: BaseChart.fontSize * 1.5,
+    top: BaseChart.fontSize * 4,
     left: BaseChart.fontSize * 4.5,
     right: BaseChart.fontSize * 4.5,
   }
@@ -252,7 +252,7 @@ export default class BaseChart extends React.PureComponent<Props> {
     return (
       <ChartLabel
         x={BaseChart.titlePosition.x.left}
-        y={BaseChart.fontSize * 1.5}
+        y={BaseChart.fontSize / 2}
         style={BaseChart.titleStyle()}
         text={chart.title}
       />
