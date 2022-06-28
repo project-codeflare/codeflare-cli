@@ -39,17 +39,34 @@ export default async function all(args: Arguments) {
     return `Usage chart all ${filepath}`
   }
 
+  // parse the data
   const [gpuData, cpuData] = await Promise.all([
     import("./gpu").then((_) => _.parse(join(filepath, "resources/gpu.txt"), args.REPL)),
     import("./vmstat").then((_) => _.parse(join(filepath, "resources/pod-vmstat.txt"), args.REPL)),
   ])
 
+  // load the UI components
   const [GPUChart, VmstatChart] = await Promise.all([
     import("../../components/GPUChart").then((_) => _.default),
     import("../../components/VmstatChart").then((_) => _.default),
   ])
 
-  const nodes = Array.from(new Set(Object.keys(gpuData).concat(Object.keys(cpuData))))
+  // get a canonical list of nodes
+  const nodes = Array.from(new Set(Object.keys(gpuData).concat(Object.keys(cpuData)))).sort((a, b) => {
+    // sort them so that nodes for which we have both gpu and cpu
+    // data float to the top; in second place will be the group of
+    // nodes for which we have only gpu data; in last place will be
+    // the nodes for which we only have cpu data
+    const aHasG = gpuData[a]
+    const aHasC = cpuData[a]
+    const bHasG = gpuData[b]
+    const bHasC = cpuData[b]
+
+    // 2 vs 1 to get the gpu-first priority described above
+    const vA = (aHasG ? 2 : 0) + (aHasC ? 1 : 0)
+    const vB = (bHasG ? 2 : 0) + (bHasC ? 1 : 0)
+    return vB - vA
+  })
 
   const linearized = nodes.map((node) => {
     const gpuForNode = gpuData[node]
