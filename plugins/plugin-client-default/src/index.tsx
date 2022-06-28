@@ -17,22 +17,15 @@
 import React from "react"
 
 import { Capabilities } from "@kui-shell/core"
-import {
-  Kui,
-  KuiProps,
-  ContextWidgets,
-  GitHubIcon,
-  MadeWithKui,
-  MeterWidgets,
-  SpaceFiller,
-  TextWithIconWidget,
-} from "@kui-shell/plugin-client-common"
+import { Kui, KuiProps, ContextWidgets, GitHubIcon, MeterWidgets, SpaceFiller } from "@kui-shell/plugin-client-common"
 
 // import { CurrentContext, CurrentNamespace } from "@kui-shell/plugin-kubectl/components"
 import { Search } from "@kui-shell/plugin-electron-components"
 
 import { version } from "@kui-shell/client/package.json"
-import { productName, productTitle } from "@kui-shell/client/config.d/name.json"
+import { productTitle } from "@kui-shell/client/config.d/name.json"
+
+import CodeFlareWidget from "./CodeFlareWidget"
 
 /**
  * We will set this bit when the user dismisses the Welcome to Kui
@@ -67,16 +60,14 @@ export default function renderMain(props: KuiProps) {
       toplevel={!Capabilities.inBrowser() && <Search />}
     >
       <ContextWidgets>
-        <TextWithIconWidget text={`${productName} v${version}`} viewLevel="normal" />
         <GitHubIcon />
+        <CodeFlareWidget />
         {/* <CurrentContext />
        <CurrentNamespace /> */}
       </ContextWidgets>
 
       <SpaceFiller />
-      <MeterWidgets>
-        <MadeWithKui />
-      </MeterWidgets>
+      <MeterWidgets></MeterWidgets>
     </Kui>
   )
 }
