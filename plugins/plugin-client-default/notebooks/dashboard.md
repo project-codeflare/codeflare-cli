@@ -49,7 +49,7 @@ layout:
         --8<-- "$LOGDIR/events/kubernetes.txt"
         ```
 
-        --8<-- "./dashboard-choices.md"
+    --8<-- "./dashboard-choices.md"
 
 ---
 
