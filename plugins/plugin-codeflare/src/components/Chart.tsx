@@ -57,7 +57,7 @@ class MyTooltipLegendLabel extends React.PureComponent<ChartLegendLabelProps> {
     return (
       <ChartLegendTooltipLabel
         {...this.props}
-        dx={((dx || 0) * BaseChart.legendLabelStyle.fontSize) / 14 - 6}
+        dx={((dx || 0) * BaseChart.legendLabelStyle.fontSize) / 14}
         style={BaseChart.legendLabelStyle}
         legendLabelComponent={<MyTooltipLabel />}
       />
@@ -243,6 +243,7 @@ export default class BaseChart extends React.PureComponent<Props> {
     )
   }
 
+  /** @return UI for one y axis */
   private yAxis(axis: BaseChartProps["yAxes"][number]) {
     if (axis) {
       // re: the + BaseChart.fontSize * N: shift the axis labels over a bit, to overlap with the ticks
@@ -282,6 +283,43 @@ export default class BaseChart extends React.PureComponent<Props> {
     }
   }
 
+  /** @return UI for all of the y axes */
+  private yAxes(chart: BaseChartProps) {
+    return chart.series.flatMap(({ impl, stroke, fill = stroke, data }, idx) => {
+      const yAxis =
+        chart.yAxes[idx] ||
+        chart.yAxes
+          .slice(0, idx)
+          .reverse()
+          .find((_) => _ && _.y)
+      const y = yAxis ? yAxis.y : undefined
+
+      const props = {
+        style:
+          impl === "ChartArea"
+            ? this.areaStyle(stroke, fill)
+            : impl === "ChartLine"
+            ? this.lineStyle(fill)
+            : this.lineDashStyle(fill),
+        data,
+        y,
+      }
+
+      const chartui =
+        impl === "ChartArea" ? (
+          <ChartArea key={idx} interpolation="monotoneX" name={data[idx].name} {...props} />
+        ) : (
+          <ChartLine key={idx} interpolation="monotoneX" name={data[idx].name} {...props} />
+        )
+
+      if (chart.yAxes[idx]) {
+        return [...this.yAxis(chart.yAxes[idx]), chartui]
+      } else {
+        return [chartui]
+      }
+    })
+  }
+
   private areaStyle(stroke: string, fill: string, strokeWidth = 2.5, fillOpacity = 0.1): ChartAreaProps["style"] {
     return { data: { stroke, strokeWidth, fill, fillOpacity } }
   }
@@ -305,11 +343,15 @@ export default class BaseChart extends React.PureComponent<Props> {
     )
   }
 
-  private getTooltipLabels({ datum }: { datum: { name: string; y: number } }) {
+  /** @return the formatted data value to display in the `<ChartLegendTooltip />` */
+  private getTooltipLabels(formatMap: Record<string, Format>, { datum }: { datum: { name: string; y: number } }) {
     // TODO: format these e.g. x% or xC or x Gi
-    return `${datum.y}`
+    const format = formatMap[datum.name]
+    const formatter = format ? BaseChart.formatters[format] : undefined
+    return formatter ? formatter(datum.y) : `${datum.y}`
   }
 
+  /** @return the `legendData` model for `<ChartLegendTooltip/>` */
   private getLegendData(chart: BaseChartProps): ChartLegendTooltipProps["legendData"] {
     return chart.series.map(({ data, stroke, fill }) => ({
       childName: data[0].name,
@@ -318,9 +360,25 @@ export default class BaseChart extends React.PureComponent<Props> {
     }))
   }
 
+  /** @return the UI for the idx-th chart in the chart set of this.props.charts */
   private chart(chart: BaseChartProps, idx: number) {
-    // ariaTitle={chart.title}
     const CursorVoronoiContainer = createContainer("voronoi", "cursor")
+
+    // map from data series name to format (used in getTooltipLabels())
+    const formatMap = chart.yAxes.reduce((M, yAxis, idx, yAxes) => {
+      if (!yAxis) {
+        yAxis = yAxes
+          .slice(0, idx)
+          .reverse()
+          .find((_) => _)
+      }
+      if (yAxis) {
+        const label = chart.series[idx].data[0].name || yAxis.label
+        M[label] = yAxis.format
+      }
+      return M
+    }, {} as Record<string, Format>)
+
     return (
       <div className="codeflare-chart-container" key={idx}>
         <Chart
@@ -331,10 +389,11 @@ export default class BaseChart extends React.PureComponent<Props> {
           domain={chart.domain}
           containerComponent={
             <CursorVoronoiContainer
-              labels={this.getTooltipLabels}
+              labels={this.getTooltipLabels.bind(this, formatMap)}
               labelComponent={
                 <ChartLegendTooltip
                   isCursorTooltip
+                  flyoutStyle={{ fillOpacity: 0.825 }}
                   labelComponent={<MyTooltipContent />}
                   legendData={this.getLegendData(chart)}
                   title={(datum: any) => `${new Date(datum.x + this.props.timeRange.min).toLocaleString()}`}
@@ -347,39 +406,7 @@ export default class BaseChart extends React.PureComponent<Props> {
         >
           {this.title(chart)}
           {this.xAxis()}
-          {chart.series.flatMap(({ impl, stroke, fill = stroke, data }, idx) => {
-            const yAxis =
-              chart.yAxes[idx] ||
-              chart.yAxes
-                .slice(0, idx)
-                .reverse()
-                .find((_) => _ && _.y)
-            const y = yAxis ? yAxis.y : undefined
-
-            const props = {
-              style:
-                impl === "ChartArea"
-                  ? this.areaStyle(stroke, fill)
-                  : impl === "ChartLine"
-                  ? this.lineStyle(fill)
-                  : this.lineDashStyle(fill),
-              data,
-              y,
-            }
-
-            const chartui =
-              impl === "ChartArea" ? (
-                <ChartArea key={idx} interpolation="monotoneX" name={data[idx].name} {...props} />
-              ) : (
-                <ChartLine key={idx} interpolation="monotoneX" name={data[idx].name} {...props} />
-              )
-
-            if (chart.yAxes[idx]) {
-              return [...this.yAxis(chart.yAxes[idx]), chartui]
-            } else {
-              return [chartui]
-            }
-          })}
+          {this.yAxes(chart)}
         </Chart>
       </div>
     )

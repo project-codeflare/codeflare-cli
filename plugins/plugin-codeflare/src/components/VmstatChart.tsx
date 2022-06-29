@@ -39,7 +39,7 @@ export default class VmstatChart extends React.PureComponent<Props, State> {
   private static charts(props: Props): BaseChartProps[] {
     return Object.entries(props.logs).map(([node, lines]) => {
       const d1 = lines.map((line) => ({
-        name: BaseChart.nodeNameLabel(node) + " CPU Utilization",
+        name: BaseChart.nodeNameLabel(node) + " CPU",
         x: line.timestamp - props.timeRange.min,
         y: 100 - line.idle,
       }))
