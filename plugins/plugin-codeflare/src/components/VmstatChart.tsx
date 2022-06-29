@@ -17,10 +17,10 @@
 import React from "react"
 
 import { Log } from "../controller/charts/vmstat"
-import BaseChart, { BaseChartProps } from "./Chart"
 import { HostMap } from "../controller/charts/LogRecord"
+import BaseChart, { BaseChartProps, TimeRange } from "./Chart"
 
-type Props = {
+type Props = TimeRange & {
   logs: HostMap<Log>
 }
 
@@ -29,10 +29,6 @@ type State = {
 }
 
 export default class VmstatChart extends React.PureComponent<Props, State> {
-  private static readonly padding = Object.assign({}, BaseChart.padding, {
-    right: BaseChart.padding.left,
-  })
-
   public constructor(props: Props) {
     super(props)
     this.state = {
@@ -41,21 +37,16 @@ export default class VmstatChart extends React.PureComponent<Props, State> {
   }
 
   private static charts(props: Props): BaseChartProps[] {
-    const earliestTimestamp: number = Object.values(props.logs).reduce(
-      (min, logs) => logs.reduce((min, line) => Math.min(min, line.timestamp), Number.MAX_VALUE),
-      Number.MAX_VALUE
-    )
-
     return Object.entries(props.logs).map(([node, lines]) => {
       const d1 = lines.map((line) => ({
         name: BaseChart.nodeNameLabel(node) + " CPU Utilization",
-        x: line.timestamp - earliestTimestamp,
+        x: line.timestamp - props.timeRange.min,
         y: 100 - line.idle,
       }))
 
       const d2 = lines.map((line) => ({
         name: BaseChart.nodeNameLabel(node) + " Free Memory",
-        x: line.timestamp - earliestTimestamp,
+        x: line.timestamp - props.timeRange.min,
         y: line.freeMemory,
       }))
 
@@ -70,7 +61,6 @@ export default class VmstatChart extends React.PureComponent<Props, State> {
         title: BaseChart.nodeNameLabel(node),
         desc: "Chart showing CPU utilization over time for " + node,
         series,
-        padding: VmstatChart.padding,
         yAxes: [
           {
             label: "CPU",
@@ -95,6 +85,6 @@ export default class VmstatChart extends React.PureComponent<Props, State> {
   }
 
   public render() {
-    return <BaseChart charts={this.state.charts} />
+    return <BaseChart charts={this.state.charts} timeRange={this.props.timeRange} />
   }
 }
