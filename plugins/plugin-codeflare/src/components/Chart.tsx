@@ -46,7 +46,9 @@ class MyTooltipLabel extends React.PureComponent<ChartLabelProps> {
   }
 }
 
-class MyTooltipLegendLabel extends React.PureComponent<ChartLegendLabelProps> {
+class MyTooltipLegendLabel extends React.PureComponent<
+  ChartLegendLabelProps & { styleOverride?: ChartLegendLabelProps["style"] }
+> {
   public render() {
     const dx =
       typeof this.props.dx === "number"
@@ -58,7 +60,7 @@ class MyTooltipLegendLabel extends React.PureComponent<ChartLegendLabelProps> {
       <ChartLegendTooltipLabel
         {...this.props}
         dx={((dx || 0) * BaseChart.legendLabelStyle.fontSize) / 14}
-        style={BaseChart.legendLabelStyle}
+        style={this.props.styleOverride || BaseChart.legendLabelStyle}
         legendLabelComponent={<MyTooltipLabel />}
       />
     )
@@ -71,7 +73,7 @@ class MyTooltipContent extends React.PureComponent<ChartLegendTooltipContentProp
       <ChartLegendTooltipContent
         {...this.props}
         labelComponent={<MyTooltipLegendLabel />}
-        titleComponent={<ChartLabel style={BaseChart.legendTitleStyle} />}
+        titleComponent={<MyTooltipLegendLabel styleOverride={BaseChart.legendTitleStyle} />}
       />
     )
   }
@@ -353,10 +355,10 @@ export default class BaseChart extends React.PureComponent<Props> {
 
   /** @return the `legendData` model for `<ChartLegendTooltip/>` */
   private getLegendData(chart: BaseChartProps): ChartLegendTooltipProps["legendData"] {
-    return chart.series.map(({ data, stroke, fill }) => ({
+    return chart.series.map(({ data, stroke, fill, impl }) => ({
       childName: data[0].name,
       name: data[0].name?.replace(/^\S+\s*/, ""),
-      symbol: { fill: fill || stroke },
+      symbol: { fill: fill || stroke, type: impl === "ChartDashedLine" ? "dash" : undefined },
     }))
   }
 
@@ -389,6 +391,8 @@ export default class BaseChart extends React.PureComponent<Props> {
           domain={chart.domain}
           containerComponent={
             <CursorVoronoiContainer
+              mouseFollowTooltips
+              voronoiDimension="x"
               labels={this.getTooltipLabels.bind(this, formatMap)}
               labelComponent={
                 <ChartLegendTooltip
@@ -399,8 +403,6 @@ export default class BaseChart extends React.PureComponent<Props> {
                   title={(datum: any) => `${new Date(datum.x + this.props.timeRange.min).toLocaleString()}`}
                 />
               }
-              mouseFollowTooltips
-              voronoiPadding={20}
             />
           }
         >
