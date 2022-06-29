@@ -59,7 +59,14 @@ export type BaseChartProps = Pick<ChartProps, "domain" | "padding"> & {
   )[]
 }
 
-interface Props {
+export type TimeRange = {
+  timeRange: {
+    min: number
+    max: number
+  }
+}
+
+type Props = TimeRange & {
   charts: BaseChartProps[]
 }
 
@@ -172,27 +179,16 @@ export default class BaseChart extends React.PureComponent<Props> {
   }
 
   private xAxis() {
-    // TODO, factor this out into a State variable?
-    const { min, max } = this.props.charts.reduce(
-      (M, chart) =>
-        chart.series.reduce(
-          (M, series) =>
-            series.data.reduce((M, point) => {
-              M.min = Math.min(M.min, point.x)
-              M.max = Math.max(M.max, point.x)
-              return M
-            }, M),
-          M
-        ),
-      { min: Number.MAX_VALUE, max: Number.MIN_VALUE }
-    )
+    // timestamps in the Series (i.e. datum.x values) are assumed to
+    // be relativized to the given minTimestamp
+    const range = this.props.timeRange.max - this.props.timeRange.min
 
     return (
       <ChartAxis
         scale="time"
         style={BaseChart.axisStyle}
         tickFormat={BaseChart.formatters.timestamp}
-        tickValues={[(max - min) / 4, max]}
+        tickValues={[range / 4, range]}
       />
     )
   }

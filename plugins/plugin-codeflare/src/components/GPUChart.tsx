@@ -17,10 +17,10 @@
 import React from "react"
 
 import { Log } from "../controller/charts/gpu"
-import BaseChart, { BaseChartProps } from "./Chart"
 import { HostMap } from "../controller/charts/LogRecord"
+import BaseChart, { BaseChartProps, TimeRange } from "./Chart"
 
-type Props = {
+type Props = TimeRange & {
   logs: HostMap<Log>
 }
 
@@ -41,27 +41,22 @@ export default class GPUChart extends React.PureComponent<Props, State> {
   }
 
   private static charts(props: Props): BaseChartProps[] {
-    const earliestTimestamp: number = Object.values(props.logs).reduce(
-      (min, logs) => logs.reduce((min, line) => Math.min(min, line.timestamp), Number.MAX_VALUE),
-      Number.MAX_VALUE
-    )
-
     return Object.entries(props.logs).map(([node, lines]) => {
       const d1 = lines.map((line) => ({
         name: BaseChart.nodeNameLabel(node) + " GPU Utilization",
-        x: line.timestamp - earliestTimestamp,
+        x: line.timestamp - props.timeRange.min,
         y: line.utilizationGPU,
       }))
 
       const d2 = lines.map((line) => ({
         name: BaseChart.nodeNameLabel(node) + " GPU Memory Utilization",
-        x: line.timestamp - earliestTimestamp,
+        x: line.timestamp - props.timeRange.min,
         y: line.utilizationMemory,
       }))
 
       const d3 = lines.map((line) => ({
         name: BaseChart.nodeNameLabel(node) + " GPU Temperature",
-        x: line.timestamp - earliestTimestamp,
+        x: line.timestamp - props.timeRange.min,
         y: line.temperatureGPU,
       }))
 
@@ -113,6 +108,6 @@ export default class GPUChart extends React.PureComponent<Props, State> {
   }
 
   public render() {
-    return <BaseChart charts={this.state.charts} />
+    return <BaseChart charts={this.state.charts} timeRange={this.props.timeRange} />
   }
 }

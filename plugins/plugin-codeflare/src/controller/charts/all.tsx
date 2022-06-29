@@ -18,6 +18,9 @@ import React from "react"
 import { join } from "path"
 import { Arguments } from "@kui-shell/core"
 
+import { toHostMap } from "./LogRecord"
+import { timeRange } from "./timestamps"
+
 /** Oops, sometimes we have no data for a give node */
 function noData(node: string, kind: "CPU Utilization" | "GPU Utilization") {
   return (
@@ -52,15 +55,17 @@ export default async function all(args: Arguments) {
   ])
 
   // get a canonical list of nodes
-  const nodes = Array.from(new Set(Object.keys(gpuData).concat(Object.keys(cpuData)))).sort((a, b) => {
+  const gpuMap = toHostMap(gpuData)
+  const cpuMap = toHostMap(cpuData)
+  const nodes = Array.from(new Set(Object.keys(gpuMap).concat(Object.keys(cpuMap)))).sort((a, b) => {
     // sort them so that nodes for which we have both gpu and cpu
     // data float to the top; in second place will be the group of
     // nodes for which we have only gpu data; in last place will be
     // the nodes for which we only have cpu data
-    const aHasG = gpuData[a]
-    const aHasC = cpuData[a]
-    const bHasG = gpuData[b]
-    const bHasC = cpuData[b]
+    const aHasG = gpuMap[a]
+    const aHasC = cpuMap[a]
+    const bHasG = gpuMap[b]
+    const bHasC = cpuMap[b]
 
     // 2 vs 1 to get the gpu-first priority described above
     const vA = (aHasG ? 2 : 0) + (aHasC ? 1 : 0)
@@ -68,16 +73,24 @@ export default async function all(args: Arguments) {
     return vB - vA
   })
 
-  const linearized = nodes.map((node) => {
-    const gpuForNode = gpuData[node]
-    const cpuForNode = cpuData[node]
-    return [
-      !gpuForNode ? noData(node, "GPU Utilization") : <GPUChart logs={{ [node]: gpuForNode }} />,
-      !cpuForNode ? noData(node, "CPU Utilization") : <VmstatChart logs={{ [node]: cpuData[node] }} />,
-    ]
-  })
+  const range = timeRange(gpuData, cpuData)
+
+  const linearized = nodes
+    .map((node) => {
+      const gpuForNode = gpuMap[node]
+      const cpuForNode = cpuMap[node]
+      return [
+        !gpuForNode ? noData(node, "GPU Utilization") : <GPUChart timeRange={range} logs={{ [node]: gpuForNode }} />,
+        !cpuForNode ? (
+          noData(node, "CPU Utilization")
+        ) : (
+          <VmstatChart timeRange={range} logs={{ [node]: cpuMap[node] }} />
+        ),
+      ]
+    })
+    .flatMap((_) => _)
 
   return {
-    react: <div className="codeflare-chart-grid flex-fill">{linearized.flatMap((_) => _)}</div>,
+    react: <div className="codeflare-chart-grid flex-fill">{linearized}</div>,
   }
 }

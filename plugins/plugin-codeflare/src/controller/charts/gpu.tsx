@@ -19,6 +19,7 @@ import stripAnsi from "strip-ansi"
 import { Arguments } from "@kui-shell/core"
 
 import { expand } from "../../lib/util"
+import { timeRange } from "./timestamps"
 import LogRecord, { toHostMap } from "./LogRecord"
 
 import GPUChart from "../../components/GPUChart"
@@ -63,14 +64,14 @@ function formatLogObject(logLine: string[]) {
 export async function parse(filepath: string, REPL: Arguments["REPL"]) {
   const logs = stripAnsi(await REPL.qexec<string>(`vfs fslice ${expand(filepath)} 0`))
   const formattedLogs = formatLogs(logs)
-  return toHostMap(formattedLogs.map((logLine) => formatLogObject(logLine)))
+  return formattedLogs.map((logLine) => formatLogObject(logLine))
 }
 
 export function chart(logs: Awaited<ReturnType<typeof parse>>) {
   return {
     react: (
       <ChartGrid>
-        <GPUChart logs={logs} />
+        <GPUChart logs={toHostMap(logs)} timeRange={timeRange(logs)} />
       </ChartGrid>
     ),
   }

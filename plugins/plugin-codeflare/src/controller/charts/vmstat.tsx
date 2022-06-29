@@ -18,6 +18,7 @@ import React from "react"
 import { Arguments } from "@kui-shell/core"
 
 import { expand } from "../../lib/util"
+import { timeRange } from "./timestamps"
 import LogRecord, { toHostMap } from "./LogRecord"
 
 import ChartGrid from "../../components/ChartGrid"
@@ -53,21 +54,19 @@ function parseLine(cells: string[]): Log {
 }
 
 export async function parse(filepath: string, REPL: Arguments["REPL"]) {
-  return toHostMap(
-    (await REPL.qexec<string>(`vfs fslice ${expand(filepath)} 0`))
-      .split(/\n/)
-      .filter((logLine) => logLine && !/----|swpd/.test(logLine))
-      .map((_) => _.split(/\s+/))
-      .map(parseLine)
-      .sort((a, b) => a.hostname.localeCompare(b.hostname))
-  )
+  return (await REPL.qexec<string>(`vfs fslice ${expand(filepath)} 0`))
+    .split(/\n/)
+    .filter((logLine) => logLine && !/----|swpd/.test(logLine))
+    .map((_) => _.split(/\s+/))
+    .map(parseLine)
+    .sort((a, b) => a.hostname.localeCompare(b.hostname))
 }
 
 export function chart(logs: Awaited<ReturnType<typeof parse>>) {
   return {
     react: (
       <ChartGrid>
-        <VmstatChart logs={logs} />
+        <VmstatChart logs={toHostMap(logs)} timeRange={timeRange(logs)} />
       </ChartGrid>
     ),
   }
