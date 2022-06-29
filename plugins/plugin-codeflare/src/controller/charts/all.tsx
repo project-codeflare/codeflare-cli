@@ -22,9 +22,9 @@ import { toHostMap } from "./LogRecord"
 import { timeRange } from "./timestamps"
 
 /** Oops, sometimes we have no data for a give node */
-function noData(node: string, kind: "CPU Utilization" | "GPU Utilization") {
+function noData(node: string, kind: "CPU Utilization" | "GPU Utilization", idx: number) {
   return (
-    <div className="flex-layout" title={`No ${kind} for ${node}`}>
+    <div key={`nodata-${kind}-${idx}`} className="flex-layout" title={`No ${kind} for ${node}`}>
       <span className="flex-fill flex-layout flex-align-center">no data</span>
     </div>
   )
@@ -76,15 +76,19 @@ export default async function all(args: Arguments) {
   const range = timeRange(gpuData, cpuData)
 
   const linearized = nodes
-    .map((node) => {
+    .map((node, idx) => {
       const gpuForNode = gpuMap[node]
       const cpuForNode = cpuMap[node]
       return [
-        !gpuForNode ? noData(node, "GPU Utilization") : <GPUChart timeRange={range} logs={{ [node]: gpuForNode }} />,
-        !cpuForNode ? (
-          noData(node, "CPU Utilization")
+        !gpuForNode ? (
+          noData(node, "GPU Utilization", idx)
         ) : (
-          <VmstatChart timeRange={range} logs={{ [node]: cpuMap[node] }} />
+          <GPUChart key={`gpu-${node}`} timeRange={range} logs={{ [node]: gpuForNode }} />
+        ),
+        !cpuForNode ? (
+          noData(node, "CPU Utilization", idx)
+        ) : (
+          <VmstatChart key={`cpu-${node}`} timeRange={range} logs={{ [node]: cpuMap[node] }} />
         ),
       ]
     })
