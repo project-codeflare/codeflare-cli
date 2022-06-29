@@ -259,13 +259,22 @@ export default class BaseChart extends React.PureComponent<Props> {
     )
   }
 
+  private setTooltipLabels({ datum }: { datum: any }) {
+    return `${datum.name}: ${datum.y}`
+  }
+
+  private setLegendTooltipLabels(chart: BaseChartProps) {
+    const childNames = chart.series
+      .map((serie) => serie)
+      .map(({ data }) => data)
+      .map((item) => item[0].name)
+    const legendLabels = childNames.map((child) => ({ childName: child, name: child?.replace(/^\S+\s*/, "") }))
+    return legendLabels
+  }
+
   private chart(chart: BaseChartProps, idx: number) {
     // ariaTitle={chart.title}
     const CursorVoronoiContainer = createContainer("voronoi", "cursor")
-    const legendData = chart.yAxes.map((item) => ({
-      childName: item?.label,
-      name: item?.label,
-    }))
     return (
       <div className="codeflare-chart-container" key={idx}>
         <Chart
@@ -276,10 +285,15 @@ export default class BaseChart extends React.PureComponent<Props> {
           domain={chart.domain}
           containerComponent={
             <CursorVoronoiContainer
-              constrainToVisibleArea
               cursorDimension="x"
-              labels={({ datum }: { datum: any }) => `${datum.name.replace(/^\S+\s*/, "")}: ${datum.y}`}
-              labelComponent={<ChartLegendTooltip legendData={legendData} title={(datum: any) => datum.x} />}
+              labels={this.setTooltipLabels}
+              labelComponent={
+                <ChartLegendTooltip
+                  flyoutStyle={{ fontSize: 5 }}
+                  legendData={this.setLegendTooltipLabels(chart)}
+                  title={(datum: any) => `${new Date(datum.x).getMinutes()}:${new Date(datum.x).getSeconds()}`}
+                />
+              }
               mouseFollowTooltips
               voronoiDimension="x"
               voronoiPadding={20}
@@ -310,19 +324,9 @@ export default class BaseChart extends React.PureComponent<Props> {
 
             const chartui =
               impl === "ChartArea" ? (
-                <ChartArea
-                  key={idx}
-                  interpolation="monotoneX"
-                  name={data[idx].name?.replace(/^\S+\s*/, "")}
-                  {...props}
-                />
+                <ChartArea key={idx} interpolation="monotoneX" name={data[idx].name} {...props} />
               ) : (
-                <ChartLine
-                  key={idx}
-                  interpolation="monotoneX"
-                  name={data[idx].name?.replace(/^\S+\s*/, "")}
-                  {...props}
-                />
+                <ChartLine key={idx} interpolation="monotoneX" name={data[idx].name} {...props} />
               )
 
             if (chart.yAxes[idx]) {
