@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
-import controller from "./controller"
+import { Registrar } from "@kui-shell/core"
 
-export default controller
+/** Register Kui Commands for rendering dashboard event UIs */
+export default function registerEventCommands(registrar: Registrar) {
+  registrar.listen("/chart/progress", (args) => import("./Events").then((_) => _.default(args)), { needsUI: true })
+}

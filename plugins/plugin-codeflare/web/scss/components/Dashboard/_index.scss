@@ -28,13 +28,28 @@
 }*/
 
 @include TopLevelTab {
-  @include Split(3) {
-    grid-template-rows: 200px 1fr;
-    grid-template-columns: repeat(4, minmax(100px, 200px)) repeat(9, minmax(150px, auto));
+  @include Split(4) {
+    grid-template-rows: 200px 1fr 100px;
+    grid-template-columns: repeat(13, 1fr);
 
     grid-template-areas:
       "T1 T1 T1 T1 T1 T1 T1 T1 T1 T1 T1 T1 T1"
-      "T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2 T2 T2";
+      "T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2 T2 T2"
+      "T3 T3 T3 T3 T4 T4 T4 T4 T4 T4 T4 T4 T4";
+  }
+
+  @include Split(5) {
+    grid-template-rows: 200px 1fr 100px;
+    grid-template-columns: repeat(12, 1fr) repeat(2, 160px);
+
+    grid-template-areas:
+      "T1 T1 T1 T1 T1 T1 T1 T1 T1 T1 T1 T1 T4 T4"
+      "T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2 T2 T2 T5";
+
+    grid-template-areas:
+      "T1 T1 T1 T1 T1 T1 T1 T1 T1 T1 T1 T1 T4 T4"
+      "T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2 T2 T2 T2"
+      "T3 T3 T3 T3 T5 T5 T5 T5 T5 T5 T5 T5 T5 T5";
   }
 }
 
@@ -42,6 +57,29 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+}
+
+/** This should probably be done in kui core */
+@include Markdown {
+  @include MarkdownTabs {
+    &.paragraph {
+      padding: 0;
+    }
+  }
+}
+
+/** special bits for single-tab uis, e.g. hide "current tab" underline */
+@include Scrollback {
+  @include MarkdownTabButtonContainer {
+    &:only-child {
+      .pf-c-tabs__item-text {
+        font-weight: bold;
+      }
+      .pf-c-tabs__link::after {
+        display: none;
+      }
+    }
+  }
 }
 
 body.kui--patternfly4[kui-theme="PatternFly4 Light"][kui-theme-style] {

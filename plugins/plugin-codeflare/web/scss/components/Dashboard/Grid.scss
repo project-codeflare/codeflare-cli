@@ -1,0 +1,134 @@
+/*
+ * Copyright 2022 The Kubernetes Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import "@kui-shell/plugin-client-common/web/scss/components/Table/_mixins";
+@import "@kui-shell/plugin-client-common/web/scss/components/Terminal/_mixins";
+
+$rgap: 1px;
+$cgap: 0px;
+$unit: 3px;
+$tiny: 1;
+$small: 2;
+$medium: 3;
+$large: 4;
+$xlarge: 10;
+$fullWidth: 1em; /* $large * ($unit + $rgap) - $rgap */
+
+@mixin CFGrid {
+  @include Scrollback {
+    @include TableAsGrid {
+      @include Grid {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin CFCell($type: "") {
+  /* TODO missing kui mixing */
+  .kui--grid-cell {
+    @if $type == "" {
+      & {
+        @content;
+      }
+    } @else {
+      &[data-type="#{$type}"] {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin CFCellContent {
+  @include BadgeColoredPart {
+    @content;
+  }
+}
+
+@mixin State($state) {
+  &[data-state="#{$state}"] {
+    @content;
+  }
+}
+
+@mixin Color($color) {
+  @include CFCellContent {
+    background-color: $color;
+  }
+}
+
+@include CFGrid {
+  padding: $xlarge + px 1em;
+  grid-row-gap: $rgap;
+  grid-column-gap: $cgap;
+  grid-template-columns: repeat(auto-fill, $unit) !important;
+  grid-auto-rows: $fullWidth;
+
+  @include CFCell {
+    padding-left: 1px;
+    grid-column: span $large;
+
+    @include State("Done") {
+      @include Color(var(--color-base0B));
+    }
+    @include State("InProgress") {
+      @include Color(var(--color-base09));
+    }
+
+    @include Color(var(--color-base0D));
+
+    @include CFCellContent {
+      width: 100%;
+      height: 100%;
+
+      &:hover {
+        background-color: var(--color-base0E) !important;
+      }
+    }
+  }
+
+  @include CFCell(Pulling) {
+    grid-column: span $xlarge;
+    @include CFCellContent {
+      height: $small * $unit;
+    }
+  }
+
+  @include CFCell(Iteration) {
+    grid-column: span $tiny;
+    @include CFCellContent {
+      background-color: var(--color-base0D);
+      filter: saturate(0.3) brightness(0.9);
+      height: 80%;
+    }
+  }
+
+  @include CFCell(Epoch) {
+    grid-column: span $small;
+    @include CFCellContent {
+      background-color: var(--color-base0D);
+    }
+  }
+}
+
+/** Oof, a bit of a hack to make the grid scrollable */
+@include Scrollback {
+  &:last-child {
+    @include Markdown {
+      overflow-y: auto;
+    }
+  }
+}
