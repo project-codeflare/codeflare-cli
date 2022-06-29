@@ -11,6 +11,10 @@ layout:
     3:
         position: default
         maximized: true
+    4:
+        position: default
+        maximized: true
+        inverseColors: true
 ---
 
 --8<-- "./dashboard-summary.md"
@@ -61,4 +65,15 @@ layout:
     outputOnly: true
     ---
     chart all "${LOGDIR}"
+    ```
+
+---
+
+=== "Events"
+    ```shell
+    ---
+    execute: now
+    outputOnly: true
+    ---
+    chart progress "${LOGDIR}"
     ```

@@ -14,6 +14,15 @@
  * limitations under the License.
  */
 
-import controller from "./controller"
+export type State = "InProgress" | "Done" | "Error"
+type Event<T extends string, Detail> = Detail & {
+  name: string
+  subtitle?: string
+  message: string
+  type: T
+  state: State
+  timestamp: number
+  hidden?: boolean
+}
 
-export default controller
+export default Event
