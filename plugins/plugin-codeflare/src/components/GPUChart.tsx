@@ -43,13 +43,13 @@ export default class GPUChart extends React.PureComponent<Props, State> {
   private static charts(props: Props): BaseChartProps[] {
     return Object.entries(props.logs).map(([node, lines]) => {
       const d1 = lines.map((line) => ({
-        name: BaseChart.nodeNameLabel(node) + " GPU",
+        name: BaseChart.nodeNameLabel(node) + " GPU Utilization",
         x: line.timestamp - props.timeRange.min,
         y: line.utilizationGPU,
       }))
 
       const d2 = lines.map((line) => ({
-        name: BaseChart.nodeNameLabel(node) + " Memory",
+        name: BaseChart.nodeNameLabel(node) + " GPU Memory",
         x: line.timestamp - props.timeRange.min,
         y: line.utilizationMemory,
       }))
