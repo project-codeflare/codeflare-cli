@@ -115,7 +115,7 @@ type Props = TimeRange & {
 }
 
 export default class BaseChart extends React.PureComponent<Props> {
-  private static fontSize = 8
+  private static fontSize = 9
   private static tickLabelFontSize = BaseChart.fontSize - 1
 
   private static readonly dimensions = {
