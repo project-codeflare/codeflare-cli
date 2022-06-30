@@ -397,7 +397,7 @@ export default class BaseChart extends React.PureComponent<Props> {
               labelComponent={
                 <ChartLegendTooltip
                   isCursorTooltip
-                  flyoutStyle={{ fillOpacity: 0.825 }}
+                  flyoutStyle={{ fillOpacity: 0.825, fill: "var(--color-base06)" }}
                   labelComponent={<MyTooltipContent />}
                   legendData={this.getLegendData(chart)}
                   title={(datum: any) => `${new Date(datum.x + this.props.timeRange.min).toLocaleString()}`}
