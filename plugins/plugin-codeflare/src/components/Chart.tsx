@@ -37,6 +37,7 @@ import {
 } from "@patternfly/react-charts"
 
 import "../../web/scss/components/Dashboard/Charts.scss"
+import { prettyBytes } from "../lib/util"
 
 type Format = "celsius" | "percentage" | "timestamp" | "memory"
 
@@ -212,7 +213,7 @@ export default class BaseChart extends React.PureComponent<Props> {
   private static readonly formatters = {
     celsius: (value: number) => ~~value + "C",
     percentage: (value: number) => value + "%",
-    memory: (value: number) => ~~(value / 1024 / 1024) + " GiB",
+    memory: (value: number) => prettyBytes(value),
     timestamp: (timestamp: number) =>
       timestamp < 60 * 3 * 1000 ? (timestamp / 1000).toFixed(0) + "s" : (timestamp / 1000 / 60).toFixed(1) + "m",
   }

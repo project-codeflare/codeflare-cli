@@ -18,3 +18,17 @@
 export function expand(expr: string): string {
   return expr.replace(/\${?([^}/\s]+)}?/g, (_, p1) => process.env[p1] || p1)
 }
+
+export function prettyBytes(size: number): string {
+  if (size < 1024) {
+    return `${size}B`
+  } else if (size < 1024 * 1024) {
+    return `${(size / 1024).toFixed(1)}KB`
+  } else if (size < 1024 * 1024 * 1024) {
+    return `${(size / 1024 / 1024).toFixed(1)}MB`
+  } else if (size < 1024 * 1024 * 1024 * 1024) {
+    return `${(size / 1024 / 1024 / 1024).toFixed(1)}GB`
+  } else {
+    return `${(size / 1024 / 1024 / 1024 / 1024).toFixed(1)}TB`
+  }
+}
