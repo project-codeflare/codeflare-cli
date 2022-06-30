@@ -26,16 +26,17 @@ $bg2: lighten($bg, 10%);
 $bg3: lighten($bg, 5%);
 $fg2: color.scale($bg, $lightness: 5%);
 $latency-0: #80b7b4;
-$latency-1: #02948e;
+$latency-1: color.scale(#02948e, $lightness: 10%);
 $latency-2: color.scale(#d0981b, $lightness: 10%);
 $latency-3: #e6e6e7;
 $latency-4: #726b73;
 $latency-5: #a38aa7;
 
 $color-red: #eb5b8e;
-$color-cyan: $latency-1;
+$color-cyan: color.scale($latency-1, $lightness: 10%);
 $color-yellow: #e7c484;
 $color-purple: #a38aa7;
 $color-blue: $latency-0;
+$color-green: $latency-2;
 
 @include Theme($Theme);
