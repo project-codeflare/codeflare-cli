@@ -35,7 +35,7 @@ $latency-5: #9db5dd;
 
 $color-green: #bcc48c;
 $color-red: #cd8155;
-$color-blue: #9db5dd;
+$color-blue: color.scale(#9db5dd, $lightness: 20%);
 $color-cyan: #9dd5dd;
 $color-yellow: #cdb67f;
 $color-purple: #c48cbc;
