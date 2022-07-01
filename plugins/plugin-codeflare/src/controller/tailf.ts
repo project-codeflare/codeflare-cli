@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Arguments, ReactResponse, Registrar, encodeComponent } from "@kui-shell/core"
+import { Arguments, Registrar, encodeComponent } from "@kui-shell/core"
 
 import { expand } from "../lib/util"
 import { followFlags, FollowOptions } from "./dashboard"
@@ -32,29 +32,17 @@ async function tail(args: Arguments<FollowOptions>) {
   ])
 
   if (process.env.FOLLOW) {
-    const [TailFile, split2] = await Promise.all([
-      import("@logdna/tail-file").then((_) => _.default),
-      import("split2").then((_) => _.default),
-    ])
+    const TailFile = await import("@logdna/tail-file").then((_) => _.default)
+    const tail = new TailFile(fp, { startPos: 0, pollFileIntervalMs: 500 })
+    tail.start()
+    tail.on("tail_error", (err) => console.error(err))
 
-    return new Promise<ReactResponse>((resolve, reject) => {
-      try {
-        const tail = new TailFile(fp, { startPos: 0, pollFileIntervalMs: 500 })
-        tail.start()
-        tail.on("tail_error", reject)
-
-        const splitter = tail.pipe(split2())
-
-        resolve({
-          react: React.createElement(Terminal, {
-            on: splitter.on.bind(splitter),
-            unwatch: tail.quit.bind(tail),
-          }),
-        })
-      } catch (err) {
-        reject(err)
-      }
-    })
+    return {
+      react: React.createElement(Terminal, {
+        on: tail.on.bind(tail),
+        unwatch: tail.quit.bind(tail),
+      }),
+    }
   } else {
     const initialContent = await args.REPL.qexec<string>(`vfs fslice ${encodeComponent(fp)} 0`)
 
