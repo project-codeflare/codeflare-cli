@@ -29,59 +29,58 @@ type State = {
 }
 
 export default class GPUChart extends React.PureComponent<Props, State> {
-  private static readonly padding = Object.assign({}, BaseChart.padding, {
-    right: BaseChart.padding.left,
-  })
-
   public constructor(props: Props) {
     super(props)
     this.state = {
-      charts: GPUChart.charts(props),
+      charts: this.charts(props),
     }
   }
 
-  private static charts(props: Props): BaseChartProps[] {
-    return Object.entries(props.logs).map(([node, lines]) => {
-      const d1 = lines.map((line) => ({
-        name: BaseChart.nodeNameLabel(node) + " GPU Utilization",
-        x: line.timestamp - props.timeRange.min,
-        y: line.utilizationGPU,
-      }))
+  /** Format a Victory datum for the GPU Utilization time series */
+  private readonly datumForSeries1 = (line: Log) => ({
+    name: BaseChart.nodeNameLabel(line.hostname) + " GPU Utilization",
+    x: line.timestamp - this.props.minTime,
+    y: line.utilizationGPU,
+  })
 
-      const d2 = lines.map((line) => ({
-        name: BaseChart.nodeNameLabel(node) + " GPU Memory",
-        x: line.timestamp - props.timeRange.min,
-        y: line.utilizationMemory,
-      }))
+  /** Format a Victory datum for the GPU Memory time series */
+  private readonly datumForSeries2 = (line: Log) => ({
+    name: BaseChart.nodeNameLabel(line.hostname) + " GPU Memory",
+    x: line.timestamp - this.props.minTime,
+    y: line.utilizationMemory,
+  })
 
-      const d3 = lines.map((line) => ({
-        name: BaseChart.nodeNameLabel(node) + " Temperature",
-        x: line.timestamp - props.timeRange.min,
-        y: line.temperatureGPU,
-      }))
+  /** Format a Victory datum for the GPU Temperature series */
+  private readonly datumForSeries3 = (line: Log) => ({
+    name: BaseChart.nodeNameLabel(line.hostname) + " Temperature",
+    x: line.timestamp - this.props.minTime,
+    y: line.temperatureGPU,
+  })
 
-      const series = [
-        { impl: "ChartArea" as const, stroke: BaseChart.colors[1], data: d1 },
-        { impl: "ChartLine" as const, stroke: BaseChart.colors[2], data: d2 },
-        { impl: "ChartDashedLine" as const, stroke: BaseChart.colors[3], data: d3 },
-      ]
+  /** Create a new chart for the given Log `lines` */
+  private readonly newChart = ([node, lines]: [string, Log[]]): BaseChartProps => {
+    const series = [
+      { impl: "ChartArea" as const, stroke: BaseChart.colors[1], data: lines.map(this.datumForSeries1) },
+      { impl: "ChartLine" as const, stroke: BaseChart.colors[2], data: lines.map(this.datumForSeries2) },
+      { impl: "ChartDashedLine" as const, stroke: BaseChart.colors[3], data: lines.map(this.datumForSeries3) },
+    ]
 
-      const data = series.map((_, idx) => BaseChart.normalize(_, idx !== 2 ? "percentage" : "celsius"))
+    const data = series.map((_, idx) => BaseChart.normalize(_, idx !== 2 ? "percentage" : "celsius"))
 
-      return {
-        title: BaseChart.nodeNameLabel(node),
-        desc: "Chart showing GPU utilization over time",
-        padding: GPUChart.padding,
-        yAxes: [
-          {
-            label: "GPU",
-            format: "percentage",
-            y: data[0].y,
-            tickFormat: data[0].tickFormat,
-            tickValues: data[0].tickValues,
-            style: BaseChart.twoAxisStyle[0],
-          },
-          /*{
+    return {
+      key: node,
+      title: BaseChart.nodeNameLabel(node),
+      desc: "Chart showing GPU utilization over time",
+      yAxes: [
+        {
+          label: "GPU",
+          format: "percentage",
+          y: data[0].y,
+          tickFormat: data[0].tickFormat,
+          tickValues: data[0].tickValues,
+          style: BaseChart.twoAxisStyle[0],
+        },
+        /*{
             label: "Free Memory",
             format: "percentage",
             orientation: "right",
@@ -90,24 +89,27 @@ export default class GPUChart extends React.PureComponent<Props, State> {
             tickValues: data[1].tickValues,
             style: BaseChart.twoAxisStyle[1],
             },*/
-          undefined,
-          {
-            label: "Temperature",
-            format: "celsius",
-            orientation: "right",
-            tickCount: 3,
-            y: data[2].y,
-            tickFormat: data[2].tickFormat,
-            tickValues: data[2].tickValues,
-            style: BaseChart.twoAxisStyle[2],
-          },
-        ],
-        series,
-      }
-    })
+        undefined,
+        {
+          label: "Temperature",
+          format: "celsius",
+          orientation: "right",
+          tickCount: 3,
+          y: data[2].y,
+          tickFormat: data[2].tickFormat,
+          tickValues: data[2].tickValues,
+          style: BaseChart.twoAxisStyle[2],
+        },
+      ],
+      series,
+    }
+  }
+
+  private charts(props: Props): BaseChartProps[] {
+    return Object.entries(props.logs).map(this.newChart)
   }
 
   public render() {
-    return <BaseChart charts={this.state.charts} timeRange={this.props.timeRange} />
+    return <BaseChart charts={this.state.charts} minTime={this.props.minTime} maxTime={this.props.maxTime} />
   }
 }

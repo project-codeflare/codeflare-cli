@@ -32,14 +32,28 @@ async function tail(args: Arguments<FollowOptions>) {
   ])
 
   if (process.env.FOLLOW) {
-    const { Tail } = await import("tail")
-    return new Promise<ReactResponse>((resolve, reject) => {
-      const tail = new Tail(fp, { nLines: 1000, useWatchFile: true })
-      tail.on("error", reject)
+    const [TailFile, split2] = await Promise.all([
+      import("@logdna/tail-file").then((_) => _.default),
+      import("split2").then((_) => _.default),
+    ])
 
-      resolve({
-        react: React.createElement(Terminal, { on: tail.on.bind(tail), unwatch: tail.unwatch.bind(tail) }),
-      })
+    return new Promise<ReactResponse>((resolve, reject) => {
+      try {
+        const tail = new TailFile(fp, { startPos: 0, pollFileIntervalMs: 500 })
+        tail.start()
+        tail.on("tail_error", reject)
+
+        const splitter = tail.pipe(split2())
+
+        resolve({
+          react: React.createElement(Terminal, {
+            on: splitter.on.bind(splitter),
+            unwatch: tail.quit.bind(tail),
+          }),
+        })
+      } catch (err) {
+        reject(err)
+      }
     })
   } else {
     const initialContent = await args.REPL.qexec<string>(`vfs fslice ${encodeComponent(fp)} 0`)

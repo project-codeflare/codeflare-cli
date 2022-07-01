@@ -16,7 +16,7 @@
 
 import React from "react"
 import stripAnsi from "strip-ansi"
-import { Arguments, encodeComponent } from "@kui-shell/core"
+import { Arguments, ReactResponse, encodeComponent } from "@kui-shell/core"
 
 import { expand } from "../../lib/util"
 import { timeRange } from "./timestamps"
@@ -35,12 +35,14 @@ export type Log = LogRecord<{
 
 function formatLogs(logs: string) {
   return logs
-    .split(/\n\n/gi)
+    .split(/\n\n/)
     .flatMap((line) => line.trim())
-    .map((line) => line.split(/\n/gi))
+    .map((line) => line.split(/\n/))
 }
 
-function formatLogObject(logLine: string[]) {
+export const nLinesPerGPURecord = 5
+
+export function parseRecord(logLine: string[]) {
   const splittedLine = logLine[0].split(/\s|\t\t/gi)
   const hostname = splittedLine[splittedLine.length - 3]
   const timestamp = new Date(splittedLine.slice(splittedLine.length - 2).join(" ")).getTime()
@@ -61,17 +63,19 @@ function formatLogObject(logLine: string[]) {
   return newObj
 }
 
-export async function parse(filepath: string, REPL: Arguments["REPL"]) {
+export async function parse(filepath: string, REPL: Arguments["REPL"]): Promise<Log[]> {
   const logs = stripAnsi(await REPL.qexec<string>(`vfs fslice ${encodeComponent(expand(filepath))} 0`))
   const formattedLogs = formatLogs(logs)
-  return formattedLogs.map((logLine) => formatLogObject(logLine))
+  return formattedLogs.map((logLine) => parseRecord(logLine))
 }
 
-export function chart(logs: Awaited<ReturnType<typeof parse>>) {
+function chart(logs: Awaited<ReturnType<typeof parse>>): ReactResponse {
+  const { min, max } = timeRange(logs)
+
   return {
     react: (
       <ChartGrid>
-        <GPUChart logs={toHostMap(logs)} timeRange={timeRange(logs)} />
+        <GPUChart logs={toHostMap(logs)} minTime={min} maxTime={max} />
       </ChartGrid>
     ),
   }

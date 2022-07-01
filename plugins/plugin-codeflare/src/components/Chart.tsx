@@ -18,7 +18,6 @@ import React from "react"
 
 import {
   Chart,
-  ChartProps,
   ChartAxis,
   ChartArea,
   ChartAreaProps,
@@ -86,12 +85,20 @@ export type Series = {
   data: { name?: string; x: number; y: number }[]
 }
 
-export type BaseChartProps = Pick<ChartProps, "domain" | "padding"> & {
+export type BaseChartProps = {
+  /** Unique identifier for this chart */
+  key: string
+
+  /** Displayed name/title for this chart */
   title: string
+
+  /** Aria description for this chart */
   desc: string
+
+  /** The time series for this chart */
   series: Series[]
 
-  // y axis...
+  /** The y axes for this chart */
   yAxes: (
     | undefined
     | (Pick<ChartAreaProps, "y"> &
@@ -104,10 +111,8 @@ export type BaseChartProps = Pick<ChartProps, "domain" | "padding"> & {
 }
 
 export type TimeRange = {
-  timeRange: {
-    min: number
-    max: number
-  }
+  minTime: number
+  maxTime: number
 }
 
 type Props = TimeRange & {
@@ -197,6 +202,8 @@ export default class BaseChart extends React.PureComponent<Props> {
     return { fontSize, fontStyle, fontWeight, fill }
   }
 
+  private readonly flyoutStyle = { fillOpacity: 0.825, fill: "var(--color-base06)" }
+
   private axisStyleWithGrid: ChartAxisProps["style"] = Object.assign({}, BaseChart.axisStyle, {
     grid: { strokeWidth: 1, stroke: "var(--color-text-02)", strokeOpacity: 0.15 },
   })
@@ -233,7 +240,7 @@ export default class BaseChart extends React.PureComponent<Props> {
   private xAxis() {
     // timestamps in the Series (i.e. datum.x values) are assumed to
     // be relativized to the given minTimestamp
-    const range = this.props.timeRange.max - this.props.timeRange.min
+    const range = this.props.maxTime - this.props.minTime
 
     return (
       <ChartAxis
@@ -285,8 +292,18 @@ export default class BaseChart extends React.PureComponent<Props> {
     }
   }
 
-  /** @return UI for all of the y axes */
-  private yAxes(chart: BaseChartProps) {
+  /**
+   * Note: We need to interleave things so that the y axis for a
+   * series occurs just before that series. This seems to be how
+   * Victory wants the data to be arranged.
+   *
+   * For example: `(yAxis1, series1, series2, yAxis2, series3)` would
+   * have `series1` and `series2` sharing `yAxis1`, and `series3`
+   * using `yAxis2`.
+   *
+   * @return UI for all of the data sets and y axes.
+   */
+  private dataSetsAndYAxes(chart: BaseChartProps) {
     return chart.series.flatMap(({ impl, stroke, fill = stroke, data }, idx) => {
       const yAxis =
         chart.yAxes[idx] ||
@@ -309,9 +326,9 @@ export default class BaseChart extends React.PureComponent<Props> {
 
       const chartui =
         impl === "ChartArea" ? (
-          <ChartArea key={idx} interpolation="monotoneX" name={data[idx].name} {...props} />
+          <ChartArea key={idx} interpolation="monotoneX" name={data[0].name} {...props} />
         ) : (
-          <ChartLine key={idx} interpolation="monotoneX" name={data[idx].name} {...props} />
+          <ChartLine key={idx} interpolation="monotoneX" name={data[0].name} {...props} />
         )
 
       if (chart.yAxes[idx]) {
@@ -362,10 +379,14 @@ export default class BaseChart extends React.PureComponent<Props> {
     }))
   }
 
-  /** @return the UI for the idx-th chart in the chart set of this.props.charts */
-  private chart(chart: BaseChartProps, idx: number) {
-    const CursorVoronoiContainer = createContainer("voronoi", "cursor")
+  private readonly getTooltipTitle = (datum: { x: number }) =>
+    `${new Date(datum.x + this.props.minTime).toLocaleString()}`
 
+  /** Our impl of a Victory container component; used in `containerComponent()`*/
+  private readonly CursorVoronoiContainer = createContainer("voronoi", "cursor")
+
+  /** @return a Victory "container" that will handle the mouse motion (for tooltips) for us */
+  private containerComponent(chart: BaseChartProps) {
     // map from data series name to format (used in getTooltipLabels())
     const formatMap = chart.yAxes.reduce((M, yAxis, idx, yAxes) => {
       if (!yAxis) {
@@ -382,33 +403,37 @@ export default class BaseChart extends React.PureComponent<Props> {
     }, {} as Record<string, Format>)
 
     return (
+      <this.CursorVoronoiContainer
+        mouseFollowTooltips
+        voronoiDimension="x"
+        labels={this.getTooltipLabels.bind(this, formatMap)}
+        labelComponent={
+          <ChartLegendTooltip
+            isCursorTooltip
+            flyoutStyle={this.flyoutStyle}
+            labelComponent={<MyTooltipContent />}
+            legendData={this.getLegendData(chart)}
+            title={this.getTooltipTitle}
+          />
+        }
+      />
+    )
+  }
+
+  /** @return the UI for the idx-th chart in the chart set of this.props.charts */
+  private chart(chart: BaseChartProps, idx: number) {
+    return (
       <div className="codeflare-chart-container" key={idx}>
         <Chart
           ariaDesc={chart.desc}
-          padding={chart.padding || BaseChart.padding}
+          padding={BaseChart.padding}
           width={BaseChart.dimensions.width}
           height={BaseChart.dimensions.height}
-          domain={chart.domain}
-          containerComponent={
-            <CursorVoronoiContainer
-              mouseFollowTooltips
-              voronoiDimension="x"
-              labels={this.getTooltipLabels.bind(this, formatMap)}
-              labelComponent={
-                <ChartLegendTooltip
-                  isCursorTooltip
-                  flyoutStyle={{ fillOpacity: 0.825, fill: "var(--color-base06)" }}
-                  labelComponent={<MyTooltipContent />}
-                  legendData={this.getLegendData(chart)}
-                  title={(datum: any) => `${new Date(datum.x + this.props.timeRange.min).toLocaleString()}`}
-                />
-              }
-            />
-          }
+          containerComponent={this.containerComponent(chart)}
         >
           {this.title(chart)}
           {this.xAxis()}
-          {this.yAxes(chart)}
+          {this.dataSetsAndYAxes(chart)}
         </Chart>
       </div>
     )
