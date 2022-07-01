@@ -16,7 +16,7 @@
 
 import React from "react"
 import stripAnsi from "strip-ansi"
-import { Arguments } from "@kui-shell/core"
+import { Arguments, encodeComponent } from "@kui-shell/core"
 
 import { expand } from "../../lib/util"
 import { timeRange } from "./timestamps"
@@ -62,7 +62,7 @@ function formatLogObject(logLine: string[]) {
 }
 
 export async function parse(filepath: string, REPL: Arguments["REPL"]) {
-  const logs = stripAnsi(await REPL.qexec<string>(`vfs fslice ${expand(filepath)} 0`))
+  const logs = stripAnsi(await REPL.qexec<string>(`vfs fslice ${encodeComponent(expand(filepath))} 0`))
   const formattedLogs = formatLogs(logs)
   return formattedLogs.map((logLine) => formatLogObject(logLine))
 }

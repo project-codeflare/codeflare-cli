@@ -16,6 +16,7 @@
 
 import { Registrar } from "@kui-shell/core"
 
+import tailf from "./tailf"
 import browse from "./browse"
 import charts from "./charts"
 import events from "./events"
@@ -31,6 +32,7 @@ codeflare chart gpu /path/to/logdir`
 
 /** Register Kui Commands */
 export default function registerCodeflareCommands(registrar: Registrar) {
+  tailf(registrar)
   browse(registrar)
   charts(registrar)
   events(registrar)

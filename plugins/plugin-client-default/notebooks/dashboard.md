@@ -23,10 +23,15 @@ layout:
 
 === "Application Logs"
 
-    ```ansi
-    --8<-- "$LOGDIR/logs/job.txt"
+    ```shell
+    ---
+    execute: now
+    outputOnly: true
+    maximize: true
+    ---
+    codeflare tailf "$LOGDIR/logs/job.txt"
     ```
-
+    
 --8<-- "./dashboard-source.md"
 --8<-- "./dashboard-envvars.md"
 --8<-- "./dashboard-dependencies.md"
