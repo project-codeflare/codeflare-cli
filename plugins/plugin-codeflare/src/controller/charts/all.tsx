@@ -16,18 +16,67 @@
 
 import React from "react"
 import { join } from "path"
-import { Arguments } from "@kui-shell/core"
+import { Arguments, ReactResponse } from "@kui-shell/core"
 
-import { toHostMap } from "./LogRecord"
-import { timeRange } from "./timestamps"
+import { expand } from "../../lib/util"
 
-/** Oops, sometimes we have no data for a give node */
-function noData(node: string, kind: "CPU Utilization" | "GPU Utilization", idx: number) {
-  return (
-    <div key={`nodata-${kind}-${idx}`} className="flex-layout" title={`No ${kind} for ${node}`}>
-      <span className="flex-fill flex-layout flex-align-center">no data</span>
-    </div>
-  )
+async function live(filepath: string): Promise<ReactResponse> {
+  const [TailFile, split2, Combo] = await Promise.all([
+    import("@logdna/tail-file").then((_) => _.default),
+    import("split2").then((_) => _.default),
+    import("../../components/ComboChart").then((_) => _.default),
+  ])
+
+  return new Promise<ReactResponse>((resolve, reject) => {
+    try {
+      const gpuTail = new TailFile(expand(join(filepath, "resources/gpu.txt")), {
+        startPos: 0,
+        pollFileIntervalMs: 500,
+      })
+      gpuTail.on("tail_error", reject)
+
+      const cpuTail = new TailFile(expand(join(filepath, "resources/pod-vmstat.txt")), {
+        startPos: 0,
+        pollFileIntervalMs: 500,
+      })
+      cpuTail.on("tail_error", reject)
+
+      gpuTail.start()
+      cpuTail.start()
+
+      const gpuSplitter = gpuTail.pipe(split2())
+      const cpuSplitter = cpuTail.pipe(split2())
+
+      resolve({
+        react: (
+          <Combo
+            onGpu={gpuSplitter.on.bind(gpuSplitter)}
+            onCpu={cpuSplitter.on.bind(cpuSplitter)}
+            unwatch={() => {
+              gpuTail.quit()
+              cpuTail.quit()
+            }}
+          />
+        ),
+      })
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
+
+async function offline(filepath: string, REPL: Arguments["REPL"]): Promise<ReactResponse> {
+  // parse the data
+  const [gpuData, cpuData] = await Promise.all([
+    import("./gpu").then((_) => _.parse(join(filepath, "resources/gpu.txt"), REPL)),
+    import("./vmstat").then((_) => _.parse(join(filepath, "resources/pod-vmstat.txt"), REPL)),
+  ])
+
+  const Combo = await import("../../components/ComboChart").then((_) => _.default)
+
+  return {
+    react: <Combo initialGpuData={gpuData} initialCpuData={cpuData} />,
+  }
 }
 
 /**
@@ -39,62 +88,12 @@ function noData(node: string, kind: "CPU Utilization" | "GPU Utilization", idx: 
 export default async function all(args: Arguments) {
   const filepath = args.argvNoOptions[2]
   if (!filepath) {
-    return `Usage chart all ${filepath}`
+    throw new Error(`Usage chart all ${filepath}`)
   }
 
-  // parse the data
-  const [gpuData, cpuData] = await Promise.all([
-    import("./gpu").then((_) => _.parse(join(filepath, "resources/gpu.txt"), args.REPL)),
-    import("./vmstat").then((_) => _.parse(join(filepath, "resources/pod-vmstat.txt"), args.REPL)),
-  ])
-
-  // load the UI components
-  const [GPUChart, VmstatChart] = await Promise.all([
-    import("../../components/GPUChart").then((_) => _.default),
-    import("../../components/VmstatChart").then((_) => _.default),
-  ])
-
-  // get a canonical list of nodes
-  const gpuMap = toHostMap(gpuData)
-  const cpuMap = toHostMap(cpuData)
-  const nodes = Array.from(new Set(Object.keys(gpuMap).concat(Object.keys(cpuMap)))).sort((a, b) => {
-    // sort them so that nodes for which we have both gpu and cpu
-    // data float to the top; in second place will be the group of
-    // nodes for which we have only gpu data; in last place will be
-    // the nodes for which we only have cpu data
-    const aHasG = gpuMap[a]
-    const aHasC = cpuMap[a]
-    const bHasG = gpuMap[b]
-    const bHasC = cpuMap[b]
-
-    // 2 vs 1 to get the gpu-first priority described above
-    const vA = (aHasG ? 2 : 0) + (aHasC ? 1 : 0)
-    const vB = (bHasG ? 2 : 0) + (bHasC ? 1 : 0)
-    return vB - vA
-  })
-
-  const range = timeRange(gpuData, cpuData)
-
-  const linearized = nodes
-    .map((node, idx) => {
-      const gpuForNode = gpuMap[node]
-      const cpuForNode = cpuMap[node]
-      return [
-        !gpuForNode ? (
-          noData(node, "GPU Utilization", idx)
-        ) : (
-          <GPUChart key={`gpu-${node}`} timeRange={range} logs={{ [node]: gpuForNode }} />
-        ),
-        !cpuForNode ? (
-          noData(node, "CPU Utilization", idx)
-        ) : (
-          <VmstatChart key={`cpu-${node}`} timeRange={range} logs={{ [node]: cpuMap[node] }} />
-        ),
-      ]
-    })
-    .flatMap((_) => _)
-
-  return {
-    react: <div className="codeflare-chart-grid flex-fill">{linearized}</div>,
+  if (process.env.FOLLOW) {
+    return live(filepath)
+  } else {
+    return offline(filepath, args.REPL)
   }
 }

@@ -17,15 +17,18 @@
 import LogRecord from "./LogRecord"
 
 export function timeRange(...records: LogRecord<unknown>[][]) {
-  const min = records.reduce(
-    (min, logs) => logs.reduce((min, line) => Math.min(min, line.timestamp), Number.MAX_VALUE),
-    Number.MAX_VALUE
-  )
+  let min = Number.MAX_VALUE
+  let max = Number.MIN_VALUE
 
-  const max = records.reduce(
-    (max, logs) => logs.reduce((max, line) => Math.max(max, line.timestamp), Number.MIN_VALUE),
-    Number.MIN_VALUE
-  )
+  for (let idx = 0; idx < records.length; idx++) {
+    const logs = records[idx]
+    for (let jdx = 0; jdx < logs.length; jdx++) {
+      const { timestamp } = logs[jdx]
+
+      min = Math.min(min, timestamp)
+      max = Math.max(max, timestamp)
+    }
+  }
 
   return { min, max }
 }
