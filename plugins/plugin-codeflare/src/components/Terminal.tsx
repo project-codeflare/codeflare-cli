@@ -27,6 +27,7 @@ interface Props {
 
 export default class XTerm extends React.PureComponent<Props> {
   private terminal: Terminal = new Terminal({
+    convertEol: true,
     scrollback: 5000,
   })
 
@@ -37,7 +38,7 @@ export default class XTerm extends React.PureComponent<Props> {
     this.mountTerminal()
 
     if (this.props.on) {
-      this.props.on("data", this.writeln)
+      this.props.on("data", this.terminal.write.bind(this.terminal))
     }
   }
 
@@ -47,12 +48,6 @@ export default class XTerm extends React.PureComponent<Props> {
 
     if (this.props.unwatch) {
       this.props.unwatch()
-    }
-  }
-
-  private writeln = (data: any) => {
-    if (typeof data === "string") {
-      this.terminal.writeln(data)
     }
   }
 
@@ -78,8 +73,8 @@ export default class XTerm extends React.PureComponent<Props> {
 
     if (this.props.initialContent) {
       // @starpit i don't know why we have to split the newlines...
-      this.props.initialContent.split(/\n/).forEach(this.writeln)
-      //this.terminal.write(this.props.initialContent)
+      //this.props.initialContent.split(/\n/).forEach(this.writeln)
+      this.terminal.write(this.props.initialContent)
     }
 
     this.terminal.open(xtermContainer)
