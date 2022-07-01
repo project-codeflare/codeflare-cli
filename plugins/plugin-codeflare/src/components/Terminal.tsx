@@ -131,7 +131,7 @@ export default class XTerm extends React.PureComponent<Props> {
 
     const itheme: ITheme = {
       foreground: val("text-01"),
-      background: val("sidecar-background-01"),
+      background: val("sidecar-background-02"),
       cursor: val("support-01"),
       selection: this.alpha(val("selection-background"), 0.3),
 
