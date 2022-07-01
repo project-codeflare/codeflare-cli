@@ -46,7 +46,7 @@ async function dashboardui(args: Arguments<FollowOptions>) {
   process.env.LOGDIR = filepath
   process.env.FOLLOW = args.parsedOptions.follow ? "-f" : ""
 
-  return args.REPL.qexec(`commentary -f /kui/client/dashboard.md`)
+  return args.REPL.qexec(`commentary --replace -f /kui/client/dashboard.md`)
 }
 
 export default function registerDashboardCommands(registrar: Registrar) {
