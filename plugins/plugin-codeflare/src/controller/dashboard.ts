@@ -18,9 +18,14 @@ import { Arguments, CommandOptions, Registrar } from "@kui-shell/core"
 
 import "../../web/scss/components/Dashboard/_index.scss"
 
-interface DashboardOptions {
+export interface FollowOptions {
   f: boolean
   follow: boolean
+}
+
+export const followFlags: CommandOptions["flags"] = {
+  boolean: ["f", "follow"],
+  alias: { follow: ["f"] },
 }
 
 function dashboardcli(args: Arguments) {
@@ -33,22 +38,19 @@ function dashboardcli(args: Arguments) {
   return args.REPL.qexec(`codeflare dashboardui ${args.command.slice(restIdx)}`)
 }
 
-async function dashboardui(args: Arguments<DashboardOptions>) {
+async function dashboardui(args: Arguments<FollowOptions>) {
   const { setTabReadonly } = await import("@kui-shell/plugin-madwizard")
   setTabReadonly(args)
 
   const filepath = args.argvNoOptions[2]
   process.env.LOGDIR = filepath
+  process.env.FOLLOW = args.parsedOptions.follow ? "-f" : ""
 
-  const db = args.parsedOptions.follow ? "dashboard-live.md" : "dashboard.md"
-  return args.REPL.qexec(`commentary -f /kui/client/${db}`)
+  return args.REPL.qexec(`commentary -f /kui/client/dashboard.md`)
 }
 
 export default function registerDashboardCommands(registrar: Registrar) {
-  const flags: CommandOptions["flags"] = {
-    boolean: ["f", "follow"],
-    alias: { follow: ["f"] },
-  }
+  const flags = followFlags
 
   registrar.listen("/dashboard", dashboardcli, { flags, outputOnly: true })
   registrar.listen("/codeflare/dashboardui", dashboardui, {

@@ -15,7 +15,7 @@
  */
 
 import React from "react"
-import { Arguments } from "@kui-shell/core"
+import { Arguments, encodeComponent } from "@kui-shell/core"
 
 import { expand } from "../../lib/util"
 import { timeRange } from "./timestamps"
@@ -54,7 +54,7 @@ function parseLine(cells: string[]): Log {
 }
 
 export async function parse(filepath: string, REPL: Arguments["REPL"]) {
-  return (await REPL.qexec<string>(`vfs fslice ${expand(filepath)} 0`))
+  return (await REPL.qexec<string>(`vfs fslice ${encodeComponent(expand(filepath))} 0`))
     .split(/\n/)
     .filter((logLine) => logLine && !/----|swpd/.test(logLine))
     .map((_) => _.split(/\s+/))

@@ -23,8 +23,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@patternfly/react-core": "^4.221.3",
     "@patternfly/react-charts": "^6.74.3",
-    "strip-ansi": "6.0.0"
+    "@patternfly/react-core": "^4.221.3",
+    "strip-ansi": "6.0.0",
+    "tail": "^2.2.4"
   }
 }
