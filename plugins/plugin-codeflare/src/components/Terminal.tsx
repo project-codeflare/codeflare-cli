@@ -36,11 +36,6 @@ export default class XTerm extends React.PureComponent<Props> {
   public componentDidMount() {
     this.mountTerminal()
 
-    if (this.props.initialContent) {
-      // @starpit i don't know why we have to split the newlines...
-      this.props.initialContent.split(/\n/).forEach(this.writeln)
-      //this.terminal.write(this.props.initialContent)
-    }
     if (this.props.on) {
       this.props.on("line", this.writeln)
     }
@@ -80,6 +75,12 @@ export default class XTerm extends React.PureComponent<Props> {
     inject()
     Events.eventChannelUnsafe.on("/theme/change", inject)
     this.cleaners.push(() => Events.eventChannelUnsafe.on("/theme/change", inject))
+
+    if (this.props.initialContent) {
+      // @starpit i don't know why we have to split the newlines...
+      this.props.initialContent.split(/\n/).forEach(this.writeln)
+      //this.terminal.write(this.props.initialContent)
+    }
 
     this.terminal.open(xtermContainer)
 
