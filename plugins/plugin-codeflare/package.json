@@ -23,9 +23,10 @@
     "access": "public"
   },
   "dependencies": {
+    "@logdna/tail-file": "^3.0.0",
     "@patternfly/react-charts": "^6.74.3",
     "@patternfly/react-core": "^4.221.3",
-    "strip-ansi": "6.0.0",
-    "tail": "^2.2.4"
+    "split2": "^4.1.0",
+    "strip-ansi": "6.0.0"
   }
 }

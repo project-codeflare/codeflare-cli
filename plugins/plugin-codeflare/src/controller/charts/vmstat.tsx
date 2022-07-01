@@ -15,7 +15,7 @@
  */
 
 import React from "react"
-import { Arguments, encodeComponent } from "@kui-shell/core"
+import { Arguments, ReactResponse, encodeComponent } from "@kui-shell/core"
 
 import { expand } from "../../lib/util"
 import { timeRange } from "./timestamps"
@@ -32,7 +32,10 @@ export type Log = LogRecord<{
   freeMemory: number
 }>
 
-function parseLine(cells: string[]): Log {
+/** log line -> Log object */
+export function parseLine(line: string): Log {
+  const cells = line.split(/\s+/)
+
   const N = cells.length
   const hostname = cells[0]
   const freeMemory = parseInt(cells[4], 10)
@@ -53,20 +56,25 @@ function parseLine(cells: string[]): Log {
   }
 }
 
-export async function parse(filepath: string, REPL: Arguments["REPL"]) {
+export function filter(line: string): boolean {
+  return !!line && !/----|swpd/.test(line)
+}
+
+export async function parse(filepath: string, REPL: Arguments["REPL"]): Promise<Log[]> {
   return (await REPL.qexec<string>(`vfs fslice ${encodeComponent(expand(filepath))} 0`))
-    .split(/\n/)
-    .filter((logLine) => logLine && !/----|swpd/.test(logLine))
-    .map((_) => _.split(/\s+/))
-    .map(parseLine)
+    .split(/\n/) // now we have rows
+    .filter(filter) // filter those rows
+    .map(parseLine) // parse the line a `Log` object
     .sort((a, b) => a.hostname.localeCompare(b.hostname))
 }
 
-export function chart(logs: Awaited<ReturnType<typeof parse>>) {
+function chart(logs: Awaited<ReturnType<typeof parse>>): ReactResponse {
+  const { min, max } = timeRange(logs)
+
   return {
     react: (
       <ChartGrid>
-        <VmstatChart logs={toHostMap(logs)} timeRange={timeRange(logs)} />
+        <VmstatChart logs={toHostMap(logs)} minTime={min} maxTime={max} />
       </ChartGrid>
     ),
   }

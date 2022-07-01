@@ -21,7 +21,7 @@ import { Events } from "@kui-shell/core"
 
 interface Props {
   initialContent?: string
-  on?(eventType: "line", cb: (data: any) => void): void
+  on?(eventType: "data", cb: (data: any) => void): void
   unwatch?(): void
 }
 
@@ -37,7 +37,7 @@ export default class XTerm extends React.PureComponent<Props> {
     this.mountTerminal()
 
     if (this.props.on) {
-      this.props.on("line", this.writeln)
+      this.props.on("data", this.writeln)
     }
   }
 
