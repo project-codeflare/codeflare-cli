@@ -17,7 +17,7 @@
 import Event from "./Event"
 
 type EventType = "Pulling" | "Pulled"
-type KubeEvent = Event<EventType, { node: string }>
+export type KubeEvent = Event<EventType, { node: string }>
 
 function findPrevious(M: KubeEvent[], node: KubeEvent["node"], type: EventType) {
   for (let idx = M.length - 1; idx >= 0; idx--) {
@@ -28,7 +28,7 @@ function findPrevious(M: KubeEvent[], node: KubeEvent["node"], type: EventType) 
   }
 }
 
-function collateEvent(M: KubeEvent[], line: string) {
+export function collateEvent(M: KubeEvent[], line: string): KubeEvent[] {
   const pullMatch = line.match(/(Pulling|Pulled)\s+(\S+)\s+(.+)$/)
   if (pullMatch) {
     const type = pullMatch[1] as EventType

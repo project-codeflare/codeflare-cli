@@ -80,5 +80,5 @@ layout:
     execute: now
     outputOnly: true
     ---
-    chart progress "${LOGDIR}"
+    chart events "${LOGDIR}"
     ```
