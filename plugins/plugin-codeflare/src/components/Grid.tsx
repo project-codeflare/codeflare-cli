@@ -17,18 +17,18 @@
 import React from "react"
 import { Tooltip } from "@kui-shell/plugin-client-common"
 
-import Event from "../controller/events/Event"
+import { GenericEvent } from "../controller/events/Event"
 
 import "@kui-shell/plugin-client-common/web/scss/components/Table/_index.scss"
 import "@kui-shell/plugin-client-common/web/scss/components/Table/Grid/_index.scss"
 import "../../web/scss/components/Dashboard/Grid.scss"
 
 interface Props {
-  events: Event<string, unknown>[]
+  events: GenericEvent[]
 }
 
 export default class Grid extends React.PureComponent<Props> {
-  private tooltipContent(event: Event<string, unknown>) {
+  private tooltipContent(event: GenericEvent) {
     const title = event.name
     const subtitle = event.subtitle || event.type
     const status = event.state
@@ -42,7 +42,7 @@ ${status ? "Status: " + status : ""}
 \`${showMoreDetail}\``
   }
 
-  private readonly cell = (event: Event<string, unknown>, idx: number) => {
+  private readonly cell = (event: GenericEvent, idx: number) => {
     return (
       <Tooltip key={idx} markdown={this.tooltipContent(event)}>
         <span className="kui--grid-cell" data-tag="badge" data-type={event.type} data-state={event.state}>

@@ -77,6 +77,12 @@ $fullWidth: 1em; /* $large * ($unit + $rgap) - $rgap */
   grid-template-columns: repeat(auto-fill, $unit) !important;
   grid-auto-rows: $fullWidth;
 
+  /**
+   * Cosmetic: to keep the cursor from switching back and forth from
+   * pointer to default as you sweep your mouse along the events.
+   */
+  cursor: pointer;
+
   @include CFCell {
     padding-left: 1px;
     grid-column: span $large;

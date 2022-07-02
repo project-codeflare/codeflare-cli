@@ -15,6 +15,7 @@
  */
 
 export type State = "InProgress" | "Done" | "Error"
+
 type Event<T extends string, Detail> = Detail & {
   name: string
   subtitle?: string
@@ -24,5 +25,7 @@ type Event<T extends string, Detail> = Detail & {
   timestamp: number
   hidden?: boolean
 }
+
+export type GenericEvent = Event<string, unknown>
 
 export default Event
