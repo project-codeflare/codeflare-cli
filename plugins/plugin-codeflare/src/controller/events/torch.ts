@@ -18,7 +18,7 @@ import Event from "./Event"
 
 type EventType = "Epoch" | "Iteration" | "Marker"
 type Detail = { epoch: number; step: number; nSteps: number; ip: string }
-type TorchEvent = Event<EventType, Detail>
+export type TorchEvent = Event<EventType, Detail>
 
 function findPrevious(M: TorchEvent[], ip: TorchEvent["ip"], type: EventType) {
   for (let idx = M.length - 1; idx >= 0; idx--) {
@@ -34,7 +34,7 @@ function findEpoch(M: TorchEvent[], ip: TorchEvent["ip"]) {
   return evt ? evt.step : -1
 }
 
-function collateEvent(M: TorchEvent[], line: string) {
+export function collateEvent(M: TorchEvent[], line: string) {
   const startMatch = line.match(/ip=([\d.]+)\)\s+(\d+\/\d+\/\d+\s+\d+:\d+:\d+)\s+.+\*\*\*\*\* Running training/)
   if (startMatch) {
     const ip = startMatch[1]
