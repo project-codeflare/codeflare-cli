@@ -210,7 +210,7 @@ export default class BaseChart extends React.PureComponent<Props> {
 
   private static readonly titlePosition = {
     x: {
-      left: BaseChart.padding.left - BaseChart.tickLabelFontSize * 3.5,
+      left: BaseChart.padding.left - BaseChart.tickLabelFontSize * 3.125,
       right: BaseChart.dimensions.width - BaseChart.tickLabelFontSize * 2,
     },
     y: BaseChart.padding.top - BaseChart.fontSize * 1.5,
