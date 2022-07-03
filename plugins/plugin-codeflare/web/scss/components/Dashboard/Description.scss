@@ -29,8 +29,8 @@
     padding: 0 1em;
   }
 
-  /* for vertical layout
-    .pf-c-description-list {
+  /* for vertical layout */
+  .pf-c-description-list {
     grid-template-columns: 1fr;
   }
   .pf-c-description-list__group {
@@ -40,5 +40,4 @@
   .pf-c-description-list__description {
     grid-column-start: unset;
   }
-  */
 }

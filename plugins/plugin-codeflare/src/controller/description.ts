@@ -42,21 +42,42 @@ export type SummaryResponse = {
   source: string
 }
 
-async function description(args: Arguments) {
-  const filepath = args.argvNoOptions[1]
+async function app(args: Arguments) {
+  const filepath = args.argvNoOptions[2]
   if (!filepath) {
-    throw new Error("Usage: codeflare description <filepath>")
+    throw new Error("Usage: description application <filepath>")
   }
 
-  const summaryCmd = JSON.parse(await args.REPL.qexec<string>(`vfs fslice ${expand(filepath)} 0`))
-  const { KUBE_CONTEXT, KUBE_NS, WORKER_MEMORY, MIN_WORKERS, MAX_WORKERS, RAY_IMAGE } = summaryCmd.runtimeEnv.env_vars
+  const jobInfo = JSON.parse(await args.REPL.qexec<string>(`vfs fslice ${expand(filepath)} 0`))
+  const { RAY_IMAGE } = jobInfo.runtimeEnv.env_vars
 
   const summaryData = [
     { label: "Application Class", value: "Unknown" },
     { label: "Application Name", value: "Unknown" },
+    { label: "Base Image", value: RAY_IMAGE },
+    { label: "Run Status", value: "Unknown" },
+  ]
+
+  const React = await import("react")
+  const Description = await import("../components/Description")
+
+  return {
+    react: React.createElement(Description.default, { summaryData }),
+  }
+}
+
+async function workers(args: Arguments) {
+  const filepath = args.argvNoOptions[2]
+  if (!filepath) {
+    throw new Error("Usage: description workers <filepath>")
+  }
+
+  const jobInfo = JSON.parse(await args.REPL.qexec<string>(`vfs fslice ${expand(filepath)} 0`))
+  const { KUBE_CONTEXT, KUBE_NS, WORKER_MEMORY, MIN_WORKERS, MAX_WORKERS } = jobInfo.runtimeEnv.env_vars
+
+  const summaryData = [
     { label: "Cluster Context", value: KUBE_CONTEXT.replace(/^[^/]+\//, "") },
     { label: "Cluster Namespace", value: KUBE_NS },
-    { label: "Base Image", value: RAY_IMAGE },
     { label: "GPU Class", value: "Unknown" },
     { label: "Memory per Worker", value: WORKER_MEMORY },
     { label: "Worker Count", value: `${MIN_WORKERS}-${MAX_WORKERS}` },
@@ -71,5 +92,6 @@ async function description(args: Arguments) {
 }
 
 export default function registerDescriptionCommands(registrar: Registrar) {
-  registrar.listen("/description", description, { needsUI: true, outputOnly: true })
+  registrar.listen("/description/application", app, { needsUI: true })
+  registrar.listen("/description/workers", workers, { needsUI: true })
 }
