@@ -19,6 +19,7 @@ import { join } from "path"
 import stripAnsi from "strip-ansi"
 import { Arguments } from "@kui-shell/core"
 
+import { GenericEvent } from "./Event"
 import parseKubeEvents, { collateEvent as collateKubeEvent, KubeEvent } from "./kube"
 import parseTorchEvents, { collateEvent as collateTorchEvent, TorchEvent } from "./torch"
 
@@ -32,7 +33,9 @@ interface EventState {
 
 type State = EventState & {
   nKubeEvents: number
+  nNotPendingKubeEvents: number
   nTorchEvents: number
+  nNotPendingTorchEvents: number
   catastrophicError?: Error
 }
 
@@ -57,6 +60,8 @@ class Events extends React.PureComponent<Props, State> {
       kubeEvents,
       torchEvents,
       nKubeEvents: kubeEvents.length,
+      nNotPendingKubeEvents: this.nNotPending(kubeEvents),
+      nNotPendingTorchEvents: this.nNotPending(torchEvents),
       nTorchEvents: torchEvents.length,
     }
 
@@ -83,6 +88,7 @@ class Events extends React.PureComponent<Props, State> {
               toBeProcessed.forEach((line) => collateKubeEvent(curState.kubeEvents, line))
               return {
                 nKubeEvents: curState.kubeEvents.length,
+                nNotPendingKubeEvents: this.nNotPending(curState.kubeEvents),
               }
             })
           }, queueFlushHysteresis)
@@ -108,12 +114,17 @@ class Events extends React.PureComponent<Props, State> {
               toBeProcessed.forEach((line) => collateTorchEvent(curState.torchEvents, line))
               return {
                 nTorchEvents: curState.torchEvents.length,
+                nNotPendingTorchEvents: this.nNotPending(curState.torchEvents),
               }
             })
           }, queueFlushHysteresis)
         }
       })
     }
+  }
+
+  private nNotPending(events: GenericEvent[]) {
+    return events.reduce((N, _) => N + (_.state !== "Pending" ? 1 : 0), 0)
   }
 
   public static getDerivedStateFromError(error: Error) {

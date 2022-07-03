@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-export type State = "InProgress" | "Done" | "Error"
+export type State = "Pending" | "InProgress" | "Done" | "Error"
 
 type Event<T extends string, Detail> = Detail & {
   name: string
