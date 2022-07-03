@@ -29,13 +29,13 @@
 
 @include TopLevelTab {
   @include Split(4) {
-    grid-template-rows: 200px 1fr 100px;
+    grid-template-rows: 100px 200px 1fr;
     grid-template-columns: repeat(13, 1fr);
 
     grid-template-areas:
-      "T1 T1 T1 T1 T1 T1 T1 T1 T1 T1 T1 T1 T1"
-      "T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2 T2 T2"
-      "T3 T3 T3 T3 T4 T4 T4 T4 T4 T4 T4 T4 T4";
+      "T1 T1 T1 T1 T4 T4 T4 T4 T4 T4 T4 T4 T4"
+      "T1 T1 T1 T1 T2 T2 T2 T2 T2 T2 T2 T2 T2"
+      "T3 T3 T3 T3 T2 T2 T2 T2 T2 T2 T2 T2 T2";
   }
 
   @include Split(5) {

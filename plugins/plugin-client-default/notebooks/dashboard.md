@@ -17,7 +17,25 @@ layout:
         inverseColors: true
 ---
 
---8<-- "./dashboard-summary.md"
+=== "Summary"
+
+    ```shell
+    ---
+    execute: now
+    outputOnly: true
+    ---
+    description application "$LOGDIR/job.json"
+    ```
+
+=== "Workers"
+
+    ```shell
+    ---
+    execute: now
+    outputOnly: true
+    ---
+    description workers "$LOGDIR/job.json"
+    ```
 
 ---
 
