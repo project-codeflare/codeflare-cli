@@ -64,9 +64,9 @@ $fullWidth: 1em; /* $large * ($unit + $rgap) - $rgap */
   }
 }
 
-@mixin Color($color) {
+@mixin Color($color, $important: "") {
   @include CFCellContent {
-    background-color: $color;
+    background-color: $color $important;
   }
 }
 
@@ -91,7 +91,11 @@ $fullWidth: 1em; /* $large * ($unit + $rgap) - $rgap */
       @include Color(var(--color-base0B));
     }
     @include State("InProgress") {
-      @include Color(var(--color-base09));
+      @include Color(var(--color-base0A), !important);
+    }
+    @include State("Pending") {
+      @include Color(var(--color-base04), !important);
+      filter: saturate(0.3) brightness(0.95);
     }
 
     @include Color(var(--color-base0D));
@@ -117,7 +121,7 @@ $fullWidth: 1em; /* $large * ($unit + $rgap) - $rgap */
     grid-column: span $tiny;
     @include CFCellContent {
       background-color: var(--color-base0D);
-      filter: saturate(0.3) brightness(0.9);
+      filter: saturate(0.5) brightness(0.85);
       height: 80%;
     }
   }
