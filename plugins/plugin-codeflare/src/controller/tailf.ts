@@ -33,14 +33,19 @@ async function tail(args: Arguments<FollowOptions>) {
 
   if (process.env.FOLLOW) {
     const TailFile = await import("@logdna/tail-file").then((_) => _.default)
-    const tail = new TailFile(fp, { startPos: 0, pollFileIntervalMs: 500 })
-    tail.start()
-    tail.on("tail_error", (err) => console.error(err))
 
     return {
       react: React.createElement(Terminal, {
-        on: tail.on.bind(tail),
-        unwatch: tail.quit.bind(tail),
+        watch: () => {
+          const tail = new TailFile(fp, { startPos: 0, pollFileIntervalMs: 500 })
+          tail.start()
+          tail.on("tail_error", (err) => console.error(err))
+
+          return {
+            on: tail.on.bind(tail),
+            unwatch: tail.quit.bind(tail),
+          }
+        },
       }),
     }
   } else {
