@@ -19,13 +19,35 @@ import { ITheme, Terminal } from "xterm"
 import { FitAddon } from "xterm-addon-fit"
 import { Events } from "@kui-shell/core"
 
-interface Props {
-  initialContent?: string
-  on?(eventType: "data", cb: (data: any) => void): void
-  unwatch?(): void
+type WatchInit = () => {
+  /**
+   * Will be used to attach to an underlying streaming
+   * provider of additional terminal output.
+   */
+  on(eventType: "data", cb: (data: any) => void): void
+
+  /**
+   * Terminate any streaming. Will be invoked un unmount, whenever
+   * `this.props.streamer` is given.
+   */
+  unwatch(): void
 }
 
-export default class XTerm extends React.PureComponent<Props> {
+interface Props {
+  /** If given, the initial terminal output to render */
+  initialContent?: string
+
+  /**
+   * Commence/recommence streaming. Will be invoked on mount.
+   */
+  watch?: WatchInit
+}
+
+interface State {
+  streamer?: ReturnType<WatchInit>
+}
+
+export default class XTerm extends React.PureComponent<Props, State> {
   private terminal: Terminal = new Terminal({
     convertEol: true,
     scrollback: 5000,
@@ -37,8 +59,10 @@ export default class XTerm extends React.PureComponent<Props> {
   public componentDidMount() {
     this.mountTerminal()
 
-    if (this.props.on) {
-      this.props.on("data", this.terminal.write.bind(this.terminal))
+    if (this.props.watch) {
+      const streamer = this.props.watch()
+      streamer.on("data", this.terminal.write.bind(this.terminal))
+      this.setState({ streamer })
     }
   }
 
@@ -46,8 +70,8 @@ export default class XTerm extends React.PureComponent<Props> {
     this.unmountTerminal()
     this.cleaners.forEach((cleaner) => cleaner())
 
-    if (this.props.unwatch) {
-      this.props.unwatch()
+    if (this.state.streamer) {
+      this.state.streamer.unwatch()
     }
   }
 
