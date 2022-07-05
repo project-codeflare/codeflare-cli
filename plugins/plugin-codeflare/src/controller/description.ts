@@ -52,10 +52,10 @@ async function app(args: Arguments) {
   const { RAY_IMAGE } = jobInfo.runtimeEnv.env_vars
 
   const summaryData = [
-    { label: "Application Class", value: "Unknown" },
-    { label: "Application Name", value: "Unknown" },
+    { label: "Application Class", value: "Unknown" }, // TODO...
+    { label: "Application Name", value: "Unknown" }, // TODO...
     { label: "Base Image", value: RAY_IMAGE },
-    { label: "Run Status", value: "Unknown" },
+    { label: "Run Status", value: process.env.FOLLOW ? "Running" : "Done" }, // TODO...
   ]
 
   const React = await import("react")
