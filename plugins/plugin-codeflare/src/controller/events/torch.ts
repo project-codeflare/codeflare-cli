@@ -16,7 +16,7 @@
 
 import Event from "./Event"
 
-type EventType = "Epoch" | "Iteration" | "Marker"
+type EventType = "Data Fetch" | "Data Uncompress" | "Evaluation" | "EvaluationStep" | "Epoch" | "Iteration" | "Marker"
 type Detail = { epoch: number; step: number; nSteps: number; ip: string }
 export type TorchEvent = Event<EventType, Detail>
 
@@ -77,26 +77,65 @@ export function collateEvent(M: TorchEvent[], line: string) {
     return M
   }
 
-  const match = line.match(/ip=([\d.]+)\)\s+(Epoch|Iteration):\s+(\d+)%\|[^|]+\|\s(\d+)\/(\d+)/)
+  // Data fetch/uncompress events
+  const hackMatch = line.match(/ip=([\d.]+)\)\s+(\d+-\d+-\d+\s+\d+:\d+:\d+)\s+(getting data|unpacking)/)
+  if (hackMatch) {
+    const ip = hackMatch[1]
+    const timestamp = new Date(hackMatch[2]).getTime()
+    const name = `Torch Training on ${ip}`
+    const type: EventType = hackMatch[3] === "unpacking" ? "Data Uncompress" : "Data Fetch"
+    M.push(new TorchEventImpl(name, ip, type, 1, 1, 1, timestamp, "Done", line.slice(line.indexOf(hackMatch[3]))))
+  }
+
+  // Torch Events
+  const match = line.match(/ip=([\d.]+)\)\s+(Evaluation|Epoch|Iteration):\s+(\d+)%\|[^|]+\|\s(\d+)\/(\d+)/)
   if (match) {
     const ip = match[1]
     const type = match[2] as EventType
-    // const percentage = parseInt(match[3], 10)
-    const step = parseInt(match[4], 10) - (type === "Epoch" ? 0 : 1)
     const nSteps = parseInt(match[5], 10)
+    const name = `Torch Training on ${ip}`
+
+    // re: the complex conditional (-)... Iteration markers are post
+    // i.e. emitted upon completion, whereas Evaluation and Epoch are
+    // pre, i.e. emitted upon commencement
+    const step = parseInt(match[4], 10) - (type === "Iteration" ? 1 : 0)
 
     const epoch =
-      type === "Epoch"
+      type === "Evaluation"
+        ? { step: -1, nSteps: -1, state: "InProgress" }
+        : type === "Epoch"
         ? { step, nSteps, state: "InProgress" }
         : findEpoch(M, ip) || { step: -1, nSteps: 0, state: "InProgress" }
-    const name = `Torch Training on ${ip}`
     const timestampMarker = findPrevious(M, ip, "Marker", "Done")
     const timestamp = timestampMarker ? timestampMarker.timestamp : Date.now()
 
-    if (type === "Iteration") {
+    if (type === "Evaluation") {
+      if (step === 0) {
+        M.push(new TorchEventImpl(name, ip, "Evaluation", step, nSteps, epoch.step, timestamp))
+        for (let idx = 1; idx < nSteps; idx++) {
+          // prefill
+          M.push(new TorchEventImpl(name, ip, "EvaluationStep", idx, nSteps, epoch.step, timestamp, "Pending"))
+        }
+      } else {
+        for (let idx = 1; idx <= step; idx++) {
+          const priorEvaluationStep = findPrevious(M, ip, "EvaluationStep", "Pending", idx, epoch.step)
+          if (priorEvaluationStep) {
+            priorEvaluationStep.state = "Done"
+          }
+        }
+
+        if (step === nSteps) {
+          const priorEvaluation = findPrevious(M, ip, "Evaluation", "InProgress", 0, epoch.step)
+          if (priorEvaluation) {
+            priorEvaluation.state = "Done"
+          }
+        }
+      }
+      return M
+    } else if (type === "Iteration") {
       epoch.state = "InProgress"
     } else if (step > 0) {
-      const thisEpoch = findEpoch(M, ip, "Pending", step)
+      const thisEpoch = findPrevious(M, ip, type, "Pending", step)
       if (thisEpoch) {
         thisEpoch.state = "InProgress"
       }
@@ -145,7 +184,15 @@ export function collateEvent(M: TorchEvent[], line: string) {
 }
 
 function sortFn(a: TorchEvent, b: TorchEvent) {
-  return a.ip.localeCompare(b.ip) || a.epoch - b.epoch || a.step - b.step || a.type.localeCompare(b.type)
+  const aIsEval = /^Evaluation/.test(a.type) ? 1 : 0
+  const bIsEval = /^Evaluation/.test(b.type) ? 1 : 0
+  return (
+    a.ip.localeCompare(b.ip) ||
+    aIsEval - bIsEval ||
+    a.epoch - b.epoch ||
+    a.step - b.step ||
+    a.type.localeCompare(b.type)
+  )
 }
 
 /** @return lifecycle events (Epoch, Iteration) for Torch training */
