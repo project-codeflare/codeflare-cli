@@ -18,6 +18,7 @@
 
 @include CodeFlareToolbar {
   padding: 0;
+  font-family: var(--font-sans-serif);
 
   @include SearchIcon {
     z-index: 10;
