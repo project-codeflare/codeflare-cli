@@ -99,6 +99,8 @@ $fullWidth: 1em; /* $large * ($unit + $rgap) - $rgap */
     }
     @include State("InProgress") {
       @include Color(var(--color-base0A), !important);
+      filter: brightness(1.1);
+      animation: var(--animation-infinite-repeating-pulse);
     }
     @include State("Pending") {
       @include Color(var(--color-base04), !important);
@@ -146,7 +148,18 @@ $fullWidth: 1em; /* $large * ($unit + $rgap) - $rgap */
     @include StepUI;
   }
 
-  @include CFCell(DataFetch) {
+  @include CFCell(DataFetchfromUpstream) {
+    grid-column: span $small;
+    @include Color(var(--color-base0E));
+  }
+
+  @include CFCell(DataStoreinCache) {
+    grid-column: span $small;
+    @include StepUI;
+    @include Color(var(--color-base0E));
+  }
+
+  @include CFCell(DataFetchfromCache) {
     grid-column: span $small;
     @include Color(var(--color-base0E));
   }

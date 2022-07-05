@@ -16,7 +16,16 @@
 
 import Event from "./Event"
 
-type EventType = "Data Fetch" | "Data Uncompress" | "Evaluation" | "EvaluationStep" | "Epoch" | "Iteration" | "Marker"
+type EventType =
+  | "Data Fetch from Upstream"
+  | "Data Store in Cache"
+  | "Data Fetch from Cache"
+  | "Data Uncompress"
+  | "Evaluation"
+  | "EvaluationStep"
+  | "Epoch"
+  | "Iteration"
+  | "Marker"
 type Detail = { epoch: number; step: number; nSteps: number; ip: string }
 export type TorchEvent = Event<EventType, Detail>
 
@@ -78,13 +87,36 @@ export function collateEvent(M: TorchEvent[], line: string) {
   }
 
   // Data fetch/uncompress events
-  const hackMatch = line.match(/ip=([\d.]+)\)\s+(\d+-\d+-\d+\s+\d+:\d+:\d+)\s+(getting data|unpacking)/)
+  const hackMatch = line.match(
+    /ip=([\d.]+)\)\s+(\d+-\d+-\d+\s+\d+:\d+:\d+)\s+Data:\s+(try|done)\s+(remote get|cache put|cache get|unpack)/
+  )
   if (hackMatch) {
     const ip = hackMatch[1]
     const timestamp = new Date(hackMatch[2]).getTime()
     const name = `Torch Training on ${ip}`
-    const type: EventType = hackMatch[3] === "unpacking" ? "Data Uncompress" : "Data Fetch"
-    M.push(new TorchEventImpl(name, ip, type, 1, 1, 1, timestamp, "Done", line.slice(line.indexOf(hackMatch[3]))))
+
+    const protoState = hackMatch[3]
+    const state = protoState === "try" ? "InProgress" : "Done"
+    const protoType = hackMatch[4]
+    const type: EventType =
+      protoType === "remote get"
+        ? "Data Fetch from Upstream"
+        : protoType === "cache put"
+        ? "Data Store in Cache"
+        : protoType === "cache get"
+        ? "Data Fetch from Cache"
+        : "Data Uncompress"
+
+    if (state === "InProgress") {
+      M.push(new TorchEventImpl(name, ip, type, 1, 1, 1, timestamp, state, line.slice(line.indexOf(protoState))))
+    } else {
+      const prev = findPrevious(M, ip, type, "InProgress")
+      if (prev) {
+        prev.state = state
+      } else {
+        console.error("Missing Data: begin event for this Data: end event", line)
+      }
+    }
   }
 
   // Torch Events
