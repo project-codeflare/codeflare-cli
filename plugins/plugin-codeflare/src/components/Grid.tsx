@@ -45,7 +45,12 @@ ${status ? "Status: " + status : ""}
   private readonly cell = (event: GenericEvent, idx: number) => {
     return (
       <Tooltip key={idx} markdown={this.tooltipContent(event)}>
-        <span className="kui--grid-cell" data-tag="badge" data-type={event.type} data-state={event.state}>
+        <span
+          className="kui--grid-cell"
+          data-tag="badge"
+          data-type={event.type.replace(/\s/g, "")}
+          data-state={event.state}
+        >
           <span data-tag="badge-circle"></span>
         </span>
       </Tooltip>
