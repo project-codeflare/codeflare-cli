@@ -15,9 +15,13 @@
  */
 
 import React from "react"
+import { Events } from "@kui-shell/core"
 import { ITheme, Terminal } from "xterm"
 import { FitAddon } from "xterm-addon-fit"
-import { Events } from "@kui-shell/core"
+import { SearchAddon, ISearchOptions } from "xterm-addon-search"
+import { Toolbar, ToolbarContent, ToolbarItem, SearchInput } from "@patternfly/react-core"
+
+import "../../web/scss/components/Terminal/_index.scss"
 
 type WatchInit = () => {
   /**
@@ -44,7 +48,17 @@ interface Props {
 }
 
 interface State {
+  /** Ouch, something bad happened during the render */
+  catastrophicError?: Error
+
+  /** Controller for streaming output */
   streamer?: ReturnType<WatchInit>
+
+  /** Current search filter */
+  filter?: string
+
+  /** Current search results */
+  searchResults?: { resultIndex: number; resultCount: number } | void
 }
 
 export default class XTerm extends React.PureComponent<Props, State> {
@@ -53,8 +67,23 @@ export default class XTerm extends React.PureComponent<Props, State> {
     scrollback: 5000,
   })
 
+  private searchAddon = new SearchAddon()
+
   private readonly cleaners: (() => void)[] = []
   private readonly container = React.createRef<HTMLDivElement>()
+
+  public constructor(props: Props) {
+    super(props)
+    this.state = {}
+  }
+
+  public static getDerivedStateFromError(error: Error) {
+    return { catastrophicError: error }
+  }
+
+  public componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error("catastrophic error in Scalar", error, errorInfo)
+  }
 
   public componentDidMount() {
     this.mountTerminal()
@@ -78,6 +107,7 @@ export default class XTerm extends React.PureComponent<Props, State> {
   private unmountTerminal() {
     if (this.terminal) {
       this.terminal.dispose()
+      this.searchAddon.dispose()
     }
   }
 
@@ -89,6 +119,10 @@ export default class XTerm extends React.PureComponent<Props, State> {
 
     const fitAddon = new FitAddon()
     this.terminal.loadAddon(fitAddon)
+    setTimeout(() => {
+      this.terminal.loadAddon(this.searchAddon)
+      this.searchAddon.onDidChangeResults(this.searchResults)
+    }, 100)
 
     const inject = () => this.injectTheme(this.terminal, xtermContainer)
     inject()
@@ -97,8 +131,14 @@ export default class XTerm extends React.PureComponent<Props, State> {
 
     if (this.props.initialContent) {
       // @starpit i don't know why we have to split the newlines...
-      this.props.initialContent.split(/\n/).forEach((line) => this.terminal.writeln(line))
-      // this.terminal.write(this.props.initialContent)
+      // versus: this.terminal.write(this.props.initialContent)
+      this.props.initialContent.split(/\n/).forEach((line, idx, A) => {
+        if (idx === A.length - 1 && line.length === 0) {
+          // skip trailing blank line resulting from the split
+        } else {
+          this.terminal.writeln(line)
+        }
+      })
     }
 
     this.terminal.open(xtermContainer)
@@ -177,6 +217,14 @@ export default class XTerm extends React.PureComponent<Props, State> {
     xterm.setOption("theme", itheme)
     xterm.setOption("fontFamily", val("monospace", "font"))
 
+    // strange. these values don't seem to have any effect
+    this.searchOptions.decorations = {
+      activeMatchBackground: val("var(--color-base09)"),
+      matchBackground: val("var(--color-base02)"),
+      matchOverviewRuler: val("var(--color-base05)"),
+      activeMatchColorOverviewRuler: val("var(--color-base05)"),
+    }
+
     try {
       const standIn = document.querySelector("body .repl .repl-input input")
       if (standIn) {
@@ -202,7 +250,82 @@ export default class XTerm extends React.PureComponent<Props, State> {
     }
   }
 
+  private readonly searchResults = (searchResults: State["searchResults"]) => {
+    this.setState({ searchResults })
+  }
+
+  /** Note: decorations need to be enabled in order for our `onSearch` handler to be called */
+  private searchOptions: ISearchOptions = {
+    regex: true,
+    decorations: { matchOverviewRuler: "orange", activeMatchColorOverviewRuler: "green" }, // placeholder; see injectTheme above
+  }
+
+  private readonly onSearch = (filter: string) => {
+    this.setState({ filter })
+    this.searchAddon.findNext(filter, this.searchOptions)
+  }
+
+  private readonly onSearchClear = () => {
+    this.setState({ filter: undefined })
+    this.searchAddon.clearDecorations()
+  }
+
+  private readonly onSearchNext = () => {
+    if (this.state.filter) {
+      this.searchAddon.findNext(this.state.filter, this.searchOptions)
+    }
+  }
+
+  private readonly onSearchPrevious = () => {
+    if (this.state.filter) {
+      this.searchAddon.findPrevious(this.state.filter, this.searchOptions)
+    }
+  }
+
+  /** @return "n/m" text to represent the current search results, for UI */
+  private resultsCount() {
+    if (this.state.searchResults) {
+      return `${this.state.searchResults.resultIndex + 1}/${this.state.searchResults.resultCount}`
+    }
+  }
+
+  private searchInput() {
+    return (
+      <SearchInput
+        aria-label="Search output"
+        placeholder="Enter search text"
+        value={this.state.filter}
+        onChange={this.onSearch}
+        onClear={this.onSearchClear}
+        onNextClick={this.onSearchNext.bind(this)}
+        onPreviousClick={this.onSearchPrevious.bind(this)}
+        resultsCount={this.resultsCount()}
+      />
+    )
+  }
+
+  private toolbar() {
+    return (
+      <Toolbar className="codeflare--toolbar">
+        <ToolbarContent className="flex-fill">
+          <ToolbarItem variant="search-filter" className="flex-fill">
+            {this.searchInput()}
+          </ToolbarItem>
+        </ToolbarContent>
+      </Toolbar>
+    )
+  }
+
   public render() {
-    return <div ref={this.container} className="xterm-container" onKeyUp={this.onKeyUp} />
+    if (this.state.catastrophicError) {
+      return "InternalError"
+    } else {
+      return (
+        <div className="flex-layout flex-column flex-align-stretch flex-fill">
+          <div ref={this.container} className="xterm-container" onKeyUp={this.onKeyUp} />
+          {this.toolbar()}
+        </div>
+      )
+    }
   }
 }

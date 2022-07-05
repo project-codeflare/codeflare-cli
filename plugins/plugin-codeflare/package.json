@@ -27,6 +27,7 @@
     "@patternfly/react-charts": "^6.74.3",
     "@patternfly/react-core": "^4.221.3",
     "split2": "^4.1.0",
-    "strip-ansi": "6.0.0"
+    "strip-ansi": "6.0.0",
+    "xterm-addon-search": "^0.9.0"
   }
 }
