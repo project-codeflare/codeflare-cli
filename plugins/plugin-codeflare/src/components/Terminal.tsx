@@ -257,6 +257,7 @@ export default class XTerm extends React.PureComponent<Props, State> {
   /** Note: decorations need to be enabled in order for our `onSearch` handler to be called */
   private searchOptions: ISearchOptions = {
     regex: true,
+    caseSensitive: true,
     decorations: { matchOverviewRuler: "orange", activeMatchColorOverviewRuler: "green" }, // placeholder; see injectTheme above
   }
 
