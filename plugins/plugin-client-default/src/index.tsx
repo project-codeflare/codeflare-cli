@@ -16,11 +16,10 @@
 
 import React from "react"
 
-import { Capabilities } from "@kui-shell/core"
 import { Kui, KuiProps, ContextWidgets, GitHubIcon, MeterWidgets, SpaceFiller } from "@kui-shell/plugin-client-common"
 
 // import { CurrentContext, CurrentNamespace } from "@kui-shell/plugin-kubectl/components"
-import { Search } from "@kui-shell/plugin-electron-components"
+// import { Search } from "@kui-shell/plugin-electron-components"
 
 import { version } from "@kui-shell/client/package.json"
 import { productTitle } from "@kui-shell/client/config.d/name.json"
@@ -45,6 +44,7 @@ import CodeFlareWidget from "./CodeFlareWidget"
 //      }
 
 export default function renderMain(props: KuiProps) {
+  //  toplevel={!Capabilities.inBrowser() && <Search />}
   return (
     <Kui
       noHelp
@@ -57,7 +57,6 @@ export default function renderMain(props: KuiProps) {
       initialTabTitle="Dashboard"
       isPopup={false}
       quietExecCommand={false}
-      toplevel={!Capabilities.inBrowser() && <Search />}
     >
       <ContextWidgets>
         <GitHubIcon />
