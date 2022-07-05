@@ -97,8 +97,8 @@ export default class XTerm extends React.PureComponent<Props, State> {
 
     if (this.props.initialContent) {
       // @starpit i don't know why we have to split the newlines...
-      //this.props.initialContent.split(/\n/).forEach(this.writeln)
-      this.terminal.write(this.props.initialContent)
+      this.props.initialContent.split(/\n/).forEach((line) => this.terminal.writeln(line))
+      // this.terminal.write(this.props.initialContent)
     }
 
     this.terminal.open(xtermContainer)
