@@ -70,6 +70,13 @@ $fullWidth: 1em; /* $large * ($unit + $rgap) - $rgap */
   }
 }
 
+@mixin StepUI {
+  @include CFCellContent {
+    height: 80%;
+    filter: saturate(0.5) brightness(0.85);
+  }
+}
+
 @include CFGrid {
   padding: $xlarge + px 1em;
   grid-row-gap: $rgap;
@@ -119,18 +126,35 @@ $fullWidth: 1em; /* $large * ($unit + $rgap) - $rgap */
 
   @include CFCell(Iteration) {
     grid-column: span $tiny;
-    @include CFCellContent {
-      background-color: var(--color-base0D);
-      filter: saturate(0.5) brightness(0.85);
-      height: 80%;
-    }
+    @include Color(var(--color-base0D));
+    @include StepUI;
   }
 
   @include CFCell(Epoch) {
     grid-column: span $small;
-    @include CFCellContent {
-      background-color: var(--color-base0D);
-    }
+    @include Color(var(--color-base0D));
+  }
+
+  @include CFCell(Evaluation) {
+    grid-column: span $small;
+    @include Color(var(--color-base0F));
+  }
+
+  @include CFCell(EvaluationStep) {
+    grid-column: span $tiny;
+    @include Color(var(--color-base0F));
+    @include StepUI;
+  }
+
+  @include CFCell(DataFetch) {
+    grid-column: span $small;
+    @include Color(var(--color-base0E));
+  }
+
+  @include CFCell(DataUncompress) {
+    grid-column: span $small;
+    @include StepUI;
+    @include Color(var(--color-base0E));
   }
 }
 
