@@ -26,12 +26,16 @@ import {
   ChartLabelProps,
   ChartLine,
   ChartLineProps,
+  ChartLegend,
+  ChartLegendProps,
   ChartLegendTooltip,
   ChartLegendTooltipContent,
   ChartLegendTooltipContentProps,
   ChartLegendTooltipLabel,
   ChartLegendTooltipProps,
   ChartLegendLabelProps,
+  ChartPoint,
+  ChartPointProps,
   createContainer,
 } from "@patternfly/react-charts"
 
@@ -45,24 +49,45 @@ class MyTooltipLabel extends React.PureComponent<ChartLabelProps> {
   }
 }
 
+function scaleOne(x: number): number {
+  return ((x || 0) * BaseChart.legendLabelStyle.fontSize) / 14
+}
+
+function scale(props: { x?: ChartLegendLabelProps["x"]; dx?: ChartLegendLabelProps["dx"] }) {
+  const dx = typeof props.dx === "number" ? props.dx : typeof props.dx === "string" ? parseInt(props.dx, 10) : 0
+
+  const x = typeof props.x === "number" ? props.x : typeof props.x === "string" ? parseInt(props.x, 10) : 0
+
+  return {
+    x: scaleOne(x),
+    dx: scaleOne(dx),
+  }
+}
+
 class MyTooltipLegendLabel extends React.PureComponent<
   ChartLegendLabelProps & { styleOverride?: ChartLegendLabelProps["style"] }
 > {
   public render() {
-    const dx =
-      typeof this.props.dx === "number"
-        ? this.props.dx
-        : typeof this.props.dx === "string"
-        ? parseInt(this.props.dx, 10)
-        : 0
     return (
       <ChartLegendTooltipLabel
         {...this.props}
-        dx={((dx || 0) * BaseChart.legendLabelStyle.fontSize) / 14}
+        {...scale(this.props)}
         style={this.props.styleOverride || BaseChart.legendLabelStyle}
         legendLabelComponent={<MyTooltipLabel />}
       />
     )
+  }
+}
+
+class MyChartPoint extends React.PureComponent<ChartPointProps> {
+  public render() {
+    return <ChartPoint {...this.props} {...scale(this.props)} />
+  }
+}
+
+class MyChartLegend extends React.PureComponent<ChartLegendProps> {
+  public render() {
+    return <ChartLegend {...this.props} dataComponent={<MyChartPoint />} />
   }
 }
 
@@ -71,6 +96,7 @@ class MyTooltipContent extends React.PureComponent<ChartLegendTooltipContentProp
     return (
       <ChartLegendTooltipContent
         {...this.props}
+        legendComponent={<MyChartLegend />}
         labelComponent={<MyTooltipLegendLabel />}
         titleComponent={<MyTooltipLegendLabel styleOverride={BaseChart.legendTitleStyle} />}
       />
