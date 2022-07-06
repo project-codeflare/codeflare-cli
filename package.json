@@ -19,7 +19,7 @@
     "pty:nodejs": "npm run pty:rebuild node",
     "prepare": "cross-env husky install",
     "preprod": "npm run mirror",
-    "build:docker0": "docker build -t projectcodeflare/codeflare-cli .",
+    "build:docker0": "docker build -t ghcr.io/project-codeflare/codeflare-cli .",
     "build:docker": "NO_INSTALLER=true npm run build:electron:linux:amd64 && npm run build:docker0",
     "docker:debug": "ENTRYPOINT=bash ./bin/codeflare -d",
     "build:electron:mac:amd64": "npm run preprod && KUI_HEADLESS_WEBPACK=true KUI_LAUNCHER=$PWD/bin/codeflare PLATFORM=mac ARCH=x64 kui-build-electron",
