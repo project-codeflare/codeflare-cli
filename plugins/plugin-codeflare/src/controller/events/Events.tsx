@@ -31,6 +31,7 @@ interface EventState {
   torchEvents: TorchEvent[]
 }
 
+/** State for the `<Events/>` component */
 type State = EventState & {
   /** Total number of Kubernetes events */
   nKubeEvents: number
@@ -48,6 +49,7 @@ type State = EventState & {
   catastrophicError?: Error
 }
 
+/** Props for the `<Events/>` component */
 type Props = EventState & {
   /** Follow kube events? */
   onKube?(eventType: "data", cb: (data: any) => void): void
@@ -61,7 +63,11 @@ type Props = EventState & {
 
 /**
  * This component manages the `Event` state for the events UI. It uses
- * the `Grid` component to render the UI.
+ * the `<Grid/>` component to render the UI, and requires a controller
+ * (see below) to feed it an initial set of parsed `Event` objects,
+ * and a stream of unparsed log lines. (why unparsed for the streaming
+ * case? because some kinds of events require some recent
+ * history/context in order to be meaningfully parsed).
  *
  */
 class Events extends React.PureComponent<Props, State> {
@@ -170,6 +176,12 @@ class Events extends React.PureComponent<Props, State> {
   }
 }
 
+/**
+ * Controller portion of the events UI. It will set up the data
+ * streams, and feed parsed events to the `<Events/>` component. That
+ * component will manage the state of the events, and in turn pass off
+ * to the `<Grid/>` component for final rendering.
+ */
 async function eventsUI(filepath: string, REPL: Arguments["REPL"]) {
   const jobFilepath = join(expand(filepath), "logs/job.txt")
   const kubeFilepath = join(expand(filepath), "events/kubernetes.txt")

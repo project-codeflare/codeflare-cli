@@ -16,18 +16,20 @@
 
 import Event from "./Event"
 
+/** The Torch events that we currently model */
 type EventType =
   | "Data Fetch from Upstream"
   | "Data Store in Cache"
   | "Data Fetch from Cache"
   | "Data Uncompress"
-  | "Evaluation"
-  | "EvaluationStep"
-  | "Epoch"
-  | "Iteration"
-  | "Marker"
-type Detail = { epoch: number; step: number; nSteps: number; ip: string }
-export type TorchEvent = Event<EventType, Detail>
+  | "Evaluation" // marks the beginning of an Evaluation stage
+  | "EvaluationStep" // a step in an Evaluation stage; 2/9, 3/9, ...
+  | "Epoch" // a torch training Epoch
+  | "Iteration" // a torch training Iteration
+  | "Marker" // currently used to manufacture a timestamp for non-timestamped events, sigh
+
+/** A `TorchEvent` is a subclass of `Event` with our own `EventType` and our own event details */
+export type TorchEvent = Event<EventType, { epoch: number; step: number; nSteps: number; ip: string }>
 
 function findPrevious(
   M: TorchEvent[],
