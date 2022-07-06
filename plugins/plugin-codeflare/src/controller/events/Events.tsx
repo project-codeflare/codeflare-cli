@@ -32,10 +32,19 @@ interface EventState {
 }
 
 type State = EventState & {
+  /** Total number of Kubernetes events */
   nKubeEvents: number
+
+  /** Subset of Kubernetes events with `state != Pending`, i.e. `InProgress | Done | Error` */
   nNotPendingKubeEvents: number
+
+  /** Total number of Torch events */
   nTorchEvents: number
+
+  /** Subset of Torch events with `state != Pending`, i.e. `InProgress | Done | Error` */
   nNotPendingTorchEvents: number
+
+  /** Oops, something went wrong */
   catastrophicError?: Error
 }
 
@@ -50,6 +59,11 @@ type Props = EventState & {
   unwatch?(): void
 }
 
+/**
+ * This component manages the `Event` state for the events UI. It uses
+ * the `Grid` component to render the UI.
+ *
+ */
 class Events extends React.PureComponent<Props, State> {
   public constructor(props: Props) {
     super(props)
