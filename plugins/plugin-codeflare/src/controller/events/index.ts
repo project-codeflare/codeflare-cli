@@ -16,7 +16,7 @@
 
 import { Registrar } from "@kui-shell/core"
 
-/** Register Kui Commands for rendering dashboard event UIs */
+/** Command registration part of the Events UI */
 export default function registerEventCommands(registrar: Registrar) {
   registrar.listen("/chart/events", (args) => import("./Events").then((_) => _.default(args)), { needsUI: true })
 }
