@@ -110,15 +110,21 @@ fi
 # check if the user wants us to run the graphical version (currently
 # indicated by the -u option)
 do_cli=1
-while getopts "nVus:" opt
+use_docker=0
+while getopts "dnVus:" opt
 do
     case $opt in
+        d) use_docker=1; continue;;
         u) do_cli=0; continue;;
         s) GUIDEBOOK_STORE=$OPTARG; continue;;
         *) EXTRAPREFIX="$EXTRAPREFIX -$opt"; continue;;
     esac
 done
 shift $((OPTIND-1))
+
+if [ $use_docker = 1 ]; then
+    exec docker run -it --entrypoint ${ENTRYPOINT-codeflare} --rm -v /tmp:/tmp -v ~/.aws:/home/codeflare/.aws -v ~/.bluemix:/home/codeflare/.bluemix -v ~/.kube:/home/codeflare/.kube -e KUBECONFIG=$(echo $KUBECONFIG | sed "s/$USER/codeflare/g" | sed 's/Users/home/g') projectcodeflare/codeflare-cli
+fi
 
 if  ([ $do_cli = 1 ] && [ $# = 0 ]) || ([ $# = 1 ] && [ "$1" != "version" ]); then
     # use the "guide" command if none was given
@@ -163,6 +169,9 @@ if [ ! -f ~/.codeflare ] && [ $(uname) = Linux ]; then
         touch ~/.codeflare
     fi
 fi
+
+# helps with ctrl+c when running in a docker container
+trap 'pkill -P $$; exit 1;' TERM INT
 
 # otherwise, we launch the UI version
 "$NODE" "$HEADLESS"/codeflare.min.js -- $EXTRAPREFIX $*
