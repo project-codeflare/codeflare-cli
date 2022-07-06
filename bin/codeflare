@@ -166,4 +166,3 @@ fi
 
 # otherwise, we launch the UI version
 "$NODE" "$HEADLESS"/codeflare.min.js -- $EXTRAPREFIX $*
-stty sane
