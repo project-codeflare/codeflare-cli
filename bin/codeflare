@@ -50,12 +50,12 @@ elif [ -f "$SCRIPTDIR/../CodeFlare/CodeFlare" ]; then
     # CodeFlare installed in SCRIPTDIR on Linux or Windows
     BASE="$SCRIPTDIR/../CodeFlare"
     NODE="$BASE/CodeFlare"
-    HEADLESS="$BASE/resources/headless"
+    HEADLESS="$BASE/resources/app/dist/headless"
 elif [ -f "$SCRIPTDIR/../CodeFlare" ]; then
     # CodeFlare installed in SCRIPTDIR on Linux or Windows (variant)
     BASE="$SCRIPTDIR/.."
     NODE="$BASE/CodeFlare"
-    HEADLESS="$BASE/resources/headless"
+    HEADLESS="$BASE/resources/app/dist/headless"
 elif [ -f "$CODEFLARE_HOME/CodeFlare.app/Contents/MacOS/CodeFlare" ]; then
     # CodeFlare installed in CODEFLARE_HOME on macOS
     BASE="$CODEFLARE_HOME/CodeFlare.app"
@@ -65,19 +65,19 @@ elif [ -f "$CODEFLARE_HOME/CodeFlare" ]; then
     # CodeFlare installed in CODEFLARE_HOME on Linux or Windows
     BASE="$CODEFLARE_HOME"
     NODE="$BASE/CodeFlare"
-    HEADLESS="$BASE/resources/headless"
+    HEADLESS="$BASE/resources/app/dist/headless"
 elif [ -f ./CodeFlare/CodeFlare ]; then
     # CodeFlare installed in CWD on Linux or Windows
     BASE="$PWD/CodeFlare"
     NODE="$BASE/CodeFlare"
-    HEADLESS="$BASE/resources/headless"
+    HEADLESS="$BASE/resources/app/dist/headless"
 elif [ -f ./CodeFlare ]; then
     # CodeFlare installed in CWD on Linux or Windows (variant)
     # !! CAREFUL !! place this last, so we don't confuse CodeFlare and
     # codeflare on case-insensitive filesystems
     BASE="$PWD"
     NODE="$BASE/CodeFlare"
-    HEADLESS="$BASE/resources/headless"
+    HEADLESS="$BASE/resources/app/dist/headless"
 elif [ -f /Applications/CodeFlare.app/Contents/MacOS/CodeFlare ]; then
     # CodeFlare installed in /Applications on macOS
     BASE=/Applications/CodeFlare.app
@@ -87,7 +87,7 @@ elif [ -f /usr/local/bin/CodeFlare/CodeFlare ]; then
     # CodeFlare installed in /usr/local/bin on Linux or Windows
     BASE=/usr/local/bin/CodeFlare
     NODE="$BASE/CodeFlare"
-    HEADLESS="$BASE/resources/headless"
+    HEADLESS="$BASE/resources/app/dist/headless"
 else
     echo "Error: Could not find CodeFlare. Try setting CODEFLARE_HOME=/path/to/CodeFlare"
     exit 1
