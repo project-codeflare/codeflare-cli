@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { join } from "path"
 import { Arguments, Registrar } from "@kui-shell/core"
 import { expand } from "../lib/util"
 
@@ -42,20 +43,27 @@ export type SummaryResponse = {
   source: string
 }
 
+/** Given the location of the staging directory, return the location of the ray job definition */
+function jobDefinition(filepath: string) {
+  return expand(join(filepath.replace(/'/g, ""), "ray-job-definition.json"))
+}
+
 async function app(args: Arguments) {
   const filepath = args.argvNoOptions[2]
   if (!filepath) {
     throw new Error("Usage: description application <filepath>")
   }
 
-  const jobInfo = JSON.parse(await args.REPL.qexec<string>(`vfs fslice ${expand(filepath)} 0`))
-  const { RAY_IMAGE } = jobInfo.runtimeEnv.env_vars
+  const jobInfo = JSON.parse(await args.REPL.qexec<string>(`vfs fslice ${jobDefinition(filepath)} 0`))
+  const { RAY_IMAGE } = jobInfo.runtime_env.env_vars
+
+  const status = jobInfo.status.toLowerCase()
 
   const summaryData = [
     { label: "Application Class", value: "Unknown" }, // TODO...
     { label: "Application Name", value: "Unknown" }, // TODO...
     { label: "Base Image", value: RAY_IMAGE },
-    { label: "Run Status", value: process.env.FOLLOW ? "Running" : "Done" }, // TODO...
+    { label: "Run Status", value: status ? status[0].toUpperCase() + status.slice(1) : "Unknown" },
   ]
 
   const React = await import("react")
@@ -72,8 +80,8 @@ async function workers(args: Arguments) {
     throw new Error("Usage: description workers <filepath>")
   }
 
-  const jobInfo = JSON.parse(await args.REPL.qexec<string>(`vfs fslice ${expand(filepath)} 0`))
-  const { KUBE_CONTEXT, KUBE_NS, WORKER_MEMORY, MIN_WORKERS, MAX_WORKERS } = jobInfo.runtimeEnv.env_vars
+  const jobInfo = JSON.parse(await args.REPL.qexec<string>(`vfs fslice ${jobDefinition(filepath)} 0`))
+  const { KUBE_CONTEXT, KUBE_NS, WORKER_MEMORY, MIN_WORKERS, MAX_WORKERS } = jobInfo.runtime_env.env_vars
 
   const summaryData = [
     { label: "Cluster Context", value: KUBE_CONTEXT.replace(/^[^/]+\//, "") },

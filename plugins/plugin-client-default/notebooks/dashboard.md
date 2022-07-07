@@ -24,7 +24,7 @@ layout:
     execute: now
     outputOnly: true
     ---
-    description application "$LOGDIR/job.json"
+    description application "$LOGDIR"
     ```
 
 === "Workers"
@@ -34,7 +34,7 @@ layout:
     execute: now
     outputOnly: true
     ---
-    description workers "$LOGDIR/job.json"
+    description workers "$LOGDIR"
     ```
 
 ---
