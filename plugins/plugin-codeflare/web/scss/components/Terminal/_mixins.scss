@@ -20,8 +20,34 @@
   }
 }
 
+@mixin SearchInputGroup {
+  .pf-c-text-input-group {
+    @content;
+  }
+}
+
+@mixin SearchBadge {
+  .pf-c-badge {
+    @content;
+  }
+}
+
 @mixin SearchIcon {
   .pf-c-text-input-group__icon {
     @content;
+  }
+}
+
+@mixin SearchResult {
+  .xterm-find-result-decoration {
+    @content;
+  }
+}
+
+@mixin SearchResultActive {
+  @include SearchResult {
+    &.xterm-find-active-result-decoration {
+      @content;
+    }
   }
 }

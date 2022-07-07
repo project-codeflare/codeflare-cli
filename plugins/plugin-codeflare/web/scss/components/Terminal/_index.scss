@@ -19,8 +19,31 @@
 @include CodeFlareToolbar {
   padding: 0;
   font-family: var(--font-sans-serif);
+  background-color: var(--color-base00);
+  min-height: 2em;
+
+  @include SearchBadge {
+    color: var(--color-text-01);
+  }
 
   @include SearchIcon {
     z-index: 10;
+    color: var(--color-text-02);
   }
+
+  @include SearchInputGroup {
+    background-color: transparent;
+    --pf-c-text-input-group__text--before--BorderColor: transparent;
+
+    input {
+      background-color: transparent;
+      color: var(--color-text-01);
+    }
+  }
+}
+
+@include SearchResultActive {
+  opacity: 0.2;
+  background-color: var(--color-base0E);
+  z-index: 10 !important;
 }
