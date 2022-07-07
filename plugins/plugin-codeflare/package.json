@@ -29,6 +29,7 @@
     "pretty-bytes": "^6.0.0",
     "split2": "^4.1.0",
     "strip-ansi": "6.0.0",
+    "tmp": "^0.2.1",
     "xterm-addon-search": "^0.9.0"
   }
 }

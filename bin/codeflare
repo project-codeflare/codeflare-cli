@@ -126,7 +126,8 @@ if [ $use_docker = 1 ]; then
     exec docker run -it --entrypoint ${ENTRYPOINT-codeflare} --rm -v /tmp:/tmp -v ~/.aws:/home/codeflare/.aws -v ~/.bluemix:/home/codeflare/.bluemix -v ~/.kube:/home/codeflare/.kube -e KUBECONFIG=$(echo $KUBECONFIG | sed "s/$USER/codeflare/g" | sed 's/Users/home/g') ghcr.io/project-codeflare/codeflare-cli -- $*
 fi
 
-if  ([ $do_cli = 1 ] && [ $# = 0 ]) || ([ $# = 1 ] && [ "$1" != "version" ]); then
+if  ([ $do_cli = 1 ] && [ $# = 0 ]) || ([ $# = 1 ] && [ "$1" != "version" ] && [ "$1" != "attach" ]); then
+    # TODO make this a kui command catchall
     # use the "guide" command if none was given
     EXTRAPREFIX="$EXTRAPREFIX guide"
 fi
