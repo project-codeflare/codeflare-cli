@@ -16,18 +16,22 @@
 
 import { Arguments, Registrar, Table } from "@kui-shell/core"
 
-async function select(args: Arguments) {
-  const filepath = args.argvNoOptions[2]
-  if (!filepath) {
-    throw new Error("Usage: select runs <filepath>")
-  }
-  const directory = await args.REPL.qexec<Table>(`ls -la ${filepath}`)
-  directory.body.forEach((row) => (row.onclick = `dashboard ${filepath}/${row.name}`))
-  return directory
+function rewriteOnClicks(dir: Table, path: string): Table {
+  dir.body.forEach((row) => (row.onclick = `dashboard ${path}/${row.name}`))
+  return dir
 }
 
-export default function registerSelectCommands(registrar: Registrar) {
-  registrar.listen("/select/runs", select, {
+async function runs(args: Arguments) {
+  const filepath = args.argvNoOptions[1]
+  if (!filepath) {
+    throw new Error(`Usage: codeflare runs <filepath>`)
+  }
+  const directory = await args.REPL.qexec<Table>(`ls -la ${filepath}`)
+  return rewriteOnClicks(directory, filepath)
+}
+
+export default function registerRunsCommands(registrar: Registrar) {
+  registrar.listen("/runs", runs, {
     needsUI: true,
     width: 1280,
     height: 960,
