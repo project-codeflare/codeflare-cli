@@ -228,8 +228,14 @@ async function eventsUI(filepath: string, REPL: Arguments["REPL"]) {
     )
   } else {
     const [kube, torch] = await Promise.all([
-      REPL.qexec<string>(`vfs fslice ${kubeFilepath} 0`).then(stripAnsi).then(parseKubeEvents),
-      REPL.qexec<string>(`vfs fslice ${jobFilepath} 0`).then(stripAnsi).then(parseTorchEvents),
+      REPL.qexec<string>(`vfs fslice ${kubeFilepath} 0`)
+        .catch(() => "")
+        .then(stripAnsi)
+        .then(parseKubeEvents),
+      REPL.qexec<string>(`vfs fslice ${jobFilepath} 0`)
+        .catch(() => "")
+        .then(stripAnsi)
+        .then(parseTorchEvents),
     ])
 
     return <Events kubeEvents={kube} torchEvents={torch} />
