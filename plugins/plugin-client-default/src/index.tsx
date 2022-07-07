@@ -25,6 +25,7 @@ import { version } from "@kui-shell/client/package.json"
 import { productTitle } from "@kui-shell/client/config.d/name.json"
 
 import CodeFlareWidget from "./CodeFlareWidget"
+import CodeFlareSelectorWidget from "./CodeFlareSelectorWidget"
 
 /**
  * We will set this bit when the user dismisses the Welcome to Kui
@@ -66,7 +67,9 @@ export default function renderMain(props: KuiProps) {
       </ContextWidgets>
 
       <SpaceFiller />
-      <MeterWidgets></MeterWidgets>
+      <MeterWidgets>
+        <CodeFlareSelectorWidget currentRun="11f4cebe-c012-4467-b5d6-b3cf1fd69269" />
+      </MeterWidgets>
     </Kui>
   )
 }
