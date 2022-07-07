@@ -217,14 +217,6 @@ export default class XTerm extends React.PureComponent<Props, State> {
     xterm.setOption("theme", itheme)
     xterm.setOption("fontFamily", val("monospace", "font"))
 
-    // strange. these values don't seem to have any effect
-    this.searchOptions.decorations = {
-      activeMatchBackground: val("var(--color-base09)"),
-      matchBackground: val("var(--color-base02)"),
-      matchOverviewRuler: val("var(--color-base05)"),
-      activeMatchColorOverviewRuler: val("var(--color-base05)"),
-    }
-
     try {
       const standIn = document.querySelector("body .repl .repl-input input")
       if (standIn) {
@@ -258,7 +250,11 @@ export default class XTerm extends React.PureComponent<Props, State> {
   private searchOptions: ISearchOptions = {
     regex: true,
     caseSensitive: true,
-    decorations: { matchOverviewRuler: "orange", activeMatchColorOverviewRuler: "green" }, // placeholder; see injectTheme above
+    decorations: { matchOverviewRuler: "orange", activeMatchColorOverviewRuler: "green" },
+    // ^^ re: odd colors; these need to be something in order for the
+    // our onSearch handler to be called... the actual values don't seem
+    // to matter at the moment; let's make them obvious so we can spot
+    // regressions in the future
   }
 
   private readonly onSearch = (filter: string) => {
