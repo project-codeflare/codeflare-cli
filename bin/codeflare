@@ -123,7 +123,7 @@ done
 shift $((OPTIND-1))
 
 if [ $use_docker = 1 ]; then
-    exec docker run -it --entrypoint ${ENTRYPOINT-codeflare} --rm -v /tmp:/tmp -v ~/.aws:/home/codeflare/.aws -v ~/.bluemix:/home/codeflare/.bluemix -v ~/.kube:/home/codeflare/.kube -e KUBECONFIG=$(echo $KUBECONFIG | sed "s/$USER/codeflare/g" | sed 's/Users/home/g') ghcr.io/project-codeflare/codeflare-cli
+    exec docker run -it --entrypoint ${ENTRYPOINT-codeflare} --rm -v /tmp:/tmp -v ~/.aws:/home/codeflare/.aws -v ~/.bluemix:/home/codeflare/.bluemix -v ~/.kube:/home/codeflare/.kube -e KUBECONFIG=$(echo $KUBECONFIG | sed "s/$USER/codeflare/g" | sed 's/Users/home/g') ghcr.io/project-codeflare/codeflare-cli -- $*
 fi
 
 if  ([ $do_cli = 1 ] && [ $# = 0 ]) || ([ $# = 1 ] && [ "$1" != "version" ]); then
