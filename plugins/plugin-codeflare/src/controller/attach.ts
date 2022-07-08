@@ -16,18 +16,38 @@
 
 import { dir } from "tmp"
 import { cli } from "madwizard/dist/fe/cli"
+import { MadWizardOptions } from "madwizard"
 import { Arguments, KResponse } from "@kui-shell/core"
 
 export default async function attach(args: Arguments) {
   return new Promise<KResponse>((resolve, reject) => {
-    dir(async (err, logdir) => {
+    dir({ prefix: "logdir-stage" }, async (err, logdir) => {
       if (err) {
         reject(err)
       }
 
-      process.env.LOGDIR_STAGE = logdir
-      await cli(["codeflare", "guide", "ml/ray/aggregator"], undefined, { store: process.env.GUIDEBOOK_STORE })
-      resolve(args.REPL.qexec(`codeflare dashboard ${logdir}`))
+      try {
+        const options: MadWizardOptions = { store: process.env.GUIDEBOOK_STORE, clean: false }
+
+        // TODO: update madwizard to accept env in the options
+        process.env.LOGDIR_STAGE = logdir // stage log files here
+        process.env.NO_WAIT = "true" // don't wait for job termination
+        process.env.QUIET_CONSOLE = "true" // don't tee logs to the console
+
+        /* const cleanup = */ await cli(["codeflare", "guide", "ml/ray/aggregator"], undefined, options)
+        /* if (typeof cleanup === 'function') {
+          onQuit(cleanup)
+        } */
+
+        await args.REPL.qexec(`codeflare dashboardui -f ${logdir}`)
+
+        // TODO: when job completes, auto-exit
+
+        resolve(true)
+      } catch (err) {
+        console.error(err)
+        reject(err)
+      }
     })
   })
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Arguments, CommandOptions, Registrar } from "@kui-shell/core"
+import { Arguments, CommandOptions, Registrar, encodeComponent, unparse } from "@kui-shell/core"
 
 import "../../web/scss/components/Dashboard/_index.scss"
 
@@ -23,22 +23,31 @@ export interface FollowOptions {
   follow: boolean
 }
 
-export const followFlags: CommandOptions["flags"] = {
-  boolean: ["f", "follow"],
-  alias: { follow: ["f"] },
+type DashboardOptions = FollowOptions & {
+  a: boolean
+  attach: boolean
 }
 
-function dashboardcli(args: Arguments) {
+export const followFlags: CommandOptions["flags"] = {
+  boolean: ["f", "follow", "a", "attach"],
+  alias: { follow: ["f"], attach: ["a"] },
+}
+
+function dashboardcli(args: Arguments<DashboardOptions>) {
+  if (args.parsedOptions.attach) {
+    // attach to a running job
+    return import("./attach").then((_) => _.default(args))
+  }
+
   const filepath = args.argvNoOptions[1]
   if (!filepath) {
     throw new Error("Usage: codeflare dashboard <filepath>")
   }
 
-  const restIdx = args.command.indexOf("dashboard") + "dashboard".length
-  return args.REPL.qexec(`codeflare dashboardui ${args.command.slice(restIdx)}`)
+  return args.REPL.qexec(`codeflare dashboardui ${encodeComponent(filepath)} ${unparse(args.parsedOptions)}`)
 }
 
-async function dashboardui(args: Arguments<FollowOptions>) {
+async function dashboardui(args: Arguments<DashboardOptions>) {
   const { setTabReadonly } = await import("@kui-shell/plugin-madwizard")
   setTabReadonly(args)
 
@@ -52,8 +61,10 @@ async function dashboardui(args: Arguments<FollowOptions>) {
 export default function registerDashboardCommands(registrar: Registrar) {
   const flags = followFlags
 
-  registrar.listen("/dashboard", dashboardcli, { flags, outputOnly: true })
+  ;["dashboard", "db"].forEach((db) => registrar.listen(`/${db}`, dashboardcli, { flags, outputOnly: true }))
+
   registrar.listen("/codeflare/dashboardui", dashboardui, {
+    hidden: true,
     needsUI: true,
     outputOnly: true,
     flags,
