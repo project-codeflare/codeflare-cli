@@ -26,7 +26,6 @@ import description from "./description"
 function help() {
   return `Usage:
 codeflare [run] [<task>] [-s /path/to/store] [-u]
-codeflare attach
 codeflare dashboard /path/to/logdir
 codeflare chart gpu /path/to/logdir`
 }
@@ -34,7 +33,6 @@ codeflare chart gpu /path/to/logdir`
 /** Register Kui Commands */
 export default function registerCodeflareCommands(registrar: Registrar) {
   tailf(registrar)
-  registrar.listen("/attach", (args) => import("./attach").then((_) => _.default(args)))
   browse(registrar)
   charts(registrar)
   events(registrar)

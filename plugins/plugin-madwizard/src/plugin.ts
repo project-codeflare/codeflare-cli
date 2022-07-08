@@ -25,6 +25,10 @@ interface Options extends ParsedOptions {
 
   /** do not load prior choices (the default "profile") */
   n: boolean
+
+  /** Do not tee logs to the console */
+  q: boolean
+  quiet: boolean
 }
 
 // TODO export this from madwizard
@@ -43,6 +47,12 @@ function withFilepath(
     if (!parsedOptions.u) {
       // CLI path
       const { cli } = await import("madwizard/dist/fe/cli/index.js")
+
+      if (parsedOptions.q) {
+        // TODO add this to madwizard?
+        process.env.QUIET_CONSOLE = "true"
+      }
+
       await cli(
         ["madwizard", task, ...argvNoOptions.slice(1), ...(parsedOptions.n ? ["--no-profile"] : [])],
         undefined,
@@ -65,7 +75,8 @@ function withFilepath(
 /** Register Kui Commands */
 export default function registerMadwizardCommands(registrar: Registrar) {
   const flags = {
-    boolean: ["u", "V", "n"],
+    boolean: ["u", "V", "n", "q"],
+    alias: { quiet: ["q"] },
   }
 
   registrar.listen(
