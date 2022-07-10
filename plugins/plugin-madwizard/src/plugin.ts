@@ -29,6 +29,10 @@ interface Options extends ParsedOptions {
   /** Do not tee logs to the console */
   q: boolean
   quiet: boolean
+
+  /** Interactive guide mode? [default: false] */
+  i: boolean
+  interactive: boolean
 }
 
 // TODO export this from madwizard
@@ -75,8 +79,8 @@ function withFilepath(
 /** Register Kui Commands */
 export default function registerMadwizardCommands(registrar: Registrar) {
   const flags = {
-    boolean: ["u", "V", "n", "q"],
-    alias: { quiet: ["q"] },
+    boolean: ["u", "V", "n", "q", "i"],
+    alias: { quiet: ["q"], interactive: ["i"] },
   }
 
   registrar.listen(
