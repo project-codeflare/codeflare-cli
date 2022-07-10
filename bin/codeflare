@@ -176,5 +176,4 @@ fi
 trap 'pkill -P $$; exit 1;' TERM INT
 
 # otherwise, we launch the UI version
-echo "!!!!!!!!!!!!!!!! $EXTRAPREFIX $*"
 "$NODE" "$HEADLESS"/codeflare.min.js -- $EXTRAPREFIX $*
