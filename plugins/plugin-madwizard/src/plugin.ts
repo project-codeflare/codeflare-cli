@@ -58,7 +58,13 @@ function withFilepath(
       }
 
       await cli(
-        ["madwizard", task, ...argvNoOptions.slice(1), ...(parsedOptions.n ? ["--no-profile"] : [])],
+        [
+          "madwizard",
+          task,
+          ...argvNoOptions.slice(1),
+          ...(parsedOptions.n ? ["--no-profile"] : []),
+          ...(parsedOptions.i ? ["-i"] : []),
+        ],
         undefined,
         { store: process.env.GUIDEBOOK_STORE, verbose: parsedOptions.V }
       )
