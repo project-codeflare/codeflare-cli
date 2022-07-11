@@ -26,6 +26,7 @@
     "@logdna/tail-file": "^3.0.0",
     "@patternfly/react-charts": "^6.77.1",
     "@patternfly/react-core": "^4.224.1",
+    "open": "^8.4.0",
     "pretty-bytes": "^6.0.0",
     "split2": "^4.1.0",
     "strip-ansi": "6.0.0",
