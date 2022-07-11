@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-export default async () => {
-  const { ipcRenderer } = await import("electron")
-  import("./tray").then((_) => _.renderer(ipcRenderer))
+export async function initTray(args: { command: string }) {
+  if (args.command === "/tray/init") {
+    import("./tray").then((_) => _.main())
+  }
 }
