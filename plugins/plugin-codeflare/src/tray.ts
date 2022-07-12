@@ -14,7 +14,22 @@
  * limitations under the License.
  */
 
+import { internalBeCarefulPExec, Table } from "@kui-shell/core"
+
 let tray: null | InstanceType<typeof import("electron").Tray> = null
+
+async function buildContextMenu(menu: any) {
+  const jobs = await internalBeCarefulPExec<Table>(`ls -la /Users/_pablocarmona/s3/aws/codeflare`)
+  console.log(jobs)
+  const contextMenu = menu.buildFromTemplate([
+    { label: "Item1", type: "radio" },
+    { label: "Item2", type: "radio" },
+    { label: "Item3", type: "radio", checked: true },
+    { label: "Item4", type: "radio" },
+  ])
+
+  return contextMenu
+}
 
 export async function main() {
   const { app } = await import("electron")
@@ -24,15 +39,10 @@ export async function main() {
     .then(async () => {
       try {
         const { Menu, Tray } = await import("electron")
-        tray = new Tray(require.resolve("@kui-shell/build/icons/png/codeflareTemplate@2x.png"))
-        const contextMenu = Menu.buildFromTemplate([
-          { label: "Item1", type: "radio" },
-          { label: "Item2", type: "radio" },
-          { label: "Item3", type: "radio", checked: true },
-          { label: "Item4", type: "radio" },
-        ])
+        tray = new Tray(require.resolve("@kui-shell/build/icons/png/codeflareTemplate.png"))
+
         tray.setToolTip("CodeFlare")
-        tray.setContextMenu(contextMenu)
+        tray.setContextMenu(await buildContextMenu(Menu))
       } catch (err) {
         console.error("Error registering electron tray menu", err)
       }
