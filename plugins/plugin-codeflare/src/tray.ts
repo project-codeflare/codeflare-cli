@@ -24,7 +24,7 @@ export async function main() {
     .then(async () => {
       try {
         const { Menu, Tray } = await import("electron")
-        tray = new Tray(require.resolve("@kui-shell/build/icons/png/codeflare-tray.png"))
+        tray = new Tray(require.resolve("@kui-shell/build/icons/png/codeflareTemplate@2x.png"))
         const contextMenu = Menu.buildFromTemplate([
           { label: "Item1", type: "radio" },
           { label: "Item2", type: "radio" },
