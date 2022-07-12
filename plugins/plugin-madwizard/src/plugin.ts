@@ -36,15 +36,16 @@ interface Options extends ParsedOptions {
 }
 
 // TODO export this from madwizard
-type Task = "guide" | "plan"
+type Task = "profile" | "guide" | "plan"
 
-function withFilepath(
+function doMadwizard(
   readonly: boolean,
   task: Task,
-  cb: (filepath: string, tab: Tab) => Promise<true | ReactResponse["react"]>
+  withFilepath = false,
+  cb?: (filepath: string, tab: Tab) => Promise<true | ReactResponse["react"]>
 ) {
   return async ({ tab, argvNoOptions, parsedOptions }: Arguments<Options>) => {
-    if (!argvNoOptions[1]) {
+    if (withFilepath && !argvNoOptions[1]) {
       argvNoOptions.push("ml/codeflare")
     }
 
@@ -76,8 +77,12 @@ function withFilepath(
       const { setTabReadonly } = await import("./util")
       setTabReadonly({ tab })
     }
-    return {
-      react: await cb(argvNoOptions[1], tab),
+    if (cb) {
+      return {
+        react: await cb(argvNoOptions[1], tab),
+      }
+    } else {
+      return true
     }
   }
 }
@@ -89,9 +94,11 @@ export default function registerMadwizardCommands(registrar: Registrar) {
     alias: { quiet: ["q"], interactive: ["i"] },
   }
 
+  registrar.listen("/profile", doMadwizard(true, "profile"))
+
   registrar.listen(
     "/guide",
-    withFilepath(true, "guide", (filepath, tab) =>
+    doMadwizard(true, "guide", true, (filepath, tab) =>
       import("./components/PlanAndGuide").then((_) => _.planAndGuide(filepath, { tab }))
     ),
     { outputOnly: true, flags }
@@ -99,7 +106,7 @@ export default function registerMadwizardCommands(registrar: Registrar) {
 
   registrar.listen(
     "/wizard",
-    withFilepath(false, "guide", (filepath, tab) =>
+    doMadwizard(false, "guide", true, (filepath, tab) =>
       import("./components/Guide").then((_) => _.guide(filepath, { tab }))
     ),
     { flags }
@@ -107,7 +114,7 @@ export default function registerMadwizardCommands(registrar: Registrar) {
 
   registrar.listen(
     "/plan",
-    withFilepath(false, "plan", (filepath) => import("./components/Plan").then((_) => _.plan(filepath))),
+    doMadwizard(false, "plan", true, (filepath) => import("./components/Plan").then((_) => _.plan(filepath))),
     { flags }
   )
 }

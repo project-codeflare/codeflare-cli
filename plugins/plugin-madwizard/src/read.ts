@@ -15,6 +15,11 @@
  */
 
 export default async function read(filepath: string) {
-  const { Parser, reader } = await import("madwizard")
-  return Parser.parse(filepath, await reader(), undefined, undefined, { store: process.env.GUIDEBOOK_STORE })
+  // TODO... use user-specified profile
+  const profile = "default"
+
+  const { Choices, Parser, reader } = await import("madwizard")
+  return Parser.parse(filepath, await reader(), Choices.newChoiceState(profile), undefined, {
+    store: process.env.GUIDEBOOK_STORE,
+  })
 }
