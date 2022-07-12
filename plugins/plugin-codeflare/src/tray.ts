@@ -19,8 +19,10 @@ import { internalBeCarefulPExec, Table } from "@kui-shell/core"
 let tray: null | InstanceType<typeof import("electron").Tray> = null
 
 async function buildContextMenu(menu: any) {
-  const jobs = await internalBeCarefulPExec<Table>(`ls -la /Users/_pablocarmona/s3/aws/codeflare`)
-  console.log(jobs)
+  console.log("Request jobs")
+  const jobs = await internalBeCarefulPExec<Table>(`ls -la /Users/_pablocarmona`)
+  console.log("Retrieving jobs... ", jobs)
+
   const contextMenu = menu.buildFromTemplate([
     { label: "Item1", type: "radio" },
     { label: "Item2", type: "radio" },
