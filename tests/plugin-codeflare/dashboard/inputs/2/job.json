@@ -38,7 +38,7 @@
       "KUBE_POD_LABEL_SELECTOR": "ray-user-node-type=rayWorkerType",
       "KUBE_PODFULL_LABEL_SELECTOR": "ray-node-type",
       "RAY_KUBE_PORT": "8266",
-      "RAY_ADDRESS": "http://127.0.0.1:8266",
+      "KUI_RAY_ADDRESS": "http://127.0.0.1:8266",
       "S3_BUCKET": "browsey",
       "S3_FILEPATH": "browsey",
       "S3_OBJECTMODEL": "roberta-base",

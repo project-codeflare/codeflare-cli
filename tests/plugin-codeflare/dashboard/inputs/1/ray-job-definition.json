@@ -47,7 +47,7 @@
       "HELM_CLONE_TEMPDIR": "/var/folders/2k/7mgd1tq55gdbghf0xkl2t_l80000gp/T/tmp.LPMYQyK4",
       "RAY_KUBE_CLUSTER_NAME": "mycluster",
       "RAY_KUBE_PORT": "8508",
-      "RAY_ADDRESS": "http://127.0.0.1:8508",
+      "KUI_RAY_ADDRESS": "http://127.0.0.1:8508",
       "S3_BUCKET": "browsey",
       "S3_FILEPATH": "browsey",
       "S3_OBJECTMODEL": "roberta-base",
