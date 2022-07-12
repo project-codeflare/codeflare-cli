@@ -34,6 +34,11 @@ async function buildContextMenu(menu: any) {
 }
 
 export async function main() {
+  if (tray) {
+    // only register one tray menu...
+    return
+  }
+
   const { app } = await import("electron")
 
   app
