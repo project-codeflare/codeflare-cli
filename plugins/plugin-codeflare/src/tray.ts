@@ -19,14 +19,12 @@ import { Profiles } from "madwizard"
 let tray: null | InstanceType<typeof import("electron").Tray> = null
 
 async function buildContextMenu(menu: any) {
-  const jobsDir = await Profiles.profilesPath({})
-  console.log("jobsDir", jobsDir)
+  const jobsDir = Profiles.guidebookProfileDataPath({
+    verbose: true,
+  })
 
   const contextMenu = menu.buildFromTemplate([
-    { label: "Item1", type: "radio" },
-    { label: "Item2", type: "radio" },
-    { label: "Item3", type: "radio", checked: true },
-    { label: "Item4", type: "radio" },
+    { label: "Profiles", submenu: [{ label: jobsDir.split("/")[jobsDir.split("/").length - 1], type: "radio" }] },
   ])
 
   return contextMenu
