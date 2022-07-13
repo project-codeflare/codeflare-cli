@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-import { internalBeCarefulPExec, Table } from "@kui-shell/core"
+import { Profiles } from "madwizard"
 
 let tray: null | InstanceType<typeof import("electron").Tray> = null
 
 async function buildContextMenu(menu: any) {
-  console.log("Request jobs")
-  const jobs = await internalBeCarefulPExec<Table>(`ls -la /Users/_pablocarmona`)
-  console.log("Retrieving jobs... ", jobs)
+  const jobsDir = await Profiles.profilesPath({})
+  console.log("jobsDir", jobsDir)
 
   const contextMenu = menu.buildFromTemplate([
     { label: "Item1", type: "radio" },
