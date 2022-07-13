@@ -30,6 +30,10 @@ interface Options extends ParsedOptions {
   q: boolean
   quiet: boolean
 
+  /** Automatically accept all choices from the current profile */
+  a: boolean
+  auto: boolean
+
   /** Interactive guide mode? [default: false] */
   i: boolean
   interactive: boolean
@@ -67,7 +71,11 @@ function doMadwizard(
           ...(parsedOptions.i ? ["-i"] : []),
         ],
         undefined,
-        { store: process.env.GUIDEBOOK_STORE, verbose: parsedOptions.V }
+        {
+          store: process.env.GUIDEBOOK_STORE,
+          verbose: parsedOptions.V,
+          interactive: parsedOptions.i || !parsedOptions.a,
+        }
       )
       return true
     }
@@ -90,8 +98,8 @@ function doMadwizard(
 /** Register Kui Commands */
 export default function registerMadwizardCommands(registrar: Registrar) {
   const flags = {
-    boolean: ["u", "V", "n", "q", "i"],
-    alias: { quiet: ["q"], interactive: ["i"] },
+    boolean: ["u", "V", "n", "q", "i", "a"],
+    alias: { quiet: ["q"], interactive: ["i"], auto: ["a"] },
   }
 
   registrar.listen("/profile", doMadwizard(true, "profile"))
