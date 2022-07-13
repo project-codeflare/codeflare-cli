@@ -15,7 +15,7 @@
  */
 
 import { join } from "path"
-import { Arguments, Registrar } from "@kui-shell/core"
+import { Arguments, Registrar, encodeComponent } from "@kui-shell/core"
 import { expand } from "../lib/util"
 
 type Item = { label: string; value: string }
@@ -45,7 +45,7 @@ export type SummaryResponse = {
 
 /** Given the location of the staging directory, return the location of the ray job definition */
 function jobDefinition(filepath: string) {
-  return expand(join(filepath.replace(/'/g, ""), "ray-job-definition.json"))
+  return encodeComponent(expand(join(filepath.replace(/'/g, ""), "ray-job-definition.json")))
 }
 
 async function app(args: Arguments) {
