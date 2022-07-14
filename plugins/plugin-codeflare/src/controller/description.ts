@@ -48,13 +48,21 @@ function jobDefinition(filepath: string) {
   return encodeComponent(expand(join(filepath.replace(/'/g, ""), "ray-job-definition.json")))
 }
 
+export async function getJobDefinition(runDir: string, REPL: Arguments["REPL"]) {
+  try {
+    return JSON.parse(await REPL.qexec<string>(`vfs fslice ${encodeComponent(jobDefinition(runDir))} 0`))
+  } catch (err) {
+    console.error(runDir, err)
+  }
+}
+
 async function app(args: Arguments) {
   const filepath = args.argvNoOptions[2]
   if (!filepath) {
     throw new Error("Usage: description application <filepath>")
   }
 
-  const jobInfo = JSON.parse(await args.REPL.qexec<string>(`vfs fslice ${jobDefinition(filepath)} 0`))
+  const jobInfo = await getJobDefinition(filepath, args.REPL)
   const { RAY_IMAGE } = jobInfo.runtime_env.env_vars
 
   const status = jobInfo.status.toLowerCase()

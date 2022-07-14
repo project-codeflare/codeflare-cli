@@ -19,7 +19,7 @@ import { Choices, Profiles } from "madwizard"
 import { MenuItemConstructorOptions } from "electron"
 
 import { productName } from "@kui-shell/client/config.d/name.json"
-import { bugs, homepage, version } from "@kui-shell/client/package.json"
+import { bugs, version } from "@kui-shell/client/package.json"
 
 let tray: null | InstanceType<typeof import("electron").Tray> = null
 
@@ -33,11 +33,11 @@ async function profilesMenu(): Promise<MenuItemConstructorOptions> {
   return { label: "Profiles", submenu: profiles.map(profileMenu) }
 }
 
-async function buildContextMenu(/* createWindow: (argv: string[]) => void */) {
+async function buildContextMenu(createWindow: (argv: string[]) => void) {
   const { Menu } = await import("electron")
 
   const contextMenu = Menu.buildFromTemplate([
-    { label: `CodeFlare v${version}`, click: () => open(homepage) },
+    { label: `CodeFlare v${version}`, click: () => createWindow([]) },
     { type: "separator" },
     await profilesMenu(),
     { type: "separator" },
@@ -58,7 +58,7 @@ async function buildContextMenu(/* createWindow: (argv: string[]) => void */) {
   return contextMenu
 }
 
-export async function main(/* createWindow: (argv: string[]) => void */) {
+export async function main(createWindow: (argv: string[]) => void) {
   if (tray) {
     // only register one tray menu...
     return
@@ -74,7 +74,7 @@ export async function main(/* createWindow: (argv: string[]) => void */) {
         tray = new Tray(require.resolve("@kui-shell/build/icons/png/codeflareTemplate.png"))
 
         tray.setToolTip(productName)
-        tray.setContextMenu(await buildContextMenu(/* createWindow */))
+        tray.setContextMenu(await buildContextMenu(createWindow))
       } catch (err) {
         console.error("Error registering electron tray menu", err)
       }
