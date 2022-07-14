@@ -14,8 +14,15 @@
  * limitations under the License.
  */
 
-export async function initTray(args: { command: string }, _: unknown, createWindow: (argv: string[]) => void) {
-  if (args.command === "/tray/init") {
-    import("./tray").then((_) => _.main(createWindow))
+@import "@kui-shell/plugin-client-common/web/scss/components/Terminal/mixins";
+@import "@kui-shell/plugin-client-common/web/scss/components/TopLevelTab/mixins";
+
+@include TopLevelTab {
+  &.codeflare--welcome-guidebook {
+    @include Split(3) {
+      grid-template-rows: 80px 1fr;
+      grid-template-columns: 80px 1fr;
+      grid-template-areas: "T1 T2" "T3 T3";
+    }
   }
 }

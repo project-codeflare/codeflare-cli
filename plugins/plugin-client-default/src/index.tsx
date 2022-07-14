@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 The Kubernetes Authors
+ * Copyright 2022 The Kubernetes Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,8 @@ import { version } from "@kui-shell/client/package.json"
 import { productTitle } from "@kui-shell/client/config.d/name.json"
 
 import CodeFlareWidget from "./CodeFlareWidget"
+
+import "../web/scss/guidebooks/welcome.scss"
 
 /**
  * We will set this bit when the user dismisses the Welcome to Kui
@@ -54,9 +56,14 @@ export default function renderMain(props: KuiProps) {
       noNewTabButton
       noNewSplitButton
       {...props}
-      initialTabTitle="Dashboard"
+      initialTabTitle="Welcome"
       isPopup={false}
       quietExecCommand={false}
+      commandLine={
+        process.env.RUNNING_KUI_TEST
+          ? undefined
+          : props.commandLine || ["commentary", "--readonly", "-f", "/kui/client/welcome.md"]
+      }
     >
       <ContextWidgets>
         <GitHubIcon />

@@ -58,6 +58,12 @@ async function dashboardui(args: Arguments<DashboardOptions>) {
   return args.REPL.qexec(`commentary -f /kui/client/dashboard.md`)
 }
 
+/** Desired window width */
+export const width = 1280
+
+/** Desired window height */
+export const height = 960
+
 export default function registerDashboardCommands(registrar: Registrar) {
   const flags = followFlags
 
@@ -68,7 +74,7 @@ export default function registerDashboardCommands(registrar: Registrar) {
     needsUI: true,
     outputOnly: true,
     flags,
-    width: 1280,
-    height: 960,
+    width,
+    height,
   })
 }
