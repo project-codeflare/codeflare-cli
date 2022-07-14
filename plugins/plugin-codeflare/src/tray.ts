@@ -85,14 +85,16 @@ export async function main(/* createWindow: (argv: string[]) => void */) {
 }
 
 export async function renderer(ipcRenderer: import("electron").IpcRenderer) {
-  ipcRenderer.send(
-    "/exec/invoke",
-    JSON.stringify({
-      module: "plugin-codeflare",
-      main: "initTray",
-      args: {
-        command: "/tray/init",
-      },
-    })
-  )
+  if (ipcRenderer) {
+    ipcRenderer.send(
+      "/exec/invoke",
+      JSON.stringify({
+        module: "plugin-codeflare",
+        main: "initTray",
+        args: {
+          command: "/tray/init",
+        },
+      })
+    )
+  }
 }
