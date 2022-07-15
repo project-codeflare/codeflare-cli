@@ -16,12 +16,13 @@
 
 @import "@kui-shell/plugin-client-common/web/scss/components/Terminal/mixins";
 @import "@kui-shell/plugin-client-common/web/scss/components/TopLevelTab/mixins";
+@import "Grid";
 
 @include TopLevelTab {
   &.codeflare--welcome-guidebook {
     @include Split(2) {
       grid-template-rows: 1fr;
-      grid-template-columns: 1fr 4fr;
+      grid-template-columns: 1fr 6fr;
       grid-template-areas: "T1 T2";
     }
   }

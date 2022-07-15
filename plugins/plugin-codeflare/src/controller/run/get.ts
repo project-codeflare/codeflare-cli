@@ -14,25 +14,26 @@
  * limitations under the License.
  */
 
-import React from "react"
-import { join } from "path"
 import { readdir } from "fs"
 import { Profiles } from "madwizard"
-import { Grid, GridItem, Tile } from "@patternfly/react-core"
-import { Arguments, ReactResponse } from "@kui-shell/core"
+import { basename, join } from "path"
+import { Arguments, Table } from "@kui-shell/core"
+
+import { productName } from "@kui-shell/client/config.d/name.json"
 
 import { width, height } from "../dashboard"
 import { getJobDefinition } from "../description"
 
-async function openDashboard(this: Arguments["REPL"], evt: React.MouseEvent<HTMLDivElement>) {
-  const runDir = evt.currentTarget.getAttribute("data-run-dir")
+async function openDashboard(this: Arguments["REPL"], /*evt: React.MouseEvent<HTMLDivElement>*/ runDir: string) {
+  // const runDir = evt.currentTarget.getAttribute("data-run-dir")
   if (runDir) {
     const { ipcRenderer } = await import("electron")
     ipcRenderer.send(
       "synchronous-message",
       JSON.stringify({
         operation: "new-window",
-        title: "Dashboard",
+        title: productName + " Dashboard: " + basename(runDir),
+        initialTabTitle: "Dashboard",
         width,
         height,
         argv: ["codeflare", "dashboardui", runDir],
@@ -41,10 +42,32 @@ async function openDashboard(this: Arguments["REPL"], evt: React.MouseEvent<HTML
   }
 }
 
+function capitalize(str: string) {
+  return str[0].toUpperCase() + str.slice(1)
+}
+
+/** TODO: these are specific to Ray */
+type Status = "SUCCEEDED" | "STOPPED" | "RUNNING" | "PENDING" | "ERROR"
+function statusColor(status: Status) {
+  switch (status) {
+    case "SUCCEEDED":
+      return "green-background"
+    case "STOPPED":
+    case "ERROR":
+      return "red-background"
+    case "RUNNING":
+      return "cyan-background"
+    case "PENDING":
+      return "yellow-background"
+    default:
+      return "gray-background"
+  }
+}
+
 export default async function getProfiles(args: Arguments) {
   const onClick = openDashboard.bind(args.REPL)
 
-  return new Promise<ReactResponse>((resolve, reject) => {
+  return new Promise<Table>((resolve, reject) => {
     const runsDir = Profiles.guidebookJobDataPath({})
     readdir(runsDir, async (err, runs) => {
       if (err) {
@@ -63,7 +86,19 @@ export default async function getProfiles(args: Arguments) {
           }))
           .filter((_) => !!_.info)
 
-        resolve({
+        const table: Table = {
+          defaultPresentation: "grid",
+          body: details.map((_) => ({
+            name: _.jobId,
+            onclick: () => onClick(_.runDir),
+            attributes: [
+              { key: "STATUS", value: capitalize(_.info.status), tag: "badge", css: statusColor(_.info.status) },
+            ],
+          })),
+        }
+
+        resolve(table)
+        /* resolve({
           react: (
             <Grid span={1} className="codeflare--grid codeflare--mini">
               {details.map((_) => (
@@ -80,7 +115,7 @@ export default async function getProfiles(args: Arguments) {
               ))}
             </Grid>
           ),
-        })
+        }) */
       }
     })
   })
