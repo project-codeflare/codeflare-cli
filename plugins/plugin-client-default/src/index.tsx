@@ -26,6 +26,8 @@ import { productTitle } from "@kui-shell/client/config.d/name.json"
 
 import CodeFlareWidget from "./CodeFlareWidget"
 
+import "../web/scss/components/Client.scss"
+
 /**
  * We will set this bit when the user dismisses the Welcome to Kui
  * tab, so as to avoid opening it again and bothering that user for
@@ -49,12 +51,14 @@ export default function renderMain(props: KuiProps) {
     <Kui
       noHelp
       version={version}
-      productName={productTitle}
+      productName={props.title || productTitle}
       lightweightTables
       noNewTabButton
       noNewSplitButton
+      noTopTabs
+      guidebooks={false}
       {...props}
-      initialTabTitle="Welcome"
+      initialTabTitle="Hello"
       isPopup={false}
       quietExecCommand={false}
       commandLine={process.env.RUNNING_KUI_TEST ? undefined : props.commandLine || ["codeflare", "hello"]}

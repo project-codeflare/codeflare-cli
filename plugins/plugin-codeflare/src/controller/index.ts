@@ -50,6 +50,8 @@ export default function registerCodeflareCommands(registrar: Registrar) {
   registrar.listen("/codeflare/hello", (args) => import("./hello").then((_) => _.default(args)), {
     needsUI: true,
     outputOnly: true,
+    width: 800,
+    height: 600,
   })
 
   registrar.catchall<KResponse, MadWizardOptions>(
