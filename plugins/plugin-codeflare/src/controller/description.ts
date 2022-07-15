@@ -57,7 +57,7 @@ export async function getJobDefinition(runDir: string, REPL: Arguments["REPL"]) 
 }
 
 async function app(args: Arguments) {
-  const filepath = args.argvNoOptions[2]
+  const filepath = args.argvNoOptions[3]
   if (!filepath) {
     throw new Error("Usage: description application <filepath>")
   }
@@ -83,7 +83,7 @@ async function app(args: Arguments) {
 }
 
 async function workers(args: Arguments) {
-  const filepath = args.argvNoOptions[2]
+  const filepath = args.argvNoOptions[3]
   if (!filepath) {
     throw new Error("Usage: description workers <filepath>")
   }
@@ -108,6 +108,6 @@ async function workers(args: Arguments) {
 }
 
 export default function registerDescriptionCommands(registrar: Registrar) {
-  registrar.listen("/description/application", app, { needsUI: true })
-  registrar.listen("/description/workers", workers, { needsUI: true })
+  registrar.listen("/codeflare/description/application", app, { needsUI: true })
+  registrar.listen("/codeflare/description/workers", workers, { needsUI: true })
 }

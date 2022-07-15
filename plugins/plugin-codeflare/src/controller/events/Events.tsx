@@ -17,7 +17,7 @@
 import React from "react"
 import { join } from "path"
 import stripAnsi from "strip-ansi"
-import { Arguments } from "@kui-shell/core"
+import { Arguments, encodeComponent } from "@kui-shell/core"
 
 import { GenericEvent } from "./Event"
 import parseKubeEvents, { collateEvent as collateKubeEvent, KubeEvent } from "./kube"
@@ -228,11 +228,11 @@ async function eventsUI(filepath: string, REPL: Arguments["REPL"]) {
     )
   } else {
     const [kube, torch] = await Promise.all([
-      REPL.qexec<string>(`vfs fslice ${kubeFilepath} 0`)
+      REPL.qexec<string>(`vfs fslice ${encodeComponent(kubeFilepath)} 0`)
         .catch(() => "")
         .then(stripAnsi)
         .then(parseKubeEvents),
-      REPL.qexec<string>(`vfs fslice ${jobFilepath} 0`)
+      REPL.qexec<string>(`vfs fslice ${encodeComponent(jobFilepath)} 0`)
         .catch(() => "")
         .then(stripAnsi)
         .then(parseTorchEvents),
@@ -243,9 +243,9 @@ async function eventsUI(filepath: string, REPL: Arguments["REPL"]) {
 }
 
 export default async function eventsCmd(args: Arguments) {
-  const filepath = args.argvNoOptions[2]
+  const filepath = args.argvNoOptions[3]
   if (!filepath) {
-    throw new Error(`Usage chart progress ${filepath}`)
+    throw new Error(`Usage codeflare chart events ${filepath}`)
   }
 
   return {

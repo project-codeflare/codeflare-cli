@@ -24,7 +24,7 @@ layout:
     execute: now
     outputOnly: true
     ---
-    description application "$LOGDIR"
+    codeflare description application "$LOGDIR"
     ```
 
 === "Workers"
@@ -34,7 +34,7 @@ layout:
     execute: now
     outputOnly: true
     ---
-    description workers "$LOGDIR"
+    codeflare description workers "$LOGDIR"
     ```
 
 ---
@@ -87,7 +87,7 @@ layout:
     maximize: true
     outputOnly: true
     ---
-    chart all "${LOGDIR}"
+    codeflare chart all "${LOGDIR}"
     ```
 
 ---
@@ -98,5 +98,5 @@ layout:
     execute: now
     outputOnly: true
     ---
-    chart events "${LOGDIR}"
+    codeflare chart events "${LOGDIR}"
     ```

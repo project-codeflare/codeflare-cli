@@ -39,7 +39,7 @@ function dashboardcli(args: Arguments<DashboardOptions>) {
     return import("./attach").then((_) => _.default(args))
   }
 
-  const filepath = args.argvNoOptions[1]
+  const filepath = args.argvNoOptions[2]
   if (!filepath) {
     throw new Error("Usage: codeflare dashboard <filepath>")
   }
@@ -67,7 +67,7 @@ export const height = 960
 export default function registerDashboardCommands(registrar: Registrar) {
   const flags = followFlags
 
-  ;["dashboard", "db"].forEach((db) => registrar.listen(`/${db}`, dashboardcli, { flags, outputOnly: true }))
+  ;["dashboard", "db"].forEach((db) => registrar.listen(`/codeflare/${db}`, dashboardcli, { flags, outputOnly: true }))
 
   registrar.listen("/codeflare/dashboardui", dashboardui, {
     hidden: true,

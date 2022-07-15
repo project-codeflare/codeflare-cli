@@ -16,7 +16,7 @@
 
 import { Arguments, ParsedOptions, ReactResponse, Registrar, Tab } from "@kui-shell/core"
 
-interface Options extends ParsedOptions {
+export interface Options extends ParsedOptions {
   /** Run in UI mode */
   u: boolean
 
@@ -42,7 +42,7 @@ interface Options extends ParsedOptions {
 // TODO export this from madwizard
 type Task = "profile" | "guide" | "plan"
 
-function doMadwizard(
+export function doMadwizard(
   readonly: boolean,
   task: Task,
   withFilepath = false,
