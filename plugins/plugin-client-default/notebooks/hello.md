@@ -8,17 +8,21 @@ layout:
     2: 
         position: default
         maximized: true
-    3: 
-        position: default
-        maximized: true
         inverseColors: true
 ---
 
-<img alt="CodeFlare Icon" src="@kui-shell/client/icons/svg/codeflare.svg" width="80" height="80" />
+<!-- <img alt="CodeFlare Icon" src="@kui-shell/client/icons/svg/codeflare.svg" width="80" height="80" /> -->
 
----
+=== "Profiles"
 
-<!-- TODO find some content to place here? -->
+    ```shell
+    ---
+    execute: now
+    maximize: true
+    outputOnly: true
+    ---
+    codeflare get profile
+    ```
 
 ---
 
@@ -33,13 +37,3 @@ layout:
     codeflare get run
     ```
 
-=== "Profiles"
-
-    ```shell
-    ---
-    execute: now
-    maximize: true
-    outputOnly: true
-    ---
-    codeflare get profile
-    ```

@@ -24,8 +24,6 @@ import { Arguments, ReactResponse } from "@kui-shell/core"
 import { width, height } from "../dashboard"
 import { getJobDefinition } from "../description"
 
-import "../../../web/scss/components/Welcome/_index.scss"
-
 async function openDashboard(this: Arguments["REPL"], evt: React.MouseEvent<HTMLDivElement>) {
   const runDir = evt.currentTarget.getAttribute("data-run-dir")
   if (runDir) {

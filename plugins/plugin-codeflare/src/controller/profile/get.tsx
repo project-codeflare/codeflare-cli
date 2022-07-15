@@ -19,8 +19,6 @@ import { Profiles } from "madwizard"
 import { Arguments } from "@kui-shell/core"
 import { Grid, GridItem, Tile } from "@patternfly/react-core"
 
-import "../../../web/scss/components/Welcome/_index.scss"
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default async function getProfiles(args: Arguments) {
   const profiles = await Profiles.list({})
@@ -30,7 +28,7 @@ export default async function getProfiles(args: Arguments) {
       <Grid hasGutter className="codeflare--grid">
         {profiles.map((_) => (
           <GridItem key={_.profile.name}>
-            <Tile className="codeflare--tile" title={_.profile.name} />
+            <Tile isSelected className="codeflare--tile" title={_.profile.name} />
           </GridItem>
         ))}
       </Grid>

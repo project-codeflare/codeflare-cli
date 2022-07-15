@@ -47,7 +47,7 @@ export default function registerCodeflareCommands(registrar: Registrar) {
   registrar.listen("/codeflare/get/run", (args) => import("./run/get").then((_) => _.default(args)), { needsUI: true })
 
   // launch our hello guidebook
-  registrar.listen("/codeflare/hello", (args) => args.REPL.qexec("commentary --readonly -f /kui/client/welcome.md"), {
+  registrar.listen("/codeflare/hello", (args) => import("./hello").then((_) => _.default(args)), {
     needsUI: true,
     outputOnly: true,
   })

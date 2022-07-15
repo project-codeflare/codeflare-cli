@@ -14,10 +14,24 @@
  * limitations under the License.
  */
 
+@import "@kui-shell/plugin-client-common/web/scss/components/Terminal/mixins";
+@import "@kui-shell/plugin-client-common/web/scss/components/TopLevelTab/mixins";
+
+@include TopLevelTab {
+  &.codeflare--welcome-guidebook {
+    @include Split(2) {
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr 4fr;
+      grid-template-areas: "T1 T2";
+    }
+  }
+}
+
 $gap: 3px;
+$cell: 1.5em;
 
 @mixin Grid {
-  .codeflare--grid {
+  .pf-l-grid.codeflare--grid {
     @content;
   }
 }
@@ -39,13 +53,14 @@ $gap: 3px;
   padding: 1em;
   flex: 1;
   grid-auto-rows: max-content;
-  grid-template-columns: repeat(auto-fit, minmax(25px, max-content));
+  grid-template-columns: repeat(auto-fit, $cell);
 }
 
 @include Mini {
-  grid-gap: 2 * $gap;
+  grid-gap: $gap;
   @include Tile {
     padding: $gap;
+    height: $cell;
   }
 }
 
@@ -81,5 +96,5 @@ $gap: 3px;
 
 .pf-c-tile__title {
   color: var(--color-tile-title);
-  font-weight: 500;
+  font-size: 0.6875rem;
 }
