@@ -26,8 +26,6 @@ import { productTitle } from "@kui-shell/client/config.d/name.json"
 
 import CodeFlareWidget from "./CodeFlareWidget"
 
-import "../web/scss/guidebooks/welcome.scss"
-
 /**
  * We will set this bit when the user dismisses the Welcome to Kui
  * tab, so as to avoid opening it again and bothering that user for

@@ -14,15 +14,10 @@
  * limitations under the License.
  */
 
-@import "@kui-shell/plugin-client-common/web/scss/components/Terminal/mixins";
-@import "@kui-shell/plugin-client-common/web/scss/components/TopLevelTab/mixins";
+import { Arguments } from "@kui-shell/core"
 
-@include TopLevelTab {
-  &.codeflare--welcome-guidebook {
-    @include Split(3) {
-      grid-template-rows: 80px 1fr;
-      grid-template-columns: 80px 1fr;
-      grid-template-areas: "T1 T2" "T3 T3";
-    }
-  }
+import "../../web/scss/components/Hello/_index.scss"
+
+export default function hello(args: Arguments) {
+  return args.REPL.qexec("commentary --readonly -f /kui/client/hello.md")
 }
