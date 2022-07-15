@@ -14,5 +14,6 @@
  * limitations under the License.
  */
 
-export { setTabReadonly } from "./util"
-export { doMadwizard, Options as MadWizardOptions } from "./plugin"
+import { doMadwizard } from "@kui-shell/plugin-madwizard"
+
+export default doMadwizard(true, "guide", true)

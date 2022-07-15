@@ -116,21 +116,15 @@ do
     case $opt in
         d) use_docker=1; continue;;
         u) do_cli=0; continue;;
-        s) GUIDEBOOK_STORE=$OPTARG; continue;;
-        *) EXTRAPREFIX="$EXTRAPREFIX -$opt"; continue;;
+        s) export GUIDEBOOK_STORE=$OPTARG; continue;;
+        *) continue;;
     esac
 done
-shift $((OPTIND-1))
+# shift $((OPTIND-1))
 
 if [ $use_docker = 1 ]; then
     # launch inside a docker container
     exec docker run -it --entrypoint ${ENTRYPOINT-codeflare} --rm -v /tmp:/tmp -v ~/.aws:/home/codeflare/.aws -v ~/.bluemix:/home/codeflare/.bluemix -v ~/.kube:/home/codeflare/.kube -e KUBECONFIG=$(echo $KUBECONFIG | sed "s/$USER/codeflare/g" | sed 's/Users/home/g') ghcr.io/project-codeflare/codeflare-cli -- $*
-fi
-
-if  ([ $do_cli = 1 ] && [ $# = 0 ]) || ([ $# = 1 ] && [ "$1" != "version" ] && [ "$1" != "attach" ]); then
-    # TODO make this a kui command catchall
-    # use the "guide" command if none was given
-    EXTRAPREFIX="$EXTRAPREFIX guide"
 fi
 
 if [ "$do_cli" = "1" ]; then
@@ -140,14 +134,6 @@ if [ "$do_cli" = "1" ]; then
     export KUI_HEADLESS=true
     export KUI_S3=false # we don't need plugin-s3 capabilities when in headless mode
     export ELECTRON_RUN_AS_NODE=true
-#    export MWSTORE="$GUIDEBOOK_STORE"
-#    exec "$NODE" \
-#         --experimental-specifier-resolution=node --no-warnings --experimental-import-meta-resolve \
-#         "$HEADLESS"/../../node_modules/madwizard/bin/madwizard.js \
-#         $*
-elif [ $# -gt 0 ]; then
-    # tell the command handlers to run in UI mode
-    EXTRAPREFIX="$EXTRAPREFIX -u"
 fi
 
 # Linux may not have the prereqs needed to run Electron
@@ -176,4 +162,4 @@ fi
 trap 'pkill -P $$; exit 1;' TERM INT
 
 # otherwise, we launch the UI version
-"$NODE" "$HEADLESS"/codeflare.min.js -- $EXTRAPREFIX $*
+"$NODE" "$HEADLESS"/codeflare.min.js -- codeflare $EXTRAPREFIX "$@"

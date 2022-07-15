@@ -5,5 +5,5 @@
     execute: now
     outputOnly: true
     ---
-    description $LOGDIR/job.json
+    codeflare description $LOGDIR/job.json
     ```

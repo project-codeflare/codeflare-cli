@@ -39,7 +39,7 @@
     "postinstall": "npm run compile",
     "format": "prettier --write '**/*.{scss,css,html,js,json,md,ts,tsx}'",
     "lint": "eslint . --ext '**/*.{js,ts,tsx}'",
-    "open": "./bin/codeflare -u",
+    "open": "./bin/codeflare hello",
     "start": "WATCH_ARGS='-open' npm run watch",
     "mirror": "cross-env rm -rf tmp && cross-env git clone --depth=1 https://github.com/guidebooks/store.git $PWD/tmp/store && cross-env madwizard mirror $PWD/tmp/store/guidebooks $PWD/store && rm -rf tmp",
     "mirror-if-needed": "if [ ! -d ./store ]; then npm run mirror; fi",

@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import { Registrar } from "@kui-shell/core"
+import { KResponse, Registrar } from "@kui-shell/core"
+import { MadWizardOptions } from "@kui-shell/plugin-madwizard"
 
 import tailf from "./tailf"
 import browse from "./browse"
@@ -44,4 +45,16 @@ export default function registerCodeflareCommands(registrar: Registrar) {
     needsUI: true,
   })
   registrar.listen("/codeflare/get/run", (args) => import("./run/get").then((_) => _.default(args)), { needsUI: true })
+
+  // launch our hello guidebook
+  registrar.listen("/codeflare/hello", (args) => args.REPL.qexec("commentary --readonly -f /kui/client/welcome.md"), {
+    needsUI: true,
+    outputOnly: true,
+  })
+
+  registrar.catchall<KResponse, MadWizardOptions>(
+    (argv: string[]) => argv[1] === "codeflare",
+    (args) => import("./catchall").then((_) => _.default(args)),
+    0
+  )
 }

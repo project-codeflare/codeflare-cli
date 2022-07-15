@@ -18,5 +18,7 @@ import { Registrar } from "@kui-shell/core"
 
 /** Command registration part of the Events UI */
 export default function registerEventCommands(registrar: Registrar) {
-  registrar.listen("/chart/events", (args) => import("./Events").then((_) => _.default(args)), { needsUI: true })
+  registrar.listen("/codeflare/chart/events", (args) => import("./Events").then((_) => _.default(args)), {
+    needsUI: true,
+  })
 }

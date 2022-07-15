@@ -18,7 +18,9 @@ import { Registrar } from "@kui-shell/core"
 
 /** Register Kui Commands */
 export default function registerCodeflareCommands(registrar: Registrar) {
-  registrar.listen("/chart/gpu", (args) => import("./gpu").then((_) => _.default(args)), { needsUI: true })
-  registrar.listen("/chart/vmstat", (args) => import("./vmstat").then((_) => _.default(args)), { needsUI: true })
-  registrar.listen("/chart/all", (args) => import("./all").then((_) => _.default(args)), { needsUI: true })
+  registrar.listen("/codeflare/chart/gpu", (args) => import("./gpu").then((_) => _.default(args)), { needsUI: true })
+  registrar.listen("/codeflare/chart/vmstat", (args) => import("./vmstat").then((_) => _.default(args)), {
+    needsUI: true,
+  })
+  registrar.listen("/codeflare/chart/all", (args) => import("./all").then((_) => _.default(args)), { needsUI: true })
 }

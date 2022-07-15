@@ -86,7 +86,7 @@ async function offline(filepath: string, REPL: Arguments["REPL"]): Promise<React
  *
  */
 export default async function all(args: Arguments) {
-  const filepath = args.argvNoOptions[2]
+  const filepath = args.argvNoOptions[3]
   if (!filepath) {
     throw new Error(`Usage chart all ${filepath}`)
   }

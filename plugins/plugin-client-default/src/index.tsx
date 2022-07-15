@@ -59,11 +59,7 @@ export default function renderMain(props: KuiProps) {
       initialTabTitle="Welcome"
       isPopup={false}
       quietExecCommand={false}
-      commandLine={
-        process.env.RUNNING_KUI_TEST
-          ? undefined
-          : props.commandLine || ["commentary", "--readonly", "-f", "/kui/client/welcome.md"]
-      }
+      commandLine={process.env.RUNNING_KUI_TEST ? undefined : props.commandLine || ["codeflare", "hello"]}
     >
       <ContextWidgets>
         <GitHubIcon />
