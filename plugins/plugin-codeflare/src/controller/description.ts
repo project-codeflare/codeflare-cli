@@ -63,7 +63,7 @@ async function app(args: Arguments) {
   }
 
   const jobInfo = await getJobDefinition(filepath, args.REPL)
-  const { RAY_IMAGE } = jobInfo.runtime_env.env_vars
+  const RAY_IMAGE = jobInfo.runtime_env.env_vars ? jobInfo.runtime_env.env_vars.RAY_IMAGE : "Unknown"
 
   const status = jobInfo.status.toLowerCase()
 
