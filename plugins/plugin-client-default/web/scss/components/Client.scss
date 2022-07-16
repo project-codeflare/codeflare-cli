@@ -34,6 +34,14 @@
     }
   }
 
+  /** Note: not just HeaderName; we need to prioritize over some built-in Kui css rules */
+  @include HeaderNameContainer {
+    @include HeaderName {
+      font-size: 1.125em;
+      color: var(--color-text-01);
+    }
+  }
+
   @include HeaderName {
     width: 100%;
     justify-content: center;
