@@ -15,11 +15,15 @@
  */
 
 import open from "open"
+import { join } from "path"
 import { Choices, Profiles } from "madwizard"
 import { MenuItemConstructorOptions } from "electron"
 
 import { productName } from "@kui-shell/client/config.d/name.json"
 import { bugs, version } from "@kui-shell/client/package.json"
+
+import icon from "@kui-shell/client/icons/png/codeflareTemplate.png"
+import icon2x from "@kui-shell/client/icons/png/codeflareTemplate@2x.png"
 
 let tray: null | InstanceType<typeof import("electron").Tray> = null
 
@@ -71,10 +75,20 @@ export async function main(createWindow: (argv: string[]) => void) {
     .then(async () => {
       try {
         const { Tray } = await import("electron")
-        tray = new Tray(require.resolve("@kui-shell/build/icons/png/codeflareTemplate.png"))
 
-        tray.setToolTip(productName)
-        tray.setContextMenu(await buildContextMenu(createWindow))
+        const iconHome = process.env.CODEFLARE_HEADLESS || join(process.argv0, "../../Resources/app/dist/headless")
+        if (iconHome) {
+          // this forces webpack to include the @2x template images in
+          // the build
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const fake = "dist/headless/" + icon2x
+
+          tray = new Tray(join(iconHome, icon))
+          tray.setToolTip(productName)
+          tray.setContextMenu(await buildContextMenu(createWindow))
+        } else {
+          console.error("Cannot register electron tray menu, because CODEFLARE_HEADLESS environment variable is absent")
+        }
       } catch (err) {
         console.error("Error registering electron tray menu", err)
       }
