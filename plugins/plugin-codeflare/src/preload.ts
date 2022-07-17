@@ -14,7 +14,11 @@
  * limitations under the License.
  */
 
+import { Capabilities } from "@kui-shell/core"
+
 export default async () => {
-  const { ipcRenderer } = await import("electron")
-  import("./tray").then((_) => _.renderer(ipcRenderer))
+  if (!Capabilities.isHeadless()) {
+    const { ipcRenderer } = await import("electron")
+    import("./tray").then((_) => _.renderer(ipcRenderer))
+  }
 }
