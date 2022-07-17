@@ -16,4 +16,7 @@
 
 import { doMadwizard } from "@kui-shell/plugin-madwizard"
 
+/**
+ * Our catch-all command handler: send to madwizard.
+ */
 export default doMadwizard(true, "guide", true)
