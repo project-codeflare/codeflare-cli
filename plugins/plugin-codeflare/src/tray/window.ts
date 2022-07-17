@@ -16,13 +16,15 @@
 
 import { CreateWindowFunction } from "@kui-shell/core"
 
-/**
- * This logic will be executed in the electron-main process, and is
- * called by Kui core in response to the event issued by
- * `./tray/renderer`, whenever a new electron window opens.
- */
-export async function initTray(args: { command: string }, _: unknown, createWindow: CreateWindowFunction) {
-  if (args.command === "/tray/init") {
-    import("./tray/main").then((_) => _.default(createWindow))
-  }
+type NewWindowOptions = Parameters<CreateWindowFunction>[1]
+
+/** default new window options */
+const defaultNewWindowOptions: NewWindowOptions = {
+  width: 1280,
+  height: 800,
+}
+
+/** Overlay `base` options with the default new window options */
+export default function windowOptions(base: NewWindowOptions): NewWindowOptions {
+  return Object.assign({}, defaultNewWindowOptions, base)
 }

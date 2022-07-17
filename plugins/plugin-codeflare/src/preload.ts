@@ -16,9 +16,15 @@
 
 import { Capabilities } from "@kui-shell/core"
 
-export default async () => {
+/**
+ * This logic will be executed in the electron-renderer process, and
+ * is called by Kui core whenever a new electron window opens (and
+ * whenever a new headless process is launched; but we guard against
+ * that via `!Capabilities.isHeadless()`.
+ */
+export default async function codeflarePreload() {
   if (!Capabilities.isHeadless()) {
     const { ipcRenderer } = await import("electron")
-    import("./tray").then((_) => _.renderer(ipcRenderer))
+    import("./tray/renderer").then((_) => _.default(ipcRenderer))
   }
 }
