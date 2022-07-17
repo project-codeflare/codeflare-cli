@@ -16,34 +16,32 @@
 
 import open from "open"
 import { join } from "path"
-import { Choices, Profiles } from "madwizard"
-import { MenuItemConstructorOptions } from "electron"
+import { Menu } from "electron"
+import { CreateWindowFunction } from "@kui-shell/core"
+
+import profilesMenu from "./profiles"
 
 import { productName } from "@kui-shell/client/config.d/name.json"
 import { bugs, version } from "@kui-shell/client/package.json"
 
+// these our are tray menu icons; the electron api specifies that if
+// the files are named fooTemplate, then it will take care of
+// rendering them as a "template icon" via underlying platform apis
 import icon from "@kui-shell/client/icons/png/codeflareTemplate.png"
 import icon2x from "@kui-shell/client/icons/png/codeflareTemplate@2x.png"
 
+// we only want one tray menu, so we need to squirrel away a reference
+// somewhere
 let tray: null | InstanceType<typeof import("electron").Tray> = null
 
-function profileMenu(state: Choices.ChoiceState): MenuItemConstructorOptions {
-  return { label: state.profile.name, type: "radio" }
-}
-
-async function profilesMenu(): Promise<MenuItemConstructorOptions> {
-  const profiles = await Profiles.list({})
-
-  return { label: "Profiles", submenu: profiles.map(profileMenu) }
-}
-
-async function buildContextMenu(createWindow: (argv: string[]) => void) {
+/** @return an Electron `Menu` model for our tray menu */
+async function buildContextMenu(createWindow: CreateWindowFunction): Promise<Menu> {
   const { Menu } = await import("electron")
 
   const contextMenu = Menu.buildFromTemplate([
     { label: `CodeFlare v${version}`, click: () => createWindow([]) },
     { type: "separator" },
-    await profilesMenu(),
+    await profilesMenu(createWindow),
     { type: "separator" },
     /* {
       label: `Test new window`,
@@ -62,7 +60,13 @@ async function buildContextMenu(createWindow: (argv: string[]) => void) {
   return contextMenu
 }
 
-export async function main(createWindow: (argv: string[]) => void) {
+/**
+ * This is the logic that will be executed in the *electron-main*
+ * process for tray menu registration. This will be invoked by our
+ * `electron-main.ts`, via the `renderer` function below, which in
+ * turn is called from our `preload.ts`.
+ */
+export default async function main(createWindow: CreateWindowFunction) {
   if (tray) {
     // only register one tray menu...
     return
@@ -96,19 +100,4 @@ export async function main(createWindow: (argv: string[]) => void) {
     .catch((err) => {
       console.error("Error registering electron tray menu", err)
     })
-}
-
-export async function renderer(ipcRenderer: import("electron").IpcRenderer) {
-  if (ipcRenderer) {
-    ipcRenderer.send(
-      "/exec/invoke",
-      JSON.stringify({
-        module: "plugin-codeflare",
-        main: "initTray",
-        args: {
-          command: "/tray/init",
-        },
-      })
-    )
-  }
 }

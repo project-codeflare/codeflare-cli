@@ -41,6 +41,11 @@ export default function registerCodeflareCommands(registrar: Registrar) {
   description(registrar)
   registrar.listen("/help", help)
 
+  registrar.listen("/codeflare/guide", (args) => import("./guide").then((_) => _.default(args)), {
+    width: 1280,
+    height: 800,
+  })
+
   registrar.listen("/codeflare/get/profile", (args) => import("./profile/get").then((_) => _.default(args)), {
     needsUI: true,
   })
