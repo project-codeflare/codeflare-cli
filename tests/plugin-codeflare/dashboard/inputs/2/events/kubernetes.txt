@@ -1,0 +1,13 @@
+LAST SEEN   TYPE     REASON   OBJECT                           MESSAGE
+3h1m        Normal   Pulled   pod/nvidia-dcgm-exporter-7qs7v   Successfully pulled image "nvcr.io/nvidia/cloud-native/gpu-operator-validator@sha256:24d804e8f005d7aeca8343aa13e5f92295d8642a4c47cb24e3ac86a22543bc37" in 1m16.137927284s
+3h1m        Normal   Created   pod/nvidia-dcgm-exporter-7qs7v   Created container toolkit-validation
+3h1m        Normal   Started   pod/nvidia-dcgm-exporter-7qs7v   Started container toolkit-validation
+3h1m        Normal   Pulled    pod/nvidia-driver-daemonset-49.84.202201212103-0-zb76w   Successfully pulled image "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:89f2c3b7c078a97682d4a375d04d6e45c73099679679dd2e2487ba3632be83d7" in 29.000491244s
+3h1m        Normal   Created   pod/nvidia-driver-daemonset-49.84.202201212103-0-zb76w   Created container openshift-driver-toolkit-ctr
+3h1m        Normal   Started   pod/nvidia-driver-daemonset-49.84.202201212103-0-zb76w   Started container openshift-driver-toolkit-ctr
+3h          Normal   Scheduled   pod/mycluster-ray-head-type-jhrqg                        Successfully assigned nvidia-gpu-operator/mycluster-ray-head-type-jhrqg to ip-10-0-139-77.ec2.internal
+3h          Normal   AddedInterface   pod/mycluster-ray-head-type-jhrqg                        Add eth0 [10.129.84.16/23] from openshift-sdn
+3h          Normal   Pulled           pod/ray-operator-56f7b64d7b-wlzcb                        Successfully pulled image "rayproject/ray:1.13.0-py37" in 40.972650191s
+3h          Normal   Created          pod/ray-operator-56f7b64d7b-wlzcb                        Created container ray
+3h          Normal   Started          pod/ray-operator-56f7b64d7b-wlzcb                        Started container ray
+3h1m        Normal   Pulling          pod/mycluster-ray-head-type-jhrqg                        Pulling image "rayproject/ray-ml:1.13.0-py37-gpu"

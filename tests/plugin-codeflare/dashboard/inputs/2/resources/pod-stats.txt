@@ -1,44 +1,112 @@
-Sample 2022-07-05T19:01:15-04:00
-NAME   GPUReq   CPUReq   MemReq
-
-Sample 2022-07-05T19:01:35-04:00
+Sample 2022-07-18T12:59:00-04:00
 NAME                              GPUReq   CPUReq   MemReq
-mycluster-ray-head-type-8ptrr     <none>   1        32Gi
-mycluster-ray-worker-type-9h8mt   1        1        32Gi
-mycluster-ray-worker-type-lncm6   1        1        32Gi
-mycluster-ray-worker-type-lt59j   1        1        32Gi
-mycluster-ray-worker-type-lwbrv   1        1        32Gi
+mycluster-ray-head-type-kvqkk     <none>   1        32Gi
+mycluster-ray-worker-type-htgd6   1        1        32Gi
+mycluster-ray-worker-type-nwq8q   1        1        32Gi
+mycluster-ray-worker-type-vbblg   1        1        32Gi
+mycluster-ray-worker-type-vf2n9   1        1        32Gi
 
-Sample 2022-07-05T19:01:51-04:00
+Sample 2022-07-18T12:59:10-04:00
 NAME                              GPUReq   CPUReq   MemReq
-mycluster-ray-head-type-8ptrr     <none>   1        32Gi
-mycluster-ray-worker-type-9h8mt   1        1        32Gi
-mycluster-ray-worker-type-lncm6   1        1        32Gi
-mycluster-ray-worker-type-lt59j   1        1        32Gi
-mycluster-ray-worker-type-lwbrv   1        1        32Gi
+mycluster-ray-head-type-kvqkk     <none>   1        32Gi
+mycluster-ray-worker-type-htgd6   1        1        32Gi
+mycluster-ray-worker-type-nwq8q   1        1        32Gi
+mycluster-ray-worker-type-vbblg   1        1        32Gi
+mycluster-ray-worker-type-vf2n9   1        1        32Gi
 
-Sample 2022-07-05T19:02:06-04:00
+Sample 2022-07-18T12:59:20-04:00
 NAME                              GPUReq   CPUReq   MemReq
-mycluster-ray-head-type-8ptrr     <none>   1        32Gi
-mycluster-ray-worker-type-9h8mt   1        1        32Gi
-mycluster-ray-worker-type-lncm6   1        1        32Gi
-mycluster-ray-worker-type-lt59j   1        1        32Gi
-mycluster-ray-worker-type-lwbrv   1        1        32Gi
+mycluster-ray-head-type-kvqkk     <none>   1        32Gi
+mycluster-ray-worker-type-htgd6   1        1        32Gi
+mycluster-ray-worker-type-nwq8q   1        1        32Gi
+mycluster-ray-worker-type-vbblg   1        1        32Gi
+mycluster-ray-worker-type-vf2n9   1        1        32Gi
 
-Sample 2022-07-05T19:02:22-04:00
+Sample 2022-07-18T12:59:30-04:00
 NAME                              GPUReq   CPUReq   MemReq
-mycluster-ray-head-type-8ptrr     <none>   1        32Gi
-mycluster-ray-worker-type-9h8mt   1        1        32Gi
-mycluster-ray-worker-type-lncm6   1        1        32Gi
-mycluster-ray-worker-type-lt59j   1        1        32Gi
-mycluster-ray-worker-type-lwbrv   1        1        32Gi
+mycluster-ray-head-type-kvqkk     <none>   1        32Gi
+mycluster-ray-worker-type-htgd6   1        1        32Gi
+mycluster-ray-worker-type-nwq8q   1        1        32Gi
+mycluster-ray-worker-type-vbblg   1        1        32Gi
+mycluster-ray-worker-type-vf2n9   1        1        32Gi
 
-Sample 2022-07-05T19:02:37-04:00
+Sample 2022-07-18T12:59:40-04:00
 NAME                              GPUReq   CPUReq   MemReq
-mycluster-ray-head-type-8ptrr     <none>   1        32Gi
-mycluster-ray-worker-type-9h8mt   1        1        32Gi
-mycluster-ray-worker-type-lncm6   1        1        32Gi
-mycluster-ray-worker-type-lt59j   1        1        32Gi
-mycluster-ray-worker-type-lwbrv   1        1        32Gi
+mycluster-ray-head-type-kvqkk     <none>   1        32Gi
+mycluster-ray-worker-type-htgd6   1        1        32Gi
+mycluster-ray-worker-type-nwq8q   1        1        32Gi
+mycluster-ray-worker-type-vbblg   1        1        32Gi
+mycluster-ray-worker-type-vf2n9   1        1        32Gi
 
-Sample 2022-07-05T19:02:52-04:00
+Sample 2022-07-18T12:59:51-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-head-type-kvqkk     <none>   1        32Gi
+mycluster-ray-worker-type-htgd6   1        1        32Gi
+mycluster-ray-worker-type-nwq8q   1        1        32Gi
+mycluster-ray-worker-type-vbblg   1        1        32Gi
+mycluster-ray-worker-type-vf2n9   1        1        32Gi
+
+Sample 2022-07-18T13:00:01-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-head-type-kvqkk     <none>   1        32Gi
+mycluster-ray-worker-type-htgd6   1        1        32Gi
+mycluster-ray-worker-type-nwq8q   1        1        32Gi
+mycluster-ray-worker-type-vbblg   1        1        32Gi
+mycluster-ray-worker-type-vf2n9   1        1        32Gi
+
+Sample 2022-07-18T13:00:11-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-head-type-kvqkk     <none>   1        32Gi
+mycluster-ray-worker-type-htgd6   1        1        32Gi
+mycluster-ray-worker-type-nwq8q   1        1        32Gi
+mycluster-ray-worker-type-vbblg   1        1        32Gi
+mycluster-ray-worker-type-vf2n9   1        1        32Gi
+
+Sample 2022-07-18T13:00:21-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-head-type-kvqkk     <none>   1        32Gi
+mycluster-ray-worker-type-htgd6   1        1        32Gi
+mycluster-ray-worker-type-nwq8q   1        1        32Gi
+mycluster-ray-worker-type-vbblg   1        1        32Gi
+mycluster-ray-worker-type-vf2n9   1        1        32Gi
+
+Sample 2022-07-18T13:00:31-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-head-type-kvqkk     <none>   1        32Gi
+mycluster-ray-worker-type-htgd6   1        1        32Gi
+mycluster-ray-worker-type-nwq8q   1        1        32Gi
+mycluster-ray-worker-type-vbblg   1        1        32Gi
+mycluster-ray-worker-type-vf2n9   1        1        32Gi
+
+Sample 2022-07-18T13:00:41-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-head-type-kvqkk     <none>   1        32Gi
+mycluster-ray-worker-type-htgd6   1        1        32Gi
+mycluster-ray-worker-type-nwq8q   1        1        32Gi
+mycluster-ray-worker-type-vbblg   1        1        32Gi
+mycluster-ray-worker-type-vf2n9   1        1        32Gi
+
+Sample 2022-07-18T13:00:52-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-head-type-kvqkk     <none>   1        32Gi
+mycluster-ray-worker-type-htgd6   1        1        32Gi
+mycluster-ray-worker-type-nwq8q   1        1        32Gi
+mycluster-ray-worker-type-vbblg   1        1        32Gi
+mycluster-ray-worker-type-vf2n9   1        1        32Gi
+
+Sample 2022-07-18T13:01:02-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-head-type-kvqkk     <none>   1        32Gi
+mycluster-ray-worker-type-htgd6   1        1        32Gi
+mycluster-ray-worker-type-nwq8q   1        1        32Gi
+mycluster-ray-worker-type-vbblg   1        1        32Gi
+mycluster-ray-worker-type-vf2n9   1        1        32Gi
+
+Sample 2022-07-18T13:01:12-04:00
+NAME                              GPUReq   CPUReq   MemReq
+mycluster-ray-head-type-kvqkk     <none>   1        32Gi
+mycluster-ray-worker-type-htgd6   1        1        32Gi
+mycluster-ray-worker-type-nwq8q   1        1        32Gi
+mycluster-ray-worker-type-vbblg   1        1        32Gi
+mycluster-ray-worker-type-vf2n9   1        1        32Gi
+
