@@ -1,0 +1,20 @@
+LAST SEEN   TYPE     REASON              OBJECT                    MESSAGE
+0s          Normal   ScalingReplicaSet   deployment/ray-operator   Scaled up replica set ray-operator-56f7b64d7b to 1
+0s          Normal   SuccessfulCreate    replicaset/ray-operator-56f7b64d7b   Created pod: ray-operator-56f7b64d7b-dkwcc
+0s          Normal   Scheduled           pod/ray-operator-56f7b64d7b-dkwcc    Successfully assigned nvidia-gpu-operator/ray-operator-56f7b64d7b-dkwcc to ip-10-0-135-114.ec2.internal
+0s          Normal   AddedInterface      pod/ray-operator-56f7b64d7b-dkwcc    Add eth0 [10.130.82.53/23] from openshift-sdn
+0s          Normal   Pulled              pod/ray-operator-56f7b64d7b-dkwcc    Container image "rayproject/ray:1.13.0-py37" already present on machine
+0s          Normal   Created             pod/ray-operator-56f7b64d7b-dkwcc    Created container ray
+0s          Normal   Started             pod/ray-operator-56f7b64d7b-dkwcc    Started container ray
+0s          Normal   Scheduled           pod/mycluster-ray-head-type-2s9nz    Successfully assigned nvidia-gpu-operator/mycluster-ray-head-type-2s9nz to ip-10-0-135-114.ec2.internal
+0s          Normal   AddedInterface      pod/mycluster-ray-head-type-2s9nz    Add eth0 [10.130.82.54/23] from openshift-sdn
+0s          Normal   Pulling             pod/mycluster-ray-head-type-2s9nz    Pulling image "rayproject/ray-ml:1.13.0-py37-gpu"
+0s          Normal   Pulled              pod/mycluster-ray-head-type-2s9nz    Successfully pulled image "rayproject/ray-ml:1.13.0-py37-gpu" in 5m31.366599351s
+0s          Normal   Created             pod/mycluster-ray-head-type-2s9nz    Created container ray-node
+0s          Normal   Started             pod/mycluster-ray-head-type-2s9nz    Started container ray-node
+0s          Normal   Scheduled           pod/mycluster-ray-worker-type-p2s6h   Successfully assigned nvidia-gpu-operator/mycluster-ray-worker-type-p2s6h to ip-10-0-130-229.ec2.internal
+0s          Normal   AddedInterface      pod/mycluster-ray-worker-type-p2s6h   Add eth0 [10.129.82.19/23] from openshift-sdn
+0s          Normal   Pulling             pod/mycluster-ray-worker-type-p2s6h   Pulling image "rayproject/ray-ml:1.13.0-py37-gpu"
+0s          Normal   Pulled              pod/mycluster-ray-worker-type-p2s6h   Successfully pulled image "rayproject/ray-ml:1.13.0-py37-gpu" in 5m25.620794291s
+0s          Normal   Created             pod/mycluster-ray-worker-type-p2s6h   Created container ray-node
+0s          Normal   Started             pod/mycluster-ray-worker-type-p2s6h   Started container ray-node
