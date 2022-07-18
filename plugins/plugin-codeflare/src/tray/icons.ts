@@ -16,8 +16,6 @@
 
 /** Icon set for the tray menu items */
 
-import { nativeImage } from "electron"
-
 import profile from "@kui-shell/client/icons/png/profileTemplate.png"
 import bug from "@kui-shell/client/icons/png/bugTemplate.png"
 import powerOff from "@kui-shell/client/icons/png/powerOffTemplate.png"
@@ -28,12 +26,13 @@ import { join } from "path"
 
 const iconHome = process.env.CODEFLARE_HEADLESS || join(process.argv0, "../../Resources/app/dist/headless")
 
-export const profileIcon = nativeImage.createFromPath(join(iconHome, profile)).resize({ width: 10 })
+/** Resize and templatize, so that the icon morphs with platform color themes */
+function iconFor(filepath: string) {
+  return join(iconHome, filepath)
+}
 
-export const bugIcon = nativeImage.createFromPath(join(iconHome, bug)).resize({ width: 10 })
-
-export const powerOffIcon = nativeImage.createFromPath(join(iconHome, powerOff)).resize({ width: 10 })
-
-export const bootIcon = nativeImage.createFromPath(join(iconHome, play)).resize({ width: 10 })
-
-export const shutDownIcon = nativeImage.createFromPath(join(iconHome, stop)).resize({ width: 10 })
+export const profileIcon = iconFor(profile)
+export const bugIcon = iconFor(bug)
+export const powerOffIcon = iconFor(powerOff)
+export const bootIcon = iconFor(play)
+export const shutDownIcon = iconFor(stop)
