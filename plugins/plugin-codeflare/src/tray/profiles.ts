@@ -19,6 +19,7 @@ import { MenuItemConstructorOptions } from "electron"
 import { CreateWindowFunction } from "@kui-shell/core"
 
 import windowOptions from "./window"
+import { profileIcon, bootIcon, shutDownIcon } from "./icons"
 
 /** Handler for booting up a profile */
 async function boot(profile: string, createWindow: CreateWindowFunction) {
@@ -44,8 +45,8 @@ function submenuForOneProfile(
   return {
     label: state.profile.name,
     submenu: [
-      { label: "Boot", click: () => boot(state.profile.name, createWindow) },
-      { label: "Shutdown", click: () => shutdown(state.profile.name, createWindow) },
+      { label: "Boot", icon: bootIcon, click: () => boot(state.profile.name, createWindow) },
+      { label: "Shutdown", icon: shutDownIcon, click: () => shutdown(state.profile.name, createWindow) },
     ],
   }
 }
@@ -54,5 +55,5 @@ function submenuForOneProfile(
 export default async function profilesMenu(createWindow: CreateWindowFunction): Promise<MenuItemConstructorOptions> {
   const profiles = await Profiles.list({})
 
-  return { label: "Profiles", submenu: profiles.map((_) => submenuForOneProfile(_, createWindow)) }
+  return { label: "Profiles", icon: profileIcon, submenu: profiles.map((_) => submenuForOneProfile(_, createWindow)) }
 }

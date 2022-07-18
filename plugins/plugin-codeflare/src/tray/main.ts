@@ -20,6 +20,7 @@ import { Menu } from "electron"
 import { CreateWindowFunction } from "@kui-shell/core"
 
 import profilesMenu from "./profiles"
+import { bugIcon, powerOffIcon } from "./icons"
 
 import { productName } from "@kui-shell/client/config.d/name.json"
 import { bugs, version } from "@kui-shell/client/package.json"
@@ -53,8 +54,8 @@ async function buildContextMenu(createWindow: CreateWindowFunction): Promise<Men
         }
       },
     }, */
-    { label: `Report a Bug`, click: () => open(bugs.url) },
-    { label: `Quit ${productName}`, role: "quit" },
+    { label: `Report a Bug`, icon: bugIcon, click: () => open(bugs.url) },
+    { label: `Quit ${productName}`, icon: powerOffIcon, role: "quit" },
   ])
 
   return contextMenu
