@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import { basename } from "path"
+import { productName } from "@kui-shell/client/config.d/name.json"
 import { Arguments, CommandOptions, Registrar, encodeComponent, unparse } from "@kui-shell/core"
 
 import "../../web/scss/components/Dashboard/_index.scss"
@@ -74,6 +76,7 @@ export default function registerDashboardCommands(registrar: Registrar) {
     needsUI: true,
     outputOnly: true,
     flags,
+    title: (argv: string[]) => productName + " Dashboard: " + basename(argv[2]),
     width,
     height,
   })
