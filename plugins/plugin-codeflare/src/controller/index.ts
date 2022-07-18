@@ -41,6 +41,8 @@ export default function registerCodeflareCommands(registrar: Registrar) {
   description(registrar)
   registrar.listen("/help", help)
 
+  registrar.listen("/codeflare/version", () => import("@kui-shell/client/package.json").then((_) => _.version))
+
   registrar.listen("/codeflare/guide", (args) => import("./guide").then((_) => _.default(args)), {
     width: 1280,
     height: 800,
