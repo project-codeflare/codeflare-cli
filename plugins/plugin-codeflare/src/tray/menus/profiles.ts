@@ -18,8 +18,8 @@ import { Choices, Profiles } from "madwizard"
 import { MenuItemConstructorOptions } from "electron"
 import { CreateWindowFunction } from "@kui-shell/core"
 
-import windowOptions from "./window"
-import { profileIcon, bootIcon, shutDownIcon } from "./icons"
+import windowOptions from "../window"
+import { profileIcon, bootIcon, shutDownIcon } from "../icons"
 
 /** Handler for booting up a profile */
 async function boot(profile: string, createWindow: CreateWindowFunction) {

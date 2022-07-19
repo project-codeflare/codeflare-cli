@@ -14,16 +14,11 @@
  * limitations under the License.
  */
 
-import open from "open"
 import { join } from "path"
-import { Menu } from "electron"
 import { CreateWindowFunction } from "@kui-shell/core"
 
-import profilesMenu from "./profiles"
-import { bugIcon, powerOffIcon } from "./icons"
-
+import buildContextMenu from "./menus"
 import { productName } from "@kui-shell/client/config.d/name.json"
-import { bugs, version } from "@kui-shell/client/package.json"
 
 // these our are tray menu icons; the electron api specifies that if
 // the files are named fooTemplate, then it will take care of
@@ -34,32 +29,6 @@ import icon2x from "@kui-shell/client/icons/png/codeflareTemplate@2x.png"
 // we only want one tray menu, so we need to squirrel away a reference
 // somewhere
 let tray: null | InstanceType<typeof import("electron").Tray> = null
-
-/** @return an Electron `Menu` model for our tray menu */
-async function buildContextMenu(createWindow: CreateWindowFunction): Promise<Menu> {
-  const { Menu } = await import("electron")
-
-  const contextMenu = Menu.buildFromTemplate([
-    { label: `CodeFlare v${version}`, click: () => createWindow([]) },
-    { type: "separator" },
-    await profilesMenu(createWindow),
-    { type: "separator" },
-    /* {
-      label: `Test new window`,
-      click: async () => {
-        try {
-          createWindow(["echo", "hello"])
-        } catch (err) {
-          console.error(err)
-        }
-      },
-    }, */
-    { label: `Report a Bug`, icon: bugIcon, click: () => open(bugs.url) },
-    { label: `Quit ${productName}`, icon: powerOffIcon, role: "quit" },
-  ])
-
-  return contextMenu
-}
 
 /**
  * This is the logic that will be executed in the *electron-main*
