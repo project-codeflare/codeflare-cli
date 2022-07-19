@@ -32,9 +32,9 @@ export default async function buildContextMenu(createWindow: CreateWindowFunctio
     await profilesMenu(createWindow),
     { type: "separator" },
     { label: `Version ${version}`, enabled: false },
-    { label: `Report a Bug`, icon: bugIcon, click: () => import("open").then((_) => _.default(bugs.url)) },
     { label: `About CodeFlare`, click: () => import("open").then((_) => _.default(homepage)) },
     { type: "separator" },
+    { label: `Report a Bug`, icon: bugIcon, click: () => import("open").then((_) => _.default(bugs.url)) },
     { label: `Quit ${productName}`, icon: powerOffIcon, role: "quit" },
   ])
 
