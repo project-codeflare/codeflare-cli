@@ -34,7 +34,7 @@ export default function guide(args: Arguments) {
     encodeComponent(process.env.CODEFLARE_HEADLESS + "/codeflare.min.js") +
     " -- " +
     args.command.replace(/--type=renderer/, "").replace(/^codeflare\s+guide/, "codeflare") +
-    " -a"
+    " -y" // run in non-interactive mode (-y is short for --yes)
 
   if (!args.execOptions.env) {
     args.execOptions.env = {}
