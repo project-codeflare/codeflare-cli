@@ -19,7 +19,11 @@ import { MadWizardOptions } from "madwizard"
 import { Arguments, encodeComponent } from "@kui-shell/core"
 
 export default async function attach(args: Arguments) {
-  const options: MadWizardOptions = { store: process.env.GUIDEBOOK_STORE, clean: false }
+  const options: MadWizardOptions = {
+    store: process.env.GUIDEBOOK_STORE,
+    clean: false,
+    interactive: args.parsedOptions.i || !args.parsedOptions.y,
+  }
 
   // TODO: update madwizard to accept env in the options
   process.env.NO_WAIT = "true" // don't wait for job termination
