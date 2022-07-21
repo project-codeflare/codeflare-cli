@@ -33,7 +33,7 @@ export default async function buildContextMenu(
   const contextMenu = Menu.buildFromTemplate([
     { label: `Open CodeFlare`, click: () => createWindow([]) },
     { type: "separator" },
-    await profilesMenu(createWindow, updateFn),
+    ...(await profilesMenu(createWindow, updateFn)),
     { type: "separator" },
     { label: `Version ${version}`, enabled: false },
     { label: `About CodeFlare`, click: () => import("open").then((_) => _.default(homepage)) },

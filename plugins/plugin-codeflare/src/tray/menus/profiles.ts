@@ -21,7 +21,7 @@ import { CreateWindowFunction } from "@kui-shell/core"
 import UpdateFunction from "../update"
 import windowOptions from "../window"
 import { profileIcon, bootIcon, shutDownIcon } from "../icons"
-import { RUNS_ERROR, submenuForRuns, readRunsDir } from "./runs"
+import submenuForRuns from "./runs"
 
 import ProfileStatusWatcher from "../watchers/profile/status"
 
@@ -44,16 +44,11 @@ async function shutdown(profile: string, createWindow: CreateWindowFunction) {
 const watchers: Record<string, ProfileStatusWatcher> = {}
 
 /** @return a menu for the given profile */
-function submenuForOneProfile(
+async function submenuForOneProfile(
   state: Choices.ChoiceState,
   createWindow: CreateWindowFunction,
-  runs: string[],
   updateFunction: UpdateFunction
-): MenuItemConstructorOptions {
-  const isRunsSubMenu =
-    runs.length && runs[0] !== RUNS_ERROR
-      ? { label: "Runs", submenu: submenuForRuns(createWindow, runs) }
-      : { label: RUNS_ERROR }
+): Promise<MenuItemConstructorOptions> {
   if (!watchers[state.profile.name]) {
     watchers[state.profile.name] = new ProfileStatusWatcher(state.profile.name, updateFunction)
   }
@@ -61,6 +56,7 @@ function submenuForOneProfile(
 
   return {
     label: state.profile.name,
+    icon: profileIcon,
     submenu: [
       watcher.head,
       watcher.workers,
@@ -68,7 +64,7 @@ function submenuForOneProfile(
       { label: "Boot", icon: bootIcon, click: () => boot(state.profile.name, createWindow) },
       { label: "Shutdown", icon: shutDownIcon, click: () => shutdown(state.profile.name, createWindow) },
       { type: "separator" },
-      isRunsSubMenu,
+      ...(await submenuForRuns(createWindow)),
     ],
   }
 }
@@ -77,13 +73,14 @@ function submenuForOneProfile(
 export default async function profilesMenu(
   createWindow: CreateWindowFunction,
   updateFn: UpdateFunction
-): Promise<MenuItemConstructorOptions> {
+): Promise<MenuItemConstructorOptions[]> {
   const profiles = await Profiles.list({})
-  const runs = await readRunsDir()
 
-  return {
-    label: "Profiles",
-    icon: profileIcon,
-    submenu: profiles.map((_) => submenuForOneProfile(_, createWindow, runs, updateFn)),
-  }
+  return [
+    {
+      label: "Profiles",
+      enabled: false,
+    },
+    ...(await Promise.all(profiles.map((_) => submenuForOneProfile(_, createWindow, updateFn)))),
+  ]
 }
