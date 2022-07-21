@@ -18,14 +18,17 @@ import { Choices, Profiles } from "madwizard"
 import { MenuItemConstructorOptions } from "electron"
 import { CreateWindowFunction } from "@kui-shell/core"
 
+import UpdateFunction from "../update"
 import windowOptions from "../window"
 import { profileIcon, bootIcon, shutDownIcon } from "../icons"
 import { RUNS_ERROR, submenuForRuns, readRunsDir } from "./runs"
 
+import ProfileStatusWatcher from "../watchers/profile/status"
+
 /** Handler for booting up a profile */
 async function boot(profile: string, createWindow: CreateWindowFunction) {
   createWindow(
-    ["codeflare", "guide", "ml/ray/start/kubernetes", "--profile", profile],
+    ["codeflare", "gui", "guide", "ml/ray/start/kubernetes", "--profile", profile],
     windowOptions({ title: "Booting " + profile })
   )
 }
@@ -33,24 +36,35 @@ async function boot(profile: string, createWindow: CreateWindowFunction) {
 /** Handler for shutting down a profile */
 async function shutdown(profile: string, createWindow: CreateWindowFunction) {
   createWindow(
-    ["codeflare", "guide", "ml/ray/stop/kubernetes", "--profile", profile],
+    ["codeflare", "gui", "guide", "ml/ray/stop/kubernetes", "--profile", profile],
     windowOptions({ title: "Shutting down " + profile })
   )
 }
+
+const watchers: Record<string, ProfileStatusWatcher> = {}
 
 /** @return a menu for the given profile */
 function submenuForOneProfile(
   state: Choices.ChoiceState,
   createWindow: CreateWindowFunction,
-  runs: string[]
+  runs: string[],
+  updateFunction: UpdateFunction
 ): MenuItemConstructorOptions {
   const isRunsSubMenu =
     runs.length && runs[0] !== RUNS_ERROR
       ? { label: "Runs", submenu: submenuForRuns(createWindow, runs) }
       : { label: RUNS_ERROR }
+  if (!watchers[state.profile.name]) {
+    watchers[state.profile.name] = new ProfileStatusWatcher(state.profile.name, updateFunction)
+  }
+  const watcher = watchers[state.profile.name]
+
   return {
     label: state.profile.name,
     submenu: [
+      watcher.head,
+      watcher.workers,
+      { type: "separator" },
       { label: "Boot", icon: bootIcon, click: () => boot(state.profile.name, createWindow) },
       { label: "Shutdown", icon: shutDownIcon, click: () => shutdown(state.profile.name, createWindow) },
       { type: "separator" },
@@ -60,13 +74,16 @@ function submenuForOneProfile(
 }
 
 /** @return a menu for all profiles */
-export default async function profilesMenu(createWindow: CreateWindowFunction): Promise<MenuItemConstructorOptions> {
+export default async function profilesMenu(
+  createWindow: CreateWindowFunction,
+  updateFn: UpdateFunction
+): Promise<MenuItemConstructorOptions> {
   const profiles = await Profiles.list({})
   const runs = await readRunsDir()
 
   return {
     label: "Profiles",
     icon: profileIcon,
-    submenu: profiles.map((_) => submenuForOneProfile(_, createWindow, runs)),
+    submenu: profiles.map((_) => submenuForOneProfile(_, createWindow, runs, updateFn)),
   }
 }
