@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { MenuItemConstructorOptions } from "electron"
-import { Profiles } from "madwizard"
-import { CreateWindowFunction } from "@kui-shell/core"
-import { readdir } from "fs/promises"
 import { join } from "path"
+import { readdir } from "fs/promises"
+import { Profiles } from "madwizard"
+import { MenuItemConstructorOptions } from "electron"
+import { CreateWindowFunction } from "@kui-shell/core"
 
-import windowOptions from "../window"
+import windowOptions from "../../window"
 
 export const RUNS_ERROR = "No runs found"
 
