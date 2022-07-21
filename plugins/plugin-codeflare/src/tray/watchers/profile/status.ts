@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import Debug from "debug"
 import { spawn } from "child_process"
 import { encodeComponent } from "@kui-shell/core"
 
@@ -60,13 +61,13 @@ export default class ProfileStatusWatcher {
       try {
         process.kill(-job.pid) // kill the process group e.g. for pipes
       } catch (err) {
-        console.error("error killing process group " + -job.pid, err)
+        Debug("codeflare")("error killing process group " + -job.pid, err)
       }
 
       try {
         job.kill()
       } catch (err) {
-        console.error("error killing process " + job.pid, err)
+        Debug("codeflare")("error killing process " + job.pid, err)
       }
     })
 
