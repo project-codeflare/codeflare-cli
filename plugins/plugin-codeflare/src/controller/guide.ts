@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
+import { Arguments } from "@kui-shell/core"
 import { doExecWithPty } from "@kui-shell/plugin-bash-like"
 import { setTabReadonly } from "@kui-shell/plugin-madwizard"
-import { Arguments, encodeComponent } from "@kui-shell/core"
+
+import respawnCommand from "./respawn"
 
 /**
  * Entrypoint for madwizard tasks from tray.ts. We could improve the
@@ -28,23 +30,12 @@ import { Arguments, encodeComponent } from "@kui-shell/core"
 export default function guide(args: Arguments) {
   setTabReadonly(args)
 
-  args.command = args.command =
-    encodeComponent(process.argv[0]) +
-    " " +
-    encodeComponent(process.env.CODEFLARE_HEADLESS + "/codeflare.min.js") +
-    " -- " +
-    args.command.replace(/--type=renderer/, "").replace(/^codeflare\s+guide/, "codeflare") +
-    " -y" // run in non-interactive mode (-y is short for --yes)
+  const { argv, env } = respawnCommand(
+    args.command.replace(/--type=renderer/, "").replace(/^codeflare\s+gui\s+guide/, "codeflare") + " -y" // run in non-interactive mode (-y is short for --yes)
+  )
 
-  if (!args.execOptions.env) {
-    args.execOptions.env = {}
-  }
-
-  // not super important logic
-  args.execOptions.env.KUI_HEADLESS_WEBPACK = "true"
-  args.execOptions.env.ELECTRON_RUN_AS_NODE = "true"
-  args.execOptions.env.KUI_HEADLESS = "true"
-  args.execOptions.env.KUI_S3 = "false"
+  args.command = argv.join(" ")
+  args.execOptions.env = env
 
   return doExecWithPty(args)
 }

@@ -30,6 +30,20 @@ import icon2x from "@kui-shell/client/icons/png/codeflareTemplate@2x.png"
 // somewhere
 let tray: null | InstanceType<typeof import("electron").Tray> = null
 
+class LiveMenu {
+  public constructor(
+    private readonly tray: import("electron").Tray,
+    private readonly createWindow: CreateWindowFunction
+  ) {
+    this.render()
+  }
+
+  public async render() {
+    this.tray.setToolTip(productName)
+    this.tray.setContextMenu(await buildContextMenu(this.createWindow, this.render.bind(this)))
+  }
+}
+
 /**
  * This is the logic that will be executed in the *electron-main*
  * process for tray menu registration. This will be invoked by our
@@ -58,8 +72,7 @@ export default async function main(createWindow: CreateWindowFunction) {
           const fake = "dist/headless/" + icon2x
 
           tray = new Tray(join(iconHome, icon))
-          tray.setToolTip(productName)
-          tray.setContextMenu(await buildContextMenu(createWindow))
+          new LiveMenu(tray, createWindow)
         } else {
           console.error("Cannot register electron tray menu, because CODEFLARE_HEADLESS environment variable is absent")
         }

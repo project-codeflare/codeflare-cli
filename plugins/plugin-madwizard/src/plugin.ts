@@ -72,7 +72,7 @@ export function doMadwizard(
         ],
         undefined,
         {
-          store: process.env.GUIDEBOOK_STORE,
+          store: parsedOptions.s || process.env.GUIDEBOOK_STORE,
           verbose: parsedOptions.V,
           interactive: parsedOptions.i || !parsedOptions.y,
         }

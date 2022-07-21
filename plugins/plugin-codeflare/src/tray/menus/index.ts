@@ -20,16 +20,20 @@ import { productName } from "@kui-shell/client/config.d/name.json"
 import { bugs, homepage, version } from "@kui-shell/client/package.json"
 
 import profilesMenu from "./profiles"
+import UpdateFunction from "../update"
 import { bugIcon, powerOffIcon } from "../icons"
 
 /** @return an Electron `Menu` model for our tray menu */
-export default async function buildContextMenu(createWindow: CreateWindowFunction): Promise<import("electron").Menu> {
+export default async function buildContextMenu(
+  createWindow: CreateWindowFunction,
+  updateFn: UpdateFunction
+): Promise<import("electron").Menu> {
   const { Menu } = await import("electron")
 
   const contextMenu = Menu.buildFromTemplate([
     { label: `Open CodeFlare`, click: () => createWindow([]) },
     { type: "separator" },
-    await profilesMenu(createWindow),
+    await profilesMenu(createWindow, updateFn),
     { type: "separator" },
     { label: `Version ${version}`, enabled: false },
     { label: `About CodeFlare`, click: () => import("open").then((_) => _.default(homepage)) },
