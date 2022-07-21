@@ -18,28 +18,14 @@ import { Choices, Profiles } from "madwizard"
 import { MenuItemConstructorOptions } from "electron"
 import { CreateWindowFunction } from "@kui-shell/core"
 
-import UpdateFunction from "../update"
-import windowOptions from "../window"
-import { profileIcon, bootIcon, shutDownIcon } from "../icons"
+import boot from "./boot"
+import shutdown from "./shutdown"
 import submenuForRuns from "./runs"
 
-import ProfileStatusWatcher from "../watchers/profile/status"
+import UpdateFunction from "../../update"
+import { profileIcon } from "../../icons"
 
-/** Handler for booting up a profile */
-async function boot(profile: string, createWindow: CreateWindowFunction) {
-  createWindow(
-    ["codeflare", "gui", "guide", "ml/ray/start/kubernetes", "--profile", profile],
-    windowOptions({ title: "Booting " + profile })
-  )
-}
-
-/** Handler for shutting down a profile */
-async function shutdown(profile: string, createWindow: CreateWindowFunction) {
-  createWindow(
-    ["codeflare", "gui", "guide", "ml/ray/stop/kubernetes", "--profile", profile],
-    windowOptions({ title: "Shutting down " + profile })
-  )
-}
+import ProfileStatusWatcher from "../../watchers/profile/status"
 
 const watchers: Record<string, ProfileStatusWatcher> = {}
 
@@ -58,11 +44,12 @@ async function submenuForOneProfile(
     label: state.profile.name,
     icon: profileIcon,
     submenu: [
+      boot(state.profile.name, createWindow),
+      shutdown(state.profile.name, createWindow),
+      { type: "separator" },
+      { label: "Status", enabled: false },
       watcher.head,
       watcher.workers,
-      { type: "separator" },
-      { label: "Boot", icon: bootIcon, click: () => boot(state.profile.name, createWindow) },
-      { label: "Shutdown", icon: shutDownIcon, click: () => shutdown(state.profile.name, createWindow) },
       { type: "separator" },
       ...(await submenuForRuns(createWindow)),
     ],
