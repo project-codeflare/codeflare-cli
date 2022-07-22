@@ -32,6 +32,7 @@ export default function respawnCommand(cmdline: string | string[]) {
       ELECTRON_RUN_AS_NODE: "true",
       GUIDEBOOK_STORE: process.env.GUIDEBOOK_STORE || "",
       DEBUG: process.env.DEBUG || "",
+      HOME: process.env.HOME || "",
       PATH: process.env.PATH || "",
       KUBECONFIG: process.env.KUBECONFIG || "",
     },
