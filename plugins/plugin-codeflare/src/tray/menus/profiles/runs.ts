@@ -61,8 +61,5 @@ export default async function submenuForRuns(
 ): Promise<MenuItemConstructorOptions[]> {
   const runs = await readRunsDir(profile)
 
-  return [
-    { label: "Recent Runs", enabled: false },
-    ...(runs.length && runs[0] !== RUNS_ERROR ? runMenuItems(profile, createWindow, runs) : [{ label: RUNS_ERROR }]),
-  ]
+  return runs.length && runs[0] !== RUNS_ERROR ? runMenuItems(profile, createWindow, runs) : [{ label: RUNS_ERROR }]
 }
