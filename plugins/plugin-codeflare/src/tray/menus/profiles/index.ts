@@ -18,10 +18,12 @@ import { Profiles } from "madwizard"
 import { MenuItemConstructorOptions } from "electron"
 import { CreateWindowFunction } from "@kui-shell/core"
 
+import runs from "./runs"
 import boot from "./boot"
 import shutdown from "./shutdown"
-import runs from "./runs"
+import dashboards from "./dashboards"
 
+import section from "../section"
 import UpdateFunction from "../../update"
 import { profileIcon } from "../../icons"
 import ProfileStatusWatcher from "../../watchers/profile/status"
@@ -36,27 +38,26 @@ function status(profile: string, updateFunction: UpdateFunction) {
   }
   const watcher = watchers[profile]
 
-  return [{ label: "Status", enabled: false }, watcher.head, watcher.workers]
+  return [watcher.head, watcher.workers]
 }
 
 /** @return a menu for the given `profile` */
 async function profileMenu(
-  profile: string,
+  profileObj: Profiles.Profile,
   createWindow: CreateWindowFunction,
   updateFunction: UpdateFunction
 ): Promise<MenuItemConstructorOptions> {
+  const profile = profileObj.name
+
   return {
     label: profile,
     icon: profileIcon,
     submenu: [
       boot(profile, createWindow),
       shutdown(profile, createWindow),
-
-      { type: "separator" },
-      ...status(profile, updateFunction),
-
-      { type: "separator" },
-      ...(await runs(profile, createWindow)),
+      ...section("Status", status(profile, updateFunction), true),
+      ...section("Dashboards", dashboards(profile, createWindow), true),
+      ...section("Recent Runs", await runs(profile, createWindow), true),
     ],
   }
 }
@@ -66,13 +67,13 @@ export default async function profilesMenu(
   createWindow: CreateWindowFunction,
   updateFn: UpdateFunction
 ): Promise<MenuItemConstructorOptions[]> {
-  const profiles = await Profiles.list({})
+  // this will be a list of menu items, one per profile, and sorted by
+  // profile name
+  const profiles = await Promise.all(
+    (await Profiles.list({}))
+      .sort((a, b) => a.profile.name.localeCompare(b.profile.name))
+      .map((_) => profileMenu(_.profile, createWindow, updateFn))
+  )
 
-  return [
-    {
-      label: "Profiles",
-      enabled: false,
-    },
-    ...(await Promise.all(profiles.map((_) => profileMenu(_.profile.name, createWindow, updateFn)))),
-  ]
+  return section("Profiles", profiles)
 }
