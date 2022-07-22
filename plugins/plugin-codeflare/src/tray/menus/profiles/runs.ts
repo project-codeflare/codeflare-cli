@@ -25,8 +25,8 @@ import windowOptions from "../../window"
 export const RUNS_ERROR = "No runs found"
 
 /** @return a new Window with a dashboard of the selected job run */
-function openRun(runId: string, createWindow: CreateWindowFunction) {
-  const runsDir = Profiles.guidebookJobDataPath({})
+function openRun(profile: string, runId: string, createWindow: CreateWindowFunction) {
+  const runsDir = Profiles.guidebookJobDataPath({ profile })
   createWindow(
     ["codeflare", "dashboard", join(runsDir, runId)],
     windowOptions({ title: "CodeFlare Dashboard: " + runId })
@@ -34,27 +34,35 @@ function openRun(runId: string, createWindow: CreateWindowFunction) {
 }
 
 /** @return files of the directory of job runs for a given profile */
-async function readRunsDir(): Promise<string[]> {
+async function readRunsDir(profile: string): Promise<string[]> {
   try {
-    const runsDir = Profiles.guidebookJobDataPath({})
-    return await readdir(runsDir)
+    // TODO do a "full" read with Dirents, so that we have filesystem
+    // timestamps, and sort, so that the `.slice(0, 10)` below pulls
+    // out the most recent runs
+    return await readdir(Profiles.guidebookJobDataPath({ profile }))
   } catch (err) {
     return [RUNS_ERROR]
   }
 }
 
 /** @return a menu for all runs of a profile */
-export function runMenuItems(createWindow: CreateWindowFunction, runs: string[]): MenuItemConstructorOptions[] {
-  return runs.map((run) => ({ label: run, click: () => openRun(run, createWindow) }))
+export function runMenuItems(
+  profile: string,
+  createWindow: CreateWindowFunction,
+  runs: string[]
+): MenuItemConstructorOptions[] {
+  return runs.slice(0, 10).map((run) => ({ label: run, click: () => openRun(profile, run, createWindow) }))
 }
 
+/** @return menu items for the runs of the given profile */
 export default async function submenuForRuns(
+  profile: string,
   createWindow: CreateWindowFunction
 ): Promise<MenuItemConstructorOptions[]> {
-  const runs = await readRunsDir()
+  const runs = await readRunsDir(profile)
 
   return [
     { label: "Recent Runs", enabled: false },
-    ...(runs.length && runs[0] !== RUNS_ERROR ? runMenuItems(createWindow, runs) : [{ label: RUNS_ERROR }]),
+    ...(runs.length && runs[0] !== RUNS_ERROR ? runMenuItems(profile, createWindow, runs) : [{ label: RUNS_ERROR }]),
   ]
 }

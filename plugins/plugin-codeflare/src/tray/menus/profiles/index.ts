@@ -14,44 +14,49 @@
  * limitations under the License.
  */
 
-import { Choices, Profiles } from "madwizard"
+import { Profiles } from "madwizard"
 import { MenuItemConstructorOptions } from "electron"
 import { CreateWindowFunction } from "@kui-shell/core"
 
 import boot from "./boot"
 import shutdown from "./shutdown"
-import submenuForRuns from "./runs"
+import runs from "./runs"
 
 import UpdateFunction from "../../update"
 import { profileIcon } from "../../icons"
-
 import ProfileStatusWatcher from "../../watchers/profile/status"
 
+/** Memo of `ProfileStatusWatcher`, keyed by profile name */
 const watchers: Record<string, ProfileStatusWatcher> = {}
 
-/** @return a menu for the given profile */
-async function submenuForOneProfile(
-  state: Choices.ChoiceState,
+/** @return menu items for the status of the given `profile` */
+function status(profile: string, updateFunction: UpdateFunction) {
+  if (!watchers[profile]) {
+    watchers[profile] = new ProfileStatusWatcher(profile, updateFunction)
+  }
+  const watcher = watchers[profile]
+
+  return [{ label: "Status", enabled: false }, watcher.head, watcher.workers]
+}
+
+/** @return a menu for the given `profile` */
+async function profileMenu(
+  profile: string,
   createWindow: CreateWindowFunction,
   updateFunction: UpdateFunction
 ): Promise<MenuItemConstructorOptions> {
-  if (!watchers[state.profile.name]) {
-    watchers[state.profile.name] = new ProfileStatusWatcher(state.profile.name, updateFunction)
-  }
-  const watcher = watchers[state.profile.name]
-
   return {
-    label: state.profile.name,
+    label: profile,
     icon: profileIcon,
     submenu: [
-      boot(state.profile.name, createWindow),
-      shutdown(state.profile.name, createWindow),
+      boot(profile, createWindow),
+      shutdown(profile, createWindow),
+
       { type: "separator" },
-      { label: "Status", enabled: false },
-      watcher.head,
-      watcher.workers,
+      ...status(profile, updateFunction),
+
       { type: "separator" },
-      ...(await submenuForRuns(createWindow)),
+      ...(await runs(profile, createWindow)),
     ],
   }
 }
@@ -68,6 +73,6 @@ export default async function profilesMenu(
       label: "Profiles",
       enabled: false,
     },
-    ...(await Promise.all(profiles.map((_) => submenuForOneProfile(_, createWindow, updateFn)))),
+    ...(await Promise.all(profiles.map((_) => profileMenu(_.profile.name, createWindow, updateFn)))),
   ]
 }
