@@ -17,6 +17,7 @@
 import { readdir } from "fs"
 import { Profiles } from "madwizard"
 import { basename, join } from "path"
+import prettyMilliseconds from "pretty-ms"
 import { Arguments, Table } from "@kui-shell/core"
 import { setTabReadonly } from "@kui-shell/plugin-madwizard"
 
@@ -57,7 +58,7 @@ function statusColor(status: Status) {
     case "ERROR":
       return "red-background"
     case "RUNNING":
-      return "cyan-background"
+      return "blue-background"
     case "PENDING":
       return "yellow-background"
     default:
@@ -65,7 +66,19 @@ function statusColor(status: Status) {
   }
 }
 
-export default async function getProfiles(args: Arguments) {
+function formatDate(date: number): string {
+  if (!date) {
+    return "Running..."
+  }
+  return new Date(date).toLocaleString()
+}
+
+function getRunTime(start: number, end: number): string {
+  const endTime = end || Date.now()
+  return prettyMilliseconds(endTime - start, { secondsDecimalDigits: 0 })
+}
+
+export default async function getRuns(args: Arguments) {
   setTabReadonly(args)
   const profile = args.parsedOptions.p || args.parsedOptions.profile
 
@@ -97,6 +110,9 @@ export default async function getProfiles(args: Arguments) {
             onclick: () => onClick(_.runDir),
             attributes: [
               { key: "STATUS", value: capitalize(_.info.status), tag: "badge", css: statusColor(_.info.status) },
+              { key: "STARTED AT", value: formatDate(_.info.start_time) },
+              { key: "FINISHED AT", value: formatDate(_.info.end_time) },
+              { key: "RUN TIME", value: getRunTime(_.info.start_time, _.info.end_time) },
             ],
           })),
         }
