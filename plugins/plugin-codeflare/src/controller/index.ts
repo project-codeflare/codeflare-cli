@@ -51,7 +51,10 @@ export default function registerCodeflareCommands(registrar: Registrar) {
   registrar.listen("/codeflare/get/profile", (args) => import("./profile/get").then((_) => _.default(args)), {
     needsUI: true,
   })
-  registrar.listen("/codeflare/get/run", (args) => import("./run/get").then((_) => _.default(args)), { needsUI: true })
+  registrar.listen("/codeflare/get/run", (args) => import("./run/get").then((_) => _.default(args)), {
+    needsUI: true,
+    outputOnly: true,
+  })
 
   // launch our hello guidebook
   registrar.listen("/codeflare/hello", (args) => import("./hello").then((_) => _.default(args)), {

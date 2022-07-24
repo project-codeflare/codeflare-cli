@@ -18,28 +18,13 @@ import { Profiles } from "madwizard"
 import { MenuItemConstructorOptions } from "electron"
 import { CreateWindowFunction } from "@kui-shell/core"
 
-import runs from "./runs"
-import boot from "./boot"
-import shutdown from "./shutdown"
+import status from "./status"
+import tasks from "./tasks"
 import dashboards from "./dashboards"
 
 import section from "../section"
 import UpdateFunction from "../../update"
 import { profileIcon } from "../../icons"
-import ProfileStatusWatcher from "../../watchers/profile/status"
-
-/** Memo of `ProfileStatusWatcher`, keyed by profile name */
-const watchers: Record<string, ProfileStatusWatcher> = {}
-
-/** @return menu items for the status of the given `profile` */
-function status(profile: string, updateFunction: UpdateFunction) {
-  if (!watchers[profile]) {
-    watchers[profile] = new ProfileStatusWatcher(profile, updateFunction)
-  }
-  const watcher = watchers[profile]
-
-  return [watcher.head, watcher.workers]
-}
 
 /** @return a menu for the given `profile` */
 async function profileMenu(
@@ -53,11 +38,9 @@ async function profileMenu(
     label: profile,
     icon: profileIcon,
     submenu: [
-      boot(profile, createWindow),
-      shutdown(profile, createWindow),
-      ...section("Status", status(profile, updateFunction), true),
-      ...section("Dashboards", dashboards(profile, createWindow), true),
-      ...section("Recent Runs", await runs(profile, createWindow), true),
+      ...section("Status", status(profile, updateFunction)),
+      ...section("Dashboards", await dashboards(profile, createWindow)),
+      ...section("Tasks", tasks(profile, createWindow)),
     ],
   }
 }
@@ -75,5 +58,5 @@ export default async function profilesMenu(
       .map((_) => profileMenu(_.profile, createWindow, updateFn))
   )
 
-  return section("Profiles", profiles)
+  return section("Profiles", profiles, false)
 }

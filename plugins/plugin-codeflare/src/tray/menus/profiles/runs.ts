@@ -14,52 +14,31 @@
  * limitations under the License.
  */
 
-import { join } from "path"
-import { readdir } from "fs/promises"
-import { Profiles } from "madwizard"
 import { MenuItemConstructorOptions } from "electron"
-import { CreateWindowFunction } from "@kui-shell/core"
 
-import windowOptions from "../../window"
+import ProfileRunWatcher, { RUNS_ERROR } from "../../watchers/profile/run"
 
-export const RUNS_ERROR = "No runs found"
+/** Handler for "opening" the selected `runId` in the given `profile` */
+type RunOpener = (profile: string, runId: string) => void
 
-/** @return a new Window with a dashboard of the selected job run */
-function openRun(profile: string, runId: string, createWindow: CreateWindowFunction) {
-  const runsDir = Profiles.guidebookJobDataPath({ profile })
-  createWindow(
-    ["codeflare", "dashboard", join(runsDir, runId)],
-    windowOptions({ title: "CodeFlare Dashboard: " + runId })
-  )
+/**
+ * TODO sort the runs by start time
+ *
+ * @return a menu for all runs of a profile
+ */
+export function runMenuItems(profile: string, open: RunOpener, runs: string[]): MenuItemConstructorOptions[] {
+  return runs.slice(0, 10).map((run) => ({ label: run, click: () => open(profile, run) }))
 }
 
-/** @return files of the directory of job runs for a given profile */
-async function readRunsDir(profile: string): Promise<string[]> {
-  try {
-    // TODO do a "full" read with Dirents, so that we have filesystem
-    // timestamps, and sort, so that the `.slice(0, 10)` below pulls
-    // out the most recent runs
-    return await readdir(Profiles.guidebookJobDataPath({ profile }))
-  } catch (err) {
-    return [RUNS_ERROR]
-  }
-}
-
-/** @return a menu for all runs of a profile */
-export function runMenuItems(
-  profile: string,
-  createWindow: CreateWindowFunction,
-  runs: string[]
-): MenuItemConstructorOptions[] {
-  return runs.slice(0, 10).map((run) => ({ label: run, click: () => openRun(profile, run, createWindow) }))
-}
+/** Memo of `ProfileStatusWatcher`, keyed by profile name */
+const watchers: Record<string, ProfileRunWatcher> = {}
 
 /** @return menu items for the runs of the given profile */
-export default async function submenuForRuns(
-  profile: string,
-  createWindow: CreateWindowFunction
-): Promise<MenuItemConstructorOptions[]> {
-  const runs = await readRunsDir(profile)
+export default async function submenuForRuns(profile: string, open: RunOpener): Promise<MenuItemConstructorOptions[]> {
+  if (!watchers[profile]) {
+    watchers[profile] = await new ProfileRunWatcher(profile).init()
+  }
 
-  return runs.length && runs[0] !== RUNS_ERROR ? runMenuItems(profile, createWindow, runs) : [{ label: RUNS_ERROR }]
+  const { runs } = watchers[profile]
+  return runs.length && runs[0] !== RUNS_ERROR ? runMenuItems(profile, open, runs) : [{ label: RUNS_ERROR }]
 }
