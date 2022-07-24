@@ -51,7 +51,7 @@ export default function renderMain(props: KuiProps) {
     <Kui
       noHelp
       version={version}
-      productName={props.title || productTitle}
+      productName={props.title || "Welcome to " + productTitle}
       lightweightTables
       noNewTabButton
       noNewSplitButton

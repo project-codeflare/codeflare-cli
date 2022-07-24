@@ -18,6 +18,7 @@ import { readdir } from "fs"
 import { Profiles } from "madwizard"
 import { basename, join } from "path"
 import { Arguments, Table } from "@kui-shell/core"
+import { setTabReadonly } from "@kui-shell/plugin-madwizard"
 
 import { productName } from "@kui-shell/client/config.d/name.json"
 
@@ -65,10 +66,13 @@ function statusColor(status: Status) {
 }
 
 export default async function getProfiles(args: Arguments) {
+  setTabReadonly(args)
+  const profile = args.parsedOptions.p || args.parsedOptions.profile
+
   const onClick = openDashboard.bind(args.REPL)
 
   return new Promise<Table>((resolve, reject) => {
-    const runsDir = Profiles.guidebookJobDataPath({})
+    const runsDir = Profiles.guidebookJobDataPath({ profile: profile ? profile.toString() : undefined })
     readdir(runsDir, async (err, runs) => {
       if (err) {
         if (err.code === "ENOENT") {

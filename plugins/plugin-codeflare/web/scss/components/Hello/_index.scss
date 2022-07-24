@@ -21,9 +21,9 @@
 @include TopLevelTab {
   &.codeflare--welcome-guidebook {
     @include Split(2) {
-      grid-template-rows: 1fr;
-      grid-template-columns: 1fr 6fr;
-      grid-template-areas: "T1 T2";
+      grid-template-rows: 300px 1fr;
+      grid-template-columns: 1fr;
+      grid-template-areas: "T1" "T2";
     }
   }
 }

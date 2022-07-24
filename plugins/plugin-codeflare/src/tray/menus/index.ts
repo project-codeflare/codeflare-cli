@@ -17,7 +17,7 @@
 import { CreateWindowFunction } from "@kui-shell/core"
 
 import { productName } from "@kui-shell/client/config.d/name.json"
-import { bugs, homepage, version } from "@kui-shell/client/package.json"
+import { bugs, version } from "@kui-shell/client/package.json"
 
 import profilesMenu from "./profiles"
 import UpdateFunction from "../update"
@@ -31,13 +31,10 @@ export default async function buildContextMenu(
   const { Menu } = await import("electron")
 
   const contextMenu = Menu.buildFromTemplate([
-    { label: `Open CodeFlare`, click: () => createWindow([]) },
-    { type: "separator" },
     ...(await profilesMenu(createWindow, updateFn)),
     { type: "separator" },
-    { label: `Version ${version}`, enabled: false },
-    { label: `About CodeFlare`, click: () => import("open").then((_) => _.default(homepage)) },
-    { type: "separator" },
+    { label: `Codeflare ${version}`, enabled: false },
+    // { label: `About`, click: () => import("open").then((_) => _.default(homepage)) },
     { label: `Report a Bug`, icon: bugIcon, click: () => import("open").then((_) => _.default(bugs.url)) },
     { label: `Quit ${productName}`, icon: powerOffIcon, role: "quit" },
   ])

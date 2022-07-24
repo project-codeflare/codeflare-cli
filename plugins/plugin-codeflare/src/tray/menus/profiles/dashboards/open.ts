@@ -19,9 +19,22 @@ import { CreateWindowFunction } from "@kui-shell/core"
 
 import windowOptions from "../../../window"
 
-export default async function openMLFlow(profile: string, createWindow: CreateWindowFunction) {
-  const guidebook = "ml/ray/start/kubernetes/port-forward/mlflow"
+interface DashboardSpec {
+  /** Label for presentation e.g. "MLFlow" or "Tensorboard" */
+  name: string
 
+  /** If absent, the guidebook is of the form "ml/<name.toLowerCase()>/start/kubernetes/port-forward"; you can provide the full path instead */
+  guidebook?: string
+
+  /** Name of environment variable that stores the dashboard port */
+  portEnv: string
+}
+
+export default async function openDashboard(
+  { name, guidebook = `ml/${name.toLowerCase()}/start/kubernetes/port-forward`, portEnv }: DashboardSpec,
+  profile: string,
+  createWindow: CreateWindowFunction
+) {
   const resp = await cli(["madwizard", "guide", guidebook], undefined, {
     clean: false /* don't kill the port-forward subprocess! we'll manage that */,
     interactive: false,
@@ -29,14 +42,14 @@ export default async function openMLFlow(profile: string, createWindow: CreateWi
   })
 
   if (resp) {
-    if (!resp.env.MLFLOW_PORT) {
-      console.error("Unable to open MLFlow, due to an error in connecting to the remote server")
+    if (!resp.env[portEnv]) {
+      console.error(`Unable to open ${name}, due to an error in connecting to the remote server`)
     } else {
       // the `createWindow` api returns a promise that will resolve
       // when the window closes
       await createWindow(
-        "http://localhost:" + resp.env.MLFLOW_PORT,
-        windowOptions({ title: "MLFlow Dashboard " + profile }) // might not matter, as MLFlow's web page has its own title
+        "http://localhost:" + resp.env[portEnv],
+        windowOptions({ title: `${name} Dashboard ` + profile }) // might not matter, as most dashboards have their own title
       )
 
       // now the window has closed, so we can clean up any

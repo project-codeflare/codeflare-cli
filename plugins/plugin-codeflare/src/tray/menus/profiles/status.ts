@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 
-import { MenuItemConstructorOptions } from "electron"
+import UpdateFunction from "../../update"
+import ProfileStatusWatcher from "../../watchers/profile/status"
 
-/**
- * @return the given list of menu `items`, with a prepended "header"
- * item that has the given `label`. If `separator` is true, an additional
- * initial separator menu item will be prepended to the returned list.
- *
- */
-export default function section(
-  label: string,
-  items: MenuItemConstructorOptions[],
-  separator = true
-): MenuItemConstructorOptions[] {
-  return [
-    ...(separator ? [{ type: "separator" as const }] : []),
-    { label, enabled: false }, // at least on macOS, this gives a nice header-like appearance
-    ...items,
-  ]
+/** Memo of `ProfileStatusWatcher`, keyed by profile name */
+const watchers: Record<string, ProfileStatusWatcher> = {}
+
+/** @return menu items for the status of the given `profile` */
+export default function status(profile: string, updateFunction: UpdateFunction) {
+  if (!watchers[profile]) {
+    watchers[profile] = new ProfileStatusWatcher(profile, updateFunction)
+  }
+  const watcher = watchers[profile]
+
+  return [watcher.head, watcher.workers]
 }
