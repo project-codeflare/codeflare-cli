@@ -22,8 +22,10 @@ import UpdateFunction from "../../update"
 
 /** Watch for new, removed, and renamed profiles */
 export default class ProfileWatcher {
+  /** Our model */
   private _profiles: Profiles.Profile[] = []
 
+  /** Have we already performed the on-time init? */
   private _initDone = false
 
   public constructor(

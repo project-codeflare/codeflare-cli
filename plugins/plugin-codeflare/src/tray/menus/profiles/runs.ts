@@ -16,6 +16,7 @@
 
 import { MenuItemConstructorOptions } from "electron"
 
+import UpdateFunction from "../../update"
 import ProfileRunWatcher, { RUNS_ERROR } from "../../watchers/profile/run"
 
 /** Handler for "opening" the selected `runId` in the given `profile` */
@@ -34,11 +35,22 @@ export function runMenuItems(profile: string, open: RunOpener, runs: string[]): 
 const watchers: Record<string, ProfileRunWatcher> = {}
 
 /** @return menu items for the runs of the given profile */
-export default async function submenuForRuns(profile: string, open: RunOpener): Promise<MenuItemConstructorOptions[]> {
+export default async function submenuForRuns(
+  profile: string,
+  open: RunOpener,
+  updateFn: UpdateFunction
+): Promise<MenuItemConstructorOptions[]> {
   if (!watchers[profile]) {
-    watchers[profile] = await new ProfileRunWatcher(profile).init()
+    watchers[profile] = await new ProfileRunWatcher(updateFn, profile)
   }
 
+  // one-time initialization of the watcher, if needed; we need to do
+  // this after having assigned to our `watcher` variable, to avoid an
+  // infinite loop
+  await watchers[profile].init()
+
   const { runs } = watchers[profile]
-  return runs.length && runs[0] !== RUNS_ERROR ? runMenuItems(profile, open, runs) : [{ label: RUNS_ERROR }]
+  return runs.length && runs[0] !== RUNS_ERROR
+    ? runMenuItems(profile, open, runs)
+    : [{ label: RUNS_ERROR, enabled: false }]
 }

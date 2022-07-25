@@ -22,6 +22,7 @@ import { CreateWindowFunction } from "@kui-shell/core"
 import runs from "../runs"
 import section from "../../section"
 import windowOptions from "../../../window"
+import UpdateFunction from "../../../update"
 
 /** @return a new Window with a dashboard of the selected job run */
 function openRunInCodeflareDashboard(createWindow: CreateWindowFunction, profile: string, runId: string) {
@@ -36,7 +37,8 @@ function openRunInCodeflareDashboard(createWindow: CreateWindowFunction, profile
 
 export default async function codeflareDashboards(
   profile: string,
-  createWindow: CreateWindowFunction
+  createWindow: CreateWindowFunction,
+  updateFn: UpdateFunction
 ): Promise<MenuItemConstructorOptions[]> {
   return [
     {
@@ -46,6 +48,6 @@ export default async function codeflareDashboards(
           title: "Codeflare Run Summary - " + profile,
         }),
     },
-    ...section("Recent Runs", await runs(profile, openRunInCodeflareDashboard.bind(undefined, createWindow))),
+    ...section("Recent Runs", await runs(profile, openRunInCodeflareDashboard.bind(undefined, createWindow), updateFn)),
   ]
 }
