@@ -30,7 +30,7 @@ export default class ProfileRunWatcher {
   public constructor(private readonly profile: string) {}
 
   /** Initialize `this._runs` model */
-  public async init() {
+  public async init(): Promise<ProfileRunWatcher> {
     await this.readRunsDir()
     return this
   }
