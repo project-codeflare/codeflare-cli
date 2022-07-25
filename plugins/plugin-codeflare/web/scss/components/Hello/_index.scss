@@ -31,8 +31,14 @@
 $gap: 3px;
 $cell: 1.5em;
 
-@mixin Grid {
+@mixin MicroGrid {
   .pf-l-grid.codeflare--grid {
+    @content;
+  }
+}
+
+@mixin Grid {
+  .codeflare--plain-grid {
     @content;
   }
 }
@@ -50,6 +56,12 @@ $cell: 1.5em;
 }
 
 @include Grid {
+  font-family: var(--font-sans-serif);
+  padding: 1em;
+  flex: 1;
+}
+
+@include MicroGrid {
   font-family: var(--font-sans-serif);
   padding: 1em;
   flex: 1;

@@ -25,10 +25,10 @@ export default async function getProfiles(args: Arguments) {
 
   return {
     react: (
-      <Grid hasGutter className="codeflare--grid">
+      <Grid hasGutter className="codeflare--plain-grid" span={3}>
         {profiles.map((_) => (
           <GridItem key={_.profile.name}>
-            <Tile isSelected className="codeflare--tile" title={_.profile.name} />
+            <Tile className="codeflare--tile" title={_.profile.name} />
           </GridItem>
         ))}
       </Grid>
