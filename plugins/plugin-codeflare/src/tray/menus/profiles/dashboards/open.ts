@@ -49,7 +49,7 @@ export default async function openDashboard(
       // when the window closes
       await createWindow(
         "http://localhost:" + resp.env[portEnv],
-        windowOptions({ title: `${name} Dashboard ` + profile }) // might not matter, as most dashboards have their own title
+        windowOptions({ title: `${name} Dashboard - ` + profile }) // might not matter, as most dashboards have their own title
       )
 
       // now the window has closed, so we can clean up any

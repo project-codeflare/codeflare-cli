@@ -28,7 +28,7 @@ function openRunInCodeflareDashboard(createWindow: CreateWindowFunction, profile
   const runsDir = Profiles.guidebookJobDataPath({ profile })
   createWindow(
     ["codeflare", "dashboard", join(runsDir, runId)],
-    windowOptions({ title: "CodeFlare Dashboard: " + runId })
+    windowOptions({ title: "CodeFlare Dashboard - " + runId })
   )
 }
 
@@ -40,7 +40,9 @@ export default async function codeflareDashboards(
     {
       label: "Run Summary",
       click: () =>
-        createWindow(["codeflare", "get", "run", "--profile", profile], { title: "Codeflare Run Summary: " + profile }),
+        createWindow(["codeflare", "get", "run", "--profile", profile], {
+          title: "Codeflare Run Summary - " + profile,
+        }),
     },
     ...section("Recent Runs", await runs(profile, openRunInCodeflareDashboard.bind(undefined, createWindow))),
   ]
