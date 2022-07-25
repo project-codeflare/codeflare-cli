@@ -48,6 +48,8 @@ export default function registerCodeflareCommands(registrar: Registrar) {
     height: 800,
   })
 
+  registrar.listen("/codeflare/rename/profile", (args) => import("./profile/rename").then((_) => _.default(args)))
+
   registrar.listen("/codeflare/get/profile", (args) => import("./profile/get").then((_) => _.default(args)), {
     needsUI: true,
   })
