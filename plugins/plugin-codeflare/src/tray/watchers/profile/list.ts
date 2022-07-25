@@ -31,13 +31,13 @@ export default class ProfileWatcher {
   public constructor(
     private readonly updateFn: UpdateFunction,
     private readonly profilesPath: string,
-    private readonly watcher = chokidar.watch(profilesPath)
+    private readonly watcher = chokidar.watch(profilesPath, { depth: 0 })
   ) {}
 
   /** Initialize `this._profiles` model */
   public async init(): Promise<ProfileWatcher> {
     if (!this._initDone) {
-      await this.readOnce()
+      // await this.readOnce() no need, since chokidar gives us an initial read
       this.initWatcher()
       this._initDone = true
     }

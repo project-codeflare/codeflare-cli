@@ -39,7 +39,7 @@ export default class ProfileRunWatcher {
   public constructor(
     private readonly updateFn: UpdateFunction,
     private readonly profile: string,
-    private readonly watcher = chokidar.watch(ProfileRunWatcher.path(profile))
+    private readonly watcher = chokidar.watch(ProfileRunWatcher.path(profile) + "/*", { depth: 0 })
   ) {}
 
   private static path(profile: string) {
@@ -49,7 +49,7 @@ export default class ProfileRunWatcher {
   /** Initialize `this._runs` model */
   public async init(): Promise<ProfileRunWatcher> {
     if (!this._initDone) {
-      await this.readOnce()
+      // await this.readOnce() no need, since chokidar gives us an initial read
       this.initWatcher()
       this._initDone = true
     }
@@ -58,7 +58,7 @@ export default class ProfileRunWatcher {
 
   /** Initialize the filesystem watcher to notify us of new or removed profiles */
   private initWatcher() {
-    this.watcher.on("add", async (path) => {
+    this.watcher.on("addDir", async (path) => {
       const runId = basename(path)
       const idx = this.runs.findIndex((_) => _ === runId)
       if (idx < 0) {

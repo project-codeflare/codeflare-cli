@@ -49,7 +49,7 @@ export default async function submenuForRuns(
   // infinite loop
   await watchers[profile].init()
 
-  const { runs } = watchers[profile]
+  const runs = watchers[profile].runs
   return runs.length && runs[0] !== RUNS_ERROR
     ? runMenuItems(profile, open, runs)
     : [{ label: RUNS_ERROR, enabled: false }]
