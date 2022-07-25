@@ -27,7 +27,9 @@ import windowOptions from "../../../window"
 function openRunInCodeflareDashboard(createWindow: CreateWindowFunction, profile: string, runId: string) {
   const runsDir = Profiles.guidebookJobDataPath({ profile })
   createWindow(
-    ["codeflare", "dashboard", join(runsDir, runId)],
+    // TODO -f: follow by default. should we be smarter, and detect
+    // which -runs are in a non-RUNNING state, and don't follow those?
+    ["codeflare", "dashboard", "-f", join(runsDir, runId)],
     windowOptions({ title: "CodeFlare Dashboard - " + runId })
   )
 }
