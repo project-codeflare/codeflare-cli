@@ -77,6 +77,13 @@ export function doMadwizard(
         process.env.QUIET_CONSOLE = "true"
       }
 
+      // decide which profile to use
+      const profile =
+        parsedOptions.p || // specified on command line
+        (await import("madwizard").then((_) => _.Profiles.lastUsed())) || // last used profile
+        "default" // the default, if no lastUsed is found!
+      console.error("!!!!", profile)
+
       await cli(
         [
           "madwizard",
@@ -89,7 +96,7 @@ export function doMadwizard(
         {
           store: parsedOptions.s || process.env.GUIDEBOOK_STORE,
           verbose: parsedOptions.V,
-          profile: parsedOptions.p,
+          profile,
           interactive: parsedOptions.i || !parsedOptions.y,
         }
       )
