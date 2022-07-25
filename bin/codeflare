@@ -111,7 +111,7 @@ fi
 # indicated by the -u option)
 do_cli=1
 use_docker=0
-while getopts "iqaydnVus:" opt
+while getopts "piqaydnVus:" opt
 do
     case $opt in
         d) use_docker=1; continue;;
