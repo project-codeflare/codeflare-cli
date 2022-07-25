@@ -30,7 +30,7 @@ import ProfileWatcher from "../../watchers/profile/list"
 /** @return a menu for the given `profile` */
 async function profileMenu(
   createWindow: CreateWindowFunction,
-  updateFunction: UpdateFunction,
+  updateFn: UpdateFunction,
   profileObj: Profiles.Profile
 ): Promise<MenuItemConstructorOptions> {
   const profile = profileObj.name
@@ -39,8 +39,8 @@ async function profileMenu(
     label: profile,
     icon: profileIcon,
     submenu: [
-      ...section("Status", status(profile, updateFunction)),
-      ...section("Dashboards", await dashboards(profile, createWindow)),
+      ...section("Status", status(profile, updateFn)),
+      ...section("Dashboards", await dashboards(profile, createWindow, updateFn)),
       ...section("Tasks", tasks(profile, createWindow)),
     ],
   }
@@ -58,6 +58,9 @@ export default async function profilesMenu(
     watcher = new ProfileWatcher(updateFn, await Profiles.profilesPath({}, true))
   }
 
+  // one-time initialization of the watcher, if needed; we need to do
+  // this after having assigned to our `watcher` variable, to avoid an
+  // infinite loop
   await watcher.init()
 
   // this will be a list of menu items, one per profile, and sorted by

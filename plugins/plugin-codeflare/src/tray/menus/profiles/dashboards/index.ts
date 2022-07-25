@@ -18,17 +18,19 @@ import { MenuItemConstructorOptions } from "electron"
 import { CreateWindowFunction } from "@kui-shell/core"
 
 import codeflare from "./codeflare"
+import UpdateFunction from "../../../update"
 
 /** @return menu items that open dashboards for the given `profile` */
 export default async function dashboards(
   profile: string,
-  createWindow: CreateWindowFunction
+  createWindow: CreateWindowFunction,
+  updateFn: UpdateFunction
 ): Promise<MenuItemConstructorOptions[]> {
   const mlflow = { name: "MLFlow", portEnv: "MLFLOW_PORT" }
   const tensorboard = { name: "Tensorboard", portEnv: "TENSORBOARD_PORT" }
 
   return [
-    { label: "CodeFlare", submenu: await codeflare(profile, createWindow) },
+    { label: "CodeFlare", submenu: await codeflare(profile, createWindow, updateFn) },
     { label: "MLFlow", click: () => import("./open").then((_) => _.default(mlflow, profile, createWindow)) },
     { label: "Tensorboard", click: () => import("./open").then((_) => _.default(tensorboard, profile, createWindow)) },
   ]
