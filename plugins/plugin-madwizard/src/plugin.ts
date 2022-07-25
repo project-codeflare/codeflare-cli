@@ -23,19 +23,34 @@ export interface Options extends ParsedOptions {
   /** verbose output */
   V: boolean
 
+  /** verbose output */
+  verbose: boolean
+
   /** do not load prior choices (the default "profile") */
   n: boolean
 
+  /** Use this named profile */
+  p: string
+
+  /** Use this named profile */
+  profile: string
+
   /** Do not tee logs to the console */
   q: boolean
+
+  /** Do not tee logs to the console */
   quiet: boolean
 
   /** Automatically accept all choices from the current profile */
   y: boolean
+
+  /** Automatically accept all choices from the current profile */
   yes: boolean
 
   /** Interactive guide mode? [default: false] */
   i: boolean
+
+  /** Interactive guide mode? [default: false] */
   interactive: boolean
 }
 
@@ -74,6 +89,7 @@ export function doMadwizard(
         {
           store: parsedOptions.s || process.env.GUIDEBOOK_STORE,
           verbose: parsedOptions.V,
+          profile: parsedOptions.p,
           interactive: parsedOptions.i || !parsedOptions.y,
         }
       )
@@ -99,7 +115,7 @@ export function doMadwizard(
 export default function registerMadwizardCommands(registrar: Registrar) {
   const flags = {
     boolean: ["u", "V", "n", "q", "i", "y"],
-    alias: { quiet: ["q"], interactive: ["i"], yes: ["y"] },
+    alias: { quiet: ["q"], interactive: ["i"], yes: ["y"], profile: ["p"], verbose: ["V"] },
   }
 
   registrar.listen("/profile", doMadwizard(true, "profile"))
