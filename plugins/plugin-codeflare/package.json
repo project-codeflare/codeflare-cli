@@ -26,6 +26,7 @@
     "@logdna/tail-file": "^3.0.0",
     "@patternfly/react-charts": "^6.77.1",
     "@patternfly/react-core": "^4.224.1",
+    "chokidar": "^3.5.3",
     "open": "^8.4.0",
     "pretty-bytes": "^6.0.0",
     "pretty-ms": "8.0.0",

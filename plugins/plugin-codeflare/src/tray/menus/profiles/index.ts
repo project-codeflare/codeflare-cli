@@ -25,12 +25,13 @@ import dashboards from "./dashboards"
 import section from "../section"
 import UpdateFunction from "../../update"
 import { profileIcon } from "../../icons"
+import ProfileWatcher from "../../watchers/profile/list"
 
 /** @return a menu for the given `profile` */
 async function profileMenu(
-  profileObj: Profiles.Profile,
   createWindow: CreateWindowFunction,
-  updateFunction: UpdateFunction
+  updateFunction: UpdateFunction,
+  profileObj: Profiles.Profile
 ): Promise<MenuItemConstructorOptions> {
   const profile = profileObj.name
 
@@ -45,17 +46,26 @@ async function profileMenu(
   }
 }
 
+/** Memo of `ProfileWatcher`, which will watch for new/removed/renamed profiles */
+let watcher: null | ProfileWatcher = null
+
 /** @return a menu for all profiles */
 export default async function profilesMenu(
   createWindow: CreateWindowFunction,
   updateFn: UpdateFunction
 ): Promise<MenuItemConstructorOptions[]> {
+  if (!watcher) {
+    watcher = new ProfileWatcher(updateFn, await Profiles.profilesPath({}, true))
+  }
+
+  await watcher.init()
+
   // this will be a list of menu items, one per profile, and sorted by
   // profile name
   const profiles = await Promise.all(
-    (await Profiles.list({}))
-      .sort((a, b) => a.profile.name.localeCompare(b.profile.name))
-      .map((_) => profileMenu(_.profile, createWindow, updateFn))
+    watcher.profiles // current list of profiles
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map(profileMenu.bind(undefined, createWindow, updateFn))
   )
 
   return section("Profiles", profiles, false)
