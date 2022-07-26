@@ -17,7 +17,6 @@
 import chokidar from "chokidar"
 import { basename } from "path"
 
-import { readdir } from "fs/promises"
 import { Profiles } from "madwizard"
 
 import UpdateFunction from "../../update"
@@ -31,7 +30,7 @@ export const RUNS_ERROR = "No runs found"
  */
 export default class ProfileRunWatcher {
   /** Our model */
-  private _runs: string[] = []
+  private _runs: { runId: string; timestamp: number }[] = []
 
   /** Have we already performed the on-time init? */
   private _initDone = false
@@ -57,7 +56,6 @@ export default class ProfileRunWatcher {
   /** Initialize `this._runs` model */
   public async init(): Promise<ProfileRunWatcher> {
     if (!this._initDone) {
-      // await this.readOnce() no need, since chokidar gives us an initial read
       this.initWatcher()
       this._initDone = true
     }
@@ -66,18 +64,18 @@ export default class ProfileRunWatcher {
 
   /** Initialize the filesystem watcher to notify us of new or removed profiles */
   private initWatcher() {
-    this.watcher.on("addDir", async (path) => {
+    this.watcher.on("addDir", async (path, stats) => {
       const runId = basename(path)
-      const idx = this.runs.findIndex((_) => _ === runId)
+      const idx = this.runs.findIndex((_) => _.runId === runId)
       if (idx < 0) {
-        this._runs.push(runId)
+        this._runs.push({ runId, timestamp: stats?.mtimeMs || stats?.ctimeMs || 0 })
         this.updateFn()
       }
     })
 
     this.watcher.on("unlink", (path) => {
       const runId = basename(path)
-      const idx = this.runs.findIndex((_) => _ === runId)
+      const idx = this.runs.findIndex((_) => _.runId === runId)
       if (idx >= 0) {
         this._runs.splice(idx, 1)
         this.updateFn()
@@ -91,19 +89,7 @@ export default class ProfileRunWatcher {
   }
 
   /** Overwrite the run model state */
-  private set runs(runs: string[]) {
+  private set runs(runs: { runId: string; timestamp: number }[]) {
     this._runs = runs
-  }
-
-  /** @return files of the directory of job runs for a given profile */
-  private async readOnce() {
-    try {
-      // TODO do a "full" read with Dirents, so that we have filesystem
-      // timestamps, and sort, so that the `.slice(0, 10)` below pulls
-      // out the most recent runs
-      this.runs = await readdir(ProfileRunWatcher.path(this.profile))
-    } catch (err) {
-      this.runs = [RUNS_ERROR]
-    }
   }
 }

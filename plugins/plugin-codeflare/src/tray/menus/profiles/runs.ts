@@ -23,12 +23,18 @@ import ProfileRunWatcher, { RUNS_ERROR } from "../../watchers/profile/run"
 type RunOpener = (profile: string, runId: string) => void
 
 /**
- * TODO sort the runs by start time
  *
  * @return a menu for all runs of a profile
  */
-export function runMenuItems(profile: string, open: RunOpener, runs: string[]): MenuItemConstructorOptions[] {
-  return runs.slice(0, 10).map((run) => ({ label: run, click: () => open(profile, run) }))
+export function runMenuItems(
+  profile: string,
+  open: RunOpener,
+  runs: { runId: string; timestamp: number }[]
+): MenuItemConstructorOptions[] {
+  return runs
+    .slice(0, 10)
+    .sort((a, b) => b.timestamp - a.timestamp)
+    .map((run) => ({ label: run.runId, click: () => open(profile, run.runId) }))
 }
 
 /** Memo of `ProfileStatusWatcher`, keyed by profile name */
@@ -50,7 +56,7 @@ export default async function submenuForRuns(
   await watchers[profile].init()
 
   const runs = watchers[profile].runs
-  return runs.length && runs[0] !== RUNS_ERROR
+  return runs.length && runs[0].runId !== RUNS_ERROR
     ? runMenuItems(profile, open, runs)
     : [{ label: RUNS_ERROR, enabled: false }]
 }
