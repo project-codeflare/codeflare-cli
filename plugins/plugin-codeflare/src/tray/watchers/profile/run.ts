@@ -40,7 +40,15 @@ export default class ProfileRunWatcher {
     private readonly updateFn: UpdateFunction,
     private readonly profile: string,
     private readonly watcher = chokidar.watch(ProfileRunWatcher.path(profile) + "/*", { depth: 1 })
-  ) {}
+  ) {
+    // we need to close the chokidar watcher before exit, otherwise
+    // electron-main dies with SIGABRT
+    import("electron").then((_) =>
+      _.app.on("will-quit", async () => {
+        await this.watcher.close()
+      })
+    )
+  }
 
   private static path(profile: string) {
     return Profiles.guidebookJobDataPath({ profile })
