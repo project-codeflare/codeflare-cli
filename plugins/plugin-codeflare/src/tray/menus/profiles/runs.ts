@@ -37,8 +37,8 @@ export function runMenuItems(
   runs: { runId: string; timestamp: number }[]
 ): MenuItemConstructorOptions[] {
   return runs
-    .slice(0, 10)
     .sort((a, b) => b.timestamp - a.timestamp)
+    .slice(0, 10)
     .map((run) => ({
       label: `${ago(run.timestamp).padEnd(8)} \u2014 ${run.runId.slice(0, run.runId.indexOf("-"))}`,
       click: () => open(profile, run.runId),
