@@ -21,6 +21,7 @@ import { CreateWindowFunction } from "@kui-shell/core"
 
 import runs from "../runs"
 import section from "../../section"
+import { gridIcon } from "../../../icons"
 import windowOptions from "../../../window"
 import UpdateFunction from "../../../update"
 
@@ -42,7 +43,8 @@ export default async function codeflareDashboards(
 ): Promise<MenuItemConstructorOptions[]> {
   return [
     {
-      label: "Run Summary",
+      icon: gridIcon,
+      label: "Open Grid View",
       click: () =>
         createWindow(["codeflare", "get", "run", "--profile", profile], {
           title: "Codeflare Run Summary - " + profile,
