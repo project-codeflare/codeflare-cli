@@ -107,15 +107,12 @@ if [ -z "$GUIDEBOOK_STORE" ]; then
     fi
 fi
 
-# check if the user wants us to run the graphical version (currently
-# indicated by the -u option)
 do_cli=1
 use_docker=0
-while getopts "piqaydnVus:" opt
+while getopts "piqaydnVs:" opt
 do
     case $opt in
         d) use_docker=1; continue;;
-        u) do_cli=0; continue;;
         s) export GUIDEBOOK_STORE=$OPTARG; continue;;
         *) continue;;
     esac
