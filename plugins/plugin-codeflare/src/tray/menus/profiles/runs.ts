@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import prettyMillis from "pretty-ms"
 import { MenuItemConstructorOptions } from "electron"
 
 import UpdateFunction from "../../update"
@@ -21,6 +22,10 @@ import ProfileRunWatcher, { RUNS_ERROR } from "../../watchers/profile/run"
 
 /** Handler for "opening" the selected `runId` in the given `profile` */
 type RunOpener = (profile: string, runId: string) => void
+
+function ago(timestamp: number) {
+  return prettyMillis(Date.now() - timestamp, { compact: true }) + " ago"
+}
 
 /**
  *
@@ -34,7 +39,10 @@ export function runMenuItems(
   return runs
     .slice(0, 10)
     .sort((a, b) => b.timestamp - a.timestamp)
-    .map((run) => ({ label: run.runId, click: () => open(profile, run.runId) }))
+    .map((run) => ({
+      label: `${ago(run.timestamp).padEnd(8)} \u2014 ${run.runId.slice(0, run.runId.indexOf("-"))}`,
+      click: () => open(profile, run.runId),
+    }))
 }
 
 /** Memo of `ProfileStatusWatcher`, keyed by profile name */

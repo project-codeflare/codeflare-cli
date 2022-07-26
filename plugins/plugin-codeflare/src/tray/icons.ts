@@ -20,6 +20,7 @@ import profile from "@kui-shell/client/icons/png/profileTemplate.png"
 import bug from "@kui-shell/client/icons/png/bugTemplate.png"
 import powerOff from "@kui-shell/client/icons/png/powerOffTemplate.png"
 import play from "@kui-shell/client/icons/png/playTemplate.png"
+import grid from "@kui-shell/client/icons/png/gridTemplate.png"
 
 import { join } from "path"
 
@@ -35,3 +36,4 @@ export const bugIcon = iconFor(bug)
 export const powerOffIcon = iconFor(powerOff)
 export const bootIcon = iconFor(play)
 export const shutDownIcon = iconFor(powerOff)
+export const gridIcon = iconFor(grid)
