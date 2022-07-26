@@ -23,6 +23,6 @@
     "access": "public"
   },
   "dependencies": {
-    "madwizard": "^0.15.12"
+    "madwizard": "^0.15.13"
   }
 }
