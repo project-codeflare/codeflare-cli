@@ -39,7 +39,7 @@ export default class ProfileRunWatcher {
   public constructor(
     private readonly updateFn: UpdateFunction,
     private readonly profile: string,
-    private readonly watcher = chokidar.watch(ProfileRunWatcher.path(profile) + "/*", { depth: 0 })
+    private readonly watcher = chokidar.watch(ProfileRunWatcher.path(profile) + "/*", { depth: 1 })
   ) {}
 
   private static path(profile: string) {
@@ -71,7 +71,7 @@ export default class ProfileRunWatcher {
       const runId = basename(path)
       const idx = this.runs.findIndex((_) => _ === runId)
       if (idx >= 0) {
-        this._runs.push(runId)
+        this._runs.splice(idx, 1)
         this.updateFn()
       }
     })
