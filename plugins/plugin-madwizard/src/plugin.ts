@@ -82,7 +82,6 @@ export function doMadwizard(
         parsedOptions.p || // specified on command line
         (await import("madwizard").then((_) => _.Profiles.lastUsed())) || // last used profile
         "default" // the default, if no lastUsed is found!
-      console.error("!!!!", profile)
 
       await cli(
         [
