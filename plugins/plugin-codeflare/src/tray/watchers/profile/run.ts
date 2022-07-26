@@ -38,7 +38,7 @@ export default class ProfileRunWatcher {
   public constructor(
     private readonly updateFn: UpdateFunction,
     private readonly profile: string,
-    private readonly watcher = chokidar.watch(ProfileRunWatcher.path(profile) + "/*", { depth: 1 })
+    private readonly watcher = chokidar.watch(ProfileRunWatcher.path(profile) + "/*", { depth: 1, alwaysStat: true })
   ) {
     // we need to close the chokidar watcher before exit, otherwise
     // electron-main dies with SIGABRT
@@ -65,12 +65,20 @@ export default class ProfileRunWatcher {
   /** Initialize the filesystem watcher to notify us of new or removed profiles */
   private initWatcher() {
     this.watcher.on("addDir", async (path, stats) => {
-      const runId = basename(path)
-      const idx = this.runs.findIndex((_) => _.runId === runId)
-      if (idx < 0) {
-        this._runs.push({ runId, timestamp: stats?.mtimeMs || stats?.ctimeMs || 0 })
-        this.updateFn()
+      if (!stats) {
+        // hmm, not sure why this would ever happen, since we specified `alwaysStat: true`, but to make typescript happy
+        return
+      } else if (path.replace(ProfileRunWatcher.path(this.profile) + "/", "").indexOf("/") >= 0) {
+        // sigh. @starpit can't figure out how to get chokidar to
+        // ignore subdirectories; i've tried `depth` and it doesn't
+        // seem to do anything; maybe we could use an `ignored` option
+        // instead of doing it here...
+        return
       }
+
+      const runId = basename(path)
+      this._runs.push({ runId, timestamp: stats.mtimeMs })
+      this.updateFn()
     })
 
     this.watcher.on("unlink", (path) => {
