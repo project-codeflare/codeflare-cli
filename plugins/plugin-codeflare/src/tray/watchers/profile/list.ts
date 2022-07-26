@@ -31,7 +31,7 @@ export default class ProfileWatcher {
   public constructor(
     private readonly updateFn: UpdateFunction,
     private readonly profilesPath: string,
-    private readonly watcher = chokidar.watch(profilesPath, { depth: 0 })
+    private readonly watcher = chokidar.watch(profilesPath, { depth: 1 })
   ) {}
 
   /** Initialize `this._profiles` model */
