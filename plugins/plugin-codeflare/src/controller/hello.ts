@@ -18,6 +18,14 @@ import { Arguments } from "@kui-shell/core"
 
 import "../../web/scss/components/Hello/_index.scss"
 
+export async function gallery() {
+  const React = await import("react")
+  const CodeFlareGallery = await import("../components/CodeFlareGallery")
+  return {
+    react: React.createElement(CodeFlareGallery.default, {}),
+  }
+}
+
 export default function hello(args: Arguments) {
   return args.REPL.qexec("commentary --readonly -f /kui/client/hello.md")
 }

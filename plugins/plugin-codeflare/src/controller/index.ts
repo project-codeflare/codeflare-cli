@@ -50,7 +50,7 @@ export default function registerCodeflareCommands(registrar: Registrar) {
 
   registrar.listen("/codeflare/rename/profile", (args) => import("./profile/rename").then((_) => _.default(args)))
 
-  registrar.listen("/codeflare/get/profile", (args) => import("./profile/get").then((_) => _.default(args)), {
+  registrar.listen("/codeflare/get/profile", () => import("./profile/get").then((_) => _.default()), {
     needsUI: true,
   })
   registrar.listen("/codeflare/get/run", (args) => import("./run/get").then((_) => _.default(args)), {
@@ -64,6 +64,10 @@ export default function registerCodeflareCommands(registrar: Registrar) {
     outputOnly: true,
     width: 800,
     height: 600,
+  })
+
+  registrar.listen("/codeflare/gallery", () => import("./hello").then((_) => _.gallery()), {
+    outputOnly: true,
   })
 
   /**

@@ -25,6 +25,12 @@
       grid-template-columns: 1fr;
       grid-template-areas: "T1" "T2";
     }
+
+    @include Split(3) {
+      grid-template-rows: 1fr 1fr 1fr;
+      grid-template-columns: 1fr;
+      grid-template-areas: "T1" "T2" "T3";
+    }
   }
 }
 
