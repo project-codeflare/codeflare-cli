@@ -22,7 +22,8 @@ import windowOptions from "../../window"
 /** Handler for booting up a profile */
 async function boot(profile: string, createWindow: CreateWindowFunction) {
   createWindow(
-    ["codeflare", "gui", "guide", "ml/ray/start/kubernetes", "--profile", profile],
+    // re: -y, this means run in non-interactive mode (-y is short for --yes)
+    ["codeflare", "gui", "guide", "-y", "--profile", profile, "ml/ray/start/kubernetes"],
     windowOptions({ title: "Booting " + profile })
   )
 }

@@ -31,7 +31,7 @@ export default function guide(args: Arguments) {
   setTabReadonly(args)
 
   const { argv, env } = respawnCommand(
-    args.command.replace(/--type=renderer/, "").replace(/^codeflare\s+gui\s+guide/, "codeflare") + " -y" // run in non-interactive mode (-y is short for --yes)
+    args.command.replace(/--type=renderer/, "").replace(/^codeflare\s+gui\s+guide/, "codeflare")
   )
 
   args.command = argv.join(" ")
