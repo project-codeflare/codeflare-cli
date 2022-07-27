@@ -33,7 +33,8 @@ let tray: null | InstanceType<typeof import("electron").Tray> = null
 class LiveMenu {
   public constructor(
     private readonly tray: import("electron").Tray,
-    private readonly createWindow: CreateWindowFunction
+    private readonly createWindow: CreateWindowFunction,
+    private readonly periodic = setInterval(() => this.render(), 10 * 1000)
   ) {
     this.render()
   }
