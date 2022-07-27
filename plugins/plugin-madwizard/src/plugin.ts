@@ -79,7 +79,8 @@ export function doMadwizard(
 
       // decide which profile to use
       const profile =
-        parsedOptions.p || // specified on command line
+        parsedOptions.p ||
+        parsedOptions.profile || // specified on command line
         (await import("madwizard").then((_) => _.Profiles.lastUsed())) || // last used profile
         "default" // the default, if no lastUsed is found!
 
