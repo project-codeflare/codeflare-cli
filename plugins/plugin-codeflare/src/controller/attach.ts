@@ -15,11 +15,12 @@
  */
 
 import { cli } from "madwizard/dist/fe/cli"
-import { MadWizardOptions } from "madwizard"
+import { MadWizardOptions, Profiles } from "madwizard"
 import { Arguments, encodeComponent } from "@kui-shell/core"
 
 export default async function attach(args: Arguments) {
   const options: MadWizardOptions = {
+    profile: await Profiles.lastUsed(),
     store: process.env.GUIDEBOOK_STORE,
     clean: false,
     interactive: args.parsedOptions.i || !args.parsedOptions.y,

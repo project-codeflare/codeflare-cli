@@ -36,6 +36,7 @@ export default async function openDashboard(
   createWindow: CreateWindowFunction
 ) {
   const resp = await cli(["madwizard", "guide", guidebook], undefined, {
+    profile,
     clean: false /* don't kill the port-forward subprocess! we'll manage that */,
     interactive: false,
     store: process.env.GUIDEBOOK_STORE,
