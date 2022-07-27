@@ -23,7 +23,7 @@ import { shutDownIcon } from "../../icons"
 async function shutdown(profile: string, createWindow: CreateWindowFunction) {
   createWindow(
     // re: -y, this means run in non-interactive mode (-y is short for --yes)
-    ["codeflare", "gui", "guide", "-y", "--profile", profile, "ml/ray/stop/kubernetes"],
+    ["codeflare", "gui", "guide", "-y", "--profile", profile, "ml/ray/stop"],
     windowOptions({ title: "Shutting down " + profile })
   )
 }
