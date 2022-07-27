@@ -16,11 +16,10 @@
 
 import React from "react"
 import { Profiles } from "madwizard"
-import { Arguments } from "@kui-shell/core"
 import { Grid, GridItem, Tile } from "@patternfly/react-core"
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default async function getProfiles(args: Arguments) {
+export default async function getProfiles() {
   const profiles = await Profiles.list({})
 
   return {
