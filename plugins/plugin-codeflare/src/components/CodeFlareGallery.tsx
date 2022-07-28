@@ -15,33 +15,33 @@
  */
 
 import React from "react"
-import { Gallery, GalleryItem } from "@patternfly/react-core"
+import { Flex, FlexItem } from "@patternfly/react-core"
+
+import AsciinemaPlayer from "./AsciinemaPlayer"
+
+import "../../web/scss/components/Cast/_index.scss"
+
+import glueCast from "@kui-shell/client/casts/glue.cast"
 
 export default class CodeFlareGallery extends React.PureComponent {
+  private readonly casts = [glueCast]
+
   public render() {
     return (
-      <Gallery hasGutter>
-        <GalleryItem>
-          <a href="https://asciinema.org/a/kYps2jg978lUwvyLfQXKrBsUZ" target="_blank">
-            <img src="https://asciinema.org/a/kYps2jg978lUwvyLfQXKrBsUZ.svg" />
-          </a>
-        </GalleryItem>
-        <GalleryItem>
-          <a href="https://asciinema.org/a/kYps2jg978lUwvyLfQXKrBsUZ" target="_blank">
-            <img src="https://asciinema.org/a/kYps2jg978lUwvyLfQXKrBsUZ.svg" />
-          </a>
-        </GalleryItem>
-        <GalleryItem>
-          <a href="https://asciinema.org/a/kYps2jg978lUwvyLfQXKrBsUZ" target="_blank">
-            <img src="https://asciinema.org/a/kYps2jg978lUwvyLfQXKrBsUZ.svg" />
-          </a>
-        </GalleryItem>
-        <GalleryItem>
-          <a href="https://asciinema.org/a/kYps2jg978lUwvyLfQXKrBsUZ" target="_blank">
-            <img src="https://asciinema.org/a/kYps2jg978lUwvyLfQXKrBsUZ.svg" />
-          </a>
-        </GalleryItem>
-      </Gallery>
+      <Flex className="flex-fill flex-layout flex-align-stretch codeflare--gallery kui--inverted-color-context">
+        {this.casts.map((cast, idx) => (
+          <FlexItem key={idx} className="flex-fill flex-layout">
+            <AsciinemaPlayer
+              src={cast}
+              cols={120}
+              rows={38}
+              loop
+              terminalFontFamily="var(--font-monospace)"
+              autoPlay={true}
+            />
+          </FlexItem>
+        ))}
+      </Flex>
     )
   }
 }

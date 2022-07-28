@@ -27,7 +27,7 @@
     }
 
     @include Split(3) {
-      grid-template-rows: 1.5fr 1fr 1fr;
+      grid-template-rows: 1fr 1.5fr 0.875fr;
       grid-template-columns: 1fr;
       grid-template-areas: "T1" "T2" "T3";
     }
@@ -110,17 +110,19 @@ $cell: 1.5em;
   }
 }
 
-.pf-c-tile__header {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
+.codeflare {
+  .pf-c-tile__header {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 
-.pf-c-tile__title {
-  color: var(--color-tile-title);
-  font-size: 1rem;
-}
+  .pf-c-tile__title {
+    color: var(--color-tile-title);
+    font-size: 1rem;
+  }
 
-.pf-c-tile__body {
-  color: var(--color-text-02);
+  .pf-c-tile__body {
+    color: var(--color-text-02);
+  }
 }

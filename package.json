@@ -86,10 +86,10 @@
     "printWidth": 120
   },
   "devDependencies": {
-    "@kui-shell/builder": "11.5.0-dev-20220725-153832",
-    "@kui-shell/proxy": "11.5.0-dev-20220725-153832",
-    "@kui-shell/react": "11.5.0-dev-20220725-153832",
-    "@kui-shell/webpack": "11.5.0-dev-20220725-153832",
+    "@kui-shell/builder": "11.5.0-dev-20220728-192258",
+    "@kui-shell/proxy": "11.5.0-dev-20220728-192258",
+    "@kui-shell/react": "11.5.0-dev-20220728-192258",
+    "@kui-shell/webpack": "11.5.0-dev-20220728-192258",
     "@playwright/test": "^1.23.2",
     "@types/debug": "^4.1.7",
     "@types/node": "14.11.8",
@@ -113,16 +113,16 @@
   },
   "dependencies": {
     "@kui-shell/client": "file:./plugins/plugin-client-default",
-    "@kui-shell/core": "11.5.0-dev-20220725-153832",
-    "@kui-shell/plugin-bash-like": "11.5.0-dev-20220725-153832",
-    "@kui-shell/plugin-client-common": "11.5.0-dev-20220725-153832",
+    "@kui-shell/core": "11.5.0-dev-20220728-192258",
+    "@kui-shell/plugin-bash-like": "11.5.0-dev-20220728-192258",
+    "@kui-shell/plugin-client-common": "11.5.0-dev-20220728-192258",
     "@kui-shell/plugin-codeflare": "file:./plugins/plugin-codeflare",
-    "@kui-shell/plugin-core-support": "11.5.0-dev-20220725-153832",
-    "@kui-shell/plugin-electron-components": "11.5.0-dev-20220725-153832",
-    "@kui-shell/plugin-kubectl": "11.5.0-dev-20220725-153832",
+    "@kui-shell/plugin-core-support": "11.5.0-dev-20220728-192258",
+    "@kui-shell/plugin-electron-components": "11.5.0-dev-20220728-192258",
+    "@kui-shell/plugin-kubectl": "11.5.0-dev-20220728-192258",
     "@kui-shell/plugin-madwizard": "file:./plugins/plugin-madwizard",
-    "@kui-shell/plugin-patternfly4-themes": "11.5.0-dev-20220725-153832",
-    "@kui-shell/plugin-proxy-support": "11.5.0-dev-20220725-153832",
-    "@kui-shell/plugin-s3": "11.5.0-dev-20220725-153832"
+    "@kui-shell/plugin-patternfly4-themes": "11.5.0-dev-20220728-192258",
+    "@kui-shell/plugin-proxy-support": "11.5.0-dev-20220728-192258",
+    "@kui-shell/plugin-s3": "11.5.0-dev-20220728-192258"
   }
 }

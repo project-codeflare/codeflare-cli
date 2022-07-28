@@ -21,7 +21,7 @@ import { bugs, version } from "@kui-shell/client/package.json"
 
 import profilesMenu from "./profiles"
 import UpdateFunction from "../update"
-import { bugIcon, powerOffIcon } from "../icons"
+import { bugIcon, powerOffIcon, gettingStartedIcon } from "../icons"
 
 /** @return an Electron `Menu` model for our tray menu */
 export default async function buildContextMenu(
@@ -34,7 +34,11 @@ export default async function buildContextMenu(
     ...(await profilesMenu(createWindow, updateFn)),
     { type: "separator" },
     { label: `Codeflare ${version}`, enabled: false },
-    // { label: `About`, click: () => import("open").then((_) => _.default(homepage)) },
+    {
+      label: `Getting Started`,
+      icon: gettingStartedIcon,
+      click: () => createWindow([], { width: 1000, height: 1000 }),
+    },
     { label: `Report a Bug`, icon: bugIcon, click: () => import("open").then((_) => _.default(bugs.url)) },
     { label: `Quit ${productName}`, icon: powerOffIcon, role: "quit" },
   ])
