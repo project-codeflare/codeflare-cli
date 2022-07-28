@@ -63,7 +63,7 @@ export default function registerCodeflareCommands(registrar: Registrar) {
     needsUI: true,
     outputOnly: true,
     width: 1000,
-    height: 800,
+    height: 1000,
   })
 
   registrar.listen("/codeflare/gallery", () => import("./hello").then((_) => _.gallery()), {

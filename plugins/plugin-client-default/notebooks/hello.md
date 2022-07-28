@@ -7,10 +7,6 @@ layout:
     2:
         position: default
         maximized: true
-        inverseColors: true
-    3:
-        position: default
-        maximized: true
 ---
 
 <img alt="CodeFlare Icon" src="@kui-shell/client/icons/svg/codeflare.svg" width="225" height="225" align="left" />
@@ -25,15 +21,15 @@ and machine learning pipelines on the cloud.
 
 ---
 
-```shell
----
-execute: now
-outputOnly: true
----
-codeflare gallery
-```
-
----
+=== "See CodeFlare in Action"
+    ```shell
+    ---
+    execute: now
+    outputOnly: true
+    maximize: true
+    ---
+    codeflare gallery
+    ```
 
 === "Your Profiles"
 

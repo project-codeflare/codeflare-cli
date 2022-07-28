@@ -1,0 +1,76 @@
+/*
+ * Copyright 2022 The Kubernetes Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@import "asciinema-player/dist/bundle/asciinema-player.css";
+
+/** TODO move this to a Gallery.scss */
+.codeflare--gallery {
+  overflow: auto;
+}
+
+.asciinema-player {
+  height: auto !important;
+}
+
+.asciinema-theme-asciinema {
+  background: var(--color-base00);
+
+  pre.asciinema-terminal {
+    color: var(--color-text-01);
+    background-color: var(--color-repl-background);
+    border-color: var(--color-base01);
+    font-size: 1vh !important;
+
+    margin-bottom: 0;
+  }
+
+  .bg-9 {
+    background-color: var(--color-base0E);
+  }
+  .fg-9 {
+    color: var(--color-base0E);
+  }
+  .bg-1 {
+    background-color: var(--color-base0E);
+  }
+  .fg-1 {
+    color: var(--color-base0E);
+  }
+  .bg-6 {
+    background-color: var(--color-base0C);
+  }
+  .fg-6 {
+    color: var(--color-base0C);
+  }
+  .fg-2 {
+    color: var(--color-base0B);
+  }
+  .bg-2 {
+    background-color: var(--color-base0B);
+  }
+  .fg-14 {
+    color: var(--color-base0B);
+  }
+  .bg-14 {
+    background-color: var(--color-base0B);
+  }
+  .fg-3 {
+    color: var(--color-base0A);
+  }
+  .bg-3 {
+    background-color: var(--color-base0A);
+  }
+}
