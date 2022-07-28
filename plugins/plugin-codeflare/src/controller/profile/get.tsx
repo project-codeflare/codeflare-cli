@@ -16,7 +16,7 @@
 
 import React from "react"
 import { Profiles } from "madwizard"
-import { Grid, GridItem, Tile } from "@patternfly/react-core"
+import { Flex, FlexItem, Tile } from "@patternfly/react-core"
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default async function getProfiles() {
@@ -24,13 +24,13 @@ export default async function getProfiles() {
 
   return {
     react: (
-      <Grid hasGutter className="codeflare--plain-grid" span={3}>
+      <Flex className="flex-fill sans-serif top-pad left-pad right-pad bottom-pad">
         {profiles.map((_) => (
-          <GridItem key={_.profile.name}>
+          <FlexItem key={_.profile.name}>
             <Tile className="codeflare--tile" title={_.profile.name} />
-          </GridItem>
+          </FlexItem>
         ))}
-      </Grid>
+      </Flex>
     ),
   }
 }
