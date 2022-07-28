@@ -27,7 +27,7 @@
     }
 
     @include Split(3) {
-      grid-template-rows: 1fr 1fr 1fr;
+      grid-template-rows: 1.5fr 1fr 1fr;
       grid-template-columns: 1fr;
       grid-template-areas: "T1" "T2" "T3";
     }
@@ -84,7 +84,6 @@ $cell: 1.5em;
 }
 
 @include Tile {
-  --color-tile-title: var(--color-text-01);
   background-color: var(--color-base00);
 
   &[data-status="SUCCEEDED"] {
@@ -115,5 +114,5 @@ $cell: 1.5em;
 
 .pf-c-tile__title {
   color: var(--color-tile-title);
-  font-size: 0.6875rem;
+  font-size: 1rem;
 }
