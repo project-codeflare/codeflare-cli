@@ -20,7 +20,7 @@ import { Gallery, GalleryItem } from "@patternfly/react-core"
 export default class CodeFlareGallery extends React.PureComponent {
   public render() {
     return (
-      <Gallery className="hello__use-cases" hasGutter>
+      <Gallery hasGutter>
         <GalleryItem>
           <a href="https://asciinema.org/a/kYps2jg978lUwvyLfQXKrBsUZ" target="_blank">
             <img src="https://asciinema.org/a/kYps2jg978lUwvyLfQXKrBsUZ.svg" />
