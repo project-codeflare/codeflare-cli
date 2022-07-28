@@ -15,31 +15,42 @@
  */
 
 import React from "react"
+import * as AsciinemaPlayer from "asciinema-player"
 import { Gallery, GalleryItem } from "@patternfly/react-core"
+import "asciinema-player/dist/bundle/asciinema-player.css"
+import demoCast from "@kui-shell/client/casts/demo-1.svg"
 
 export default class CodeFlareGallery extends React.PureComponent {
+  private readonly demo1Ref = React.createRef<HTMLDivElement>()
+  private readonly demo2Ref = React.createRef<HTMLDivElement>()
+  private readonly demo3Ref = React.createRef<HTMLDivElement>()
+  private readonly demo4Ref = React.createRef<HTMLDivElement>()
+
+  private createPlayer(castFilePath: string, elementId: string): void {
+    AsciinemaPlayer.create(castFilePath, document.getElementById(elementId))
+  }
+
+  componentDidMount() {
+    this.createPlayer(demoCast, "codeflare--gallery-demo-1")
+    this.createPlayer(demoCast, "codeflare--gallery-demo-2")
+    this.createPlayer(demoCast, "codeflare--gallery-demo-3")
+    this.createPlayer(demoCast, "codeflare--gallery-demo-4")
+  }
+
   public render() {
     return (
       <Gallery hasGutter>
         <GalleryItem>
-          <a href="https://asciinema.org/a/kYps2jg978lUwvyLfQXKrBsUZ" target="_blank">
-            <img src="https://asciinema.org/a/kYps2jg978lUwvyLfQXKrBsUZ.svg" />
-          </a>
+          <div ref={this.demo1Ref} id="codeflare--gallery-demo-1"></div>
         </GalleryItem>
         <GalleryItem>
-          <a href="https://asciinema.org/a/kYps2jg978lUwvyLfQXKrBsUZ" target="_blank">
-            <img src="https://asciinema.org/a/kYps2jg978lUwvyLfQXKrBsUZ.svg" />
-          </a>
+          <div ref={this.demo2Ref} id="codeflare--gallery-demo-2"></div>
         </GalleryItem>
         <GalleryItem>
-          <a href="https://asciinema.org/a/kYps2jg978lUwvyLfQXKrBsUZ" target="_blank">
-            <img src="https://asciinema.org/a/kYps2jg978lUwvyLfQXKrBsUZ.svg" />
-          </a>
+          <div ref={this.demo3Ref} id="codeflare--gallery-demo-3"></div>
         </GalleryItem>
         <GalleryItem>
-          <a href="https://asciinema.org/a/kYps2jg978lUwvyLfQXKrBsUZ" target="_blank">
-            <img src="https://asciinema.org/a/kYps2jg978lUwvyLfQXKrBsUZ.svg" />
-          </a>
+          <div ref={this.demo4Ref} id="codeflare--gallery-demo-4"></div>
         </GalleryItem>
       </Gallery>
     )
