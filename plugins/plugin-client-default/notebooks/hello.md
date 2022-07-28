@@ -13,12 +13,15 @@ layout:
         maximized: true
 ---
 
-<img alt="CodeFlare Icon" src="@kui-shell/client/icons/svg/codeflare.svg" width="200" height="200" align="left" />
-CodeFlare is a framework to simplify the integration, scaling and acceleration of complex multi-step analytics and machine learning pipelines on the cloud.
+<img alt="CodeFlare Icon" src="@kui-shell/client/icons/svg/codeflare.svg" width="225" height="225" align="left" />
 
-> #### Next Steps
+[CodeFlare](https://codeflare.dev) is a framework to simplify the
+integration, scaling and acceleration of complex multi-step analytics
+and machine learning pipelines on the cloud.
+
+> ### Next Steps
 >
-> From your terminal, try `codeflare` to be guided through running jobs against the Cloud.
+> - To start running jobs against the Cloud, from your terminal, try `codeflare` .
 
 ---
 

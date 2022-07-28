@@ -104,6 +104,10 @@ $cell: 1.5em;
   &[data-status="ERROR"] {
     background-color: var(--color-red);
   }
+
+  svg {
+    fill: var(--color-text-02);
+  }
 }
 
 .pf-c-tile__header {
@@ -115,4 +119,8 @@ $cell: 1.5em;
 .pf-c-tile__title {
   color: var(--color-tile-title);
   font-size: 1rem;
+}
+
+.pf-c-tile__body {
+  color: var(--color-text-02);
 }
