@@ -30,6 +30,12 @@ type WatchInit = () => {
    */
   on(eventType: "data", cb: (data: any) => void): void
 
+  /** Does the caller want to handle input? */
+  onInput?(data: string): void
+
+  /** Does the caller want to handle resizes? */
+  onResize?(rows: number, cols: number): void
+
   /**
    * Terminate any streaming. Will be invoked un unmount, whenever
    * `this.props.streamer` is given.
@@ -37,7 +43,15 @@ type WatchInit = () => {
   unwatch(): void
 }
 
-interface Props {
+type ClassName = {
+  /** Optional class for the top-level component */
+  className?: string
+}
+
+interface Props extends ClassName {
+  /** Optional font size for terminal */
+  fontSize?: number
+
   /** If given, the initial terminal output to render */
   initialContent?: string
 
@@ -47,7 +61,7 @@ interface Props {
   watch?: WatchInit
 }
 
-interface State {
+interface State extends ClassName {
   /** Ouch, something bad happened during the render */
   catastrophicError?: Error
 
@@ -74,7 +88,10 @@ export default class XTerm extends React.PureComponent<Props, State> {
 
   public constructor(props: Props) {
     super(props)
-    this.state = {}
+    this.state = {
+      className:
+        "flex-layout flex-column flex-align-stretch flex-fill" + (props.className ? ` ${props.className}` : ""),
+    }
   }
 
   public static getDerivedStateFromError(error: Error) {
@@ -91,6 +108,18 @@ export default class XTerm extends React.PureComponent<Props, State> {
     if (this.props.watch) {
       const streamer = this.props.watch()
       streamer.on("data", this.terminal.write.bind(this.terminal))
+
+      if (streamer.onInput) {
+        // pass user input from the terminal to the watcher
+        this.terminal.onData(streamer.onInput)
+        this.terminal.focus()
+      }
+
+      if (streamer.onResize) {
+        const onResize = streamer.onResize
+        this.terminal.onResize(({ rows, cols }) => onResize(rows, cols))
+      }
+
       this.setState({ streamer })
     }
   }
@@ -221,12 +250,16 @@ export default class XTerm extends React.PureComponent<Props, State> {
       const standIn = document.querySelector("body .repl .repl-input input")
       if (standIn) {
         const fontTheme = getComputedStyle(standIn)
-        xterm.setOption("fontSize", parseInt(fontTheme.fontSize.replace(/px$/, ""), 10))
+        xterm.setOption("fontSize", this.props.fontSize || parseInt(fontTheme.fontSize.replace(/px$/, ""), 10))
         // terminal.setOption('lineHeight', )//parseInt(fontTheme.lineHeight.replace(/px$/, ''), 10))
 
         // FIXME. not tied to theme
         xterm.setOption("fontWeight", 400)
         xterm.setOption("fontWeightBold", 600)
+      }
+
+      if (this.props.fontSize) {
+        xterm.setOption("fontSize", this.props.fontSize)
       }
     } catch (err) {
       console.error("Error setting terminal font size", err)
@@ -318,7 +351,7 @@ export default class XTerm extends React.PureComponent<Props, State> {
       return "InternalError"
     } else {
       return (
-        <div className="flex-layout flex-column flex-align-stretch flex-fill">
+        <div className={this.state.className}>
           <div ref={this.container} className="xterm-container" onKeyUp={this.onKeyUp} />
           {this.toolbar()}
         </div>
