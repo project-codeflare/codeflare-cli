@@ -91,6 +91,7 @@ export function doMadwizard(
           ...argvNoOptions.slice(1),
           ...(parsedOptions.n ? ["--no-profile"] : []),
           ...(parsedOptions.i ? ["-i"] : []),
+          ...(parsedOptions["--"] ? ["--", ...parsedOptions["--"]] : []),
         ],
         undefined,
         {
@@ -122,6 +123,7 @@ export function doMadwizard(
 export default function registerMadwizardCommands(registrar: Registrar) {
   const flags = {
     boolean: ["u", "V", "n", "q", "i", "y"],
+    configuration: { "populate--": true },
     alias: { quiet: ["q"], interactive: ["i"], yes: ["y"], profile: ["p"], verbose: ["V"] },
   }
 
