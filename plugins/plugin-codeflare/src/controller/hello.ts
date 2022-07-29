@@ -26,6 +26,14 @@ export async function gallery() {
   }
 }
 
+export async function dashboardGallery(args: Arguments) {
+  const React = await import("react")
+  const CodeFlareDashboardGallery = await import("../components/CodeFlareDashboardGallery")
+  return {
+    react: React.createElement(CodeFlareDashboardGallery.default, { args }),
+  }
+}
+
 export default function hello(args: Arguments) {
   return args.REPL.qexec("commentary --readonly -f /kui/client/hello.md")
 }

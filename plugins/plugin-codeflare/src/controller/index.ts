@@ -66,9 +66,17 @@ export default function registerCodeflareCommands(registrar: Registrar) {
     height: 1000,
   })
 
+  /**
+   * Launch the gallery with asciinema plays
+   */
   registrar.listen("/codeflare/gallery", () => import("./hello").then((_) => _.gallery()), {
     outputOnly: true,
   })
+
+  /**
+   * Launch a gallery with the example dashboards
+   */
+  registrar.listen("/codeflare/dashboard-gallery", (args) => import("./hello").then((_) => _.dashboardGallery(args)))
 
   /**
    * Register a catch-all command handler: any `/^codeflare/` command
