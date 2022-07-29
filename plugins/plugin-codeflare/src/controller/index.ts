@@ -85,6 +85,7 @@ export default function registerCodeflareCommands(registrar: Registrar) {
   registrar.catchall<KResponse, MadWizardOptions>(
     (argv: string[]) => argv[0] === "codeflare",
     (args) => import("./catchall").then((_) => _.default(args)),
-    1
+    1,
+    { flags: { configuration: { "populate--": true } } }
   )
 }
