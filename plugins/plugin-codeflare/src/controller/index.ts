@@ -78,6 +78,11 @@ export default function registerCodeflareCommands(registrar: Registrar) {
    */
   registrar.listen("/codeflare/dashboard-gallery", (args) => import("./hello").then((_) => _.dashboardGallery(args)))
 
+  /** Open a terminal */
+  registrar.listen("/codeflare/terminal", (args) => import("./terminal").then((_) => _.default(args)), {
+    needsUI: true,
+  })
+
   /**
    * Register a catch-all command handler: any `/^codeflare/` command
    * lines, send to madwizard.

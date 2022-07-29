@@ -21,32 +21,52 @@ and machine learning pipelines on the cloud.
 
 ---
 
-=== "See CodeFlare in Action"
-    ```shell
-    ---
-    execute: now
-    outputOnly: true
-    maximize: true
-    ---
-    codeflare gallery
-    ```
+=== "Gallery"
+    === "CodeFlare CLI"
+        ```shell
+        ---
+        execute: now
+        outputOnly: true
+        maximize: true
+        ---
+        codeflare gallery
+        ```
 
-=== "See Example Dashboards"
-    ```shell
-    ---
-    execute: now
-    outputOnly: true
-    maximize: true
-    ---
-    codeflare dashboard-gallery
-    ```
+    === "CodeFlare Dashboard"
+        ```shell
+        ---
+        execute: now
+        outputOnly: true
+        maximize: true
+        ---
+        codeflare dashboard-gallery
+        ```
 
 === "Your Profiles"
-
     ```shell
     ---
     execute: now
     outputOnly: true
     ---
     codeflare get profile
+    ```
+
+=== "Use the CodeFlare CLI"
+    ```shell
+    ---
+    execute: now
+    outputOnly: true
+    maximize: true
+    ---
+    codeflare terminal codeflare
+    ```
+
+=== "Terminal"
+    ```shell
+    ---
+    execute: now
+    outputOnly: true
+    maximize: true
+    ---
+    codeflare terminal $SHELL
     ```
