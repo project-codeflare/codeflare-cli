@@ -48,9 +48,11 @@ export default function openTerminal(args: Arguments) {
       // component, which expects something stream-like
       const passthrough = new PassThrough()
 
-      const { argv, env } = respawn(args.command.replace(/^\s*codeflare\s+terminal\s+/, ""))
+      // respawn, meaning launch it with codeflare
+      const { argv, env } = respawn(args.argv.slice(2))
+      const cmdline = argv.map((_) => encodeComponent(_)).join(" ")
 
-      await args.REPL.qexec(argv.map((_) => encodeComponent(_)).join(" "), undefined, undefined, {
+      await args.REPL.qexec(cmdline, undefined, undefined, {
         tab: args.tab,
         env,
         quiet: true,

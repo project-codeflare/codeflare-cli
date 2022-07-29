@@ -68,5 +68,5 @@ and machine learning pipelines on the cloud.
     outputOnly: true
     maximize: true
     ---
-    codeflare terminal $SHELL
+    codeflare terminal $SHELL -l
     ```
