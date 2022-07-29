@@ -31,6 +31,16 @@ and machine learning pipelines on the cloud.
     codeflare gallery
     ```
 
+=== "See Example Dashboards"
+    ```shell
+    ---
+    execute: now
+    outputOnly: true
+    maximize: true
+    ---
+    codeflare dashboard-gallery
+    ```
+
 === "Your Profiles"
 
     ```shell
