@@ -57,7 +57,7 @@ async function dashboardui(args: Arguments<DashboardOptions>) {
   process.env.LOGDIR = filepath
   process.env.FOLLOW = args.parsedOptions.follow ? "-f" : ""
 
-  return args.REPL.qexec(`commentary -f /kui/client/dashboard.md`)
+  return args.REPL.qexec(`tab new --cmdline "commentary --replace -f /kui/client/dashboard.md"`)
 }
 
 /** Desired window width */

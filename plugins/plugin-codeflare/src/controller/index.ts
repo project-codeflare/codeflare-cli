@@ -19,22 +19,26 @@ import { MadWizardOptions } from "@kui-shell/plugin-madwizard"
 
 import tailf from "./tailf"
 import browse from "./browse"
+import runs from "./runs"
 import charts from "./charts"
 import events from "./events"
 import dashboard from "./dashboard"
 import description from "./description"
 
 function help() {
-  return `Usage:
-codeflare [run] [<task>] [-s /path/to/store] [-u]
-codeflare dashboard /path/to/logdir
-codeflare chart gpu /path/to/logdir`
+  return `
+  Usage:
+    codeflare [run] [<task>] [-s /path/to/store] [-u]
+    codeflare dashboard /path/to/logdir
+    codeflare chart gpu /path/to/logdir
+`
 }
 
 /** Register Kui Commands */
 export default function registerCodeflareCommands(registrar: Registrar) {
   tailf(registrar)
   browse(registrar)
+  runs(registrar)
   charts(registrar)
   events(registrar)
   dashboard(registrar)
