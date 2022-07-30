@@ -56,6 +56,16 @@ export default async function profilesMenu(
 ): Promise<MenuItemConstructorOptions[]> {
   if (!watcher) {
     watcher = new ProfileWatcher(updateFn, await Profiles.profilesPath({}, true))
+
+    // we need to close the chokidar watcher before exit, otherwise
+    // electron-main dies with SIGABRT
+    import("electron").then((_) =>
+      _.app.on("will-quit", async () => {
+        if (watcher) {
+          await watcher.close()
+        }
+      })
+    )
   }
 
   // one-time initialization of the watcher, if needed; we need to do
