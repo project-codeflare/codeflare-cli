@@ -34,7 +34,7 @@ function watch(stream: PassThrough, job: Job) {
   }
 }
 
-type Props = {
+export type Props = {
   cmdline: string
   env: Record<string, string>
   tab: Arguments["tab"]

@@ -44,7 +44,7 @@ and machine learning pipelines on the cloud.
     outputOnly: true
     maximize: true
     ---
-    codeflare terminal codeflare
+    codeflare terminal codeflare -p ${SELECTED_PROFILE}
     ```
 
 === "Gallery"

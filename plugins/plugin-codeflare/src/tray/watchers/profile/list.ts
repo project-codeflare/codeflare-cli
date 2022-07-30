@@ -54,25 +54,30 @@ export default class ProfileWatcher {
     return { profilesPath: this.profilesPath }
   }
 
+  private readonly onAddOrChange = async (path: string) => {
+    try {
+      const profile = basename(path)
+      if (Profiles.isTemporary(profile)) {
+        // skip any write-file-atomic temps
+        return
+      }
+
+      const idx = this.profiles.findIndex((_) => _.name === profile)
+      if (idx < 0) {
+        this._profiles.push(await Profiles.restore(this.madwizardOptions, basename(path)).then((_) => _.profile))
+      } else {
+        this._profiles[idx] = await Profiles.restore(this.madwizardOptions, basename(path)).then((_) => _.profile)
+      }
+      this.updateFn()
+    } catch (err) {
+      console.error("Error loading new profile", path, err)
+    }
+  }
+
   /** Initialize the filesystem watcher to notify us of new or removed profiles */
   private initWatcher() {
-    this.watcher.on("add", async (path) => {
-      try {
-        const profile = basename(path)
-        if (Profiles.isTemporary(profile)) {
-          // skip any write-file-atomic temps
-          return
-        }
-
-        const idx = this.profiles.findIndex((_) => _.name === profile)
-        if (idx < 0) {
-          this._profiles.push(await Profiles.restore(this.madwizardOptions, basename(path)).then((_) => _.profile))
-          this.updateFn()
-        }
-      } catch (err) {
-        console.error("Error loading new profile", path, err)
-      }
-    })
+    this.watcher.on("add", this.onAddOrChange)
+    this.watcher.on("change", this.onAddOrChange)
 
     this.watcher.on("unlink", (path) => {
       const profile = basename(path)

@@ -18,7 +18,9 @@ import React from "react"
 import { Arguments, encodeComponent } from "@kui-shell/core"
 
 import respawn from "./respawn"
+
 import Terminal from "../components/RestartableTerminal"
+import SelectedProfileTerminal from "../components/SelectedProfileTerminal"
 
 /**
  * This is a command handler that opens up a terminal. The expectation
@@ -29,7 +31,11 @@ export default function openTerminal(args: Arguments) {
   // respawn, meaning launch it with codeflare
   const { argv, env } = respawn(args.argv.slice(2))
   const cmdline = argv.map((_) => encodeComponent(_)).join(" ")
+
   return {
-    react: <Terminal cmdline={cmdline} env={env} repl={args.REPL} tab={args.tab} />,
+    react: React.createElement(
+      SelectedProfileTerminal.selectedProfilePattern.test(args.command) ? SelectedProfileTerminal : Terminal,
+      { cmdline, env, repl: args.REPL, tab: args.tab }
+    ),
   }
 }
