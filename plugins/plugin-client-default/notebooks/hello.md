@@ -9,7 +9,7 @@ layout:
         maximized: true
 ---
 
-<img alt="CodeFlare Icon" src="@kui-shell/client/icons/svg/codeflare.svg" width="225" height="225" align="left" />
+<img alt="CodeFlare Icon" src="@kui-shell/client/icons/svg/codeflare.svg" width="100" height="100" align="left" />
 
 [CodeFlare](https://codeflare.dev) is a framework to simplify the
 integration, scaling and acceleration of complex multi-step analytics
@@ -17,9 +17,31 @@ and machine learning pipelines on the cloud.
 
 > ### Next Steps
 >
-> - To start running jobs against the Cloud, from your terminal, try `codeflare` .
+> To start running jobs against the Cloud, from your terminal, try
+> `codeflare`. You may also try it out in the embedded terminal below.
+
 
 ---
+
+
+=== "Use the CodeFlare CLI"
+    ```shell
+    ---
+    execute: now
+    outputOnly: true
+    maximize: true
+    ---
+    codeflare terminal codeflare
+    ```
+
+=== "Your Profiles"
+    ```shell
+    ---
+    execute: now
+    outputOnly: true
+    ---
+    codeflare get profile
+    ```
 
 === "Gallery"
     === "CodeFlare CLI"
@@ -42,25 +64,6 @@ and machine learning pipelines on the cloud.
         codeflare dashboard-gallery
         ```
 
-=== "Your Profiles"
-    ```shell
-    ---
-    execute: now
-    outputOnly: true
-    ---
-    codeflare get profile
-    ```
-
-=== "Use the CodeFlare CLI"
-    ```shell
-    ---
-    execute: now
-    outputOnly: true
-    maximize: true
-    ---
-    codeflare terminal codeflare
-    ```
-
 === "Terminal"
     ```shell
     ---
@@ -70,3 +73,4 @@ and machine learning pipelines on the cloud.
     ---
     codeflare terminal $SHELL -l
     ```
+

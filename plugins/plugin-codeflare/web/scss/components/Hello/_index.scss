@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+@import "@kui-shell/plugin-client-common/web/scss/components/Hint/mixins";
 @import "@kui-shell/plugin-client-common/web/scss/components/Terminal/mixins";
 @import "@kui-shell/plugin-client-common/web/scss/components/TopLevelTab/mixins";
 @import "Grid";
@@ -21,9 +22,9 @@
 @include TopLevelTab {
   &.codeflare--welcome-guidebook {
     @include Split(2) {
-      grid-template-rows: 300px 1fr;
-      grid-template-columns: 1fr;
-      grid-template-areas: "T1" "T2";
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr 2fr;
+      grid-template-areas: "T1 T2";
     }
 
     @include Split(3) {
@@ -110,7 +111,14 @@ $cell: 1.5em;
   }
 }
 
-.codeflare {
+.codeflare--welcome-guidebook {
+  @include Hint {
+    display: block;
+    .pf-c-hint__actions {
+      float: right;
+    }
+  }
+
   .pf-c-tile__header {
     overflow: hidden;
     white-space: nowrap;

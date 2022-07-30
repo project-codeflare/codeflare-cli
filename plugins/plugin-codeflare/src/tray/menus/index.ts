@@ -37,7 +37,7 @@ export default async function buildContextMenu(
     {
       label: `Getting Started`,
       icon: gettingStartedIcon,
-      click: () => createWindow([], { width: 1000, height: 1000 }),
+      click: () => createWindow([], { width: 1200, height: 800 }),
     },
     { label: `Report a Bug`, icon: bugIcon, click: () => import("open").then((_) => _.default(bugs.url)) },
     { label: `Quit ${productName}`, icon: powerOffIcon, role: "quit" },

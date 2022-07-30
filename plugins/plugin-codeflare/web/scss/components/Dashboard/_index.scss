@@ -99,9 +99,9 @@ body.kui--patternfly4[kui-theme="PatternFly4 Dark"][kui-theme-style] {
 }
 
 @include Scrollback {
-  .pf-c-tabs__link::after {
+  /* .pf-c-tabs__link::after {
     border-color: var(--color-base06);
-  }
+  } */
 
   &:not(.kui--inverted-color-context) {
     /* TODO MISSING SASS MIXIN in KUI CORE */
