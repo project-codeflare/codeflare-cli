@@ -28,9 +28,9 @@
     }
 
     @include Split(3) {
-      grid-template-rows: 1fr 1.5fr 0.875fr;
-      grid-template-columns: 1fr;
-      grid-template-areas: "T1" "T2" "T3";
+      grid-template-rows: 2fr 1fr;
+      grid-template-columns: 1fr 2fr;
+      grid-template-areas: "T1 T3" "T2 T3";
     }
   }
 }
@@ -112,6 +112,10 @@ $cell: 1.5em;
 }
 
 .codeflare--welcome-guidebook {
+  svg[icon="Lightbulb"] {
+    fill: var(--color-text-02);
+  }
+
   @include Hint {
     display: block;
     .pf-c-hint__actions {
@@ -132,5 +136,15 @@ $cell: 1.5em;
 
   .pf-c-tile__body {
     color: var(--color-text-02);
+  }
+
+  /** TODO move this somewhere else? */
+  .codeflare--gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(10em, max-content));
+
+    & > div {
+      grid-column-start: unset;
+      grid-column-end: unset;
+    }
   }
 }
