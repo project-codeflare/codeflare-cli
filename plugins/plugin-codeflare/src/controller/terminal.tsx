@@ -14,26 +14,11 @@
  * limitations under the License.
  */
 
-import { Arguments, Job, ReactResponse, encodeComponent, isResizable } from "@kui-shell/core"
-
 import React from "react"
-import { PassThrough } from "stream"
+import { Arguments, encodeComponent } from "@kui-shell/core"
 
 import respawn from "./respawn"
-import Terminal from "../components/Terminal"
-
-/**
- * This is our impl of the `watch` property that our Terminal
- * component needs, in order to support live updates.
- */
-function watch(stream: PassThrough, job: Job) {
-  return {
-    on: stream.on.bind(stream), // data from pty to terminal
-    onInput: job.write.bind(job), // user input from terminal to pty
-    unwatch: job.abort.bind(job), // unmount, abort pty job
-    onResize: isResizable(job) ? job.resize.bind(job) : undefined,
-  }
-}
+import Terminal from "../components/RestartableTerminal"
 
 /**
  * This is a command handler that opens up a terminal. The expectation
@@ -41,40 +26,10 @@ function watch(stream: PassThrough, job: Job) {
  * `codeflare terminal <rest...>`.
  */
 export default function openTerminal(args: Arguments) {
-  // eslint-disable-next-line no-async-promise-executor
-  return new Promise<ReactResponse>(async (resolve, reject) => {
-    try {
-      // we need this to wire the pty output through to the Terminal
-      // component, which expects something stream-like
-      const passthrough = new PassThrough()
-
-      // respawn, meaning launch it with codeflare
-      const { argv, env } = respawn(args.argv.slice(2))
-      const cmdline = argv.map((_) => encodeComponent(_)).join(" ")
-
-      await args.REPL.qexec(cmdline, undefined, undefined, {
-        tab: args.tab,
-        env,
-        quiet: true,
-        onInit: () => (_) => {
-          // hooks pty output to our passthrough stream
-          passthrough.write(_)
-        },
-        onReady: (job) => {
-          resolve({
-            react: (
-              <div
-                className="kui--inverted-color-context flex-fill flex-layout flex-align-stretch"
-                style={{ backgroundColor: "var(--color-sidecar-background-02)" }}
-              >
-                <Terminal watch={() => watch(passthrough, job)} />
-              </div>
-            ),
-          })
-        },
-      })
-    } catch (err) {
-      reject(err)
-    }
-  })
+  // respawn, meaning launch it with codeflare
+  const { argv, env } = respawn(args.argv.slice(2))
+  const cmdline = argv.map((_) => encodeComponent(_)).join(" ")
+  return {
+    react: <Terminal cmdline={cmdline} env={env} repl={args.REPL} tab={args.tab} />,
+  }
 }
