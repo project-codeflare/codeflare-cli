@@ -62,8 +62,8 @@ export default function registerCodeflareCommands(registrar: Registrar) {
   registrar.listen("/codeflare/hello", (args) => import("./hello").then((_) => _.default(args)), {
     needsUI: true,
     outputOnly: true,
-    width: 1000,
-    height: 1000,
+    width: 1200,
+    height: 800,
   })
 
   /**

@@ -17,7 +17,7 @@
 import React from "react"
 import prettyMillis from "pretty-ms"
 import { Profiles } from "madwizard"
-import { Flex, FlexItem, Tile } from "@patternfly/react-core"
+import { Gallery, GalleryItem, Tile } from "@patternfly/react-core"
 
 import PlusIcon from "@patternfly/react-icons/dist/esm/icons/user-plus-icon"
 import ProfileIcon from "@patternfly/react-icons/dist/esm/icons/user-icon"
@@ -28,21 +28,21 @@ export default async function getProfiles() {
 
   return {
     react: (
-      <Flex className="flex-fill sans-serif top-pad left-pad right-pad bottom-pad">
-        <FlexItem>
+      <Gallery className="flex-fill sans-serif top-pad left-pad right-pad bottom-pad" hasGutter>
+        <GalleryItem>
           <Tile className="codeflare--tile codeflare--tile-new" title="New Profile" icon={<PlusIcon />} isStacked>
             Customize a profile
           </Tile>
-        </FlexItem>
+        </GalleryItem>
 
         {profiles.map((_) => (
-          <FlexItem key={_.profile.name}>
+          <GalleryItem key={_.profile.name}>
             <Tile className="codeflare--tile" title={_.profile.name} icon={<ProfileIcon />} isStacked>
               {`Last used ${prettyMillis(Date.now() - _.profile.lastUsedTime, { compact: true })} ago`}
             </Tile>
-          </FlexItem>
+          </GalleryItem>
         ))}
-      </Flex>
+      </Gallery>
     ),
   }
 }
