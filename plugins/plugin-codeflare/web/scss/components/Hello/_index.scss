@@ -28,9 +28,9 @@
     }
 
     @include Split(3) {
-      grid-template-rows: 2fr 1fr;
+      grid-template-rows: 1fr 3.75fr;
       grid-template-columns: 1fr 2fr;
-      grid-template-areas: "T1 T3" "T2 T3";
+      grid-template-areas: "T1 T2" "T1 T3";
     }
   }
 }
@@ -140,7 +140,7 @@ $cell: 1.5em;
 
   /** TODO move this somewhere else? */
   .codeflare--gallery-grid {
-    grid-template-columns: repeat(auto-fill, minmax(10em, max-content));
+    grid-template-columns: repeat(auto-fit, minmax(10em, max-content));
 
     & > div {
       grid-column-start: unset;
