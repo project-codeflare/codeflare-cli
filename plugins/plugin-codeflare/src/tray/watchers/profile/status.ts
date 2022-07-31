@@ -45,7 +45,16 @@ export default class ProfileStatusWatcher {
     return { label: `Worker nodes: ${this.workerReadiness}` }
   }
 
+  private async initJobWithDelay(profile: string, delayMillis = 0) {
+    if (delayMillis) {
+      // delayed start
+      await new Promise((resolve) => setTimeout(resolve, delayMillis))
+    }
+    return this.initJob(profile)
+  }
+
   private initJob(profile: string) {
+    console.error("Watcher start", profile)
     const { argv, env } = respawnCommand([
       "guide",
       "-q",
@@ -72,12 +81,15 @@ export default class ProfileStatusWatcher {
     })
 
     job.on("error", () => {
+      Debug("codeflare")("Watcher error", profile)
       this.headReadiness = "error"
       this.workerReadiness = "error"
+      this.initJobWithDelay(profile, 2000) // restart after a delay
     })
 
-    job.on("close", (exitCode) => {
-      console.error("Watcher exited with code", exitCode)
+    job.on("close", async (exitCode) => {
+      Debug("codeflare")("Watcher exited with code", exitCode)
+      this.initJobWithDelay(profile, 2000) // restart after a delay
     })
 
     job.stdout.on("data", (data) => {
