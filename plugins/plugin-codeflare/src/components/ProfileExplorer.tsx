@@ -55,21 +55,43 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
     this.init()
   }
 
+  private updateDebouncer: null | ReturnType<typeof setTimeout> = null
+
   private readonly updateFn = () => {
-    // slice to force a render; TODO we could do a comparison to avoid
-    // false re-renders if we want to get fancy
-    this.setState((curState) => {
-      const profiles = curState.watcher.profiles.slice()
-      if (!curState || !curState.profiles || curState.profiles.length === 0) {
-        // sort the first time we get a list of profiles; TODO should
-        // we re-sort if the list changes? what we want to avoid is
-        // resorting simply because the selection changed
-        profiles.sort((a, b) => b.lastUsedTime - a.lastUsedTime)
-      }
-      return {
-        profiles,
-      }
-    })
+    if (this.updateDebouncer) {
+      clearTimeout(this.updateDebouncer)
+    }
+
+    // hmm, this is imperfect... the watcher seems to give us [A],
+    // then [A,B], then [A,B,C] in quick succession. is there any way
+    // to know that we are done with the initial batch? for now, we do
+    // some debouncing.
+    this.updateDebouncer = setTimeout(() => {
+      this.setState((curState) => {
+        if (JSON.stringify(curState.watcher.profiles) === JSON.stringify(curState.profiles)) {
+          return null
+        }
+
+        const profiles = curState.watcher.profiles.slice()
+
+        let selectedProfile = curState.selectedProfile
+        if (!curState || !curState.profiles || curState.profiles.length === 0) {
+          // sort the first time we get a list of profiles; TODO should
+          // we re-sort if the list changes? what we want to avoid is
+          // resorting simply because the selection changed
+          profiles.sort((a, b) => b.lastUsedTime - a.lastUsedTime)
+
+          // also emit an initial profile selection event
+          selectedProfile = profiles[0].name
+          emitSelectProfile(selectedProfile)
+        }
+
+        return {
+          profiles,
+          selectedProfile,
+        }
+      })
+    }, 100)
   }
 
   private async init() {
@@ -103,6 +125,14 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
     }
   }
 
+  private prettyMillis(duration: number) {
+    if (duration < 1000) {
+      return "just now"
+    } else {
+      return prettyMillis(duration, { compact: true }) + " ago"
+    }
+  }
+
   public render() {
     if (this.state && this.state.catastrophicError) {
       return "Internal Error"
@@ -111,16 +141,16 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
     } else {
       return (
         <Grid className="codeflare--gallery-grid flex-fill sans-serif top-pad left-pad right-pad bottom-pad" hasGutter>
-          {this.state.profiles.map((_, idx) => (
+          {this.state.profiles.map((_) => (
             <GridItem key={_.name}>
               <Tile
                 className="codeflare--tile"
                 data-profile={_.name}
                 title={_.name}
-                isSelected={!this.state.selectedProfile ? idx === 0 : this.state.selectedProfile === _.name}
+                isSelected={this.state.selectedProfile === _.name}
                 onClick={this.onSelect}
               >
-                {`Last used ${prettyMillis(Date.now() - _.lastUsedTime, { compact: true })} ago`}
+                {`Last used ${this.prettyMillis(Date.now() - _.lastUsedTime)}`}
               </Tile>
             </GridItem>
           ))}
