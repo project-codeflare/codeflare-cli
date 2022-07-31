@@ -56,6 +56,10 @@ export default class RestartableTerminal extends React.PureComponent<Props, Stat
   private mounted = false
 
   private async initPty() {
+    if (!this.mounted) {
+      return
+    }
+
     try {
       // we need this to wire the pty output through to the Terminal
       // component, which expects something stream-like

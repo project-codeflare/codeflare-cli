@@ -117,7 +117,7 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
   private readonly onSelect = async (evt: React.MouseEvent<HTMLElement>) => {
     const selectedProfile = evt.currentTarget.getAttribute("data-profile")
     evt.currentTarget.scrollIntoView(true)
-    if (selectedProfile) {
+    if (selectedProfile && selectedProfile !== this.state.selectedProfile) {
       if (await Profiles.bumpLastUsedTime(selectedProfile)) {
         emitSelectProfile(selectedProfile)
         this.setState({ selectedProfile })

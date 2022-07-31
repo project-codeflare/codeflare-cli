@@ -17,7 +17,7 @@
 import React from "react"
 import { Loading } from "@kui-shell/plugin-client-common"
 
-import Terminal, { Props } from "./RestartableTerminal"
+import RestartableTerminal, { Props } from "./RestartableTerminal"
 import { onSelectProfile, offSelectProfile } from "./ProfileExplorer"
 
 type State = {
@@ -55,7 +55,7 @@ export default class SelectedProfileTerminal extends React.PureComponent<Props, 
     if (!this.state || !this.state.cmdline) {
       return <Loading />
     } else {
-      return <Terminal key={this.state.cmdline} {...this.props} cmdline={this.state.cmdline} />
+      return <RestartableTerminal key={this.state.cmdline} {...this.props} cmdline={this.state.cmdline} />
     }
   }
 }
