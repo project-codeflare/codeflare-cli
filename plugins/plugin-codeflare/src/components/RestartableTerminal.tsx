@@ -53,6 +53,8 @@ type State = {
  * tne pty and recreates the terminal if this happens.
  */
 export default class RestartableTerminal extends React.PureComponent<Props, State> {
+  private mounted = false
+
   private async initPty() {
     try {
       // we need this to wire the pty output through to the Terminal
@@ -72,11 +74,13 @@ export default class RestartableTerminal extends React.PureComponent<Props, Stat
           passthrough.write(_)
         },
         onReady: (job) => {
-          this.setState((curState) => ({
-            job,
-            watch: () => watch(passthrough, job),
-            startCount: !curState || curState.startCount === undefined ? 0 : curState.startCount + 1,
-          }))
+          if (this.mounted) {
+            this.setState((curState) => ({
+              job,
+              watch: () => watch(passthrough, job),
+              startCount: !curState || curState.startCount === undefined ? 0 : curState.startCount + 1,
+            }))
+          }
         },
       })
     } catch (err) {
@@ -86,10 +90,12 @@ export default class RestartableTerminal extends React.PureComponent<Props, Stat
   }
 
   public componentDidMount() {
+    this.mounted = true
     this.initPty()
   }
 
   public componentWillUnmount() {
+    this.mounted = false
     if (this.state.job) {
       this.state.job.abort()
     }

@@ -15,7 +15,6 @@
  */
 
 import React from "react"
-import { Profiles } from "madwizard"
 import { Loading } from "@kui-shell/plugin-client-common"
 
 import Terminal, { Props } from "./RestartableTerminal"
@@ -31,7 +30,7 @@ export default class SelectedProfileTerminal extends React.PureComponent<Props, 
   public constructor(props: Props) {
     super(props)
     onSelectProfile(this.onSelect)
-    this.init()
+    // this.init()
   }
 
   public componentWillUnmount() {
@@ -43,16 +42,13 @@ export default class SelectedProfileTerminal extends React.PureComponent<Props, 
     this.setState({ cmdline })
   }
 
-  private async init() {
+  /* private async init() {
     const cmdline = await this.cmdline()
     this.setState({ cmdline })
-  }
+  } */
 
-  private async cmdline(selectedProfile?: string) {
-    return this.props.cmdline.replace(
-      SelectedProfileTerminal.selectedProfilePattern,
-      selectedProfile || (await Profiles.lastUsed())
-    )
+  private async cmdline(selectedProfile: string) {
+    return this.props.cmdline.replace(SelectedProfileTerminal.selectedProfilePattern, selectedProfile)
   }
 
   public render() {
