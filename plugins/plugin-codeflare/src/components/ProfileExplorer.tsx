@@ -157,7 +157,7 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
 
           {
             <GridItem>
-              <Tile className="codeflare--tile codeflare--tile-new" title="New Profile" icon={<PlusIcon />} isStacked>
+              <Tile className="codeflare--tile codeflare--tile-new" title="New Profile" icon={<PlusIcon />}>
                 Customize a profile
               </Tile>
             </GridItem>
