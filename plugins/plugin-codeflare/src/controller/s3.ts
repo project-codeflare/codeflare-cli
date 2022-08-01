@@ -14,13 +14,23 @@
  * limitations under the License.
  */
 
-import { Registrar } from "@kui-shell/core"
+import { Arguments, Registrar } from "@kui-shell/core"
+
+async function dirs(args: Arguments) {
+  const { join } = await import("path")
+  await import("@kui-shell/plugin-s3").then((_) => _.enable())
+  return args.argvNoOptions.slice(3).map((_) => join("/s3", _))
+}
+
+async function ls(args: Arguments) {
+  return args.REPL.qexec("ls " + (await dirs(args)).join(" "))
+}
+
+async function select(args: Arguments) {
+  return args.REPL.qexec("ls " + (await dirs(args)).join(" "))
+}
 
 export default function s3Behaviors(registrar: Registrar) {
-  registrar.listen("/codeflare/s3/ls", async (args) => {
-    const { join } = await import("path")
-    await import("@kui-shell/plugin-s3").then((_) => _.enable())
-    const rest = args.argvNoOptions.slice(3).map((_) => join("/s3", _))
-    return args.REPL.qexec("ls " + rest.join(" "))
-  })
+  registrar.listen("/codeflare/s3/ls", ls)
+  registrar.listen("/codeflare/s3/select", select, { needsUI: true })
 }
