@@ -60,8 +60,8 @@ export default function registerCodeflareCommands(registrar: Registrar) {
     outputOnly: true,
   })
 
-  // launch our hello guidebook
-  registrar.listen("/codeflare/hello", (args) => import("./hello").then((_) => _.default(args)), {
+  // launch our explore guidebook
+  registrar.listen("/codeflare/explore", (args) => import("./hello").then((_) => _.default(args)), {
     needsUI: true,
     outputOnly: true,
     width: 1200,

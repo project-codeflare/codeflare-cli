@@ -46,22 +46,22 @@ import "../web/scss/components/Client.scss"
 //      }
 
 export default function renderMain(props: KuiProps) {
-  //  toplevel={!Capabilities.inBrowser() && <Search />}
+  const explorer = productTitle + " Explorer"
   return (
     <Kui
       noHelp
       version={version}
-      productName={props.title || "Welcome to " + productTitle}
+      productName={props.title || explorer}
       lightweightTables
       noNewTabButton
       noNewSplitButton
       noTopTabs
       guidebooks={false}
       {...props}
-      initialTabTitle="Hello"
+      initialTabTitle={explorer}
       isPopup={false}
       quietExecCommand={false}
-      commandLine={process.env.RUNNING_KUI_TEST ? undefined : props.commandLine || ["codeflare", "hello"]}
+      commandLine={process.env.RUNNING_KUI_TEST ? undefined : props.commandLine || ["codeflare", "explore"]}
     >
       <ContextWidgets>
         <GitHubIcon />
