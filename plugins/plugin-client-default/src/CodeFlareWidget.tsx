@@ -29,8 +29,8 @@ export default class CodeFlareWidget extends React.PureComponent {
   private static popoverBody() {
     return (
       <div className="not-very-wide pre-wrap">
-        With CodeFlare, the time it takes to train an AI system can drop from weeks to a single day in a hybrid cloud
-        environment.
+        <a href="https://codeflare.dev">CodeFlare</a> simplifies the integration, scaling and acceleration of complex
+        multi-step analytics and machine learning pipelines on the cloud.
       </div>
     )
   }
