@@ -15,16 +15,31 @@
  */
 
 import React from "react"
-import prettyMillis from "pretty-ms"
 import { EventEmitter } from "events"
 import { Profiles } from "madwizard"
 import { Loading } from "@kui-shell/plugin-client-common"
-import { Grid, GridItem, Tile } from "@patternfly/react-core"
+import {
+  Card,
+  CardTitle,
+  CardBody,
+  Title,
+  Button,
+  Flex,
+  FlexItem,
+  CardFooter,
+  DescriptionList,
+  DescriptionListGroup,
+  DescriptionListTerm,
+  DescriptionListDescription,
+} from "@patternfly/react-core"
 
+import ProfileSelect from "./ProfileSelect"
+import DashboardSelect from "./DashboardSelect"
 import ProfileWatcher from "../tray/watchers/profile/list"
+import { handleBoot, handleShutdown } from "../controller/profile/actions"
 
-import PlusIcon from "@patternfly/react-icons/dist/esm/icons/user-plus-icon"
-// import ProfileIcon from "@patternfly/react-icons/dist/esm/icons/user-icon"
+import "../../web/scss/components/Dashboard/Description.scss"
+import "../../web/scss/components/ProfileExplorer/_index.scss"
 
 const events = new EventEmitter()
 
@@ -54,6 +69,9 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
     super(props)
     this.init()
   }
+
+  private readonly _handleBoot = handleBoot.bind(this)
+  private readonly _handleShutdown = handleShutdown.bind(this)
 
   private updateDebouncer: null | ReturnType<typeof setTimeout> = null
 
@@ -113,26 +131,6 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
     }
   }
 
-  /** User has clicked to select a profile */
-  private readonly onSelect = async (evt: React.MouseEvent<HTMLElement>) => {
-    const selectedProfile = evt.currentTarget.getAttribute("data-profile")
-    evt.currentTarget.scrollIntoView(true)
-    if (selectedProfile && selectedProfile !== this.state.selectedProfile) {
-      if (await Profiles.bumpLastUsedTime(selectedProfile)) {
-        emitSelectProfile(selectedProfile)
-        this.setState({ selectedProfile })
-      }
-    }
-  }
-
-  private prettyMillis(duration: number) {
-    if (duration < 1000) {
-      return "just now"
-    } else {
-      return prettyMillis(duration, { compact: true }) + " ago"
-    }
-  }
-
   public render() {
     if (this.state && this.state.catastrophicError) {
       return "Internal Error"
@@ -140,29 +138,78 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
       return <Loading />
     } else {
       return (
-        <Grid className="codeflare--gallery-grid flex-fill sans-serif top-pad left-pad right-pad bottom-pad" hasGutter>
-          {this.state.profiles.map((_) => (
-            <GridItem key={_.name}>
-              <Tile
-                className="codeflare--tile"
-                data-profile={_.name}
-                title={_.name}
-                isSelected={this.state.selectedProfile === _.name}
-                onClick={this.onSelect}
-              >
-                {`Last used ${this.prettyMillis(Date.now() - _.lastUsedTime)}`}
-              </Tile>
-            </GridItem>
-          ))}
+        <Flex className="codeflare--profile-explorer flex-fill" direction={{ default: "column" }}>
+          <FlexItem>
+            <ProfileSelect selectedProfile={this.state.selectedProfile} profiles={this.state.profiles} />
+          </FlexItem>
 
-          {
-            <GridItem>
-              <Tile className="codeflare--tile codeflare--tile-new" title="New Profile" icon={<PlusIcon />} isDisabled>
-                Customize a profile
-              </Tile>
-            </GridItem>
-          }
-        </Grid>
+          <FlexItem>
+            <Card className="top-pad left-pad right-pad bottompad">
+              <CardTitle>
+                <Flex>
+                  <FlexItem flex={{ default: "flex_1" }}>
+                    <Title headingLevel="h2" size="md">
+                      {this.state.selectedProfile}
+                    </Title>
+                  </FlexItem>
+                  <FlexItem>
+                    <Title headingLevel="h2" size="md">
+                      Status: pending
+                    </Title>
+                  </FlexItem>
+                </Flex>
+              </CardTitle>
+              <CardBody>
+                {/* TODO: Retrieve real data and abstract to its own component */}
+                <DescriptionList className="codeflare--profile-explorer--description">
+                  <DescriptionListGroup className="codeflare--profile-explorer--description--group">
+                    <DescriptionListTerm>Cluster Context</DescriptionListTerm>
+                    <DescriptionListDescription>
+                      api-codeflare-train-v11-codeflare-openshift-com
+                    </DescriptionListDescription>
+                  </DescriptionListGroup>
+                  <DescriptionListGroup className="codeflare--profile-explorer--description--group">
+                    <DescriptionListTerm>Cluster Namespace</DescriptionListTerm>
+                    <DescriptionListDescription>nvidia-gpu-operator</DescriptionListDescription>
+                  </DescriptionListGroup>
+                  <DescriptionListGroup className="codeflare--profile-explorer--description--group">
+                    <DescriptionListTerm>Memory per Worker</DescriptionListTerm>
+                    <DescriptionListDescription>32Gi</DescriptionListDescription>
+                  </DescriptionListGroup>
+                  <DescriptionListGroup className="codeflare--profile-explorer--description--group">
+                    <DescriptionListTerm>Worker Count</DescriptionListTerm>
+                    <DescriptionListDescription>4-4</DescriptionListDescription>
+                  </DescriptionListGroup>
+                </DescriptionList>
+              </CardBody>
+              <CardFooter>
+                <Flex>
+                  <FlexItem>
+                    <Button
+                      variant="primary"
+                      className="codeflare--profile-explorer--boot-btn"
+                      onClick={() => this._handleBoot(this.state.selectedProfile)}
+                    >
+                      Boot
+                    </Button>
+                  </FlexItem>
+                  <FlexItem>
+                    <Button
+                      variant="secondary"
+                      className="codeflare--profile-explorer--shutdown-btn"
+                      onClick={() => this._handleShutdown(this.state.selectedProfile)}
+                    >
+                      Shutdown
+                    </Button>
+                  </FlexItem>
+                  <FlexItem>
+                    <DashboardSelect selectedProfile={this.state.selectedProfile} />
+                  </FlexItem>
+                </Flex>
+              </CardFooter>
+            </Card>
+          </FlexItem>
+        </Flex>
       )
     }
   }
