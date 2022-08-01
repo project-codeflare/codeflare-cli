@@ -129,7 +129,7 @@ if [ "$do_cli" = "1" ]; then
     # using electron as the nodejs binary (this is what
     # ELECTRON_RUN_AS_NODE does for us)
     export KUI_HEADLESS=true
-    export KUI_S3=false # we don't need plugin-s3 capabilities when in headless mode
+    export KUI_S3=${KUI_S3-false} # we don't need plugin-s3 capabilities when in headless mode
     export ELECTRON_RUN_AS_NODE=true
 fi
 

@@ -17,6 +17,7 @@
 import { KResponse, Registrar } from "@kui-shell/core"
 import { MadWizardOptions } from "@kui-shell/plugin-madwizard"
 
+import s3 from "./s3"
 import tailf from "./tailf"
 import browse from "./browse"
 import charts from "./charts"
@@ -33,6 +34,7 @@ codeflare chart gpu /path/to/logdir`
 
 /** Register Kui Commands */
 export default function registerCodeflareCommands(registrar: Registrar) {
+  s3(registrar)
   tailf(registrar)
   browse(registrar)
   charts(registrar)
