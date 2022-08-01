@@ -16,18 +16,35 @@
 
 import { Arguments, Registrar } from "@kui-shell/core"
 
-async function dirs(args: Arguments) {
+/**
+ * @return the filepaths as specified on the command line, but
+ * modified to be in a filepath format that is compatible with Kui's
+ * plugin-s3; mostly this means prepending '/s3/' to each filepath
+ * provided on the initial command line
+ */
+async function dirs(args: Arguments): Promise<string[]> {
   const { join } = await import("path")
   await import("@kui-shell/plugin-s3").then((_) => _.enable())
   return args.argvNoOptions.slice(3).map((_) => join("/s3", _))
 }
 
-async function ls(args: Arguments) {
-  return args.REPL.qexec("ls " + (await dirs(args)).join(" "))
+/**
+ * @return a suffix command line that can be used to enumerate a set
+ * of filepaths as specified on the command line; if none are
+ * provided, defaults to list all recognized s3 providers
+ */
+async function rest(args: Arguments): Promise<string> {
+  return (await dirs(args)).join(" ") || "/s3"
 }
 
+/** A Kui controller that provides CLI experience for browsing s3 */
+async function ls(args: Arguments) {
+  return args.REPL.qexec("ls " + (await rest(args)))
+}
+
+/** (TODO) A Kui controller that allows the user to select a filepath, while browsing */
 async function select(args: Arguments) {
-  return args.REPL.qexec("ls " + (await dirs(args)).join(" "))
+  return args.REPL.qexec("ls " + (await rest(args)))
 }
 
 export default function s3Behaviors(registrar: Registrar) {
