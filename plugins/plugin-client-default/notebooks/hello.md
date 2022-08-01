@@ -1,5 +1,5 @@
 ---
-title: Hello
+title: CodeFlare Explorer
 className: codeflare--welcome-guidebook
 layout:
     1:
