@@ -35,7 +35,7 @@ export default async function buildContextMenu(
     { type: "separator" },
     { label: `Codeflare ${version}`, enabled: false },
     {
-      label: `CodeFlare Explorer`,
+      label: `Explore CodeFlare`,
       icon: gettingStartedIcon,
       click: () => createWindow([], { width: 1200, height: 800 }),
     },

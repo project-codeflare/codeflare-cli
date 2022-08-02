@@ -28,10 +28,20 @@ export default async function dashboards(
 ): Promise<MenuItemConstructorOptions[]> {
   const mlflow = { name: "MLFlow", portEnv: "MLFLOW_PORT" }
   const tensorboard = { name: "Tensorboard", portEnv: "TENSORBOARD_PORT" }
+  const pytorchProfiler = {
+    name: "PyTorch Profiler",
+    nameForGuidebook: "Tensorboard",
+    portEnv: "TENSORBOARD_PORT",
+    path: "#pytorch_profiler",
+  }
 
   return [
     { label: "CodeFlare", submenu: await codeflare(profile, createWindow, updateFn) },
     { label: "MLFlow", click: () => import("./open").then((_) => _.default(mlflow, profile, createWindow)) },
     { label: "Tensorboard", click: () => import("./open").then((_) => _.default(tensorboard, profile, createWindow)) },
+    {
+      label: "PyTorch Profiler",
+      click: () => import("./open").then((_) => _.default(pytorchProfiler, profile, createWindow)),
+    },
   ]
 }

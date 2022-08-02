@@ -23,15 +23,27 @@ interface DashboardSpec {
   /** Label for presentation e.g. "MLFlow" or "Tensorboard" */
   name: string
 
+  /** Assumes the standard guidebook path, but using this in place of the `name` attribute */
+  nameForGuidebook?: string
+
   /** If absent, the guidebook is of the form "ml/<name.toLowerCase()>/start/kubernetes/port-forward"; you can provide the full path instead */
   guidebook?: string
 
   /** Name of environment variable that stores the dashboard port */
   portEnv: string
+
+  /** Optional path to visit on the host */
+  path?: string
 }
 
 export default async function openDashboard(
-  { name, guidebook = `ml/${name.toLowerCase()}/start/kubernetes/port-forward`, portEnv }: DashboardSpec,
+  {
+    name,
+    nameForGuidebook = name,
+    guidebook = `ml/${nameForGuidebook.toLowerCase()}/start/kubernetes/port-forward`,
+    portEnv,
+    path = "",
+  }: DashboardSpec,
   profile: string,
   createWindow: CreateWindowFunction
 ) {
@@ -49,7 +61,7 @@ export default async function openDashboard(
       // the `createWindow` api returns a promise that will resolve
       // when the window closes
       await createWindow(
-        "http://localhost:" + resp.env[portEnv],
+        "http://localhost:" + resp.env[portEnv] + "/" + path,
         windowOptions({ title: `${name} Dashboard - ` + profile }) // might not matter, as most dashboards have their own title
       )
 
@@ -57,6 +69,7 @@ export default async function openDashboard(
       // subprocesses spawned by the guidebook
       if (typeof resp.cleanExit === "function") {
         resp.cleanExit()
+        process.on("exit", () => resp.cleanExit())
       }
     }
   }

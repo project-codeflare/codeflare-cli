@@ -16,6 +16,7 @@
 
 /** Icon set for the tray menu items */
 
+import ray from "@kui-shell/client/icons/png/rayTemplate.png"
 import profile from "@kui-shell/client/icons/png/profileTemplate.png"
 import bug from "@kui-shell/client/icons/png/bugTemplate.png"
 import powerOff from "@kui-shell/client/icons/png/powerOffTemplate.png"
@@ -32,6 +33,7 @@ function iconFor(filepath: string) {
   return join(iconHome, filepath)
 }
 
+export const rayIcon = iconFor(ray)
 export const profileIcon = iconFor(profile)
 export const bugIcon = iconFor(bug)
 export const powerOffIcon = iconFor(powerOff)

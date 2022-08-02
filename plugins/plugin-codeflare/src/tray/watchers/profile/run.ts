@@ -16,17 +16,27 @@
 
 import chokidar from "chokidar"
 import { basename } from "path"
-
 import { Profiles } from "madwizard"
+import { EventEmitter } from "events"
 
 import UpdateFunction from "../../update"
 
 export const RUNS_ERROR = "No runs found"
 
+const events = new EventEmitter()
+export function onRun(cb: () => void) {
+  events.on("run", cb)
+}
+export function offRun(cb: () => void) {
+  events.off("run", cb)
+}
+function emitRun() {
+  events.emit("run")
+}
+
 /**
  * Maintain the set of runs for `this.profile`
  *
- * TODO make this actually watch
  */
 export default class ProfileRunWatcher {
   /** Our model */
@@ -62,6 +72,23 @@ export default class ProfileRunWatcher {
     return this
   }
 
+  private debouncer: null | ReturnType<typeof setTimeout> = null
+
+  /** Emit that we have an update */
+  private emit() {
+    if (this.debouncer) {
+      clearTimeout(this.debouncer)
+    }
+
+    this.debouncer = setTimeout(() => {
+      // update menus
+      this.updateFn()
+
+      // emit for other consumption
+      emitRun()
+    }, 50)
+  }
+
   /** Initialize the filesystem watcher to notify us of new or removed profiles */
   private initWatcher() {
     this.watcher.on("addDir", async (path, stats) => {
@@ -78,7 +105,7 @@ export default class ProfileRunWatcher {
 
       const runId = basename(path)
       this._runs.push({ runId, timestamp: stats.mtimeMs })
-      this.updateFn()
+      this.emit()
     })
 
     this.watcher.on("unlink", (path) => {
@@ -86,7 +113,7 @@ export default class ProfileRunWatcher {
       const idx = this.runs.findIndex((_) => _.runId === runId)
       if (idx >= 0) {
         this._runs.splice(idx, 1)
-        this.updateFn()
+        this.emit()
       }
     })
   }
