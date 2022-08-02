@@ -3,7 +3,7 @@
     ```json
     ---
     language: yaml
-    include: .runtimeEnv.env_vars
+    include: .runtimeEnv
     ---
     --8<-- "$LOGDIR/job.json"
     ```
