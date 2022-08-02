@@ -34,12 +34,13 @@ function ago(timestamp: number) {
 export function runMenuItems(
   profile: string,
   open: RunOpener,
-  runs: { runId: string; timestamp: number }[]
+  runs: { runId: string; timestamp: number; icon?: string }[]
 ): MenuItemConstructorOptions[] {
   return runs
     .sort((a, b) => b.timestamp - a.timestamp)
     .slice(0, 10)
     .map((run) => ({
+      icon: run.icon,
       label: `${ago(run.timestamp).padEnd(8)} \u2014 ${run.runId.slice(0, run.runId.indexOf("-"))}`,
       click: () => open(profile, run.runId),
     }))

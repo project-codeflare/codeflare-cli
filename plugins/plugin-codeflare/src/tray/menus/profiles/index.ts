@@ -21,6 +21,7 @@ import { CreateWindowFunction } from "@kui-shell/core"
 import status from "./status"
 import tasks from "./tasks"
 import dashboards from "./dashboards"
+import activeRuns from "./active-runs"
 
 import section from "../section"
 import UpdateFunction from "../../update"
@@ -42,6 +43,7 @@ async function profileMenu(
       ...section("Status", status(profile, updateFn)),
       ...section("Dashboards", await dashboards(profile, createWindow, updateFn)),
       ...section("Tasks", tasks(profile, createWindow)),
+      ...section("Active Runs", await activeRuns(profile, createWindow, updateFn)),
     ],
   }
 }

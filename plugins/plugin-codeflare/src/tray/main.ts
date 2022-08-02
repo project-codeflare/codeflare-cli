@@ -39,9 +39,17 @@ class LiveMenu {
     this.render()
   }
 
-  public async render() {
-    this.tray.setToolTip(productName)
-    this.tray.setContextMenu(await buildContextMenu(this.createWindow, this.render.bind(this)))
+  /** Avoid a flurry of re-renders */
+  private debounce: null | ReturnType<typeof setTimeout> = null
+
+  public render() {
+    if (this.debounce != null) {
+      clearTimeout(this.debounce)
+    }
+    this.debounce = setTimeout(async () => {
+      this.tray.setToolTip(productName)
+      this.tray.setContextMenu(await buildContextMenu(this.createWindow, this.render.bind(this)))
+    }, 200)
   }
 }
 
