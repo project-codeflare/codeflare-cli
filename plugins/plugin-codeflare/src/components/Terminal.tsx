@@ -49,9 +49,6 @@ type ClassName = {
 }
 
 interface Props extends ClassName {
-  /** Optional font size for terminal */
-  fontSize?: number
-
   /** If given, the initial terminal output to render */
   initialContent?: string
 
@@ -158,6 +155,9 @@ export default class XTerm extends React.PureComponent<Props, State> {
     Events.eventChannelUnsafe.on("/theme/change", inject)
     this.cleaners.push(() => Events.eventChannelUnsafe.on("/theme/change", inject))
 
+    Events.eventChannelUnsafe.on("/zoom", inject)
+    this.cleaners.push(() => Events.eventChannelUnsafe.off("/zoom", inject))
+
     if (this.props.initialContent) {
       // @starpit i don't know why we have to split the newlines...
       // versus: this.terminal.write(this.props.initialContent)
@@ -247,19 +247,15 @@ export default class XTerm extends React.PureComponent<Props, State> {
     xterm.setOption("fontFamily", val("monospace", "font"))
 
     try {
-      const standIn = document.querySelector("body .repl .repl-input input")
+      const standIn = document.querySelector("body .repl")
       if (standIn) {
         const fontTheme = getComputedStyle(standIn)
-        xterm.setOption("fontSize", this.props.fontSize || parseInt(fontTheme.fontSize.replace(/px$/, ""), 10))
+        xterm.setOption("fontSize", parseInt(fontTheme.fontSize.replace(/px$/, ""), 10))
         // terminal.setOption('lineHeight', )//parseInt(fontTheme.lineHeight.replace(/px$/, ''), 10))
 
         // FIXME. not tied to theme
         xterm.setOption("fontWeight", 400)
         xterm.setOption("fontWeightBold", 600)
-      }
-
-      if (this.props.fontSize) {
-        xterm.setOption("fontSize", this.props.fontSize)
       }
     } catch (err) {
       console.error("Error setting terminal font size", err)
