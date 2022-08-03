@@ -17,6 +17,8 @@
 import { KResponse, Registrar } from "@kui-shell/core"
 import { MadWizardOptions } from "@kui-shell/plugin-madwizard"
 
+import { width, height } from "@kui-shell/client/config.d/style.json"
+
 import s3 from "./s3"
 import tailf from "./tailf"
 import browse from "./browse"
@@ -46,8 +48,8 @@ export default function registerCodeflareCommands(registrar: Registrar) {
   registrar.listen("/codeflare/version", () => import("@kui-shell/client/package.json").then((_) => _.version))
   registrar.listen("/codeflare/gui/guide", (args) => import("./guide").then((_) => _.default(args)), {
     needsUI: true,
-    width: 1280,
-    height: 800,
+    width,
+    height,
   })
 
   registrar.listen("/codeflare/rename/profile", (args) => import("./profile/rename").then((_) => _.default(args)))
@@ -64,8 +66,8 @@ export default function registerCodeflareCommands(registrar: Registrar) {
   registrar.listen("/codeflare/explore", (args) => import("./hello").then((_) => _.default(args)), {
     needsUI: true,
     outputOnly: true,
-    width: 1200,
-    height: 800,
+    width,
+    height,
   })
 
   /**
