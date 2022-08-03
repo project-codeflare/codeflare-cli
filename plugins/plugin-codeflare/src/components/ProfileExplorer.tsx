@@ -20,8 +20,10 @@ import { Profiles } from "madwizard"
 import { Loading } from "@kui-shell/plugin-client-common"
 import {
   Card,
-  CardTitle,
+  CardActions,
   CardBody,
+  CardHeader,
+  CardTitle,
   Title,
   Button,
   Flex,
@@ -31,6 +33,7 @@ import {
   DescriptionListGroup,
   DescriptionListTerm,
   DescriptionListDescription,
+  Divider,
 } from "@patternfly/react-core"
 
 import ProfileSelect from "./ProfileSelect"
@@ -70,8 +73,8 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
     this.init()
   }
 
-  private readonly _handleBoot = handleBoot.bind(this)
-  private readonly _handleShutdown = handleShutdown.bind(this)
+  private readonly _handleBoot = () => handleBoot(this.state.selectedProfile)
+  private readonly _handleShutdown = () => handleShutdown(this.state.selectedProfile)
 
   private updateDebouncer: null | ReturnType<typeof setTimeout> = null
 
@@ -131,6 +134,69 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
     }
   }
 
+  private title() {
+    return (
+      <Title headingLevel="h2" size="xl">
+        {this.state.selectedProfile}
+      </Title>
+    )
+  }
+
+  private actions() {
+    return (
+      <Title headingLevel="h2" size="md">
+        Status: pending
+      </Title>
+    )
+  }
+
+  private body() {
+    // TODO: Retrieve real data and abstract to its own component
+    return (
+      <DescriptionList className="codeflare--profile-explorer--description">
+        <DescriptionListGroup className="codeflare--profile-explorer--description--group">
+          <DescriptionListTerm>Cluster Context</DescriptionListTerm>
+          <DescriptionListDescription>api-codeflare-train-v11-codeflare-openshift-com</DescriptionListDescription>
+        </DescriptionListGroup>
+        <DescriptionListGroup className="codeflare--profile-explorer--description--group">
+          <DescriptionListTerm>Cluster Namespace</DescriptionListTerm>
+          <DescriptionListDescription>nvidia-gpu-operator</DescriptionListDescription>
+        </DescriptionListGroup>
+        <DescriptionListGroup className="codeflare--profile-explorer--description--group">
+          <DescriptionListTerm>Memory per Worker</DescriptionListTerm>
+          <DescriptionListDescription>32Gi</DescriptionListDescription>
+        </DescriptionListGroup>
+        <DescriptionListGroup className="codeflare--profile-explorer--description--group">
+          <DescriptionListTerm>Worker Count</DescriptionListTerm>
+          <DescriptionListDescription>4-4</DescriptionListDescription>
+        </DescriptionListGroup>
+      </DescriptionList>
+    )
+  }
+
+  private footer() {
+    return (
+      <Flex>
+        <FlexItem>
+          <Button variant="link" isSmall className="codeflare--profile-explorer--boot-btn" onClick={this._handleBoot}>
+            Boot
+          </Button>
+          <Button
+            variant="link"
+            isSmall
+            className="codeflare--profile-explorer--shutdown-btn"
+            onClick={this._handleShutdown}
+          >
+            Shutdown
+          </Button>
+        </FlexItem>
+        <FlexItem flex={{ default: "flex_1" }}>
+          <DashboardSelect selectedProfile={this.state.selectedProfile} />
+        </FlexItem>
+      </Flex>
+    )
+  }
+
   public render() {
     if (this.state && this.state.catastrophicError) {
       return "Internal Error"
@@ -144,69 +210,14 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
           </FlexItem>
 
           <FlexItem>
-            <Card className="top-pad left-pad right-pad bottompad">
-              <CardTitle>
-                <Flex>
-                  <FlexItem flex={{ default: "flex_1" }}>
-                    <Title headingLevel="h2" size="md">
-                      {this.state.selectedProfile}
-                    </Title>
-                  </FlexItem>
-                  <FlexItem>
-                    <Title headingLevel="h2" size="md">
-                      Status: pending
-                    </Title>
-                  </FlexItem>
-                </Flex>
-              </CardTitle>
-              <CardBody>
-                {/* TODO: Retrieve real data and abstract to its own component */}
-                <DescriptionList className="codeflare--profile-explorer--description">
-                  <DescriptionListGroup className="codeflare--profile-explorer--description--group">
-                    <DescriptionListTerm>Cluster Context</DescriptionListTerm>
-                    <DescriptionListDescription>
-                      api-codeflare-train-v11-codeflare-openshift-com
-                    </DescriptionListDescription>
-                  </DescriptionListGroup>
-                  <DescriptionListGroup className="codeflare--profile-explorer--description--group">
-                    <DescriptionListTerm>Cluster Namespace</DescriptionListTerm>
-                    <DescriptionListDescription>nvidia-gpu-operator</DescriptionListDescription>
-                  </DescriptionListGroup>
-                  <DescriptionListGroup className="codeflare--profile-explorer--description--group">
-                    <DescriptionListTerm>Memory per Worker</DescriptionListTerm>
-                    <DescriptionListDescription>32Gi</DescriptionListDescription>
-                  </DescriptionListGroup>
-                  <DescriptionListGroup className="codeflare--profile-explorer--description--group">
-                    <DescriptionListTerm>Worker Count</DescriptionListTerm>
-                    <DescriptionListDescription>4-4</DescriptionListDescription>
-                  </DescriptionListGroup>
-                </DescriptionList>
-              </CardBody>
-              <CardFooter>
-                <Flex>
-                  <FlexItem>
-                    <Button
-                      variant="primary"
-                      className="codeflare--profile-explorer--boot-btn"
-                      onClick={() => this._handleBoot(this.state.selectedProfile)}
-                    >
-                      Boot
-                    </Button>
-                  </FlexItem>
-                  <FlexItem>
-                    <Button
-                      variant="secondary"
-                      className="codeflare--profile-explorer--shutdown-btn"
-                      onClick={() => this._handleShutdown(this.state.selectedProfile)}
-                    >
-                      Shutdown
-                    </Button>
-                  </FlexItem>
-                  <FlexItem>
-                    <DashboardSelect selectedProfile={this.state.selectedProfile} />
-                  </FlexItem>
-                </Flex>
-              </CardFooter>
+            <Card className="top-pad left-pad right-pad bottompad" isSelectableRaised isSelected>
+              <CardHeader>
+                <CardTitle>{this.title()}</CardTitle>
+                <CardActions hasNoOffset>{this.actions()}</CardActions>
+              </CardHeader>
+              <CardBody>{this.body()}</CardBody>
+              <Divider />
+              <CardFooter>{this.footer()}</CardFooter>
             </Card>
           </FlexItem>
         </Flex>

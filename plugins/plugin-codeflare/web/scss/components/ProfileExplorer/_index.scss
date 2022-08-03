@@ -15,8 +15,9 @@
  */
 
 .codeflare--profile-explorer {
-  &--boot-btn {
-    color: var(--color-base00) !important;
+  hr.pf-c-divider {
+    margin: 0;
+    border: none;
   }
   .pf-c-description-list__text {
     overflow: hidden;
