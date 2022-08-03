@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import { width, height } from "@kui-shell/client/config.d/style.json"
+
 export async function openWindow(title: string, initialTabTitle: string, argv: (string | undefined)[]) {
   const { ipcRenderer } = await import("electron")
 
@@ -23,8 +25,8 @@ export async function openWindow(title: string, initialTabTitle: string, argv: (
       operation: "new-window",
       title,
       initialTabTitle,
-      width: 1200,
-      height: 800,
+      width,
+      height,
       argv,
     })
   )

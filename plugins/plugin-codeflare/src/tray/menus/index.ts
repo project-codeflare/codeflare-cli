@@ -16,8 +16,9 @@
 
 import { CreateWindowFunction } from "@kui-shell/core"
 
-import { productName } from "@kui-shell/client/config.d/name.json"
 import { bugs, version } from "@kui-shell/client/package.json"
+import { productName } from "@kui-shell/client/config.d/name.json"
+import { width, height } from "@kui-shell/client/config.d/style.json"
 
 import profilesMenu from "./profiles"
 import UpdateFunction from "../update"
@@ -37,7 +38,7 @@ export default async function buildContextMenu(
     {
       label: `Explore CodeFlare`,
       icon: gettingStartedIcon,
-      click: () => createWindow([], { width: 1200, height: 800 }),
+      click: () => createWindow([], { width, height }),
     },
     { label: `Report a Bug`, icon: bugIcon, click: () => import("open").then((_) => _.default(bugs.url)) },
     { label: `Quit ${productName}`, icon: powerOffIcon, role: "quit" },
