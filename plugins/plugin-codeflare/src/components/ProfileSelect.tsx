@@ -23,6 +23,7 @@ import { UserIcon } from "@patternfly/react-icons"
 type Props = {
   selectedProfile?: string
   profiles?: Profiles.Profile[]
+  onSelect: (profile: string) => void
 }
 
 type State = {
@@ -67,6 +68,7 @@ export default class ProfileSelect extends React.PureComponent<Props, State> {
         selectDefaultOption: selection,
         selectIsOpen: false,
       })
+      this.props.onSelect(selection.toString())
     }
   }
 

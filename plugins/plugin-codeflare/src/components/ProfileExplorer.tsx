@@ -73,6 +73,11 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
     this.init()
   }
 
+  private readonly _handleProfileSelection = (selectedProfile: string) => {
+    this.setState({ selectedProfile })
+    emitSelectProfile(selectedProfile)
+  }
+
   private readonly _handleBoot = () => handleBoot(this.state.selectedProfile)
   private readonly _handleShutdown = () => handleShutdown(this.state.selectedProfile)
 
@@ -206,7 +211,11 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
       return (
         <Flex className="codeflare--profile-explorer flex-fill" direction={{ default: "column" }}>
           <FlexItem>
-            <ProfileSelect selectedProfile={this.state.selectedProfile} profiles={this.state.profiles} />
+            <ProfileSelect
+              selectedProfile={this.state.selectedProfile}
+              profiles={this.state.profiles}
+              onSelect={this._handleProfileSelection}
+            />
           </FlexItem>
 
           <FlexItem>
