@@ -96,7 +96,7 @@ export default class XTerm extends React.PureComponent<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error("catastrophic error in Scalar", error, errorInfo)
+    console.error("catastrophic error", error, errorInfo)
   }
 
   public componentDidMount() {

@@ -78,9 +78,6 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
     emitSelectProfile(selectedProfile)
   }
 
-  private readonly _handleBoot = () => handleBoot(this.state.selectedProfile)
-  private readonly _handleShutdown = () => handleShutdown(this.state.selectedProfile)
-
   private updateDebouncer: null | ReturnType<typeof setTimeout> = null
 
   private readonly updateFn = () => {
@@ -139,20 +136,47 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
     }
   }
 
+  public render() {
+    if (this.state && this.state.catastrophicError) {
+      return "Internal Error"
+    } else if (!this.state || !this.state.profiles || !this.state.selectedProfile) {
+      return <Loading />
+    } else {
+      return (
+        <div className="codeflare--profile-explorer flex-fill top-pad left-pad right-pad bottom-pad">
+          <ProfileCard
+            profile={this.state.selectedProfile}
+            profiles={this.state.profiles}
+            onSelectProfile={this._handleProfileSelection}
+          />
+        </div>
+      )
+    }
+  }
+}
+
+class ProfileCard extends React.PureComponent<{
+  profile: string
+  profiles: Profiles.Profile[]
+  onSelectProfile: (profile: string) => void
+}> {
+  private readonly _handleBoot = () => handleBoot(this.props.profile)
+  private readonly _handleShutdown = () => handleShutdown(this.props.profile)
+
   private title() {
     return (
       <Title headingLevel="h2" size="xl">
-        {this.state.selectedProfile}
+        <ProfileSelect
+          selectedProfile={this.props.profile}
+          profiles={this.props.profiles}
+          onSelect={this.props.onSelectProfile}
+        />
       </Title>
     )
   }
 
   private actions() {
-    return (
-      <Title headingLevel="h2" size="md">
-        Status: pending
-      </Title>
-    )
+    return "Status: pending"
   }
 
   private body() {
@@ -196,41 +220,23 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
           </Button>
         </FlexItem>
         <FlexItem flex={{ default: "flex_1" }}>
-          <DashboardSelect selectedProfile={this.state.selectedProfile} />
+          <DashboardSelect selectedProfile={this.props.profile} />
         </FlexItem>
       </Flex>
     )
   }
 
   public render() {
-    if (this.state && this.state.catastrophicError) {
-      return "Internal Error"
-    } else if (!this.state || !this.state.profiles) {
-      return <Loading />
-    } else {
-      return (
-        <Flex className="codeflare--profile-explorer flex-fill" direction={{ default: "column" }}>
-          <FlexItem>
-            <ProfileSelect
-              selectedProfile={this.state.selectedProfile}
-              profiles={this.state.profiles}
-              onSelect={this._handleProfileSelection}
-            />
-          </FlexItem>
-
-          <FlexItem>
-            <Card className="top-pad left-pad right-pad bottompad" isSelectableRaised isSelected>
-              <CardHeader>
-                <CardTitle>{this.title()}</CardTitle>
-                <CardActions hasNoOffset>{this.actions()}</CardActions>
-              </CardHeader>
-              <CardBody>{this.body()}</CardBody>
-              <Divider />
-              <CardFooter>{this.footer()}</CardFooter>
-            </Card>
-          </FlexItem>
-        </Flex>
-      )
-    }
+    return (
+      <Card className="top-pad left-pad right-pad bottompad" isSelectableRaised isSelected>
+        <CardHeader>
+          <CardTitle>{this.title()}</CardTitle>
+          <CardActions hasNoOffset>{this.actions()}</CardActions>
+        </CardHeader>
+        <CardBody>{this.body()}</CardBody>
+        <Divider />
+        <CardFooter>{this.footer()}</CardFooter>
+      </Card>
+    )
   }
 }

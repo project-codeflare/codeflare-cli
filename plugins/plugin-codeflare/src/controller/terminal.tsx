@@ -15,27 +15,80 @@
  */
 
 import React from "react"
+import { Allotment } from "allotment"
 import { Arguments, encodeComponent } from "@kui-shell/core"
 
 import respawn from "./respawn"
 
-import Terminal from "../components/RestartableTerminal"
+import ProfileExplorer from "../components/ProfileExplorer"
 import SelectedProfileTerminal from "../components/SelectedProfileTerminal"
+import Terminal, { Props as BaseProps } from "../components/RestartableTerminal"
+
+import "allotment/dist/style.css"
+
+// codeflare -p ${SELECTED_PROFILE}
 
 /**
- * This is a command handler that opens up a terminal. The expectation
- * is that the command line to be executed is the "rest" after:
- * `codeflare terminal <rest...>`.
+ * This is a command handler that opens up a plain terminal that shows a login session using the user's $SHELL.
  */
-export default function openTerminal(args: Arguments) {
+export function shell(args: Arguments) {
   // respawn, meaning launch it with codeflare
-  const { argv, env } = respawn(args.argv.slice(2))
+  const { argv, env } = respawn(["$SHELL", "-l"])
   const cmdline = argv.map((_) => encodeComponent(_)).join(" ")
 
   return {
-    react: React.createElement(
-      SelectedProfileTerminal.selectedProfilePattern.test(args.command) ? SelectedProfileTerminal : Terminal,
-      { cmdline, env, repl: args.REPL, tab: args.tab }
-    ),
+    react: <Terminal cmdline={cmdline} env={env} repl={args.REPL} tab={args.tab} />,
+  }
+}
+
+type Props = Pick<BaseProps, "tab" | "repl">
+type State = Pick<BaseProps, "cmdline" | "env"> & { error?: boolean }
+class TaskTerminal extends React.PureComponent<Props, State> {
+  private readonly tasks = [{ label: "Run a Job", argv: ["codeflare", "-p", "${SELECTED_PROFILE}"] }]
+
+  public constructor(props: Props) {
+    super(props)
+
+    // respawn, meaning launch it with codeflare
+    const { argv, env } = respawn(this.tasks[0].argv)
+    const cmdline = argv.map((_) => encodeComponent(_)).join(" ")
+
+    this.state = {
+      cmdline,
+      env,
+    }
+  }
+
+  public static getDerivedStateFromError() {
+    return { error: true }
+  }
+  public componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error("catastrophic error", error, errorInfo)
+  }
+
+  private readonly sizes = [35, 65]
+
+  public render() {
+    if (this.state.error) {
+      return "Internal Error"
+    }
+    return (
+      <Allotment defaultSizes={this.sizes} snap>
+        <Allotment.Pane className="flex-fill flex-layout flex-align-stretch" minSize={400}>
+          <ProfileExplorer />
+        </Allotment.Pane>
+        <Allotment.Pane className="flex-fill flex-layout flex-align-stretch">
+          <SelectedProfileTerminal cmdline={this.state.cmdline} env={this.state.env} {...this.props} />
+        </Allotment.Pane>
+      </Allotment>
+    )
+  }
+}
+
+/**
+ * This is a command handler that opens up a terminal to run a selected profile-oriented task */
+export function task(args: Arguments) {
+  return {
+    react: <TaskTerminal repl={args.REPL} tab={args.tab} />,
   }
 }
