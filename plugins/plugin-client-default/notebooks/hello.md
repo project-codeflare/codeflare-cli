@@ -5,20 +5,6 @@ layout:
     1:
         position: default
         maximized: true
-    2:
-        position: default
-        maximized: true
----
-
-=== "Your Profiles"
-    ```shell
-    ---
-    execute: now
-    outputOnly: true
-    ---
-    codeflare get profile
-    ```
-
 ---
 
 === "Use the CodeFlare CLI"
@@ -28,7 +14,7 @@ layout:
     outputOnly: true
     maximize: true
     ---
-    codeflare terminal codeflare -p ${SELECTED_PROFILE}
+    codeflare terminal task
     ```
 
 === "Gallery"
@@ -52,13 +38,13 @@ layout:
         codeflare dashboard-gallery
         ```
 
-=== "Terminal"
+=== "Local Terminal"
     ```shell
     ---
     execute: now
     outputOnly: true
     maximize: true
     ---
-    codeflare terminal $SHELL -l
+    codeflare terminal shell
     ```
 

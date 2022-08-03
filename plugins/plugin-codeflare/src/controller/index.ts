@@ -82,8 +82,13 @@ export default function registerCodeflareCommands(registrar: Registrar) {
    */
   registrar.listen("/codeflare/dashboard-gallery", (args) => import("./hello").then((_) => _.dashboardGallery(args)))
 
-  /** Open a terminal */
-  registrar.listen("/codeflare/terminal", (args) => import("./terminal").then((_) => _.default(args)), {
+  /** UI for running profile-related tasks */
+  registrar.listen("/codeflare/terminal/task", (args) => import("./terminal").then((_) => _.task(args)), {
+    needsUI: true,
+  })
+
+  /** Open a plain terminal */
+  registrar.listen("/codeflare/terminal/shell", (args) => import("./terminal").then((_) => _.shell(args)), {
     needsUI: true,
   })
 
