@@ -25,4 +25,25 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  &--status-light {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 10px;
+    background-color: var(--pf-global--palette--black-300);
+
+    &--error {
+      background-color: var(--pf-global--palette--red-200);
+    }
+
+    &--pending {
+      background-color: var(--pf-global--palette--orange-200);
+    }
+
+    &--success {
+      background-color: var(--pf-global--palette--green-200);
+    }
+  }
 }

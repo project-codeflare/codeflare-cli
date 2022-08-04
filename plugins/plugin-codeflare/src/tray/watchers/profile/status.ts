@@ -29,12 +29,16 @@ export default class ProfileStatusWatcher {
 
   public constructor(
     /** The profile to watch */
-    private readonly profile: string,
+    private readonly profile: any,
 
     /** How to update the Tray menu with changes*/
     private readonly updateFunction: UpdateFunction
   ) {
     this._job = this.initJob(profile)
+  }
+
+  public get readiness() {
+    return this.headReadiness
   }
 
   public get head() {
