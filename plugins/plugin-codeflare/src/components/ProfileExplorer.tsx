@@ -33,11 +33,16 @@ import {
   DescriptionListTerm,
   DescriptionListDescription,
   Divider,
+  Select,
+  SelectVariant,
+  SelectOption,
 } from "@patternfly/react-core"
 
 import ProfileSelect from "./ProfileSelect"
 import DashboardSelect from "./DashboardSelect"
 import ProfileWatcher from "../tray/watchers/profile/list"
+import ProfileStatusWatcher from "../tray/watchers/profile/status"
+import UpdateFunction from "../tray/update"
 import { handleBoot, handleShutdown } from "../controller/profile/actions"
 
 import "../../web/scss/components/Dashboard/Description.scss"
@@ -49,15 +54,24 @@ type Props = {
 
 type State = {
   watcher: ProfileWatcher
+  statusWatcher: ProfileStatusWatcher
   selectedProfile?: string
   profiles?: Profiles.Profile[]
   catastrophicError?: unknown
+
+  updateCount: number
 }
 
 export default class ProfileExplorer extends React.PureComponent<Props, State> {
   public constructor(props: Props) {
     super(props)
     this.init()
+  }
+
+  private readonly statusWatcherUpdateFn: UpdateFunction = () => {
+    this.setState((curState) => ({
+      updateCount: (curState?.updateCount || 0) + 1,
+    }))
   }
 
   private readonly _handleProfileSelection = (selectedProfile: string) => {
@@ -70,7 +84,7 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
 
   private updateDebouncer: null | ReturnType<typeof setTimeout> = null
 
-  private readonly updateFn = () => {
+  private readonly profileWatcherUpdateFn = () => {
     if (this.updateDebouncer) {
       clearTimeout(this.updateDebouncer)
     }
@@ -117,7 +131,10 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
 
   private async init() {
     try {
-      const watcher = await new ProfileWatcher(this.updateFn, await Profiles.profilesPath({}, true)).init()
+      const watcher = await new ProfileWatcher(
+        this.profileWatcherUpdateFn,
+        await Profiles.profilesPath({}, true)
+      ).init()
       this.setState({
         watcher,
         profiles: [],
@@ -129,13 +146,19 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
   }
 
   public componentWillUnmount() {
-    if (this.state && this.state.watcher) {
-      this.state.watcher.close()
+    this.state?.watcher?.close()
+  }
+
+  public componentDidUpdate(prevProps: Props, prevState: State) {
+    if (prevState?.selectedProfile !== this.state?.selectedProfile) {
+      if (!this.state?.selectedProfile) return
+      const statusWatcher = new ProfileStatusWatcher(this.state.selectedProfile, this.statusWatcherUpdateFn)
+      this.setState({ statusWatcher })
     }
   }
 
   public render() {
-    if (this.state && this.state.catastrophicError) {
+    if (this.state?.catastrophicError) {
       return "Internal Error"
     } else if (!this.state || !this.state.profiles || !this.state.selectedProfile) {
       return <Loading />
@@ -146,6 +169,8 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
             profile={this.state.selectedProfile}
             profiles={this.state.profiles}
             onSelectProfile={this._handleProfileSelection}
+            profileReadiness={this.state.statusWatcher?.readiness}
+            profileStatus={this.state.statusWatcher}
           />
         </div>
       )
@@ -153,13 +178,29 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
   }
 }
 
-class ProfileCard extends React.PureComponent<{
+type ProfileCardProps = {
   profile: string
   profiles: Profiles.Profile[]
   onSelectProfile: (profile: string) => void
-}> {
+
+  profileReadiness: string
+  profileStatus: ProfileStatusWatcher
+}
+
+type ProfileCardState = {
+  isOpen: boolean
+}
+
+class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState> {
+  public constructor(props: ProfileCardProps) {
+    super(props)
+    this.state = {
+      isOpen: false,
+    }
+  }
   private readonly _handleBoot = () => handleBoot(this.props.profile)
   private readonly _handleShutdown = () => handleShutdown(this.props.profile)
+  private readonly _onToggle = () => this.setState({ isOpen: !this.state.isOpen })
 
   private title() {
     return (
@@ -174,7 +215,28 @@ class ProfileCard extends React.PureComponent<{
   }
 
   private actions() {
-    return "Status: pending"
+    const StatusTitle = ({ readiness }: { readiness: string | undefined }) => (
+      <React.Fragment>
+        <span>Status</span>
+        <div
+          className={`codeflare--profile-explorer--status-light codeflare--profile-explorer--status-light--${readiness}`}
+        ></div>
+      </React.Fragment>
+    )
+    return (
+      <Select
+        className="codeflare--profile-explorer--select-status"
+        variant={SelectVariant.single}
+        placeholderText={<StatusTitle readiness={this.props.profileStatus?.readiness} />}
+        label="Status select"
+        onToggle={this._onToggle}
+        isOpen={this.state.isOpen}
+        aria-labelledby="select-status-label"
+      >
+        <SelectOption isPlaceholder>{this.props.profileStatus?.head.label}</SelectOption>
+        <SelectOption isPlaceholder>{this.props.profileStatus?.workers.label}</SelectOption>
+      </Select>
+    )
   }
 
   private body() {

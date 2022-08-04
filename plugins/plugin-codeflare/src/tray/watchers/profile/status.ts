@@ -36,6 +36,21 @@ export default class ProfileStatusWatcher {
     /* this._job = */ this.initJob(profile)
   }
 
+  public get readiness() {
+    return this.headReadiness === "pending" || this.workerReadiness === "pending"
+      ? "pending"
+      : this.headReadiness === "error" || this.workerReadiness === "error"
+      ? "error"
+      : !this.isReady(this.headReadiness) && !this.isReady(this.workerReadiness)
+      ? "pending"
+      : "success"
+  }
+
+  private isReady(readiness: string) {
+    const match = readiness.match(/^(\d)+\/(\d)+$/)
+    return match && match[1] === match[2]
+  }
+
   public get head() {
     return { label: `Head nodes: ${this.headReadiness}` }
   }
@@ -102,12 +117,15 @@ export default class ProfileStatusWatcher {
     })
 
     job.stdout.on("data", (data) => {
+      const headBefore = this.headReadiness
+      const workersBefore = this.workerReadiness
+
       data
         .toString()
         .split(/\n/)
         .forEach((line: string) => {
-          Debug("codeflare")("profile status watcher line", line)
           const match = line.match(/^(head|workers)\s+(\S+)$/)
+          Debug("codeflare")("profile status watcher line", this.profile, line, match)
           if (!match) {
             // console.error('Bogus line emitted by ray cluster readiness probe', line)
           } else {
@@ -121,7 +139,10 @@ export default class ProfileStatusWatcher {
           }
         })
 
-      this.updateFunction()
+      if (this.headReadiness !== headBefore || this.workerReadiness !== workersBefore) {
+        Debug("codeflare")("profile status watcher change", this.profile)
+        this.updateFunction()
+      }
     })
 
     return job

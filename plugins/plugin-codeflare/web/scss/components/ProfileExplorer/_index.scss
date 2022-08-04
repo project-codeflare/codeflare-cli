@@ -14,8 +14,33 @@
  * limitations under the License.
  */
 
-.codeflare--profile-explorer {
+@mixin ProfileExplorer {
+  .codeflare--profile-explorer {
+    @content;
+  }
+}
+
+@mixin ProfileStatus {
+  .codeflare--profile-explorer--select-status {
+    @content;
+  }
+}
+
+@include ProfileExplorer {
   font-family: var(--font-sans-serif);
+
+  .pf-c-card {
+    --pf-c-card--BackgroundColor: var(--color-base00);
+  }
+
+  .pf-c-select {
+    --pf-c-select__toggle--BackgroundColor: var(--color-base00);
+
+    button,
+    .pf-c-select__toggle-text {
+      color: var(--color-text-01) !important;
+    }
+  }
 
   hr.pf-c-divider {
     margin: 0;
@@ -24,5 +49,26 @@
   .pf-c-description-list__text {
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  &--status-light {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 10px;
+    background-color: var(--color-gray);
+
+    &--error {
+      background-color: var(--color-error);
+    }
+
+    &--pending {
+      background-color: var(--color-warning);
+    }
+
+    &--success {
+      background-color: var(--color-ok);
+    }
   }
 }
