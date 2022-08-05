@@ -25,14 +25,17 @@ export interface FollowOptions {
   follow: boolean
 }
 
-type DashboardOptions = FollowOptions & {
-  a: boolean
-  attach: boolean
+export type DashboardOptions = FollowOptions & {
+  a: boolean | string
+  attach: boolean | string
+
+  p: string
+  profile: string
 }
 
 export const followFlags: CommandOptions["flags"] = {
-  boolean: ["f", "follow", "a", "attach"],
-  alias: { follow: ["f"], attach: ["a"] },
+  boolean: ["f", "follow", "i", "y", "V"],
+  alias: { follow: ["f"], attach: ["a"], profile: ["p"] },
 }
 
 function dashboardcli(args: Arguments<DashboardOptions>) {
@@ -76,7 +79,7 @@ export default function registerDashboardCommands(registrar: Registrar) {
     needsUI: true,
     outputOnly: true,
     flags,
-    title: (argv: string[]) => productName + " Dashboard: " + basename(argv[2]),
+    title: (argv: string[]) => productName + " Dashboard: " + basename(argv.filter((_) => !/^-/.test(_))[2]),
     width,
     height,
   })

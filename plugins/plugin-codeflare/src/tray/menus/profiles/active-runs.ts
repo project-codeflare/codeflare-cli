@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-import { Profiles } from "madwizard"
-import { basename, join } from "path"
-import { cli } from "madwizard/dist/fe/cli"
+import { basename } from "path"
 import { MenuItemConstructorOptions } from "electron"
 import { CreateWindowFunction } from "@kui-shell/core"
 
@@ -39,46 +37,40 @@ async function openDashboard(createWindow: CreateWindowFunction, logdir: string,
 /** This is the click handler for a an active run menu item */
 async function openMenuItem(this: CreateWindowFunction, profile: string, runId: string) {
   // check to see if we already have a log aggregator's capture
-  const logdir = join(Profiles.guidebookJobDataPath({ profile }), runId)
+  /* const logdir = join(Profiles.guidebookJobDataPath({ profile }), runId)
   if (
     await import("fs/promises")
       .then((_) => _.access(logdir))
       .then(() => true)
       .catch(() => false)
   ) {
-    // yup, so we can just open up what we are capturing/have
-    // already captured
+    // yes, we already have a local capture, so we can just open up
+    // what we are capturing/have already captured
+    //
+    // FIXME: is this right? what we the local capture is out of date?
     return openDashboard(this, logdir)
-  }
+    } */
+  // ^^^ disabled... due to the FIXME
 
   // otherwise, we will need to start of a log aggregator
-  const guidebook = "ml/ray/aggregator/with-jobid"
-  const rayAddress = await watchers[profile].rayAddress
-  if (rayAddress) {
-    process.env.JOB_ID = runId
-    process.env.RAY_ADDRESS = rayAddress
-    process.env.NO_WAIT = "true" // don't wait for job termination
-    process.env.QUIET_CONSOLE = "true" // don't tee logs to the console
-    const resp = await cli(["madwizard", "guide", guidebook], undefined, {
-      profile,
-      clean: false /* don't kill the port-forward subprocess! we'll manage that */,
-      interactive: false,
-      store: process.env.GUIDEBOOK_STORE,
-    })
+  process.env.NO_WAIT = "true" // don't wait for job termination
+  process.env.QUIET_CONSOLE = "true" // don't tee logs to the console
+  const { attach } = await import("../../../controller/attach")
+  const { logdir, cleanExit } = await attach(profile, runId, { verbose: true })
 
-    if (resp) {
-      if (!resp.env.LOGDIR_STAGE) {
-        console.error("Failed to attach to job", runId)
-      } else {
-        await openDashboard(this, resp.env.LOGDIR_STAGE)
+  if (!logdir) {
+    console.error("Failed to attach to job", runId)
+  } else {
+    if (typeof cleanExit === "function") {
+      process.on("exit", () => cleanExit())
+    }
 
-        // now the window has closed, so we can clean up any
-        // subprocesses spawned by the guidebook
-        if (typeof resp.cleanExit === "function") {
-          resp.cleanExit()
-          process.on("exit", () => resp.cleanExit())
-        }
-      }
+    await openDashboard(this, logdir)
+
+    // now the window has closed, so we can clean up any
+    // subprocesses spawned by the guidebook
+    if (typeof cleanExit === "function") {
+      cleanExit()
     }
   }
 }

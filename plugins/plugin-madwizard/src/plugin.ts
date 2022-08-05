@@ -65,7 +65,8 @@ export function doMadwizard(
 ) {
   return async ({ tab, argvNoOptions, parsedOptions }: Arguments<Options>) => {
     if (withFilepath && !argvNoOptions[1]) {
-      argvNoOptions.push("ml/codeflare")
+      // TODO codeflare should not be in plugin-madwizard
+      argvNoOptions.push(process.env.GUIDEBOOK || "ml/codeflare")
     }
 
     if (!parsedOptions.u) {
