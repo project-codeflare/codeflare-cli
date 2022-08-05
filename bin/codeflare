@@ -19,6 +19,9 @@ SCRIPTDIR=$(cd $(dirname "$0") && pwd)
 if [ -n "$NODE" ] && [ -n "$HEADLESS" ]; then
     # no-op; use built-in node
     ______USING_BUILTIN=true # not needed, just making bash happy
+elif [ -n "$CODEFLARE_HEADLESS_HOME" ]; then
+    NODE=node
+    HEADLESS="$CODEFLARE_HEADLESS_HOME"
 elif [ -f ${SCRIPTDIR}/../node_modules/electron/dist/Electron.app/Contents/MacOS/Electron ]; then
     # development mode on MacOS
     NODE=${SCRIPTDIR}/../node_modules/electron/dist/Electron.app/Contents/MacOS/Electron
@@ -100,6 +103,9 @@ if [ -z "$GUIDEBOOK_STORE" ]; then
     if [  -d "$HEADLESS"/../../store ]; then
         # development builds
         export GUIDEBOOK_STORE="$HEADLESS"/../../store
+    elif [  -d "$HEADLESS"/store ]; then
+        # docker builds
+        export GUIDEBOOK_STORE="$HEADLESS"/store
     else
         # otherwise, we can't find a local mirror, so pull directly from
         # git (network transfers!)
@@ -134,7 +140,7 @@ if [ "$do_cli" = "1" ]; then
 fi
 
 # Linux may not have the prereqs needed to run Electron
-if [ ! -f ~/.codeflare ] && [ $(uname) = Linux ]; then
+if [ "$NODE" != "node" ] && [ ! -f ~/.codeflare ] && [ $(uname) = Linux ]; then
     if [ "$(grep '^ID_LIKE' /etc/os-release)" = "ID_LIKE=debian" ]; then
         if [ $(apt -qq list sudo curl libx11-6 libglib2.0-0 libx11-xcb1 libxcb-dri3-0 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6 libxtst6 libnss3 libatk1.0-0 libdrm2 libgbm1 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libasound2 | grep installed 2> /dev/null | wc -l) != 20 ]; then
             # it's also possible we didn't see these in the list, because we have an out-of-date package list
@@ -153,6 +159,9 @@ if [ ! -f ~/.codeflare ] && [ $(uname) = Linux ]; then
     else
         touch ~/.codeflare
     fi
+
+    # our docker build uses this to do the apt initialization only
+    if [ -n "$CODEFLARE_INIT_FOR_DOCKER" ]; then exit 0; fi
 fi
 
 # helps with ctrl+c when running in a docker container

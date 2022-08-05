@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: codeflare
+  labels:
+    app: codeflare
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: codeflare
+  template:
+    metadata:
+      labels:
+        app: codeflare
+    spec:
+      containers:
+      - name: codeflare
+        image: ghcr.io/project-codeflare/codeflare-cli
