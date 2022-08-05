@@ -78,11 +78,12 @@ export function doMadwizard(
       }
 
       // decide which profile to use
-      const profile =
-        parsedOptions.p ||
-        parsedOptions.profile || // specified on command line
-        (await import("madwizard").then((_) => _.Profiles.lastUsed())) || // last used profile
-        "default" // the default, if no lastUsed is found!
+      const profile = parsedOptions.n
+        ? undefined
+        : parsedOptions.p ||
+          parsedOptions.profile || // specified on command line
+          (await import("madwizard").then((_) => _.Profiles.lastUsed())) || // last used profile
+          "default" // the default, if no lastUsed is found!
 
       await cli(
         [
@@ -119,14 +120,14 @@ export function doMadwizard(
   }
 }
 
+export const flags = {
+  boolean: ["u", "V", "n", "q", "i", "y"],
+  configuration: { "populate--": true },
+  alias: { quiet: ["q"], interactive: ["i"], yes: ["y"], profile: ["p"], verbose: ["V"] },
+}
+
 /** Register Kui Commands */
 export default function registerMadwizardCommands(registrar: Registrar) {
-  const flags = {
-    boolean: ["u", "V", "n", "q", "i", "y"],
-    configuration: { "populate--": true },
-    alias: { quiet: ["q"], interactive: ["i"], yes: ["y"], profile: ["p"], verbose: ["V"] },
-  }
-
   registrar.listen("/profile", doMadwizard(true, "profile"))
 
   registrar.listen(

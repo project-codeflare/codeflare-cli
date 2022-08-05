@@ -15,4 +15,4 @@
  */
 
 export { setTabReadonly } from "./util"
-export { doMadwizard, Options as MadWizardOptions } from "./plugin"
+export { doMadwizard, flags, Options as MadWizardOptions } from "./plugin"
