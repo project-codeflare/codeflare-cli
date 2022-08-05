@@ -29,7 +29,7 @@ export default class ProfileStatusWatcher {
 
   public constructor(
     /** The profile to watch */
-    private readonly profile: any,
+    private readonly profile: string,
 
     /** How to update the Tray menu with changes*/
     private readonly updateFunction: UpdateFunction

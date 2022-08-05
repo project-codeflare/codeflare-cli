@@ -144,6 +144,7 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
 
   public componentDidUpdate(prevProps: Props, prevState: State) {
     if (prevState?.selectedProfile !== this.state?.selectedProfile) {
+      if (!this.state?.selectedProfile) return
       const statusWatcher = new ProfileStatusWatcher(this.state.selectedProfile, this.updateFunction)
       this.setState({ statusWatcher })
     }
@@ -169,20 +170,19 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
   }
 }
 
+type ProfileCardProps = {
+  profile: string
+  profiles: Profiles.Profile[]
+  onSelectProfile: (profile: string) => void
+  profileStatus?: ProfileStatusWatcher
+}
+
 type ProfileCardState = {
   isOpen: boolean
 }
 
-class ProfileCard extends React.PureComponent<
-  {
-    profile: string
-    profiles: Profiles.Profile[]
-    onSelectProfile: (profile: string) => void
-    profileStatus?: ProfileStatusWatcher
-  },
-  ProfileCardState
-> {
-  public constructor(props: any) {
+class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState> {
+  public constructor(props: ProfileCardProps) {
     super(props)
     this.state = {
       isOpen: false,
