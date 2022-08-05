@@ -52,7 +52,7 @@ export default class ProfileStatusWatcher {
   private async initJobWithDelay(profile: string, delayMillis = 0) {
     if (delayMillis) {
       // delayed start
-      await new Promise((resolve) => setTimeout(resolve, delayMillis))
+      return await new Promise((resolve) => setTimeout(resolve, delayMillis))
     }
     return this.initJob(profile)
   }
