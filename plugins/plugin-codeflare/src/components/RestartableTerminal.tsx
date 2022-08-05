@@ -100,9 +100,7 @@ export default class RestartableTerminal extends React.PureComponent<Props, Stat
 
   public componentWillUnmount() {
     this.mounted = false
-    if (this.state.job) {
-      this.state.job.abort()
-    }
+    this.state?.job?.abort()
   }
 
   public render() {
