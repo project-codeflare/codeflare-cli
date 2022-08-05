@@ -34,9 +34,6 @@ import {
   DescriptionListTerm,
   DescriptionListDescription,
   Divider,
-  Select,
-  SelectVariant,
-  SelectOption,
 } from "@patternfly/react-core"
 
 import ProfileSelect from "./ProfileSelect"
@@ -177,20 +174,12 @@ type ProfileCardProps = {
   profileStatus?: ProfileStatusWatcher
 }
 
-type ProfileCardState = {
-  isOpen: boolean
-}
-
-class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState> {
+class ProfileCard extends React.PureComponent<ProfileCardProps> {
   public constructor(props: ProfileCardProps) {
     super(props)
-    this.state = {
-      isOpen: false,
-    }
   }
   private readonly _handleBoot = () => handleBoot(this.props.profile)
   private readonly _handleShutdown = () => handleShutdown(this.props.profile)
-  private readonly _onToggle = () => this.setState({ isOpen: !this.state.isOpen })
 
   private title() {
     return (
@@ -213,20 +202,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
         ></div>
       </React.Fragment>
     )
-    return (
-      <Select
-        className="codeflare--profile-explorer--select-status"
-        variant={SelectVariant.single}
-        placeholderText={<StatusTitle readiness={this.props.profileStatus?.readiness} />}
-        label="Status select"
-        onToggle={this._onToggle}
-        isOpen={this.state.isOpen}
-        aria-labelledby="select-status-label"
-      >
-        <SelectOption isPlaceholder>{this.props.profileStatus?.head.label}</SelectOption>
-        <SelectOption isPlaceholder>{this.props.profileStatus?.workers.label}</SelectOption>
-      </Select>
-    )
+    return <StatusTitle readiness={this.props.profileStatus?.readiness} />
   }
 
   private body() {
