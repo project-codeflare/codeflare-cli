@@ -70,8 +70,10 @@ export default class RestartableTerminal extends React.PureComponent<Props, Stat
         env: this.props.env,
         quiet: true, // strange i know, but this forces PTY execution
         onExit: () => {
-          // restart
-          this.initPty()
+          if (this.mounted) {
+            // restart, if still mounted
+            this.initPty()
+          }
         },
         onInit: () => (_) => {
           // hooks pty output to our passthrough stream

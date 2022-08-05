@@ -15,7 +15,6 @@
  */
 
 import React from "react"
-import { EventEmitter } from "events"
 import { Profiles } from "madwizard"
 import { Loading } from "@kui-shell/plugin-client-common"
 import {
@@ -44,21 +43,9 @@ import { handleBoot, handleShutdown } from "../controller/profile/actions"
 import "../../web/scss/components/Dashboard/Description.scss"
 import "../../web/scss/components/ProfileExplorer/_index.scss"
 
-const events = new EventEmitter()
-
-function emitSelectProfile(profile: string) {
-  events.emit("/profile/select", profile)
+type Props = {
+  onSelectProfile?(profile: string): void
 }
-
-export function onSelectProfile(cb: (profile: string) => void) {
-  events.on("/profile/select", cb)
-}
-
-export function offSelectProfile(cb: (profile: string) => void) {
-  events.off("/profile/select", cb)
-}
-
-type Props = Record<string, never>
 
 type State = {
   watcher: ProfileWatcher
@@ -75,7 +62,10 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
 
   private readonly _handleProfileSelection = (selectedProfile: string) => {
     this.setState({ selectedProfile })
-    emitSelectProfile(selectedProfile)
+
+    if (this.props.onSelectProfile) {
+      this.props.onSelectProfile(selectedProfile)
+    }
   }
 
   private updateDebouncer: null | ReturnType<typeof setTimeout> = null
@@ -99,14 +89,22 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
 
         let selectedProfile = curState.selectedProfile
         if (!curState || !curState.profiles || curState.profiles.length === 0) {
-          // sort the first time we get a list of profiles; TODO should
-          // we re-sort if the list changes? what we want to avoid is
-          // resorting simply because the selection changed
-          profiles.sort((a, b) => b.lastUsedTime - a.lastUsedTime)
+          // use the last-used profile by default
+          const newSelectedProfile = profiles.slice(1).reduce((lastUsed, profile) => {
+            if (lastUsed.lastUsedTime < profile.lastUsedTime) {
+              return profile
+            } else {
+              return lastUsed
+            }
+          }, profiles[0])
 
           // also emit an initial profile selection event
-          selectedProfile = profiles[0].name
-          emitSelectProfile(selectedProfile)
+          if (newSelectedProfile) {
+            selectedProfile = newSelectedProfile.name
+            if (this.props.onSelectProfile) {
+              this.props.onSelectProfile(newSelectedProfile.name)
+            }
+          }
         }
 
         return {
