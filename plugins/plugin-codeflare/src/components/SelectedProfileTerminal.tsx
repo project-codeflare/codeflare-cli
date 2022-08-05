@@ -15,47 +15,32 @@
  */
 
 import React from "react"
-import { Loading } from "@kui-shell/plugin-client-common"
 
 import RestartableTerminal, { Props } from "./RestartableTerminal"
-import { onSelectProfile, offSelectProfile } from "./ProfileExplorer"
 
-type State = {
-  cmdline?: string
+type MyProps = Props & {
+  selectedProfile: string
 }
 
-export default class SelectedProfileTerminal extends React.PureComponent<Props, State> {
+type State = {
+  cmdline: string
+}
+
+export default class SelectedProfileTerminal extends React.PureComponent<MyProps, State> {
   public static readonly selectedProfilePattern = /\$\{SELECTED_PROFILE\}/g
 
-  public constructor(props: Props) {
+  public constructor(props: MyProps) {
     super(props)
-    onSelectProfile(this.onSelect)
-    // this.init()
+    this.state = {
+      cmdline: this.cmdline(props.selectedProfile),
+    }
   }
 
-  public componentWillUnmount() {
-    offSelectProfile(this.onSelect)
-  }
-
-  private readonly onSelect = async (selectedProfile: string) => {
-    const cmdline = await this.cmdline(selectedProfile)
-    this.setState({ cmdline })
-  }
-
-  /* private async init() {
-    const cmdline = await this.cmdline()
-    this.setState({ cmdline })
-  } */
-
-  private async cmdline(selectedProfile: string) {
+  private cmdline(selectedProfile: string) {
     return this.props.cmdline.replace(SelectedProfileTerminal.selectedProfilePattern, selectedProfile)
   }
 
   public render() {
-    if (!this.state || !this.state.cmdline) {
-      return <Loading />
-    } else {
-      return <RestartableTerminal key={this.state.cmdline} {...this.props} cmdline={this.state.cmdline} />
-    }
+    return <RestartableTerminal key={this.state.cmdline} {...this.props} cmdline={this.state.cmdline} />
   }
 }

@@ -16,6 +16,7 @@
 
 import React from "react"
 import { Allotment } from "allotment"
+import { Loading } from "@kui-shell/plugin-client-common"
 import { Arguments, encodeComponent } from "@kui-shell/core"
 
 import respawn from "./respawn"
@@ -42,8 +43,11 @@ export function shell(args: Arguments) {
 }
 
 type Props = Pick<BaseProps, "tab" | "repl">
-type State = Pick<BaseProps, "cmdline" | "env"> & { error?: boolean }
+type State = Pick<BaseProps, "cmdline" | "env"> & { error?: boolean; selectedProfile?: string }
 class TaskTerminal extends React.PureComponent<Props, State> {
+  /** Allotment initial split sizes */
+  private readonly sizes = [35, 65]
+
   private readonly tasks = [{ label: "Run a Job", argv: ["codeflare", "-p", "${SELECTED_PROFILE}"] }]
 
   public constructor(props: Props) {
@@ -59,14 +63,14 @@ class TaskTerminal extends React.PureComponent<Props, State> {
     }
   }
 
+  private readonly onSelectProfile = (selectedProfile: string) => this.setState({ selectedProfile })
+
   public static getDerivedStateFromError() {
     return { error: true }
   }
   public componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error("catastrophic error", error, errorInfo)
   }
-
-  private readonly sizes = [35, 65]
 
   public render() {
     if (this.state.error) {
@@ -75,10 +79,20 @@ class TaskTerminal extends React.PureComponent<Props, State> {
     return (
       <Allotment defaultSizes={this.sizes} snap>
         <Allotment.Pane className="flex-fill flex-layout flex-align-stretch" minSize={400}>
-          <ProfileExplorer />
+          <ProfileExplorer onSelectProfile={this.onSelectProfile} />
         </Allotment.Pane>
         <Allotment.Pane className="flex-fill flex-layout flex-align-stretch">
-          <SelectedProfileTerminal cmdline={this.state.cmdline} env={this.state.env} {...this.props} />
+          {!this.state.selectedProfile ? (
+            <Loading />
+          ) : (
+            <SelectedProfileTerminal
+              key={this.state.cmdline + "-" + this.state.selectedProfile}
+              cmdline={this.state.cmdline}
+              env={this.state.env}
+              {...this.props}
+              selectedProfile={this.state.selectedProfile}
+            />
+          )}
         </Allotment.Pane>
       </Allotment>
     )
