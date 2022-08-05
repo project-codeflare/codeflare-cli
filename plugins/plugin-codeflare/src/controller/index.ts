@@ -15,7 +15,7 @@
  */
 
 import { KResponse, Registrar } from "@kui-shell/core"
-import { MadWizardOptions } from "@kui-shell/plugin-madwizard"
+import { MadWizardOptions, flags } from "@kui-shell/plugin-madwizard"
 
 import { width, height } from "@kui-shell/client/config.d/style.json"
 
@@ -100,6 +100,6 @@ export default function registerCodeflareCommands(registrar: Registrar) {
     (argv: string[]) => argv[0] === "codeflare",
     (args) => import("./catchall").then((_) => _.default(args)),
     1,
-    { flags: { configuration: { "populate--": true } } }
+    { flags }
   )
 }
