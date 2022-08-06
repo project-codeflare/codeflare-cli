@@ -63,12 +63,14 @@ export default function registerCodeflareCommands(registrar: Registrar) {
   })
 
   // launch our explore guidebook
-  registrar.listen("/codeflare/explore", (args) => import("./hello").then((_) => _.default(args)), {
-    needsUI: true,
-    outputOnly: true,
-    width,
-    height,
-  })
+  ;["explore", "explorer", "hello"].forEach((explore) =>
+    registrar.listen(`/codeflare/${explore}`, (args) => import("./hello").then((_) => _.default(args)), {
+      needsUI: true,
+      outputOnly: true,
+      width,
+      height,
+    })
+  )
 
   /**
    * Launch the gallery with asciinema plays
