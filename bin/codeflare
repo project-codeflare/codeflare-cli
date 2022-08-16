@@ -100,10 +100,10 @@ fi
 export KUI_ELECTRON_HOME="${KUI_ELECTRON_HOME-$NODE}"
 
 if [ -z "$GUIDEBOOK_STORE" ]; then
-    if [  -d "$HEADLESS"/../../node_modules/@guidebooks/store ]; then
+    if [ -d "$HEADLESS"/../../node_modules/@guidebooks/store/dist/store ]; then
         # development builds
-        export GUIDEBOOK_STORE="$HEADLESS"/../../store
-    elif [  -d "$HEADLESS"/store ]; then
+        export GUIDEBOOK_STORE="$HEADLESS"/../../node_modules/@guidebooks/store/dist/store
+    elif [ -d "$HEADLESS"/store/dist/store ]; then
         # docker builds
         export GUIDEBOOK_STORE="$HEADLESS"/store
     else

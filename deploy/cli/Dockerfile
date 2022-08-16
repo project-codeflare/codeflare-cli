@@ -7,7 +7,7 @@ ENV CODEFLARE_HEADLESS_HOME=/usr/local/CodeFlare
 
 # TODO hard-coded arch
 ADD dist/headless /usr/local/CodeFlare
-ADD node_modules/@guidebooks/store /usr/local/CodeFlare/store
+ADD node_modules/@guidebooks/store/dist/store /usr/local/CodeFlare/store
 ADD bin/codeflare /usr/local/bin/codeflare
 
 RUN apt update && apt -y install python3 python3-pip sudo curl \
