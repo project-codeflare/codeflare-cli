@@ -100,16 +100,15 @@ fi
 export KUI_ELECTRON_HOME="${KUI_ELECTRON_HOME-$NODE}"
 
 if [ -z "$GUIDEBOOK_STORE" ]; then
-    if [  -d "$HEADLESS"/../../store ]; then
+    if [  -d "$HEADLESS"/../../node_modules/@guidebooks/store ]; then
         # development builds
         export GUIDEBOOK_STORE="$HEADLESS"/../../store
     elif [  -d "$HEADLESS"/store ]; then
         # docker builds
         export GUIDEBOOK_STORE="$HEADLESS"/store
     else
-        # otherwise, we can't find a local mirror, so pull directly from
-        # git (network transfers!)
-        export GUIDEBOOK_STORE=git
+        echo "Cannot find guidebook store"
+        exit 1
     fi
 fi
 
