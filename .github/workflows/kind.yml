@@ -1,0 +1,43 @@
+name: Kind
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  kind:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [16.x]
+        profile: [keep-it-simple, ray-autoscaler]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Create k8s Kind Cluster
+      uses: helm/kind-action@v1.3.0
+      with:
+        install_only: true
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Setup
+      env:
+        TERM: xterm
+      run: ./tests/kind/setup-ci.sh
+
+    - name: Run Test with profile ${{ matrix.profile }}
+      env:
+        EXECUTABLE_PATH: github-actions-production
+        DEBUG_KUBERNETES: true
+        RAY_STARTUP_PROBE_INITIAL_DELAY_SECONDS: 30
+      run: ./tests/kind/run.sh ${{ matrix.profile }}
