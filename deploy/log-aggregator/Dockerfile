@@ -24,8 +24,8 @@ RUN apt update && apt -y install sudo curl procps inotify-tools \
         && codeflare -n util/websocat \
         && codeflare -n kubernetes/kubectl
 
-USER codeflare
-WORKDIR /home/codeflare
+#USER codeflare
+WORKDIR /home/node
 
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
 # ENTRYPOINT ["codeflare", "-y", "-p", "default", "ml/ray/aggregator/with-jobid"]
