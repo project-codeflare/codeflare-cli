@@ -7,7 +7,7 @@ ENV CODEFLARE_HEADLESS_HOME=/usr/local/CodeFlare
 
 # TODO hard-coded arch
 ADD dist/headless /usr/local/CodeFlare
-ADD node_modules/@guidebooks/store /usr/local/CodeFlare/store
+ADD node_modules/@guidebooks/store/dist/store /usr/local/CodeFlare/store
 ADD bin/codeflare /usr/local/bin/codeflare
 ADD deploy/log-aggregator/wait-for.sh /usr/local/bin/wait-for
 ADD deploy/log-aggregator/wait-for-and-cat.sh /usr/local/bin/wait-for-and-cat
