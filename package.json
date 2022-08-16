@@ -18,10 +18,10 @@
     "pty:electron": "npm run pty:rebuild electron",
     "pty:nodejs": "npm run pty:rebuild node",
     "prepare": "cross-env husky install",
-    "build:docker:cli": "npm run build:docker1 && docker build -f deploy/cli/Dockerfile -t ghcr.io/project-codeflare/codeflare-cli .",
-    "build:docker:logs": "npm run build:docker1 && docker build -f deploy/log-aggregator/Dockerfile -t ghcr.io/project-codeflare/codeflare-log-aggregator .",
-    "build:docker1": "if [ ! -n \"$FAST\" ]; then npm run build:docker0; fi",
-    "build:docker0": "CLIENT_HOME=$PWD webpack-cli --mode=${MODE-production} --config node_modules/@kui-shell/webpack/headless-webpack.config.js",
+    "build:docker:cli": "npm run build:headless-maybe && docker build -f deploy/cli/Dockerfile -t ghcr.io/project-codeflare/codeflare-cli .",
+    "build:docker:logs": "npm run build:headless-maybe && docker build -f deploy/log-aggregator/Dockerfile -t ghcr.io/project-codeflare/codeflare-log-aggregator .",
+    "build:headless-maybe": "if [ ! -n \"$FAST\" ]; then npm run build:headless; fi",
+    "build:headless": "CLIENT_HOME=$PWD webpack-cli --mode=${MODE-production} --config node_modules/@kui-shell/webpack/headless-webpack.config.js",
     "docker:debug": "ENTRYPOINT=bash ./bin/codeflare -d",
     "build:electron:mac:amd64": "KUI_HEADLESS_WEBPACK=true KUI_LAUNCHER=$PWD/bin/codeflare PLATFORM=mac ARCH=x64 kui-build-electron",
     "build:electron:mac:arm64": "KUI_HEADLESS_WEBPACK=true KUI_LAUNCHER=$PWD/bin/codeflare PLATFORM=mac ARCH=arm64 kui-build-electron",
@@ -112,7 +112,7 @@
     "typescript": "4.7.4"
   },
   "dependencies": {
-    "@guidebooks/store": "^0.0.1",
+    "@guidebooks/store": "^0.1.1",
     "@kui-shell/client": "file:./plugins/plugin-client-default",
     "@kui-shell/core": "11.5.0-dev-20220807-191654",
     "@kui-shell/plugin-bash-like": "11.5.0-dev-20220807-191654",
