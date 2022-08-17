@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+set -e
+set -o pipefail
+
 SCRIPTDIR=$(cd $(dirname "$0") && pwd)
 . "$SCRIPTDIR"/values.sh
 
@@ -77,8 +80,8 @@ else
 fi
 
 if [ -n "$HEAD_POLLER_PID" ]; then
-    kill $HEAD_POLLER_PID
+    (kill $HEAD_POLLER_PID || exit 0)
 fi
 if [ -n "$WORKER_POLLER_PID" ]; then
-    kill $WORKER_POLLER_PID
+    (kill $WORKER_POLLER_PID || exit 0)
 fi
