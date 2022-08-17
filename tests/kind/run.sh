@@ -6,6 +6,10 @@ SCRIPTDIR=$(cd $(dirname "$0") && pwd)
 export KUBECONFIG=$("$SCRIPTDIR"/setup.sh)
 echo "Using KUBECONFIG=$KUBECONFIG"
 
+# We get this for free from github actions. Add it generally. This
+# informs the guidebooks to adjust their resource demands.
+export CI=true
+
 echo "================NODE INFO================="
 kubectl get node -o custom-columns=CAPACITY:.status.capacity
 echo "=========================================="
