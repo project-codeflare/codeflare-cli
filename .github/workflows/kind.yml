@@ -14,7 +14,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         node-version: [16.x]
-        profile: [keep-it-simple, ray-autoscaler, mcad-default, mcad-coscheduler, mcad-preinstalled]
+        profile: [non-gpu/keep-it-simple, non-gpu/ray-autoscaler, non-gpu/mcad-default, non-gpu/mcad-coscheduler, non-gpu/mcad-preinstalled]
 
     steps:
     - uses: actions/checkout@v3

@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+#
+# -a: force re-answering all questions
+# -f <profile>: force re-answering for given profile
+# -s: guidebook store root
+# -b: run this guidebook
+#
+
 set -e
 set -o pipefail
 
@@ -29,20 +36,23 @@ do
 done
 shift $((OPTIND-1))
 
-mkdir -p "$MWPROFILES_PATH"
-
 function run {
-    local profile=$1
-    local guidebook=${2-$GUIDEBOOK}
-    local yes=$([ -z "$FORCE_ALL" ] && [ "$FORCE" != "$profile" ] && [ -f "$MWPROFILES_PATH/$profile" ] && echo "--yes" || echo "")
+    local profileFull=$1
+    local variant=$(dirname $profileFull)
+    local profile=$(basename $profileFull)
+    export MWPROFILES_PATH="$MWPROFILES_PATH_BASE"/$variant
+    mkdir -p "$MWPROFILES_PATH"
 
-    local PRE="$MWPROFILES_PATH"/../profiles.d/$profile/pre
+    local guidebook=${2-$GUIDEBOOK}
+    local yes=$([ -z "$FORCE_ALL" ] && [ "$FORCE" != "$profileFull" ] && [ -f "$MWPROFILES_PATH/$profile" ] && echo "--yes" || echo "")
+
+    local PRE="$MWPROFILES_PATH_BASE"/../profiles.d/$profile/pre
     if [ -f "$PRE" ]; then
-        echo "Running pre guidebooks for profile $profile"
+        echo "Running pre guidebooks for profile=$profile"
         cat "$PRE" | xargs -n1 "$ROOT"/bin/codeflare -p $profile $yes
     fi
         
-    echo "Running with profile $profile"
+    echo "Running with variant=$variant profile=$profile yes=$yes"
     "$ROOT"/bin/codeflare -p $profile $yes $guidebook
 }
 
