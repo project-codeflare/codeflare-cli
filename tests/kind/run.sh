@@ -36,9 +36,10 @@ function run {
     local guidebook=${2-$GUIDEBOOK}
     local yes=$([ -z "$FORCE_ALL" ] && [ "$FORCE" != "$profile" ] && [ -f "$MWPROFILES_PATH/$profile" ] && echo "--yes" || echo "")
 
-    if [ -f "$MWPROFILES_PATH"/$profile.d/pre ]; then
+    local PRE="$MWPROFILES_PATH"/../profiles.d/$profile/pre
+    if [ -f "$PRE" ]; then
         echo "Running pre guidebooks for profile $profile"
-        cat "$MWPROFILES_PATH"/$profile.d/pre | xargs -n1 "$ROOT"/bin/codeflare -p $profile $yes
+        cat "$PRE" | xargs -n1 "$ROOT"/bin/codeflare -p $profile $yes
     fi
         
     echo "Running with profile $profile"
