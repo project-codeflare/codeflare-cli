@@ -1,0 +1,98 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: codeflare-self-test-serviceaccount
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: codeflare-self-test-role
+rules:
+- apiGroups: [""]
+  resources: ["pods", "pods/exec", "services"]
+  verbs: ["create", "events", "get", "watch", "list"]
+- apiGroups: ["batch"]
+  resources: ["jobs"]
+  verbs: ["create", "get", "watch", "list"]
+- apiGroups: [""]
+  resources: ["pods/exec"]
+  verbs: ["create", "delete"]
+#- apiGroups: ["apps"]
+#  resources: [deployments]
+#  verbs: [get, list]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: codeflare-self-test-rolebinding
+subjects:
+- kind: ServiceAccount
+  name: codeflare-self-test-serviceaccount
+roleRef:
+  kind: Role
+  name: codeflare-self-test-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: codeflare-self-test
+spec:
+  template:
+    spec:
+      serviceAccountName: codeflare-self-test-serviceaccount
+      containers:
+      - name: self-test
+        image: ghcr.io/project-codeflare/codeflare-self-test:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 2
+            memory: 5Gi
+          requests:
+            cpu: 300m
+            memory: 5Gi
+        env:
+          - name: GUIDEBOOK_RUN_ARGS
+            value: "-V"
+          - name: MODE
+            value: development # otherwise building codeflare-cli takes a huge amount of memory
+          - name: KUBE_CONTEXT_FOR_TEST
+            value: kind-codeflare-test # must match with tests/kind/profiles/...
+          - name: KUBE_NS_FOR_TEST
+            value: default # must match with tests/kind/profiles/...
+          - name: CODEFLARE_NAMESPACE_RESTRICTED # restrict use of cluster-scoped resources
+            value: "true"
+          - name: GITHUB_SHA
+            valueFrom:
+              configMapKeyRef:
+                name: codeflare-self-test-config
+                key: GITHUB_SHA
+          - name: GITHUB_REF
+            valueFrom:
+              configMapKeyRef:
+                name: codeflare-self-test-config
+                key: GITHUB_REF
+          - name: GITHUB_ACTOR_PREFIX
+            valueFrom:
+              configMapKeyRef:
+                name: codeflare-self-test-config
+                key: GITHUB_ACTOR_PREFIX
+          - name: VARIANTS
+            valueFrom:
+              configMapKeyRef:
+                name: codeflare-self-test-config
+                key: VARIANTS
+          - name: ORG
+            valueFrom:
+              configMapKeyRef:
+                name: codeflare-self-test-config
+                key: ORG
+          - name: BRANCH
+            valueFrom:
+              configMapKeyRef:
+                name: codeflare-self-test-config
+                key: BRANCH
+      restartPolicy: Never
+  backoffLimit: 1
