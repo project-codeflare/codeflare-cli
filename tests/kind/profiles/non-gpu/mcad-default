@@ -16,8 +16,8 @@
     "Provide custom base image, if any": "{\"Provide custom base image, if any\":\"rayproject/ray:1.13.1-py37\"}",
     "AWS####IBM####My data is not stored in S3": "My data is not stored in S3",
     "Run Locally####Run on a Kubernetes Cluster": "Run on a Kubernetes Cluster",
-    "expand(kubectl config get-contexts -o name, Kubernetes contexts)": "kind-codeflare-test",
-    "expand([ -z ${KUBE_CONTEXT} ] && exit 1 || X=$(kubectl ${KUBE_CONTEXT_ARG} get ns -o name || oc ${KUBE_CONTEXT_ARG} get projects -o name); echo \"$X\" | sed -E 's#(namespace|project.project.openshift.io)/##' | grep -Ev 'openshift|kube-', Kubernetes namespaces)####Create a namespace": "default",
+    "expand((kubectl config get-contexts -o name | grep -E . >& /dev/null && kubectl config get-contexts -o name) || (kubectl version | grep Server >& /dev/null && echo \"${KUBE_CONTEXT_FOR_TEST-In-cluster}\" || exit 1), Kubernetes contexts)": "kind-codeflare-test",
+    "expand([ -z ${KUBE_CONTEXT} ] && exit 1 || X=$([ -n \"$KUBE_NS_FOR_TEST\" ] && echo $KUBE_NS_FOR_TEST || kubectl ${KUBE_CONTEXT_ARG} get ns -o name || oc ${KUBE_CONTEXT_ARG} get projects -o name); echo \"$X\" | sed -E 's#(namespace|project.project.openshift.io)/##' | grep -Ev 'openshift|kube-', Kubernetes namespaces)####Create a namespace": "default",
     "Number of CPUs####Number of GPUs####Minimum Workers####Maximum Workers####Worker Memory####Head Memory": "{\"Number of CPUs\":\"250m\",\"Number of GPUs\":\"0\",\"Minimum Workers\":\"1\",\"Maximum Workers\":\"1\",\"Worker Memory\":\"1.5Gi\",\"Head Memory\":\"1.5Gi\"}",
     "Keep It Simple####Use the Ray Autoscaler####Use the Multi-user Enhanced Kubernetes Scheduler": "Use the Multi-user Enhanced Kubernetes Scheduler",
     "My administrator has already installed and configured MCAD####MCAD with the Advanced Coscheduler####MCAD with the Default Kubernetes Scheduler": "MCAD with the Default Kubernetes Scheduler"
