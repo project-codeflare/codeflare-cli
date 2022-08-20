@@ -12,9 +12,16 @@ jobs:
 
     strategy:
       matrix:
+        profile:
+          - non-gpu1/keep-it-simple
+          - non-gpu2/keep-it-simple
+          - non-gpu3/keep-it-simple
+          - non-gpu1/ray-autoscaler
+          - non-gpu1/mcad-default
+          - non-gpu1/mcad-coscheduler
+          - non-gpu1/mcad-preinstalled
         os: [ubuntu-latest]
         node-version: [16.x]
-        profile: [non-gpu1/keep-it-simple, non-gpu2/keep-it-simple, non-gpu1/ray-autoscaler, non-gpu1/mcad-default, non-gpu1/mcad-coscheduler, non-gpu1/mcad-preinstalled]
 
     steps:
     - uses: actions/checkout@v3

@@ -1,0 +1,6 @@
+name: qiskit
+conda:
+  dependencies:
+    - pip
+    - pip:
+        - qiskit==0.37.0
