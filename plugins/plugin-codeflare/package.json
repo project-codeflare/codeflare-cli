@@ -24,9 +24,9 @@
   },
   "dependencies": {
     "@logdna/tail-file": "^3.0.0",
-    "@patternfly/react-charts": "^6.77.1",
-    "@patternfly/react-core": "^4.224.1",
-    "allotment": "^1.15.0",
+    "@patternfly/react-charts": "^6.84.8",
+    "@patternfly/react-core": "^4.231.8",
+    "allotment": "^1.16.0",
     "asciinema-player": "^3.0.1",
     "chokidar": "^3.5.3",
     "needle": "^3.1.0",
