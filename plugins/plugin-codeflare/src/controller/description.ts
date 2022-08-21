@@ -16,19 +16,24 @@
 
 import { join } from "path"
 import { Arguments, Registrar, encodeComponent } from "@kui-shell/core"
+
+import Status from "./status"
 import { expand } from "../lib/util"
 
 type Item = { label: string; value: string }
 
 export type Summary = Item[]
 
-export type SummaryResponse = {
+type SummaryResponse = {
   jobid: string
+  status: Status
+  start_time: number
+  end_time: number
   cmdline: {
     appPart: string
     systemPart: string
   }
-  runtimeEnv: {
+  runtime_env: {
     env_vars: {
       KUBE_CONTEXT: string
       KUBE_NS: string
@@ -48,11 +53,29 @@ function jobDefinition(filepath: string) {
   return encodeComponent(expand(join(filepath.replace(/'/g, ""), "ray-job-definition.json")))
 }
 
-export async function getJobDefinition(runDir: string, REPL: Arguments["REPL"]) {
+export async function getJobDefinition(runDir: string, REPL: Arguments["REPL"], inRetry = 0): Promise<SummaryResponse> {
   try {
-    return JSON.parse(await REPL.qexec<string>(`vfs fslice ${encodeComponent(jobDefinition(runDir))} 0`))
+    const data = await REPL.qexec<string>(`vfs fslice ${jobDefinition(runDir)} 0`)
+    try {
+      return JSON.parse(data)
+    } catch (err) {
+      if (inRetry < 10 && typeof data === "string" && data.length === 0) {
+        // some race condition; the vfs might not be ready; FIXME!!! hack here:
+        await new Promise((resolve) => setTimeout(resolve, 100))
+        return getJobDefinition(runDir, REPL, inRetry + 1)
+      } else {
+        console.error(
+          "Error parsing job definition",
+          jobDefinition(runDir),
+          typeof data === "string" ? data.length : -1,
+          data
+        )
+        throw err
+      }
+    }
   } catch (err) {
-    console.error(runDir, err)
+    console.error("Error loading job definition", runDir, err)
+    throw err
   }
 }
 
@@ -63,6 +86,10 @@ async function app(args: Arguments) {
   }
 
   const jobInfo = await getJobDefinition(filepath, args.REPL)
+  if (!jobInfo) {
+    return "Error fetching job information"
+  }
+
   const RAY_IMAGE = jobInfo.runtime_env.env_vars ? jobInfo.runtime_env.env_vars.RAY_IMAGE : "Unknown"
 
   const status = jobInfo.status.toLowerCase()

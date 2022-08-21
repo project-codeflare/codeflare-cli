@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { basename } from "path"
 import { MenuItemConstructorOptions } from "electron"
 import { CreateWindowFunction } from "@kui-shell/core"
+import { productName } from "@kui-shell/client/config.d/name.json"
 
 import { rayIcon } from "../../icons"
 import UpdateFunction from "../../update"
@@ -27,10 +27,10 @@ import { runMenuItems } from "./runs"
 /** active run watcher per profile */
 const watchers: Record<string, ProfileActiveRunWatcher> = {}
 
-/** This is the utility function that will open a CodeFlare Dashboard window, pointing to the given local filesystem `logdir` */
-async function openDashboard(createWindow: CreateWindowFunction, logdir: string, follow = true) {
-  await createWindow(["codeflare", "dashboard", follow ? "-f" : "", logdir], {
-    title: "CodeFlare Dashboard - " + basename(logdir),
+/** This is the utility function that will open a CodeFlare Dashboard window and attaches to the given job */
+async function openDashboard(createWindow: CreateWindowFunction, profile: string, runId: string, follow = true) {
+  await createWindow(["codeflare", "dashboard", follow ? "-f" : "", "-a", runId, "-p", profile], {
+    title: productName + " Dashboard - " + runId,
   })
 }
 
@@ -53,7 +53,7 @@ async function openMenuItem(this: CreateWindowFunction, profile: string, runId: 
   // ^^^ disabled... due to the FIXME
 
   // otherwise, we will need to start of a log aggregator
-  process.env.NO_WAIT = "true" // don't wait for job termination
+  /* process.env.NO_WAIT = "true" // don't wait for job termination
   process.env.QUIET_CONSOLE = "true" // don't tee logs to the console
   const { attach } = await import("../../../controller/attach")
   const { logdir, cleanExit } = await attach(profile, runId, { verbose: true })
@@ -72,7 +72,8 @@ async function openMenuItem(this: CreateWindowFunction, profile: string, runId: 
     if (typeof cleanExit === "function") {
       cleanExit()
     }
-  }
+    } */
+  await openDashboard(this, profile, runId)
 }
 
 /** @return menu items that allow attaching to an active run in the given `profileName` */

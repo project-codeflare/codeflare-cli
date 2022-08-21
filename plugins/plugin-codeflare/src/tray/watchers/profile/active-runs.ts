@@ -38,7 +38,7 @@ export default class ProfileActiveRunWatcher {
     private readonly updateFn: UpdateFunction,
     private readonly profile: string,
     public readonly rayAddress = ProfileActiveRunWatcher.initWatcher(profile),
-    private readonly timer = setInterval(() => this.updateActiveJobs(), 5000)
+    private readonly timer = setInterval(() => this.updateActiveJobs(), 3000)
   ) {
     onRun(() => this.updateActiveJobs())
   }

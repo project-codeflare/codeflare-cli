@@ -23,6 +23,7 @@ import { setTabReadonly } from "@kui-shell/plugin-madwizard"
 
 import { productName } from "@kui-shell/client/config.d/name.json"
 
+import Status from "../status"
 import { width, height } from "../dashboard"
 import { getJobDefinition } from "../description"
 
@@ -48,8 +49,6 @@ function capitalize(str: string) {
   return str[0].toUpperCase() + str.slice(1)
 }
 
-/** TODO: these are specific to Ray */
-type Status = "SUCCEEDED" | "STOPPED" | "RUNNING" | "PENDING" | "ERROR"
 function statusColor(status: Status) {
   switch (status) {
     case "SUCCEEDED":
