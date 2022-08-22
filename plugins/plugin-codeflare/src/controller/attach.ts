@@ -20,7 +20,7 @@ import { Arguments, ParsedOptions } from "@kui-shell/core"
 
 import { DashboardOptions } from "./dashboard"
 
-type Options = ParsedOptions &
+export type Options = ParsedOptions &
   DashboardOptions & {
     /** verbose output from madwizard */
     V?: boolean
@@ -36,14 +36,14 @@ export async function attach(
   profile: string,
   jobId: boolean | string,
   opts: MadWizardOptions = {},
-  stdout: (line: string) => void
+  stderr: (line: string) => void
 ) {
   const debug = Debug("plugin-codeflare/attach")
 
   const deployGuidebook = "ml/ray/aggregator/in-cluster/client-side/deploy"
   const startGuidebook =
     typeof jobId === "string"
-      ? "ml/ray/aggregator/in-cluster/client-side/start/with-jobId"
+      ? "ml/ray/aggregator/in-cluster/client-side/start/with-jobid"
       : "ml/ray/aggregator/in-cluster/client-side/start"
 
   // TODO: update madwizard to accept env in the options
@@ -56,7 +56,6 @@ export async function attach(
   const options: MadWizardOptions = Object.assign(
     {
       profile,
-      clean: false,
       interactive: false,
       verbose: true,
       store: process.env.GUIDEBOOK_STORE,
@@ -71,7 +70,7 @@ export async function attach(
   try {
     const deployOptions = Object.assign({}, options, { name: "log-aggregator-deploy" })
     debug("Deploying log aggregator", deployGuidebook, deployOptions)
-    stdout("Deploying log aggregator...\n")
+    stderr("Deploying log aggregator...\n")
     await cli(["codeflare", "guide", deployGuidebook], undefined, deployOptions)
     debug("deploying log aggregator: done")
   } catch (err) {
@@ -80,17 +79,18 @@ export async function attach(
   }
 
   debug("attaching to", jobId)
-  stdout("Attaching to job...\n")
+  stderr("Attaching to job...\n")
   const resp = await cli(
     ["codeflare", "guide", startGuidebook],
     undefined,
-    Object.assign({}, options, { name: "log-aggregator-start" })
+    Object.assign({}, options, { name: "log-aggregator-start", clean: false })
   )
 
   // the logdir that we captured
   const logdir = resp && resp.env ? resp.env.LOGDIR_STAGE : undefined
   if (logdir) {
     debug("successfully attached to", jobId, logdir)
+    stderr("Successfully attached to job")
   }
 
   return {
@@ -100,25 +100,25 @@ export async function attach(
 }
 
 /**
- * Kui command handler that wraps `attach`, and opens a dashboard
- * window that visualizes the contents the produced log directory.
+ * Kui command handler that wraps `attach`.
+ *
+ * @return the local logdir for the run
  */
 export default async function attachCommand(args: Arguments<Options>) {
-  const [{ encodeComponent }, { Profiles }] = await Promise.all([import("@kui-shell/core"), import("madwizard")])
+  const Profiles = await import("madwizard").then((_) => _.Profiles)
 
   const jobId = args.parsedOptions.a
   const profile = args.parsedOptions.p || (await Profiles.lastUsed())
 
-  const stdout = await args.createOutputStream()
-  const { logdir, cleanExit } = await attach(profile, jobId, { verbose: args.parsedOptions.V }, stdout)
+  const stderr = await args.createErrorStream()
+  const { logdir, cleanExit } = await attach(profile, jobId, { verbose: args.parsedOptions.V }, stderr)
 
   if (logdir) {
     if (cleanExit) {
       window.addEventListener("beforeunload", () => cleanExit())
     }
 
-    stdout("Opening Dashboard\n")
-    return args.REPL.qexec(`codeflare dashboardui -f ${encodeComponent(logdir)}`)
+    return logdir
   } else {
     throw new Error("Could not attach, due to missing logging directory")
   }

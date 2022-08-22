@@ -61,7 +61,7 @@ export async function getJobDefinition(runDir: string, REPL: Arguments["REPL"], 
     } catch (err) {
       if (inRetry < 10 && typeof data === "string" && data.length === 0) {
         // some race condition; the vfs might not be ready; FIXME!!! hack here:
-        await new Promise((resolve) => setTimeout(resolve, 100))
+        await new Promise((resolve) => setTimeout(resolve, 500))
         return getJobDefinition(runDir, REPL, inRetry + 1)
       } else {
         console.error(

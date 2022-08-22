@@ -9,5 +9,7 @@ while [ ! -s "$F" ]; do
     inotifywait -qq -e create -e modify "$D"
 done
 
-echo "Error in watch"
-exit 1
+if [ ! -s "$F" ]; then
+    echo "Error in watch"
+    exit 1
+fi
