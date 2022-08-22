@@ -26,10 +26,23 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Create registry container
+      env:
+        reg_name: kind-registry
+        reg_port: '5001'
+      run: docker run -d --restart=always -p "127.0.0.1:${reg_port}:5000" --name "${reg_name}" registry:2
+
     - name: Create k8s Kind Cluster
       uses: helm/kind-action@v1.3.0
       with:
         install_only: true
+        config: ./tests/kind/config.yml
+
+    - name: Connect local registry to kind
+      env:
+        reg_name: kind-registry
+        reg_port: '5001'
+      run: ./tests/kind/connect-local-registry.sh
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
