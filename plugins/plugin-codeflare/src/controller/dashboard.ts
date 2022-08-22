@@ -38,10 +38,11 @@ export const followFlags: CommandOptions["flags"] = {
   alias: { follow: ["f"], attach: ["a"], profile: ["p"] },
 }
 
-function dashboardcli(args: Arguments<DashboardOptions>) {
+async function dashboardcli(args: Arguments<DashboardOptions>) {
   if (args.parsedOptions.attach) {
     // attach to a running job
-    return import("./attach").then((_) => _.default(args))
+    const logdir = await import("./attach").then((_) => _.default(args))
+    return args.REPL.qexec(`codeflare dashboardui -f ${encodeComponent(logdir)}`)
   }
 
   const filepath = args.argvNoOptions[2]

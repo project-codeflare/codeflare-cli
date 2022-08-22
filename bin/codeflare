@@ -106,7 +106,7 @@ if [ -z "$GUIDEBOOK_STORE" ]; then
     elif [ -d "$HEADLESS"/../../store ]; then
         # production builds
         export GUIDEBOOK_STORE="$HEADLESS"/../../store
-    elif [ -d "$HEADLESS"/store/dist/store ]; then
+    elif [ -d "$HEADLESS"/store ]; then
         # docker builds
         export GUIDEBOOK_STORE="$HEADLESS"/store
     else

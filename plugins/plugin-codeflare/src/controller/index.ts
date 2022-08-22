@@ -26,6 +26,7 @@ import charts from "./charts"
 import events from "./events"
 import dashboard from "./dashboard"
 import description from "./description"
+import { Options as AttachOptions } from "./attach"
 
 function help() {
   return `Usage:
@@ -45,6 +46,9 @@ export default function registerCodeflareCommands(registrar: Registrar) {
   description(registrar)
   registrar.listen("/help", help)
 
+  registrar.listen<KResponse, AttachOptions>("/codeflare/attach", (args) =>
+    import("./attach").then((_) => _.default(args))
+  )
   registrar.listen("/codeflare/version", () => import("@kui-shell/client/package.json").then((_) => _.version))
   registrar.listen("/codeflare/gui/guide", (args) => import("./guide").then((_) => _.default(args)), {
     needsUI: true,

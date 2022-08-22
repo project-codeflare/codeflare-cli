@@ -55,12 +55,6 @@ layout:
 --8<-- "./dashboard-dependencies.md"
 
 === "Advanced"
-    === "Node Utilization"
-
-        ```ansi
-        --8<-- "$LOGDIR/resources/node-stats.txt"
-        ```
-
     === "Pod Utilization"
 
         ```ansi

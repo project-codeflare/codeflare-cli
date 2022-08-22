@@ -46,5 +46,5 @@ jobs:
       env:
         EXECUTABLE_PATH: github-actions-production
         DEBUG_KUBERNETES: true
-        RAY_STARTUP_PROBE_INITIAL_DELAY_SECONDS: 30
+        TEST_LOG_AGGREGATOR: true
       run: ./tests/kind/run.sh ${{ matrix.profile }}

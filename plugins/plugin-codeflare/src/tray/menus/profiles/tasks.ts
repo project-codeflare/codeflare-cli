@@ -19,7 +19,15 @@ import { CreateWindowFunction } from "@kui-shell/core"
 
 import boot from "./boot"
 import shutdown from "./shutdown"
+import stopLogAggregator from "./log-aggregator"
 
 export default function tasks(profile: string, createWindow: CreateWindowFunction): MenuItemConstructorOptions[] {
-  return [boot(profile, createWindow), shutdown(profile, createWindow)]
+  return [
+    boot(profile, createWindow),
+    shutdown(profile, createWindow),
+    {
+      label: "Advanced",
+      submenu: [stopLogAggregator(profile, createWindow)],
+    },
+  ]
 }
