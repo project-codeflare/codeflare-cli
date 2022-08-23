@@ -5,6 +5,7 @@
   "main": "dist/headless/codeflare.min.js",
   "scripts": {
     "release": "dotenv -e ~/.codeflare-release.env release-it -- -V",
+    "release:cask": "./Casks/bump.sh",
     "watch:source": "tsc --build . --watch",
     "compile": "npx tsc --build . && npx kui-babel && npx kui-prescan",
     "compile:clean": "tsc --build tsconfig.json --clean",
@@ -91,7 +92,10 @@
     "hooks": {
       "before:release": [
         "npm ci",
-        "npm run build:electron:all"
+        "rm -rf ./dist/electron",
+        "rm -rf ./dist/headless",
+        "npm run build:electron:all",
+        "npm run release:cask"
       ]
     },
     "npm": {
