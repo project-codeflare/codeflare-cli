@@ -5,6 +5,7 @@
   "main": "dist/headless/codeflare.min.js",
   "scripts": {
     "release": "dotenv -e ~/.codeflare-release.env release-it -- -V",
+    "release:cask": "./Casks/bump.sh",
     "watch:source": "tsc --build . --watch",
     "compile": "npx tsc --build . && npx kui-babel && npx kui-prescan",
     "compile:clean": "tsc --build tsconfig.json --clean",
@@ -91,7 +92,10 @@
     "hooks": {
       "before:release": [
         "npm ci",
-        "npm run build:electron:all"
+        "rm -rf ./dist/electron",
+        "rm -rf ./dist/headless",
+        "npm run build:electron:all",
+        "npm run release:cask"
       ]
     },
     "npm": {
@@ -116,10 +120,10 @@
     }
   },
   "devDependencies": {
-    "@kui-shell/builder": "11.5.0-dev-20220821-135102",
-    "@kui-shell/proxy": "11.5.0-dev-20220821-135102",
-    "@kui-shell/react": "11.5.0-dev-20220821-135102",
-    "@kui-shell/webpack": "11.5.0-dev-20220821-135102",
+    "@kui-shell/builder": "11.5.0-dev-20220823-130819",
+    "@kui-shell/proxy": "11.5.0-dev-20220823-130819",
+    "@kui-shell/react": "11.5.0-dev-20220823-130819",
+    "@kui-shell/webpack": "11.5.0-dev-20220823-130819",
     "@playwright/test": "^1.25.0",
     "@types/debug": "^4.1.7",
     "@types/needle": "^2.5.3",
@@ -144,16 +148,16 @@
   },
   "dependencies": {
     "@kui-shell/client": "file:./plugins/plugin-client-default",
-    "@kui-shell/core": "11.5.0-dev-20220821-135102",
-    "@kui-shell/plugin-bash-like": "11.5.0-dev-20220821-135102",
-    "@kui-shell/plugin-client-common": "11.5.0-dev-20220821-135102",
+    "@kui-shell/core": "11.5.0-dev-20220823-130819",
+    "@kui-shell/plugin-bash-like": "11.5.0-dev-20220823-130819",
+    "@kui-shell/plugin-client-common": "11.5.0-dev-20220823-130819",
     "@kui-shell/plugin-codeflare": "file:./plugins/plugin-codeflare",
-    "@kui-shell/plugin-core-support": "11.5.0-dev-20220821-135102",
-    "@kui-shell/plugin-electron-components": "11.5.0-dev-20220821-135102",
-    "@kui-shell/plugin-kubectl": "11.5.0-dev-20220821-135102",
+    "@kui-shell/plugin-core-support": "11.5.0-dev-20220823-130819",
+    "@kui-shell/plugin-electron-components": "11.5.0-dev-20220823-130819",
+    "@kui-shell/plugin-kubectl": "11.5.0-dev-20220823-130819",
     "@kui-shell/plugin-madwizard": "file:./plugins/plugin-madwizard",
-    "@kui-shell/plugin-patternfly4-themes": "11.5.0-dev-20220821-135102",
-    "@kui-shell/plugin-proxy-support": "11.5.0-dev-20220821-135102",
-    "@kui-shell/plugin-s3": "11.5.0-dev-20220821-135102"
+    "@kui-shell/plugin-patternfly4-themes": "11.5.0-dev-20220823-130819",
+    "@kui-shell/plugin-proxy-support": "11.5.0-dev-20220823-130819",
+    "@kui-shell/plugin-s3": "11.5.0-dev-20220823-130819"
   }
 }
