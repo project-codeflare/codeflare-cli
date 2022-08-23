@@ -1,6 +1,3 @@
-# secrets for release
-.release.env
-
 # guidebook store mirror
 /store
 

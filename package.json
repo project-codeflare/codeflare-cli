@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/headless/codeflare.min.js",
   "scripts": {
+    "release": "dotenv -e ~/.codeflare-release.env release-it --",
     "watch:source": "tsc --build . --watch",
     "compile": "npx tsc --build . && npx kui-babel && npx kui-prescan",
     "compile:clean": "tsc --build tsconfig.json --clean",
@@ -89,7 +90,6 @@
   "release-it": {
     "hooks": {
       "before:release": [
-        "if [ ! -f .release.env ]; then echo 'Missing .release.env. Copy and modify docs/release/release-template.env' exit 1; fi",
         "npm ci",
         "dotenv -e .release.env npm run build:electron:all"
       ]
