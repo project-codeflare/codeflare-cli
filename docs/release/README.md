@@ -1,16 +1,26 @@
 # Publishing Production Builds
 
-1. Copy [release-template.conf](release-template.conf) to `.release.conf`
-   at the top level, and update it with your secrets.
+## Gather Secrets
 
-2. Install dependencies:
+Copy [release-template.conf](release-template.conf) to
+`~/.codeflare-release.ebv` i.e. in your home directory, and update it
+with your secrets.
+
+TODO explain how to get Apple code signing secrets.
+
+## Install Dependencies
 
 ```shell
 npm install -g release-it @release-it/conventional-changelog @release-it/bumper dotenv-cli
 ```
 
-3. Run `release-it`:
+# Release!
+
+1. It is recommended that you do this from a fresh clone, so that no
+   development artifacts find their way into a production build.
+2. Do not run `release-it` directly, instead use the npm script from
+   the top level of this repository.
 
 ```shell
-release-it
+npm run release
 ```
