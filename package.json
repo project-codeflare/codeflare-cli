@@ -86,6 +86,35 @@
     "semi": false,
     "printWidth": 120
   },
+  "release-it": {
+    "hooks": {
+      "before:release": [
+        "if [ ! -f .release.env ]; then echo 'Missing .release.env. Copy and modify docs/release/release-template.env' exit 1; fi",
+        "npm ci",
+        "dotenv -e .release.env npm run build:electron:all"
+      ]
+    },
+    "npm": {
+      "publish": false
+    },
+    "github": {
+      "release": true,
+      "releaseName": "${version}",
+      "assets": [
+        "dist/electron/*.zip",
+        "dist/electron/*.bz2"
+      ]
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "preset": "angular",
+        "infile": "CHANGELOG.md"
+      },
+      "@release-it/bumper": {
+        "out": "plugins/plugin-client-default/package.json"
+      }
+    }
+  },
   "devDependencies": {
     "@kui-shell/builder": "11.5.0-dev-20220821-135102",
     "@kui-shell/proxy": "11.5.0-dev-20220821-135102",
