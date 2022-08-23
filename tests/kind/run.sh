@@ -19,7 +19,7 @@ do
     case $opt in
         a) FORCE_ALL=true; continue;;
         f) FORCE=$OPTARG; continue;;
-        s) export GUIDEBOOK_STORE=$OPTARG; echo "Using store=$GUIDEBOOK_STORE"; continue;;
+        s) export GUIDEBOOK_STORE=$OPTARG; echo "[Test] Using store=$GUIDEBOOK_STORE"; continue;;
         b) GUIDEBOOK=$OPTARG; continue;;
         i) NO_KIND=true; continue;;
         *) continue;;
@@ -29,12 +29,19 @@ shift $((OPTIND-1))
 
 if [ -z "$NO_KIND" ]; then
     export KUBECONFIG=$("$SCRIPTDIR"/setup.sh)
-    echo "Using KUBECONFIG=$KUBECONFIG"
+    echo "[Test] Using KUBECONFIG=$KUBECONFIG"
 fi
 
 # We get this for free from github actions. Add it generally. This
 # informs the guidebooks to adjust their resource demands.
 export CI=true
+
+# If you find that dangling processes (mostly kubectl) linger, this
+# may help with debugging; you may also set it to "*" to get
+# everything. Word of warning: kubectl seems to respond to DEBUG being
+# set to *anything*, so expect to get a bunch of low-level go logs, no
+# matter what you set this to.
+# export DEBUG=madwizard/cleanup
 
 # build docker image of log aggregator just for this test and load it
 # into kind
@@ -63,12 +70,12 @@ function run {
 
     local PRE="$MWPROFILES_PATH_BASE"/../profiles.d/$profile/pre
     if [ -f "$PRE" ]; then
-        echo "Running pre guidebooks for profile=$profile"
+        echo "[Test] Running pre guidebooks for profile=$profile"
         cat "$PRE" | xargs -n1 "$ROOT"/bin/codeflare -p $profile $yes
     fi
 
-    echo "Running with variant=$variant profile=$profile yes=$yes"
-    "$ROOT"/bin/codeflare -V -p $profile $yes $guidebook
+    echo "[Test] Running with variant=$variant profile=$profile yes=$yes"
+    GUIDEBOOK_NAME="main-job-run" "$ROOT"/bin/codeflare -V -p $profile $yes $guidebook
 }
 
 # Undeploy any prior log aggregator
@@ -78,8 +85,8 @@ function cleanup {
     local profile=$(basename $profileFull)
     export MWPROFILES_PATH="$MWPROFILES_PATH_BASE"/$variant
 
-    echo "Undeploying any prior log aggregator"
-    ("$ROOT"/bin/codeflare -p $profile -y ml/ray/aggregator/in-cluster/client-side/undeploy \
+    echo "[Test] Undeploying any prior log aggregator"
+    (GUIDEBOOK_NAME="log-aggregator-undeploy" "$ROOT"/bin/codeflare -p $profile -y ml/ray/aggregator/in-cluster/client-side/undeploy \
          || exit 0)
 }
 
@@ -96,8 +103,10 @@ function attach {
 
     local jobId=$2
 
-    echo "Attaching variant=$variant profile=$profile jobId=$jobId"
-    "$ROOT"/bin/codeflare -V -p $profile attach -a $jobId
+    echo "[Test] Attaching variant=$variant profile=$profile jobId=$jobId"
+    GUIDEBOOK_NAME="log-aggregator-attach" "$ROOT"/bin/codeflare -V -p $profile attach -a $jobId --wait &
+    ATTACH_PID=$!
+    echo "[Test] Attach underway"
 }
 
 # @return path to locally captured logs for the given jobId, run in the given profile
@@ -121,23 +130,23 @@ function validateAttach {
     RUNDIR=$(localpath $profile $jobId)
 
     if [ ! -d "$RUNDIR" ]; then
-        echo "❌ Logs were not captured locally: missing logdir"
+        echo "[Test] ❌ Logs were not captured locally: missing logdir"
         exit 1
     elif [ ! -f "$RUNDIR/jobid.txt" ]; then
-        echo "❌ Logs were not captured locally: missing jobid.txt"
+        echo "[Test] ❌ Logs were not captured locally: missing jobid.txt"
         exit 1
     elif [ ! -f "$RUNDIR/logs/job.txt" ]; then
-        echo "❌ Logs were not captured locally: missing logs/job.txt"
+        echo "[Test] ❌ Logs were not captured locally: missing logs/job.txt"
         exit 1
     elif [ ! -s "$RUNDIR/logs/job.txt" ]; then
-        echo "❌ Logs were not captured locally: empty logs/job.txt"
+        echo "[Test] ❌ Logs were not captured locally: empty logs/job.txt"
         exit 1
     fi
 
     # TODO the expected output is going to be profile-specific
     grep -q 'Final result' "$RUNDIR/logs/job.txt" \
-        && echo "✅ Logs seem good!" \
-            || (echo "❌ Logs were not captured locally: job logs incomplete" && exit 1)
+        && echo "[Test] ✅ Logs seem good!" \
+            || (echo "[Test] ❌ Logs were not captured locally: job logs incomplete" && exit 1)
 }
 
 function logpoller {
@@ -152,18 +161,24 @@ function logpoller {
 # clean up after ourselves before we exit
 #
 function onexit {
+    if [ -n "$ATTACH_PID" ]; then
+        echo "!!!!!!!!!KILL ATTACH $ATTACH_PID"
+        (pkill -P $ATTACH_PID || exit 0)
+    fi
     if [ -n "$HEAD_POLLER_PID" ]; then
-        (kill $HEAD_POLLER_PID || exit 0)
+        (pkill -P $HEAD_POLLER_PID || exit 0)
     fi
     if [ -n "$WORKER_POLLER_PID" ]; then
-        (kill $WORKER_POLLER_PID || exit 0)
+        (pkill -P $WORKER_POLLER_PID || exit 0)
     fi
     if [ -n "$EVENTS_PID" ]; then
-        (kill $EVENTS_PID || exit 0)
+        (pkill -P $EVENTS_PID || exit 0)
     fi
     if [ -n "$AGGREGATOR_POLLER_PID" ]; then
-        (kill $AGGREGATOR_POLLER_PID || exit 0)
+        (pkill -P $AGGREGATOR_POLLER_PID || exit 0)
     fi
+
+    pkill -P $$
 }
 
 #
@@ -199,7 +214,7 @@ function test {
     # allocate JOB_ID (requires node and `uuid` npm; but we should
     # have both for codeflare-cli dev)
     export JOB_ID=$(node -e 'console.log(require("uuid").v4())')
-    echo "Using JOB_ID=$JOB_ID"
+    echo "[Test] Using JOB_ID=$JOB_ID"
 
     # 1. launch codeflare guidebook run
     run "$1" | tee $OUTPUT &
@@ -216,11 +231,11 @@ function test {
         # done
         sleep 10
 
-        echo "About to attach"
         attach "$1" "$JOB_ID"
     fi
 
     wait $RUN_PID
+    echo "[Test] Run has finished"
     # the job should be done now
 
     # 3. if asked, now validate the log aggregator

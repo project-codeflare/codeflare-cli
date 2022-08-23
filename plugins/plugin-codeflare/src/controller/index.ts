@@ -46,8 +46,10 @@ export default function registerCodeflareCommands(registrar: Registrar) {
   description(registrar)
   registrar.listen("/help", help)
 
-  registrar.listen<KResponse, AttachOptions>("/codeflare/attach", (args) =>
-    import("./attach").then((_) => _.default(args))
+  registrar.listen<KResponse, AttachOptions>(
+    "/codeflare/attach",
+    (args) => import("./attach").then((_) => _.default(args)),
+    { flags: { boolean: ["wait"] } }
   )
   registrar.listen("/codeflare/version", () => import("@kui-shell/client/package.json").then((_) => _.version))
   registrar.listen("/codeflare/gui/guide", (args) => import("./guide").then((_) => _.default(args)), {
