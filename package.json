@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/headless/codeflare.min.js",
   "scripts": {
-    "release": "dotenv -e ~/.codeflare-release.env release-it --",
+    "release": "dotenv -e ~/.codeflare-release.env release-it -- -V",
     "watch:source": "tsc --build . --watch",
     "compile": "npx tsc --build . && npx kui-babel && npx kui-prescan",
     "compile:clean": "tsc --build tsconfig.json --clean",
@@ -91,7 +91,7 @@
     "hooks": {
       "before:release": [
         "npm ci",
-        "dotenv -e .release.env npm run build:electron:all"
+        "npm run build:electron:all"
       ]
     },
     "npm": {
