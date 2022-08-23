@@ -16,7 +16,7 @@
 
 import Debug from "debug"
 import { MadWizardOptions } from "madwizard"
-import { Arguments, ParsedOptions } from "@kui-shell/core"
+import { Arguments, Capabilities, ParsedOptions } from "@kui-shell/core"
 
 import { DashboardOptions } from "./dashboard"
 
@@ -24,6 +24,9 @@ export type Options = ParsedOptions &
   DashboardOptions & {
     /** verbose output from madwizard */
     V?: boolean
+
+    /** wait for a SIGTERM signal? */
+    wait?: boolean
   }
 
 /**
@@ -85,12 +88,15 @@ export async function attach(
     undefined,
     Object.assign({}, options, { name: "log-aggregator-start", clean: false })
   )
+  stderr("Attaching to job done...\n")
 
   // the logdir that we captured
   const logdir = resp && resp.env ? resp.env.LOGDIR_STAGE : undefined
   if (logdir) {
     debug("successfully attached to", jobId, logdir)
     stderr("Successfully attached to job")
+  } else {
+    stderr("Error in attach to job (logdir not found)")
   }
 
   return {
@@ -115,7 +121,22 @@ export default async function attachCommand(args: Arguments<Options>) {
 
   if (logdir) {
     if (cleanExit) {
-      window.addEventListener("beforeunload", () => cleanExit())
+      if (Capabilities.isHeadless()) {
+        process.once("exit", () => {
+          console.error("attach exit")
+        })
+        if (args.parsedOptions.wait) {
+          await new Promise<void>((resolve) => {
+            process.once("SIGTERM", () => {
+              console.error("attach sigterm")
+              cleanExit("SIGTERM")
+              resolve()
+            })
+          })
+        }
+      } else {
+        window.addEventListener("beforeunload", () => cleanExit())
+      }
     }
 
     return logdir
