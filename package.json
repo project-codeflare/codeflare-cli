@@ -90,7 +90,7 @@
   },
   "release-it": {
     "hooks": {
-      "before:release": [
+      "after:bump": [
         "npm ci",
         "rm -rf ./dist/electron",
         "rm -rf ./dist/headless",
