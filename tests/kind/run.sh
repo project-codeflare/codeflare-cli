@@ -47,7 +47,7 @@ export CI=true
 # into kind
 function build {
     export LOG_AGGREGATOR_IMAGE=codeflare-log-aggregator:test
-    FAST=true npm run build:docker:logs
+    FAST=true npm run build:docker:log-aggregator
     kind load docker-image $LOG_AGGREGATOR_IMAGE --name $CLUSTER
 }
 

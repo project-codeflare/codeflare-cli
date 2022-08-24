@@ -21,7 +21,8 @@
     "pty:nodejs": "npm run pty:rebuild node",
     "prepare": "cross-env husky install",
     "build:docker:cli": "npm run build:headless-maybe && docker build -f deploy/cli/Dockerfile -t ghcr.io/project-codeflare/codeflare-cli .",
-    "build:docker:logs": "npm run build:headless-maybe && docker build -f deploy/log-aggregator/Dockerfile -t ${LOG_AGGREGATOR_IMAGE-ghcr.io/project-codeflare/codeflare-log-aggregator} .",
+    "publish:docker:log-aggregator": "docker push ghcr.io/project-codeflare/codeflare-log-aggregator:${version-latest}",
+    "build:docker:log-aggregator": "npm run build:headless-maybe && docker build -f deploy/log-aggregator/Dockerfile -t ${LOG_AGGREGATOR_IMAGE-ghcr.io/project-codeflare/codeflare-log-aggregator:${version-latest}} .",
     "build:docker:self-test": "cd deploy/self-test && docker build -t ghcr.io/project-codeflare/codeflare-self-test .",
     "build:headless-maybe": "if [ ! -n \"$FAST\" ]; then npm run build:headless; fi",
     "build:headless": "CLIENT_HOME=$PWD webpack-cli --mode=${MODE-production} --config node_modules/@kui-shell/webpack/headless-webpack.config.js",
@@ -95,7 +96,11 @@
         "rm -rf ./dist/electron",
         "rm -rf ./dist/headless",
         "npm run build:electron:all",
-        "npm run release:cask"
+        "npm run release:cask",
+        "npm run build:docker:log-aggregator"
+      ],
+      "after:release": [
+        "npm run publish:docker:log-aggregator"
       ]
     },
     "npm": {
