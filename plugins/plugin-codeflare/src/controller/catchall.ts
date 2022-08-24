@@ -14,9 +14,18 @@
  * limitations under the License.
  */
 
+import { version } from "@kui-shell/client/package.json"
 import { doMadwizard } from "@kui-shell/plugin-madwizard"
+
+/** Extra environment variables for the madwizard run */
+function env() {
+  return {
+    // sync/pin log aggregator version to our version
+    LOG_AGGREGATOR_TAG: version,
+  }
+}
 
 /**
  * Our catch-all command handler: send to madwizard.
  */
-export default doMadwizard(true, "guide", true)
+export default doMadwizard(true, "guide", true, undefined, env)

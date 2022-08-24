@@ -61,12 +61,22 @@ export function doMadwizard(
   readonly: boolean,
   task: Task,
   withFilepath = false,
-  cb?: (filepath: string, tab: Tab) => Promise<true | ReactResponse["react"]>
+  cb?: (filepath: string, tab: Tab) => Promise<true | ReactResponse["react"]>,
+
+  /** Inject environment variables into the madwizard run */
+  envFn?: () => Record<string, string>
 ) {
   return async ({ tab, argvNoOptions, parsedOptions }: Arguments<Options>) => {
     if (withFilepath && !argvNoOptions[1]) {
       // TODO codeflare should not be in plugin-madwizard
       argvNoOptions.push(process.env.GUIDEBOOK || "ml/codeflare")
+    }
+
+    if (envFn) {
+      // TODO add support to madwizard!
+      Object.entries(envFn()).forEach(([key, value]) => {
+        process.env[key] = value
+      })
     }
 
     if (!parsedOptions.u) {
