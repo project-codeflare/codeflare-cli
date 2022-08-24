@@ -1,5 +1,5 @@
 cask "codeflare" do
-  version "0.9.3"
+  version "{{ version }}"
 
   name "CodeFlare"
   desc "CLI for Project CodeFlare"
