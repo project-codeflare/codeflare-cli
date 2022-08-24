@@ -16,7 +16,7 @@ arm64=$(sha256sum "$SCRIPTDIR"/../dist/electron/CodeFlare-darwin-arm64.tar.bz2 |
 
 cp "$SCRIPTDIR"/codeflare.rb "$SCRIPTDIR"/codeflare.rb.bak
 
-cat "$SCRIPTDIR"/codeflare-template.rb \
+cat "$SCRIPTDIR"/codeflare.tpl \
     | sed -r "s/{{ x64 }}/$x64/g" \
     | sed -r "s/{{ arm64 }}/$arm64/g" \
           > "$SCRIPTDIR"/codeflare.rb
