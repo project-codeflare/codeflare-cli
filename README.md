@@ -1,4 +1,5 @@
-[![Node.js CI](https://github.com/project-codeflare/codeflare-cli/actions/workflows/test.yml/badge.svg)](https://github.com/project-codeflare/codeflare-cli/actions/workflows/test.yml)
+[![UI Tests](https://github.com/project-codeflare/codeflare-cli/actions/workflows/ui.yml/badge.svg)](https://github.com/project-codeflare/codeflare-cli/actions/workflows/ui.yml)
+[![Kube Tests](https://github.com/project-codeflare/codeflare-cli/actions/workflows/kind.yml/badge.svg)](https://github.com/project-codeflare/codeflare-cli/actions/workflows/kind.yml)
 
 # CodeFlare Desktop Client
 
