@@ -1,5 +1,7 @@
 FROM node:lts-slim
 
+LABEL org.opencontainers.image.source https://github.com/project-codeflare/codeflare-cli
+
 ENV DEBIAN_FRONTEND=noninteractive
 ENV KUI_HEADLESS=true
 ENV KUI_HEADLESS_WEBPACK=true

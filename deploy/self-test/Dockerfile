@@ -1,5 +1,7 @@
 FROM node:lts-bullseye-slim
 
+LABEL org.opencontainers.image.source https://github.com/project-codeflare/codeflare-cli
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 ENV GITHUB=github.com
