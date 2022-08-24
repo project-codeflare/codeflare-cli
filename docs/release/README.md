@@ -2,8 +2,8 @@
 
 ## Gather Secrets
 
-Copy [release-template.conf](release-template.conf) to
-`~/.codeflare-release.ebv` i.e. in your home directory, and update it
+Copy [release-template.env](release-template.env) to
+`~/.codeflare-release.env` i.e. in your home directory, and update it
 with your secrets.
 
 TODO explain how to get Apple code signing secrets.
