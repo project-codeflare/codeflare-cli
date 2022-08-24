@@ -17,16 +17,20 @@
 import { CreateWindowFunction } from "@kui-shell/core"
 
 import windowOptions from "../../window"
+import { bootIcon, shutDownIcon } from "../../icons"
 
 /** Handler for redeploying the server-side log aggregator up a profile */
-async function stopLogAggregator(profile: string, createWindow: CreateWindowFunction) {
+async function logAggregator(task: "deploy" | "undeploy", profile: string, createWindow: CreateWindowFunction) {
   createWindow(
     // re: -y, this means run in non-interactive mode (-y is short for --yes)
-    ["codeflare", "gui", "guide", "-y", "--profile", profile, "ml/ray/aggregator/in-cluster/client-side/undeploy"],
+    ["codeflare", "gui", "guide", "-y", "--profile", profile, `ml/ray/aggregator/in-cluster/client-side/${task}`],
     windowOptions({ title: "Stopping Log Aggregator " + profile })
   )
 }
 
 export default function bootMenuItem(profile: string, createWindow: CreateWindowFunction) {
-  return { label: "Stop Log Aggregator", click: () => stopLogAggregator(profile, createWindow) }
+  return [
+    { label: "Start Log Aggregator", icon: bootIcon, click: () => logAggregator("deploy", profile, createWindow) },
+    { label: "Stop Log Aggregator", icon: shutDownIcon, click: () => logAggregator("undeploy", profile, createWindow) },
+  ]
 }
