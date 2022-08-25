@@ -52,20 +52,37 @@ export interface Options extends ParsedOptions {
 
   /** Interactive guide mode? [default: false] */
   interactive: boolean
+
+  /** Use team-focused assertions */
+  team?: string
 }
 
 // TODO export this from madwizard
 type Task = "profile" | "guide" | "plan"
 
-export function doMadwizard(
-  readonly: boolean,
-  task: Task,
-  withFilepath = false,
-  cb?: (filepath: string, tab: Tab) => Promise<true | ReactResponse["react"]>,
+/** Parameters to `doMadwizard` */
+type Params = {
+  /** What we should ask madwizard to do for us */
+  task: Task
+
+  /** UI mode only; should the Kui tab be placed into readonly mode? [default: true] */
+  readonlyUI?: boolean
+
+  /** TODO: Oof, I can't remember what this is for [default: true] */
+  withFilepath?: boolean
+
+  /** TODO */
+  cb?: (filepath: string, tab: Tab) => Promise<true | ReactResponse["react"]>
 
   /** Inject environment variables into the madwizard run */
   envFn?: () => Record<string, string>
-) {
+
+  /** Assert answers to certain questions */
+  assertionsFn?: (options: Options) => Record<string, string>
+}
+
+/** Front end to the `madwizard` CLI api */
+export function doMadwizard({ readonlyUI = true, task, withFilepath = true, cb, envFn, assertionsFn }: Params) {
   return async ({ tab, argvNoOptions, parsedOptions }: Arguments<Options>) => {
     if (withFilepath && !argvNoOptions[1]) {
       // TODO codeflare should not be in plugin-madwizard
@@ -73,7 +90,7 @@ export function doMadwizard(
     }
 
     if (envFn) {
-      // TODO add support to madwizard!
+      // TODO add better env-injection support to madwizard!
       Object.entries(envFn()).forEach(([key, value]) => {
         process.env[key] = value
       })
@@ -107,17 +124,18 @@ export function doMadwizard(
         ],
         undefined,
         {
+          profile,
           store: parsedOptions.s || process.env.GUIDEBOOK_STORE,
           verbose: parsedOptions.V,
-          profile,
           interactive: parsedOptions.i || !parsedOptions.y,
+          assertions: assertionsFn ? assertionsFn(parsedOptions) : undefined,
         }
       )
       return true
     }
 
     // UI path
-    if (readonly) {
+    if (readonlyUI) {
       const { setTabReadonly } = await import("./util")
       setTabReadonly({ tab })
     }
@@ -134,32 +152,39 @@ export function doMadwizard(
 export const flags = {
   boolean: ["u", "V", "n", "q", "i", "y"],
   configuration: { "populate--": true },
-  alias: { quiet: ["q"], interactive: ["i"], yes: ["y"], profile: ["p"], verbose: ["V"] },
+  alias: { quiet: ["q"], interactive: ["i"], yes: ["y"], profile: ["p"], verbose: ["V"], team: ["t"] },
 }
 
 /** Register Kui Commands */
 export default function registerMadwizardCommands(registrar: Registrar) {
-  registrar.listen("/profile", doMadwizard(true, "profile"))
+  registrar.listen("/profile", doMadwizard({ task: "profile", withFilepath: false }))
 
   registrar.listen(
     "/guide",
-    doMadwizard(true, "guide", true, (filepath, tab) =>
-      import("./components/PlanAndGuide").then((_) => _.planAndGuide(filepath, { tab }))
-    ),
+    doMadwizard({
+      task: "guide",
+      cb: (filepath, tab) => import("./components/PlanAndGuide").then((_) => _.planAndGuide(filepath, { tab })),
+    }),
     { outputOnly: true, flags }
   )
 
   registrar.listen(
     "/wizard",
-    doMadwizard(false, "guide", true, (filepath, tab) =>
-      import("./components/Guide").then((_) => _.guide(filepath, { tab }))
-    ),
+    doMadwizard({
+      readonlyUI: false,
+      task: "guide",
+      cb: (filepath, tab) => import("./components/Guide").then((_) => _.guide(filepath, { tab })),
+    }),
     { flags }
   )
 
   registrar.listen(
     "/plan",
-    doMadwizard(false, "plan", true, (filepath) => import("./components/Plan").then((_) => _.plan(filepath))),
+    doMadwizard({
+      readonlyUI: false,
+      task: "plan",
+      cb: (filepath) => import("./components/Plan").then((_) => _.plan(filepath)),
+    }),
     { flags }
   )
 }
