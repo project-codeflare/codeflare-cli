@@ -15,10 +15,14 @@
  */
 
 import { version } from "@kui-shell/client/package.json"
-import { doMadwizard } from "@kui-shell/plugin-madwizard"
+import { doMadwizard, MadWizardOptions } from "@kui-shell/plugin-madwizard"
+
+import comIBMResearchFM from "../teams/com/ibm/research/fm"
+import comIBMResearchNASA from "../teams/com/ibm/research/nasa"
+import test1 from "../teams/org/project-codeflare/codeflare-cli/tests/1"
 
 /** Extra environment variables for the madwizard run */
-function env() {
+function envFn() {
   return {
     // sync/pin log aggregator version to our version
     LOG_AGGREGATOR_TAG: version,
@@ -26,6 +30,34 @@ function env() {
 }
 
 /**
+ * Assert answers to certain questions? This is currently done on a
+ * per-"team" basis, via the --team/-t command line option. These
+ * allow us to fix the answer to certain questions.
+ */
+function assertionsFn({ team }: Pick<MadWizardOptions, "team">): Record<string, string> {
+  if (team) {
+    switch (team) {
+      case "test1":
+        return test1
+      case "com.ibm.research.fm":
+      case "fm":
+      case "FM":
+        return comIBMResearchFM
+      case "com.ibm.research.nasa":
+      case "cftest":
+        return comIBMResearchNASA
+      // intentional fallthrough
+    }
+  }
+
+  return {}
+}
+
+/**
  * Our catch-all command handler: send to madwizard.
  */
-export default doMadwizard(true, "guide", true, undefined, env)
+export default doMadwizard({
+  task: "guide",
+  envFn,
+  assertionsFn,
+})
