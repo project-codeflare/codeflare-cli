@@ -21,7 +21,7 @@
     "pty:nodejs": "npm run pty:rebuild node",
     "prepare": "cross-env husky install",
     "build:docker:cli": "npm run build:headless-maybe && docker build -f deploy/cli/Dockerfile -t ghcr.io/project-codeflare/codeflare-cli .",
-    "publish:docker:log-aggregator": "docker push ghcr.io/project-codeflare/codeflare-log-aggregator:${version-latest}",
+    "publish:docker:log-aggregator": "docker push ghcr.io/project-codeflare/codeflare-log-aggregator:${VERSION-latest}",
     "build:docker:log-aggregator": "npm run build:headless-maybe && docker build -f deploy/log-aggregator/Dockerfile -t ${LOG_AGGREGATOR_IMAGE-ghcr.io/project-codeflare/codeflare-log-aggregator:${version-latest}} .",
     "build:docker:self-test": "cd deploy/self-test && docker build -t ghcr.io/project-codeflare/codeflare-self-test .",
     "build:headless-maybe": "if [ ! -n \"$FAST\" ]; then npm run build:headless; fi",
@@ -96,11 +96,11 @@
         "rm -rf ./dist/electron",
         "rm -rf ./dist/headless",
         "npm run build:electron:all",
-        "npm run release:cask",
-        "npm run build:docker:log-aggregator"
+        "VERSION=$version npm run release:cask",
+        "VERSION=$version npm run build:docker:log-aggregator"
       ],
       "after:release": [
-        "npm run publish:docker:log-aggregator"
+        "VERSION=$version npm run publish:docker:log-aggregator"
       ]
     },
     "npm": {
