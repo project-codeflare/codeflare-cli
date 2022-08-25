@@ -1,5 +1,5 @@
 cask "codeflare" do
-  version ""
+  version "0.10.0"
 
   name "CodeFlare"
   desc "CLI for Project CodeFlare"
