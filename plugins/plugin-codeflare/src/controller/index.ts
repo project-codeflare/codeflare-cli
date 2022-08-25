@@ -51,7 +51,17 @@ export default function registerCodeflareCommands(registrar: Registrar) {
     (args) => import("./attach").then((_) => _.default(args)),
     { flags: { boolean: ["wait"] } }
   )
-  registrar.listen("/codeflare/version", () => import("@kui-shell/client/package.json").then((_) => _.version))
+
+  registrar.listen("/codeflare/version", (args) =>
+    import("@kui-shell/client/package.json").then((_) => {
+      if (!args.execOptions.type) {
+        return _.version + "\n"
+      } else {
+        return _.version
+      }
+    })
+  )
+
   registrar.listen("/codeflare/gui/guide", (args) => import("./guide").then((_) => _.default(args)), {
     needsUI: true,
     width,
