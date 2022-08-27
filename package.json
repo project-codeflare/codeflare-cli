@@ -22,8 +22,10 @@
     "prepare": "cross-env husky install",
     "build:docker:cli": "npm run build:headless-maybe && docker build -f deploy/cli/Dockerfile -t ghcr.io/project-codeflare/codeflare-cli .",
     "publish:docker:log-aggregator": "docker push ghcr.io/project-codeflare/codeflare-log-aggregator:${VERSION-latest}",
-    "build:docker:log-aggregator": "npm run build:headless-maybe && docker build -f deploy/log-aggregator/Dockerfile -t ${LOG_AGGREGATOR_IMAGE-ghcr.io/project-codeflare/codeflare-log-aggregator:${version-latest}} .",
-    "build:docker:self-test": "cd deploy/self-test && docker build -t ghcr.io/project-codeflare/codeflare-self-test .",
+    "build:docker:log-aggregator": "npm run build:headless-maybe && docker build -f deploy/log-aggregator/Dockerfile -t ${LOG_AGGREGATOR_IMAGE-ghcr.io/project-codeflare/codeflare-log-aggregator:${VERSION-latest}} .",
+    "publish:docker:self-test": "docker push ghcr.io/project-codeflare/codeflare-self-test:${VERSION-latest}",
+    "build:docker:self-test": "npm run build:headless-maybe && docker build -f deploy/self-test/Dockerfile -t ${SELF_TEST_IMAGE-ghcr.io/project-codeflare/codeflare-self-test:${VERSION-latest}} .",
+    "run:self-test": "./deploy/self-test/test-in-kind.sh",
     "build:headless-maybe": "if [ ! -n \"$FAST\" ]; then npm run build:headless; fi",
     "build:headless": "CLIENT_HOME=$PWD webpack-cli --mode=${MODE-production} --config node_modules/@kui-shell/webpack/headless-webpack.config.js",
     "docker:debug": "ENTRYPOINT=bash ./bin/codeflare -d",
@@ -97,9 +99,11 @@
         "rm -rf ./dist/headless",
         "npm run build:electron:all",
         "VERSION=$version npm run release:cask",
+        "VERSION=$version npm run build:docker:self-test",
         "VERSION=$version npm run build:docker:log-aggregator"
       ],
       "after:release": [
+        "VERSION=$version npm run publish:docker:self-test",
         "VERSION=$version npm run publish:docker:log-aggregator"
       ]
     },
