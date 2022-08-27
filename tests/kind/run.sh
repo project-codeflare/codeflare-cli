@@ -46,9 +46,11 @@ export CI=true
 # build docker image of log aggregator just for this test and load it
 # into kind
 function build {
-    export LOG_AGGREGATOR_IMAGE=codeflare-log-aggregator:test
-    FAST=true npm run build:docker:log-aggregator
-    kind load docker-image $LOG_AGGREGATOR_IMAGE --name $CLUSTER
+    if [ -n "$TEST_LOG_AGGREGATOR" ]; then
+        export LOG_AGGREGATOR_IMAGE=codeflare-log-aggregator:test
+        FAST=true npm run build:docker:log-aggregator
+        kind load docker-image $LOG_AGGREGATOR_IMAGE --name $CLUSTER
+    fi
 }
 
 #
@@ -78,15 +80,27 @@ function run {
     GUIDEBOOK_NAME="main-job-run" "$ROOT"/bin/codeflare -V -p $profile $yes $guidebook
 }
 
-# Undeploy any prior log aggregator
-function cleanup {
+# Undeploy any prior ray cluster
+function cleanup_ray {
     local profileFull=$1
     local variant=$(dirname $profileFull)
     local profile=$(basename $profileFull)
     export MWPROFILES_PATH="$MWPROFILES_PATH_BASE"/$variant
 
-    echo "[Test] Undeploying any prior log aggregator"
-    (GUIDEBOOK_NAME="log-aggregator-undeploy" "$ROOT"/bin/codeflare -p $profile -y ml/ray/aggregator/in-cluster/client-side/undeploy \
+    echo "[Test] Undeploying any prior ray cluster"
+    (GUIDEBOOK_NAME="ray-undeploy" "$ROOT"/bin/codeflare -p $profile -y ml/ray/stop/kubernetes \
+         || exit 0)
+}
+
+# Undeploy any prior log aggregator
+function cleanup_log_aggregator {
+    local profileFull=$1
+    local variant=$(dirname $profileFull)
+    local profile=$(basename $profileFull)
+    export MWPROFILES_PATH="$MWPROFILES_PATH_BASE"/$variant
+
+    echo "[Test] Undeploying any prior ray cluster"
+    (GUIDEBOOK_NAME="ray-undeploy" "$ROOT"/bin/codeflare -p $profile -y ml/ray/stop/kubernetes \
          || exit 0)
 }
 
@@ -216,13 +230,16 @@ function test {
     export JOB_ID=$(node -e 'console.log(require("uuid").v4())')
     echo "[Test] Using JOB_ID=$JOB_ID"
 
+    # 0. clean up prior ray clusters
+    cleanup_ray "$1"
+    
     # 1. launch codeflare guidebook run
     run "$1" | tee $OUTPUT &
     RUN_PID=$!
 
     # 2. if asked, attach a log aggregator
     if [ -n "$TEST_LOG_AGGREGATOR" ]; then
-        cleanup "$1"
+        cleanup_log_aggregator "$1"
 
         # wait to attach until the job has been submitted
         # while true; do
