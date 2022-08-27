@@ -27,11 +27,6 @@ do
 done
 shift $((OPTIND-1))
 
-if [ -z "$NO_KIND" ]; then
-    export KUBECONFIG=$("$SCRIPTDIR"/setup.sh)
-    echo "[Test] Using KUBECONFIG=$KUBECONFIG"
-fi
-
 # We get this for free from github actions. Add it generally. This
 # informs the guidebooks to adjust their resource demands.
 export CI=true
@@ -42,6 +37,13 @@ export CI=true
 # set to *anything*, so expect to get a bunch of low-level go logs, no
 # matter what you set this to.
 # export DEBUG=madwizard/cleanup
+
+function start_kind {
+    if [ -z "$NO_KIND" ]; then
+        export KUBECONFIG=$("$SCRIPTDIR"/setup.sh)
+        echo "[Test] Using KUBECONFIG=$KUBECONFIG"
+    fi
+}
 
 # build docker image of log aggregator just for this test and load it
 # into kind
@@ -77,7 +79,7 @@ function run {
     fi
 
     echo "[Test] Running with variant=$variant profile=$profile yes=$yes"
-    GUIDEBOOK_NAME="main-job-run" "$ROOT"/bin/codeflare -V -p $profile $yes $guidebook
+    GUIDEBOOK_NAME="main-job-run" "$ROOT"/bin/codeflare -p $profile $yes $guidebook
 }
 
 # Undeploy any prior ray cluster
@@ -175,8 +177,9 @@ function logpoller {
 # clean up after ourselves before we exit
 #
 function onexit {
+    echo "[Test] onexit handler"
+
     if [ -n "$ATTACH_PID" ]; then
-        echo "!!!!!!!!!KILL ATTACH $ATTACH_PID"
         (pkill -P $ATTACH_PID || exit 0)
     fi
     if [ -n "$HEAD_POLLER_PID" ]; then
@@ -192,7 +195,11 @@ function onexit {
         (pkill -P $AGGREGATOR_POLLER_PID || exit 0)
     fi
 
-    pkill -P $$
+    if [ -z "$NO_KIND" ]; then
+        # don't kill ourselves if we're running in a container
+        echo "[Test] pkilling ourselves to help with cleanup"
+        pkill -P $$
+    fi
 }
 
 #
@@ -227,8 +234,10 @@ function test {
 
     # allocate JOB_ID (requires node and `uuid` npm; but we should
     # have both for codeflare-cli dev)
-    export JOB_ID=$(node -e 'console.log(require("uuid").v4())')
-    echo "[Test] Using JOB_ID=$JOB_ID"
+    if [ -n "$TEST_LOG_AGGREGATOR" ]; then
+        export JOB_ID=$(node -e 'console.log(require("uuid").v4())')
+        echo "[Test] Using JOB_ID=$JOB_ID"
+    fi
 
     # 0. clean up prior ray clusters
     cleanup_ray "$1"
@@ -262,12 +271,14 @@ function test {
     fi
     
     # 4. validate the output of the job itself
+    echo "[Test] Validating run output"
     grep succeeded $OUTPUT
 }
 
 trap onexit INT
 trap onexit EXIT
 
+start_kind
 build
 debug
 test "$1"

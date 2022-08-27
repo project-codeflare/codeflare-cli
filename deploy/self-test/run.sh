@@ -1,84 +1,103 @@
 #!/usr/bin/env bash
 
+#
+# This is intended only for local testing!!
+#
+# Generally speaking, self-test launches codeflare tests such that the
+# test launcher itself runs inside of a pod (a Job, actually; see
+# self-test.yaml).
+#
+# This script does so against a local kind cluster. It is helpful to
+# test the script and self-test capability, but is not intended for
+# actual self-testing in the field.
+#
+
+set -e
+set -o pipefail
+
 SCRIPTDIR=$(cd $(dirname "$0") && pwd)
 
-# name of the configmap
-CM=codeflare-self-test-config
+KIND="$SCRIPTDIR"/../../tests/kind
+export SELF_TEST_IMAGE=codeflare-self-test:test
+export VARIANTS=${VARIANTS-non-gpu1}
+YAML=$(mktemp)
 
-# we will test the latest **remote** version of the current local
-# org+branch e.g. if your local branch is from org `starpit` and
-# branch `fixing-bug`, then make sure to commit and push your changes
-# to the remote, otherwise any changes you hoped to test will not be
-# picked up
-ORG=${GITHUB_REPOSITORY_OWNER-$(git config remote.$(git config branch.main.remote).url | cut -f2 -d: | cut -f1 -d/)}
-BRANCH=$(git branch --show-current)
-echo "github org=$ORG branch=$BRANCH"
+SCRIPTDIR=$(cd $(dirname "$0") && pwd)
+. "${KIND}"/values.sh
 
-# if you hit ctrl+c, we will tear everything down
-trap cleanup INT
+# start kind, if needed
+function start_kind {
+    export KUBECONFIG=$("$KIND"/setup.sh)
+    echo "[Self-Test] Using KUBECONFIG=$KUBECONFIG"
+}
 
-# configure kind if needed
-function kind() {
-    if [ -n "$NEEDS_KIND" ]; then
-        export KUBECONFIG=$("$SCRIPTDIR"/../../tests/kind/setup.sh)
-    fi
+# generate self-test.yaml with variable expansion
+function yaml {
+    echo "[Self-Test] Creating self-test.yaml"
+    TEMP=$(mktemp)
+    echo 'cat <<EOF' > $TEMP
+    cat "$SCRIPTDIR"/self-test.yaml >> $TEMP
+    echo 'EOF'       >> $TEMP
+    bash $TEMP >> $YAML
+    rm $TEMP
 }
 
 # delete the job and configmap (etc.)
-function cleanup() {
+function cleanup {
+    echo "[Self-Test] Cleaning up prior deployments of self-test"
     tput setaf 5
-    kubectl delete cm $CM
-    kubectl delete -f "$SCRIPTDIR"/self-test.yaml
+    (kubectl delete -f $YAML || exit 0)
     tput sgr0
 }
 
-# create the job and configmap (etc.)
-function start() {
-    # necessary to support cloning when run as a github action; the
-    # cloning happens in self-test.sh, inside the running pod (spawned
-    # by this apply)
-    if [ -n "$GITHUB_ACTOR" ] && [ -n "$GITHUB_TOKEN" ]; then
-        GITHUB_ACTOR_PREFIX="$GITHUB_ACTOR:$GITHUB_TOKEN@"
-    fi
-
-    tput setaf 5
-    kubectl create cm $CM \
-            --from-literal=ORG=$ORG \
-            --from-literal=BRANCH=$BRANCH \
-            --from-literal=VARIANTS=$VARIANTS \
-            --from-literal=GITHUB_ACTOR_PREFIX=$GITHUB_ACTOR_PREFIX \
-            --from-literal=GITHUB_SHA=$GITHUB_SHA \
-            --from-literal=GITHUB_REF=$GITHUB_REF
-
-    kubectl apply -f "$SCRIPTDIR"/self-test.yaml
+# build docker image of self-test just for this test and load it into
+# kind
+function build {
+    tput setaf 3
+    echo "[Self-Test] Building self-test image"
     tput sgr0
+    FAST=true npm run build:docker:self-test
+    tput setaf 3
+    echo "[Self-Test] Loading image into kind image=$SELF_TEST_IMAGE cluster=$CLUSTER"
+    tput sgr0
+    kind load docker-image $SELF_TEST_IMAGE --name $CLUSTER
+}
+
+function start {
+    tput setaf 3
+    echo "[Self-Test] Deploying self-test image"
+    tput sgr0
+    kubectl apply -f "$YAML"
 }
 
 # wait for a pod (of the job) to be ready
 function waitForReady() {
     tput setaf 3
-    echo "Waiting for job to start"
+    echo "[Self-Test] Waiting for job to start"
     tput sgr0
-    kubectl wait pod -l job-name=codeflare-self-test --for=condition=Ready
+    kubectl wait pod -l job-name=codeflare-self-test --for=condition=Ready --timeout=240s
 }
 
 # stream out the logs of our job's pod(s)
 function logs() {
     tput setaf 3
-    echo "Streaming out job logs"
+    echo "[Self-test] Streaming out job logs"
     tput sgr0
     kubectl logs -l job-name=codeflare-self-test -f
 }
 
+# wait for the self-test to complete
 function waitForComplete() {
     tput setaf 3
-    echo "Waiting for job completion"
+    echo "[Self-test] Waiting for job completion"
     tput sgr0
-    kubectl wait pod -l job-name=codeflare-self-test --for=condition=Complete --timeout=-1s
+    kubectl wait job codeflare-self-test --for=condition=complete --timeout=-1s
 }
 
-kind
+start_kind
+yaml
 cleanup
+build
 start
 waitForReady
 logs
