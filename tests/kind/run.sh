@@ -89,7 +89,7 @@ function cleanup_ray {
     local profile=$(basename $profileFull)
     export MWPROFILES_PATH="$MWPROFILES_PATH_BASE"/$variant
 
-    echo "[Test] Undeploying any prior ray cluster"
+    echo "[Test] Undeploying any prior ray cluster with variant=$variant profile=$profile"
     (GUIDEBOOK_NAME="ray-undeploy" "$ROOT"/bin/codeflare -p $profile -y ml/ray/stop/kubernetes \
          || exit 0)
 }
@@ -102,7 +102,7 @@ function cleanup_log_aggregator {
     export MWPROFILES_PATH="$MWPROFILES_PATH_BASE"/$variant
 
     echo "[Test] Undeploying any prior ray cluster"
-    (GUIDEBOOK_NAME="ray-undeploy" "$ROOT"/bin/codeflare -p $profile -y ml/ray/stop/kubernetes \
+    (GUIDEBOOK_NAME="ray-undeploy" "$ROOT"/bin/codeflare -p $profile -y ml/ray/aggregator/in-cluster/client-side/undeploy \
          || exit 0)
 }
 
