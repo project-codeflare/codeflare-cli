@@ -40,7 +40,7 @@ roleRef:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: codeflare-self-test
+  name: codeflare-self-test-roberta-1gpu-once
 spec:
   completions: 1
   parallelism: 1
@@ -49,12 +49,22 @@ spec:
       serviceAccountName: codeflare-self-test-serviceaccount
       containers:
       - name: self-test
-        image: ${SELF_TEST_IMAGE-ghcr.io/project-codeflare/codeflare-self-test:${SELF_TEST_TAG-latest}}
+        image: ghcr.io/project-codeflare/codeflare-self-test:0.10.4
         env:
           # - name: GUIDEBOOK_RUN_ARGS
           #  value: "-V"
           - name: VARIANTS
-            value: ${VARIANTS}
+            value: roberta-1gpu
+          - name: ML_CODEFLARE_ROBERTA_GITHUB_USER
+            valueFrom:
+              secretKeyRef:
+                name: github
+                key: GITHUB_USER
+          - name: ML_CODEFLARE_ROBERTA_GITHUB_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: github
+                key: GITHUB_TOKEN
           - name: MODE
             value: development # otherwise building codeflare-cli takes a huge amount of memory
           - name: KUBE_CONTEXT_FOR_TEST

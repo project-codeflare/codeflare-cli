@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# This is intended only for local testing!!
+# This is used for *testing* the self-test capability.
 #
 # Generally speaking, self-test launches codeflare tests such that the
 # test launcher itself runs inside of a pod (a Job, actually; see
