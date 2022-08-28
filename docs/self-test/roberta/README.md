@@ -16,28 +16,14 @@ wakes up and launches the CodeFlare CLI against a given _profile_
 (e.g. one that runs RoBERTa using 1 GPU, 8Gi of worker memory, using a
 certain branch of the code base, etc.).
 
-## Prerequisites
+## How to Deploy the Automation
+
+### Create a `github` secret, if needed
 
 If your RoBERTa branch is private, you will need to provide a GitHub
 username and token, by creating a Kubernetes
 [Secret](https://kubernetes.io/docs/concepts/configuration/secret/). This
-secret must be named `github`, and must have two data fields. It
-should look something like:
-
-```yaml
-apiVersion: v1
-data:
-  GITHUB_USER: ... # output of `echo -n myusername | base64`
-  GITHUB_TOKEN: ... # output of `echo -n $GITHUB_TOKEN | base64`
-kind: Secret
-metadata:
-  name: github
-type: Opaque
-```
-
-## How to Deploy the Automation
-
-### Create a `github` secret, if needed
+secret must be named `github`, and must have two data fields `GITHUB_USER` and `GITHUB_TOKEN`.
 
 ```shell
 export GITHUB_USER=myusername
