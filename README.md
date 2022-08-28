@@ -6,55 +6,53 @@
 # CodeFlare Desktop Client
 
 <p align="center">
-<img src="./images/codeflare_cli.svg" width="200" height="200">
+<img src="./images/codeflare_cli.svg" width="100" height="100" align="left">
 </p>
 
-CodeFlare is a framework to simplify the integration, scaling and
-acceleration of complex multi-step analytics and machine learning
-pipelines on the cloud.
+[CodeFlare](https://codeflare.dev) is a framework to simplify the
+integration, scaling and acceleration of complex multi-step analytics
+and machine learning pipelines on the cloud.
+
+This repository is home to the open source CodeFlare CLI,
+`codeflare`. On macOS, you can [get started
+immediately](#installation) using `brew install`.
+
+## Highlights
+
+- **Easy job submission against Kubernetes**: `codeflare` guides you
+  through the complex process by posing a series of questions (where
+  is your source code? where is your data?). `codeflare` has the
+  smarts to glue all of these answers together, culminating in a
+  running job.
+
+- **Optimized Inner Loop**: You may give a name to the set of answers
+  you provided. We call this a "profile". Your inner loop of jobs
+  submission can thus be optimized by running `codeflare -p <profileName>`. This also allows you to switch quickly between
+  profiles, and even submit jobs to distinct profiles concurrently.
+
+- **Pop-up Graphical dashboards with a few keystrokes or clicks**:
+  `codeflare` leverages the power of
+  [Kui](https://github.com/kubernetes-sigs/kui) to offer you quick
+  access to a variety of graphical dashboards, including MLFlow,
+  Tensorboard, and a custom CodeFlare Dashboard that helps you track
+  the progress of an individual job. There is no need to fiddle with
+  yaml files and port forwards. With a few clicks, you will get a
+  popup window that shows you the chosen dashboard.
 
 ## Installation
 
-```shell
-brew tap project-codeflare/codeflare-cli https://github.com/project-codeflare/codeflare-cli
-brew install codeflare
-```
+On macOS, if you have [HomeBrew](https://brew.sh/) installed:
 
-## Development
+    brew tap project-codeflare/codeflare-cli https://github.com/project-codeflare/codeflare-cli
+    brew install codeflare
 
-For codeflare-cli developers:
+Otherwise, visit our
+[Releases](https://github.com/project-codeflare/codeflare-cli/releases/latest)
+page to download the zip file for your platform. Unzip and place the
+enclosed `bin/` directory on your `PATH`.
 
-```shell
-git clone https://github.com/project-codeflare/codeflare-cli
-cd codeflare-cli
-npm ci
-npm run watch
-```
+</details>
 
-Now you may use `./bin/codeflare` to launch your local clone. The
-watcher will recompile things when you make changes to TypeScript or
-SCSS source files.
+## Contributing
 
-### Docker
-
-If you want to build a Docker image, this command will build a
-production client (which takes around 30 seconds), and then build the
-Docker image (which takes another few minutes).
-
-```shell
-npm run build:docker
-```
-
-If you want to skip the first step, and only test building the Docker
-image, use `build:docker0`.
-
-To test your image, try `./bin/codeflare -d`. If you want to debug the
-image itself, use `npm run docker:debug` which will get you a shell
-into a running container.
-
-Limitations: the Docker build scripts are currently hard-wired to
-x86. PRs welcome to leverage `docker buildx` to build for ARM, etc.
-
-## License
-
-CodeFlare CLI is an open-source project with an [Apache 2.0 license](LICENSE).
+Want to help out? Check out the [developer guide](./docs/development/README.md).
