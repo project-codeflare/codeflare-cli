@@ -27,7 +27,8 @@ immediately](#installation) using `brew install`.
 
 - **Optimized Inner Loop**: You may give a name to the set of answers
   you provided. We call this a "profile". Your inner loop of jobs
-  submission can thus be optimized by running `codeflare -p <profileName>`. This also allows you to switch quickly between
+  submission can thus be optimized by running `codeflare -y -p <profileName>` (the `-y` meaning auto-answer "yes" to accept all
+  prior answers). This also allows you to switch quickly between
   profiles, and even submit jobs to distinct profiles concurrently.
 
 - **Pop-up Graphical dashboards with a few keystrokes or clicks**:
