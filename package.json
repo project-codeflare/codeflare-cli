@@ -124,6 +124,8 @@
         "infile": "CHANGELOG.md"
       },
       "@release-it/bumper": {
+        "out": "deploy/self-test/self-test.yaml",
+        "out": "deploy/self-test/self-test-roberta.yaml",
         "out": "plugins/plugin-client-default/package.json"
       }
     }
