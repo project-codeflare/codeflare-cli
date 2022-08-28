@@ -42,7 +42,7 @@ kubectl create secret github \
 ### Deploy the automation
 
 ```shell
-kubectl apply -f https://github.com/project-codeflare/codeflare-cli/blob/main/deploy/self-test/roberta/1gpu/periodic.yaml
+kubectl apply -f https://raw.githubusercontent.com/project-codeflare/codeflare-cli/main/deploy/self-test/roberta/1gpu/periodic.yaml
 ```
 
 Use `delete` in place of `apply` if you wish to tear down the
