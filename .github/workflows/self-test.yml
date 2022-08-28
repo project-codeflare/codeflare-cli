@@ -41,4 +41,4 @@ jobs:
         TERM: xterm
         DEBUG_KUBERNETES: true
         TEST_LOG_AGGREGATOR: true
-      run: ./deploy/self-test/run.sh
+      run: ./tests/self-test/run.sh
