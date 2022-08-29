@@ -6,7 +6,7 @@
 # CodeFlare Desktop Client
 
 <p align="center">
-<img src="./images/codeflare_cli.svg" width="100" height="100" align="left">
+<img src="./images/codeflare_cli.svg" width="110" height="110" align="left">
 </p>
 
 [CodeFlare](https://codeflare.dev) is a framework to simplify the
@@ -17,28 +17,10 @@ This repository is home to the open source CodeFlare CLI,
 `codeflare`. On macOS, you can [get started
 immediately](#installation) using `brew install`.
 
-## Highlights
-
-- **Easy job submission against Kubernetes**: `codeflare` guides you
-  through the complex process by posing a series of questions (where
-  is your source code? where is your data?). `codeflare` has the
-  smarts to glue all of these answers together, culminating in a
-  running job.
-
-- **Optimized Inner Loop**: You may give a name to the set of answers
-  you provided. We call this a "profile". Your inner loop of jobs
-  submission can thus be optimized by running `codeflare -y -p <profileName>` (the `-y` meaning auto-answer "yes" to accept all
-  prior answers). This also allows you to switch quickly between
-  profiles, and even submit jobs to distinct profiles concurrently.
-
-- **Pop-up Graphical dashboards with a few keystrokes or clicks**:
-  `codeflare` leverages the power of
-  [Kui](https://github.com/kubernetes-sigs/kui) to offer you quick
-  access to a variety of graphical dashboards, including MLFlow,
-  Tensorboard, and a custom CodeFlare Dashboard that helps you track
-  the progress of an individual job. There is no need to fiddle with
-  yaml files and port forwards. With a few clicks, you will get a
-  popup window that shows you the chosen dashboard.
+| **Rapid Job Submission**                                                                                                           | **Optimized Inner Loop**                                                                                                                                                          | **Easy access to Pop-up Dashboards**                                                                                                                                                          |
+| ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `codeflare` guides you through the complex process by posing a series of questions. Where is your source code? Where is your data? | You may name the set of answers you provided. We call this a **profile**. Your inner loop then becomes: `codeflare -y -p <profileName>`. The `-y` means accept all prior answers. | `codeflare` offers quick access to a variety of graphical dashboards, including MLFlow, Tensorboard, and a custom CodeFlare Dashboard that helps you track the progress of an individual job. |
+| `codeflare` glues answers together and submits a Kubernetes job.                                                                   | You can switch quickly between profiles, and even submit jobs to distinct profiles concurrently.                                                                                  | There is no need to fiddle with yaml files and port forwards. With a few clicks, you will get a popup dashboard window.                                                                       |
 
 ## Installation
 
