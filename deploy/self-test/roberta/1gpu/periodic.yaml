@@ -43,11 +43,11 @@ metadata:
   name: codeflare-self-test-roberta-1gpu-periodic
 spec:
   schedule: "0/30 * * * *" # every 30 minutes, starting from the top of the hour (see crontab.guru)
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1000
+  successfulJobsHistoryLimit: 1000
   jobTemplate:
     spec:
-      concurrencyPolicy: Forbid
-      failedJobsHistoryLimit: 1000
-      successfulJobsHistoryLimit: 1000
       template:
         spec:
           serviceAccountName: codeflare-self-test-serviceaccount
