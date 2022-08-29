@@ -31,6 +31,9 @@ import icon2x from "@kui-shell/client/icons/png/codeflareTemplate@2x.png"
 let tray: null | InstanceType<typeof import("electron").Tray> = null
 
 class LiveMenu {
+  // serialized form, to avoid unnecessary repaints
+  private currentContextMenu = ""
+
   public constructor(
     private readonly tray: import("electron").Tray,
     private readonly createWindow: CreateWindowFunction,
@@ -47,8 +50,19 @@ class LiveMenu {
       clearTimeout(this.debounce)
     }
     this.debounce = setTimeout(async () => {
-      this.tray.setToolTip(productName)
-      this.tray.setContextMenu(await buildContextMenu(this.createWindow, this.render.bind(this)))
+      // avoid blinking on linux by constantly repainting: only update
+      // the tray if the model has changed
+      const newContextMenu = await buildContextMenu(this.createWindow, this.render.bind(this))
+      const newContextMenuSerialized = JSON.stringify(
+        newContextMenu,
+        (key, value) => (key === "menu" || key === "commandsMap" || key === "commandId" ? undefined : value),
+        2
+      )
+      if (this.currentContextMenu !== newContextMenuSerialized) {
+        this.currentContextMenu = newContextMenuSerialized
+        this.tray.setToolTip(productName)
+        this.tray.setContextMenu(newContextMenu)
+      }
     }, 200)
   }
 }

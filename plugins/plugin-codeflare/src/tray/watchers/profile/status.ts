@@ -16,7 +16,6 @@
 
 import Debug from "debug"
 import { spawn } from "child_process"
-import { encodeComponent } from "@kui-shell/core"
 
 import UpdateFunction from "../../update"
 import respawnCommand from "../../../controller/respawn"
@@ -54,15 +53,15 @@ export default class ProfileStatusWatcher {
   }
 
   private initJob(profile: string) {
-    console.error("Watcher start", profile)
     const { argv, env } = respawnCommand([
       "guide",
       "-q",
       "-y",
       "--profile",
-      encodeComponent(profile),
+      profile,
       "ml/ray/cluster/kubernetes/is-ready",
     ])
+    Debug("codeflare")("Watcher start", profile, argv)
     const job = spawn(argv[0], argv.slice(1), { env, stdio: ["pipe", "pipe", "inherit"], detached: true })
 
     // make sure to kill that watcher subprocess when we exit
@@ -97,6 +96,7 @@ export default class ProfileStatusWatcher {
         .toString()
         .split(/\n/)
         .forEach((line: string) => {
+          Debug("codeflare")("profile status watcher line", line)
           const match = line.match(/^(head|workers)\s+(\S+)$/)
           if (!match) {
             // console.error('Bogus line emitted by ray cluster readiness probe', line)
