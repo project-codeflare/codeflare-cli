@@ -40,17 +40,20 @@ roleRef:
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: codeflare-self-test-roberta-1gpu
+  name: codeflare-self-test-roberta-1gpu-periodic
 spec:
-  schedule: "*/30 * * * *" # every 30 minutes see crontab.guru
+  schedule: "0/30 * * * *" # every 30 minutes, starting from the top of the hour (see crontab.guru)
   jobTemplate:
     spec:
+      concurrencyPolicy: Forbid
+      failedJobsHistoryLimit: 1000
+      successfulJobsHistoryLimit: 1000
       template:
         spec:
           serviceAccountName: codeflare-self-test-serviceaccount
           containers:
           - name: self-test
-            image: ghcr.io/project-codeflare/codeflare-self-test:0.10.4
+            image: ghcr.io/project-codeflare/codeflare-self-test:0.11.0
             env:
               # - name: GUIDEBOOK_RUN_ARGS
               #  value: "-V"
