@@ -124,6 +124,8 @@
         "infile": "CHANGELOG.md"
       },
       "@release-it/bumper": {
+        "out": "deploy/self-test/roberta/1gpu/once.yaml",
+        "out": "deploy/self-test/roberta/1gpu/periodic.yaml",
         "out": "plugins/plugin-client-default/package.json"
       }
     }
