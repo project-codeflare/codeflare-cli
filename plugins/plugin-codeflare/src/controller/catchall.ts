@@ -46,7 +46,8 @@ function assertionsFn({ team }: Pick<MadWizardOptions, "team">): Record<string, 
       case "com.ibm.research.nasa":
       case "cftest":
         return comIBMResearchNASA
-      // intentional fallthrough
+      default:
+        throw new Error("Unknown team:" + team)
     }
   }
 
