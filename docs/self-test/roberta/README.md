@@ -34,9 +34,32 @@ export GITHUB_TOKEN=mygithubtoken
 ```
 
 ```shell
-kubectl create secret github \
+kubectl create secret generic github \
     --from-literal=GITHUB_USER=$(echo -n $GITHUB_USER | base64) \
     --from-literal=GITHUB_TOKEN=$(echo -n $GITHUB_TOKEN | base64)
+```
+
+## Create a `slack` secret, if desired
+
+If you wish to post to a Slack channel, create a Kubernetes secret named `codeflare-self-test-slack` with the following data fields:
+
+```shell
+export SLACK_TEAMID=myteamid
+```
+
+```shell
+export SLACK_CHANNELID=mychannelid
+```
+
+```shell
+export SLACK_TOKEN=mytoken
+```
+
+```shell
+kubectl create secret generic codeflare-self-test-slack \
+    --from-literal=TEAMID=$(echo -n SLACK_TEAMID | base64) \
+    --from-literal=CHANNELID=$(echo -n SLACK_CHANNELID | base64) \
+    --from-literal=TOKEN=$(echo -n SLACK_TOKEN | base64)
 ```
 
 ### Deploy the automation

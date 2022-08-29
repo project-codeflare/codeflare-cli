@@ -59,6 +59,26 @@ spec:
               #  value: "-V"
               - name: VARIANTS
                 value: roberta-1gpu
+              - name: SLACK_TEAMID
+                valueFrom:
+                  secretKeyRef:
+                    name: codeflare-self-test-slack
+                    key: TEAMID
+              - name: SLACK_CHANNELID
+                valueFrom:
+                  secretKeyRef:
+                    name: codeflare-self-test-slack
+                    key: CHANNELID
+              - name: SLACK_TOKEN
+                valueFrom:
+                  secretKeyRef:
+                    name: codeflare-self-test-slack
+                    key: TOKEN
+              - name: SLACK_USERNAME
+                valueFrom:
+                  secretKeyRef:
+                    name: codeflare-self-test-slack
+                    key: USERNAME
               - name: ML_CODEFLARE_ROBERTA_GITHUB_USER
                 valueFrom:
                   secretKeyRef:
