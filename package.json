@@ -98,13 +98,13 @@
         "rm -rf ./dist/electron",
         "rm -rf ./dist/headless",
         "npm run build:electron:all",
-        "VERSION=$version npm run release:cask",
-        "VERSION=$version npm run build:docker:self-test",
-        "VERSION=$version npm run build:docker:log-aggregator"
+        "VERSION=${version} npm run release:cask",
+        "VERSION=${version} npm run build:docker:self-test",
+        "VERSION=${version} npm run build:docker:log-aggregator"
       ],
       "after:release": [
-        "VERSION=$version npm run publish:docker:self-test",
-        "VERSION=$version npm run publish:docker:log-aggregator"
+        "VERSION=${version} npm run publish:docker:self-test",
+        "VERSION=${version} npm run publish:docker:log-aggregator"
       ]
     },
     "npm": {
