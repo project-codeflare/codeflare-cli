@@ -17,6 +17,12 @@
 import { Arguments, ParsedOptions, ReactResponse, Registrar, Tab } from "@kui-shell/core"
 
 export interface Options extends ParsedOptions {
+  /** Alternate guidebook store */
+  s: string
+
+  /** Alternate guidebook store */
+  store: string
+
   /** Run in UI mode */
   u: boolean
 
@@ -152,7 +158,7 @@ export function doMadwizard({ readonlyUI = true, task, withFilepath = true, cb, 
 export const flags = {
   boolean: ["u", "V", "n", "q", "i", "y"],
   configuration: { "populate--": true },
-  alias: { quiet: ["q"], interactive: ["i"], yes: ["y"], profile: ["p"], verbose: ["V"], team: ["t"] },
+  alias: { store: ["s"], quiet: ["q"], interactive: ["i"], yes: ["y"], profile: ["p"], verbose: ["V"], team: ["t"] },
 }
 
 /** Register Kui Commands */
