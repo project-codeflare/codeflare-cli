@@ -1,6 +1,6 @@
 {
   "name": "CodeFlare.app",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "",
   "main": "dist/headless/codeflare.min.js",
   "scripts": {
@@ -124,8 +124,6 @@
         "infile": "CHANGELOG.md"
       },
       "@release-it/bumper": {
-        "out": "deploy/self-test/self-test.yaml",
-        "out": "deploy/self-test/self-test-roberta.yaml",
         "out": "plugins/plugin-client-default/package.json"
       }
     }
