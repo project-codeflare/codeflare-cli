@@ -1,19 +1,6 @@
 #!/usr/bin/env bash
 # -*- mode: shell-script
 
-export NODE_NO_WARNINGS=1
-
-# use a special window sizing and positioning
-# export KUI_POPUP_WINDOW_RESIZE=true
-
-# use a fixed popup window sizing of our choosing
-# export WINDOW_WIDTH=1024
-# export WIDTH_HEIGHT=768
-
-# This tells the core Kui plugin resolver that we are using webpack to
-# build our headless bundles, not the old headless hacks
-export KUI_HEADLESS_WEBPACK=true
-
 SCRIPTDIR=$(cd $(dirname "$0") && pwd)        
 
 if [ -n "$NODE" ] && [ -n "$HEADLESS" ]; then
@@ -96,9 +83,6 @@ else
     exit 1
 fi
 
-# This points the headless->electron launcher to our Electron
-export KUI_ELECTRON_HOME="${KUI_ELECTRON_HOME-$NODE}"
-
 if [ -z "$GUIDEBOOK_STORE" ]; then
     if [ -d "$HEADLESS"/../../node_modules/@guidebooks/store/dist/store ]; then
         # development
@@ -115,31 +99,20 @@ if [ -z "$GUIDEBOOK_STORE" ]; then
     fi
 fi
 
-do_cli=1
-use_docker=0
-while getopts "piqaydnVs:t:" opt
-do
-    case $opt in
-        d) use_docker=1; continue;;
-        s) export GUIDEBOOK_STORE=$OPTARG; continue;;
-        *) continue;;
-    esac
-done
-# shift $((OPTIND-1))
+# launch headless version; here, we use madwizard directly, but
+# using electron as the nodejs binary (this is what
+# ELECTRON_RUN_AS_NODE does for us)
+export KUI_HEADLESS=true
+export KUI_S3=${KUI_S3-false} # we don't need plugin-s3 capabilities when in headless mode
+export ELECTRON_RUN_AS_NODE=true
 
-if [ $use_docker = 1 ]; then
-    # launch inside a docker container
-    exec docker run -it --entrypoint ${ENTRYPOINT-codeflare} --rm -v /tmp:/tmp -v ~/.aws:/home/codeflare/.aws -v ~/.bluemix:/home/codeflare/.bluemix -v ~/.kube:/home/codeflare/.kube -e KUBECONFIG=$(echo $KUBECONFIG | sed "s/$USER/codeflare/g" | sed 's/Users/home/g') ghcr.io/project-codeflare/codeflare-cli -- $*
-fi
+# This tells the core Kui plugin resolver that we are using webpack to
+# build our headless bundles, not the old headless hacks. In the next
+# major semver of Kui, this should no longer be necessary.
+export KUI_HEADLESS_WEBPACK=true
 
-if [ "$do_cli" = "1" ]; then
-    # launch headless version; here, we use madwizard directly, but
-    # using electron as the nodejs binary (this is what
-    # ELECTRON_RUN_AS_NODE does for us)
-    export KUI_HEADLESS=true
-    export KUI_S3=${KUI_S3-false} # we don't need plugin-s3 capabilities when in headless mode
-    export ELECTRON_RUN_AS_NODE=true
-fi
+# This points the headless->electron launcher to our Electron
+export KUI_ELECTRON_HOME="${KUI_ELECTRON_HOME-$NODE}"
 
 # Linux may not have the prereqs needed to run Electron
 if [ "$NODE" != "node" ] && [ ! -f ~/.codeflare ] && [ $(uname) = Linux ]; then
