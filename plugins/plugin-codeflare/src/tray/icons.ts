@@ -26,11 +26,17 @@ import gettingStarted from "@kui-shell/client/icons/png/gettingStartedTemplate.p
 
 import { join } from "path"
 
-const iconHome = process.env.CODEFLARE_HEADLESS || join(process.argv0, "../../Resources/app/dist/headless")
+function resources() {
+  return process.platform === "darwin" ? join(process.argv0, "../../Resources") : join(process.argv0, "../resources")
+}
+
+export function iconHome() {
+  return process.env.CODEFLARE_HEADLESS || join(resources(), "app/dist/headless")
+}
 
 /** Resize and templatize, so that the icon morphs with platform color themes */
 function iconFor(filepath: string) {
-  return join(iconHome, filepath)
+  return join(iconHome(), filepath)
 }
 
 export const rayIcon = iconFor(ray)

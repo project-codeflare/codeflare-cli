@@ -17,6 +17,7 @@
 import { join } from "path"
 import { CreateWindowFunction } from "@kui-shell/core"
 
+import { iconHome } from "./icons"
 import buildContextMenu from "./menus"
 import { productName } from "@kui-shell/client/config.d/name.json"
 
@@ -73,18 +74,13 @@ export default async function main(createWindow: CreateWindowFunction) {
       try {
         const { Tray } = await import("electron")
 
-        const iconHome = process.env.CODEFLARE_HEADLESS || join(process.argv0, "../../Resources/app/dist/headless")
-        if (iconHome) {
-          // this forces webpack to include the @2x template images in
-          // the build
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const fake = "dist/headless/" + icon2x
+        // this forces webpack to include the @2x template images in
+        // the build
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const fake = "dist/headless/" + icon2x
 
-          tray = new Tray(join(iconHome, icon))
-          new LiveMenu(tray, createWindow)
-        } else {
-          console.error("Cannot register electron tray menu, because CODEFLARE_HEADLESS environment variable is absent")
-        }
+        tray = new Tray(join(iconHome(), icon))
+        new LiveMenu(tray, createWindow)
       } catch (err) {
         console.error("Error registering electron tray menu", err)
       }
