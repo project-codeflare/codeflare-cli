@@ -49,32 +49,28 @@ spec:
       serviceAccountName: codeflare-self-test-serviceaccount
       containers:
       - name: self-test
-        image: ghcr.io/project-codeflare/codeflare-self-test:0.11.0
+        image: ghcr.io/project-codeflare/codeflare-self-test:0.11.1
         env:
           # - name: GUIDEBOOK_RUN_ARGS
           #  value: "-V"
           - name: VARIANTS
             value: roberta-1gpu
-          - name: SLACK_TEAMID
+          - name: SLACK_URL
             valueFrom:
               secretKeyRef:
                 name: codeflare-self-test-slack
-                key: TEAMID
-          - name: SLACK_CHANNELID
+                key: URL
+          - name: SLACK_CHANNEL
             valueFrom:
               secretKeyRef:
                 name: codeflare-self-test-slack
-                key: CHANNELID
-          - name: SLACK_TOKEN
-            valueFrom:
-              secretKeyRef:
-                name: codeflare-self-test-slack
-                key: TOKEN
+                key: CHANNEL
           - name: SLACK_USERNAME
             valueFrom:
               secretKeyRef:
                 name: codeflare-self-test-slack
                 key: USERNAME
+                optional: true
           - name: ML_CODEFLARE_ROBERTA_GITHUB_USER
             valueFrom:
               secretKeyRef:

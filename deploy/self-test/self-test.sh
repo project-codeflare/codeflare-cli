@@ -20,12 +20,7 @@ echo "Using these variants: $variants"
 function cleanup {
     STATUS=$?
 
-    TEAMID=$SLACK_TEAMID
-    CHANNELID=$SLACK_CHANNELID
-    TOKEN=$SLACK_TOKEN
-    USERNAME=${SLACK_USERNAME-"Self-test Bot"}
-
-    if [ -n "$TEAMID" ] && [ -n "$CHANNELID" ] && [ -n "$TOKEN" ]; then
+    if [ -n "$SLACK_URL" ] && [ -n "$SLACK_CHANNEL" ]; then
         if [ "$STATUS" = "0" ]; then
             ICON=":green_heart:"
             TEXT="$(date)\nSuccessful run\nVariants: $variants"
@@ -35,10 +30,21 @@ function cleanup {
             # TODO, add tee'd logs of failing run
         fi
 
+        URL=$(echo $SLACK_URL | base64 -d)
+        CHANNEL=$(echo $SLACK_CHANNEL | base64 -d)
 
+        if [ -n "$SLACK_USERNAME" ]; then
+           USERNAME=$(echo $SLACK_USERNAME | base64 -d)
+        else
+            USERNAME="Self-test Bot"
+        fi
+
+        echo "Posting to slack status=$STATUS to $URL"
         curl -X POST \
              --data-urlencode "payload={\"channel\": \"#$CHANNEL\", \"username\": \"$USERNAME\", \"text\": \"$TEXT\", \"icon_emoji\": \"$ICON\"}" \
-             https://hooks.slack.com/services/$TEAMID/$CHANNELID/$TOKEN
+             $URL
+    else
+        echo "Skipping post to slack url?=${#SLACK_URL} channel?=${#SLACK_CHANNEL}"
     fi
 }
 
