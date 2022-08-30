@@ -57,9 +57,9 @@ export SLACK_TOKEN=mytoken
 
 ```shell
 kubectl create secret generic codeflare-self-test-slack \
-    --from-literal=TEAMID=$(echo -n SLACK_TEAMID | base64) \
-    --from-literal=CHANNELID=$(echo -n SLACK_CHANNELID | base64) \
-    --from-literal=TOKEN=$(echo -n SLACK_TOKEN | base64)
+    --from-literal=TEAMID=$(echo -n $SLACK_TEAMID | base64) \
+    --from-literal=CHANNELID=$(echo -n $SLACK_CHANNELID | base64) \
+    --from-literal=TOKEN=$(echo -n $SLACK_TOKEN | base64)
 ```
 
 ### Deploy the automation
