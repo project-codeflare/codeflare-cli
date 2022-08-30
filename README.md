@@ -22,14 +22,15 @@ immediately](#installation) using `brew install`.
 | `codeflare` guides you via a series of questions. Where is your code? Where is your data? How many GPUs do you need? | You may name the set of answers you provided. We call this a **profile**. Your inner loop then becomes: `codeflare -y -p <profileName>`. The `-y` means accept all prior answers. | `codeflare` offers quick access to MLFlow, Tensorboard, and a custom dashboard that tracks the resource consumption and logs of a job. |
 | `codeflare` glues answers together and submits a Kubernetes job.                                                     | You can switch quickly between profiles, and even submit jobs to distinct profiles concurrently.                                                                                  | There is no need to fiddle with yaml files and port forwards. With a few clicks, you will get a popup dashboard window.                |
 
-## macOS Tray Menu
+## Tray Menu
 
 <img align="right" width="275" src="docs/images/tray/activeruns.png">
 
-If you are on macOS, you can leverage the menu that `codeflare` places
-in the upper right of your menubar (commonly known as a "tray"
-menu). From your terminal, try `codeflare hello`, and you should see a
-`CF` tray menu.
+The CodeFlare tray menu offers quick access to the most common
+features. On macOS and Linux, the menu will appear the upper right of
+your menubar, as shown in the screenshot to the right.
+
+To launch the CodeFlare tray menu from your terminal, try `codeflare hello`. You should now see a `CF` tray menu.
 
 ## Installation
 
