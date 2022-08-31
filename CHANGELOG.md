@@ -1,3 +1,13 @@
+## [0.11.2](https://github.com/project-codeflare/codeflare-cli/compare/v0.11.1...v0.11.2) (2022-08-31)
+
+### Bug Fixes
+
+- back out release-it bumper for yamls ([00cdcc3](https://github.com/project-codeflare/codeflare-cli/commit/00cdcc373decf973e539ca0e06b8fda10608894a))
+- bump @guidebook/store to 0.6.5 to pick up roberta env var fixes ([bf7d5a5](https://github.com/project-codeflare/codeflare-cli/commit/bf7d5a5e99fb5bdb2917145edc1c98023d3fefab))
+- bump to @guidebooks/store 0.6.7 to pick up roberta wordsmithing ([646d910](https://github.com/project-codeflare/codeflare-cli/commit/646d91005d5534b755cbaf7ba4db886acd6a65b7))
+- bump to madwizard 0.21.4 to pick up fix for regression in support for getting started guidebooks ([7b7891f](https://github.com/project-codeflare/codeflare-cli/commit/7b7891f6cb39d419692d70ab56eb3e80cc0ee8a6))
+- roberta self-test was not base64-decoding slack secrets ([3f3fad0](https://github.com/project-codeflare/codeflare-cli/commit/3f3fad0312907d0ab182b2eaa1c55c693a483937))
+
 ## [0.11.1](https://github.com/project-codeflare/codeflare-cli/compare/v0.11.0...v0.11.1) (2022-08-30)
 
 ### Bug Fixes
