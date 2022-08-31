@@ -79,11 +79,6 @@ spec:
                   secretKeyRef:
                     name: codeflare-self-test-slack
                     key: CHANNEL
-              - name: SLACK_TOKEN
-                valueFrom:
-                  secretKeyRef:
-                    name: codeflare-self-test-slack
-                    key: TOKEN
               - name: SLACK_USERNAME
                 valueFrom:
                   secretKeyRef:
@@ -95,11 +90,13 @@ spec:
                   secretKeyRef:
                     name: github
                     key: GITHUB_USER
+                    optional: true
               - name: ML_CODEFLARE_ROBERTA_GITHUB_TOKEN
                 valueFrom:
                   secretKeyRef:
                     name: github
                     key: GITHUB_TOKEN
+                    optional: true
               - name: MODE
                 value: development # otherwise building codeflare-cli takes a huge amount of memory
               - name: KUBE_CONTEXT_FOR_TEST
