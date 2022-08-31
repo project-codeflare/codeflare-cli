@@ -12,7 +12,7 @@ first, choose what you would like to accomplish:
 - [**Introductory Demo**](1.md) I want to see the experience in action. <br>
   **Goals**: Learning<br>
   **You Provide**: nothing, it just works! <br>
-  **CodeFlare Stack Provides**: [Ray](https://www.ray.io/) cluster **|** [Kubernetes](https://kubernetes.io/) management **|** Distributed training job **|** Pop-up Dashboards
+  **CodeFlare Stack Provides**: [Ray](https://www.ray.io/) cluster **|** [Kubernetes](https://kubernetes.io/) management **|** Distributed training job
 - [**Train a Masked Language Model (Demo)**](2.md)<br>
   **Goals**: Learning<br>
   **You Provide**: nothing, it just works!<br>
