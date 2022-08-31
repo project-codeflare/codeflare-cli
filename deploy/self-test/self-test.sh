@@ -25,7 +25,7 @@ function cleanup {
             ICON=":green_heart:"
             TEXT="$(date)\nSuccessful run\nVariants: $variants"
         else
-            ICON=":red-siren:"
+            ICON=":fail:"
             TEXT="$(date)\nFailed run\nVariants: $variants"
             # TODO, add tee'd logs of failing run
         fi
