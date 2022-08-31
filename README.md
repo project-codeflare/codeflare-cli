@@ -22,6 +22,10 @@ immediately](#installation) using `brew install`.
 | `codeflare` guides you via a series of questions. Where is your data? How many GPUs are needed? | You may name the set of answers you provided. We call this a **profile**. Your inner loop becomes: `codeflare -y -p <profileName>` | `codeflare` offers convenient access to MLFlow, Tensorboard, and a custom dashboard that tracks a job's resources and logs. |
 | `codeflare` glues answers together and submits a Kubernetes job.                                | Quickly switch between profiles. Submit concurrent jobs to distinct profiles.                                                      | No fiddling with yaml and port forwards. With a few clicks, a dashboard window pops open.                                   |
 
+## Scenarios
+
+Interested in finding use cases that match up with your own? Check out our [Scenarios](./docs/scenarios/#readme) page.
+
 ## Tray Menu
 
 <img align="right" width="275" src="docs/images/tray/activeruns.png">
