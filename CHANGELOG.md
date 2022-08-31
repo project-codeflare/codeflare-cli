@@ -1,3 +1,10 @@
+## [0.11.3](https://github.com/project-codeflare/codeflare-cli/compare/v0.11.2...v0.11.3) (2022-08-31)
+
+### Bug Fixes
+
+- bump to @guidebooks/store 0.7.2 to pick up roberta fix ([fbf6fa8](https://github.com/project-codeflare/codeflare-cli/commit/fbf6fa8e1090dce255c0ca63f6efe315ea8c0bc3))
+- bump to @guidebooks/store@0.8.3 to pick up roberta outside of ibm fix ([ee8bc28](https://github.com/project-codeflare/codeflare-cli/commit/ee8bc282b5c631f51de3fe42f784bd26426face2))
+
 ## [0.11.2](https://github.com/project-codeflare/codeflare-cli/compare/v0.11.1...v0.11.2) (2022-08-31)
 
 ### Bug Fixes
