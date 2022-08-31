@@ -51,9 +51,19 @@ spec:
       template:
         spec:
           serviceAccountName: codeflare-self-test-serviceaccount
+          volumes:
+            - name: ssh-key
+              secret:
+                secretName: github
+                defaultMode: 0600
+                optional: true
           containers:
           - name: self-test
             image: ghcr.io/project-codeflare/codeflare-self-test:0.11.3
+            volumeMounts:
+              - mountPath: "/tmp/github/"
+                name: ssh-key
+                readOnly: true
             env:
               # - name: GUIDEBOOK_RUN_ARGS
               #  value: "-V"
