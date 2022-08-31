@@ -1,3 +1,10 @@
+## [0.11.4](https://github.com/project-codeflare/codeflare-cli/compare/v0.11.3...v0.11.4) (2022-08-31)
+
+### Bug Fixes
+
+- update scenario 2 to use new ml/codeflare/training/roberta/demo ([ad11b37](https://github.com/project-codeflare/codeflare-cli/commit/ad11b37babf04daa92ce21f0f9e09c35776c2ec9))
+- updates to restore self-test capability vs private repos ([6a7e366](https://github.com/project-codeflare/codeflare-cli/commit/6a7e3661be80ab157ae991f35db56226944b8cc9))
+
 ## [0.11.3](https://github.com/project-codeflare/codeflare-cli/compare/v0.11.2...v0.11.3) (2022-08-31)
 
 ### Bug Fixes
