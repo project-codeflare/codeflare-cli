@@ -9,8 +9,11 @@ metadata:
   name: codeflare-self-test-role
 rules:
 - apiGroups: [""]
-  resources: ["pods", "pods/exec", "services", "events", "secrets"]
+  resources: ["pods", "pods/exec", "services", "events", "secrets", "serviceaccounts"]
   verbs: ["create", "delete", "get", "watch", "list"]
+- apiGroups: ["rbac.authorization.k8s.io"]
+  resources: ["roles", "rolebindings"]
+  verbs: ["create", "delete", "get", "list"]
 - apiGroups: ["apps"]
   resources: ["deployments", "replicasets"]
   verbs: ["create", "delete", "get", "watch", "list"]
