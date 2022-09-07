@@ -66,10 +66,12 @@ export default class ProfileStatusWatcher {
 
     // make sure to kill that watcher subprocess when we exit
     process.on("exit", () => {
-      try {
-        process.kill(-job.pid) // kill the process group e.g. for pipes
-      } catch (err) {
-        Debug("codeflare")("error killing process group " + -job.pid, err)
+      if (job.pid) {
+        try {
+          process.kill(-job.pid) // kill the process group e.g. for pipes
+        } catch (err) {
+          Debug("codeflare")("error killing process group " + -job.pid, err)
+        }
       }
 
       try {
