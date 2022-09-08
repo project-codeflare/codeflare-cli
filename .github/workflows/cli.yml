@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, macOS-latest] # windows-latest kui headless build son windows seem to fail [webpack-cli] Invalid value '${MODE-production}' for the '--mode' option
+        os: [ubuntu-latest, macOS-latest, windows-latest] # windows-latest kui headless build son windows seem to fail [webpack-cli] Invalid value '${MODE-production}' for the '--mode' option
         node-version: [16.x]
 
     steps:

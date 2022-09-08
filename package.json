@@ -27,7 +27,7 @@
     "build:docker:self-test": "npm run build:headless-maybe && docker build -f deploy/self-test/Dockerfile -t ${SELF_TEST_IMAGE-ghcr.io/project-codeflare/codeflare-self-test:${VERSION-latest}} .",
     "run:self-test": "./deploy/self-test/test-in-kind.sh",
     "build:headless-maybe": "if [ ! -n \"$FAST\" ]; then npm run build:headless; fi",
-    "build:headless": "cross-env CLIENT_HOME=$PWD webpack-cli --mode=${MODE-production} --config node_modules/@kui-shell/webpack/headless-webpack.config.js",
+    "build:headless": "bash -c \"CLIENT_HOME=$PWD webpack-cli --mode=${MODE-production} --config node_modules/@kui-shell/webpack/headless-webpack.config.js\"",
     "docker:debug": "cross-env ENTRYPOINT=bash ./bin/codeflare -d",
     "store-for-prod": "rm -rf store && cp -a node_modules/@guidebooks/store/dist/store .",
     "build:electron:mac:amd64": "npm run store-for-prod && KUI_HEADLESS_WEBPACK=true KUI_LAUNCHER=$PWD/bin/codeflare PLATFORM=mac ARCH=x64 kui-build-electron",
