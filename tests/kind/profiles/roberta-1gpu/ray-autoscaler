@@ -18,7 +18,7 @@
     "Run Locally####Run on a Kubernetes Cluster": "Run on a Kubernetes Cluster",
     "My Cluster is Running Locally####My Cluster is Running on Kubernetes": "My Cluster is Running on Kubernetes",
     "expand((kubectl config get-contexts -o name | grep -E . >& /dev/null && kubectl config get-contexts -o name) || (kubectl version | grep Server >& /dev/null && echo \"${KUBE_CONTEXT_FOR_TEST-In-cluster}\" || exit 1), Kubernetes contexts)": "kind-codeflare-test",
-    "expand([ -z ${KUBE_CONTEXT} ] && exit 1 || X=$([ -n \"$KUBE_NS_FOR_TEST\" ] && echo $KUBE_NS_FOR_TEST || kubectl ${KUBE_CONTEXT_ARG} get ns -o name || oc ${KUBE_CONTEXT_ARG} get projects -o name); echo \"$X\" | sed -E 's#(namespace|project.project.openshift.io)/##' | grep -Ev 'openshift|kube-', Kubernetes namespaces)####Create a namespace": "default",
+    "expand([ -z ${KUBE_CONTEXT} ] && exit 1 || X=$([ -n \"$KUBE_NS_FOR_TEST\" ] && echo $KUBE_NS_FOR_TEST || kubectl get ${KUBE_CONTEXT_ARG} ns -o name || oc ${KUBE_CONTEXT_ARG} get projects -o name); echo \"$X\" | sed -E 's#(namespace|project.project.openshift.io)/##' | grep -Ev 'openshift|kube-', Kubernetes namespaces)####Create a namespace": "default",
     "Number of CPUs####Number of GPUs####Minimum Workers####Maximum Workers####Worker Memory####Head Memory": "{\"Number of CPUs\":\"1\",\"Number of GPUs\":\"1\",\"Minimum Workers\":\"1\",\"Maximum Workers\":\"1\",\"Worker Memory\":\"8Gi\",\"Head Memory\":\"8Gi\"}",
     "Keep It Simple####Use the Ray Autoscaler####Use the Multi-user Enhanced Kubernetes Scheduler": "Use the Ray Autoscaler"
   }

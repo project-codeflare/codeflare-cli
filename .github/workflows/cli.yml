@@ -12,8 +12,9 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest] # windows-latest kui headless build son windows seem to fail [webpack-cli] Invalid value '${MODE-production}' for the '--mode' option
+        os: [ubuntu-latest, macOS-latest, windows-latest]
         node-version: [16.x]
+        shell: [/bin/bash, /bin/zsh]
 
     steps:
     - uses: actions/checkout@v3
@@ -24,9 +25,24 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
 
+    # the linux image for github actions does not include zsh
+    # FIXME: ugh, apt permissions errors ensue if we do this...
+    # - name: Install zsh on Linux
+    #   run: sudo apt-get update; sudo apt-get install zsh
+    #   if: matrix.os == 'ubuntu-latest'
+
     - run: npm ci && npm run build:headless
 
-    - name: Run Test
+    - name: Run Test (with bash and zsh)
+      env:
+        EXECUTABLE_PATH: github-actions-production
+        SHELL: ${{ matrix.shell }}
+      run: ./tests/cli/run.sh
+      if: matrix.os == 'macOS-latest'
+
+    - name: Run Test (with bash)
       env:
         EXECUTABLE_PATH: github-actions-production
       run: ./tests/cli/run.sh
+      if: matrix.os != 'macOS-latest' && matrix.shell == '/bin/bash'
+      
