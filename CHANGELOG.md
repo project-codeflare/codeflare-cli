@@ -1,3 +1,15 @@
+# [0.12.0](https://github.com/project-codeflare/codeflare-cli/compare/v0.11.4...v0.12.0) (2022-09-14)
+
+### Bug Fixes
+
+- bump to madwizard 0.22.1 to pick up zsh fixes ([1470339](https://github.com/project-codeflare/codeflare-cli/commit/14703395a2017ce5e45ece474901ea09ff28c686))
+- robert self-test periodic.yaml wasn't in sync with fixes to once.yaml ([130fc8c](https://github.com/project-codeflare/codeflare-cli/commit/130fc8ca2c487e4f6b65ffa3cfab824e8de1cbe5))
+
+### Features
+
+- bump to @guidebooks/store to 0.10.x to pick up s3fs support for roberta ([602a0e5](https://github.com/project-codeflare/codeflare-cli/commit/602a0e5c3316c7e62659375d48872f1c38d94760))
+- bump to kui 12.0.0 ([a88cb1e](https://github.com/project-codeflare/codeflare-cli/commit/a88cb1e7152aa47f0fb61019b54c88f9a4f42a32))
+
 ## [0.11.4](https://github.com/project-codeflare/codeflare-cli/compare/v0.11.3...v0.11.4) (2022-08-31)
 
 ### Bug Fixes
