@@ -23,7 +23,7 @@
     "access": "public"
   },
   "dependencies": {
-    "madwizard": "^0.22.1",
+    "madwizard": "^0.22.2",
     "@guidebooks/store": "^0.11.3"
   }
 }
