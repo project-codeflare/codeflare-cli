@@ -27,10 +27,10 @@ import respawnCommand from "./respawn"
  *
  * see bin/codeflare; we are mostly copying bits from there
  */
-export default function guide(args: Arguments) {
+export default async function guide(args: Arguments) {
   setTabReadonly(args)
 
-  const { argv, env } = respawnCommand(
+  const { argv, env } = await respawnCommand(
     args.command.replace(/--type=renderer/, "").replace(/^codeflare\s+gui\s+guide/, "codeflare")
   )
 

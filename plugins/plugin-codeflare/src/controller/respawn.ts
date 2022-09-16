@@ -17,6 +17,27 @@
 import { join } from "path"
 import { encodeComponent } from "@kui-shell/core"
 
+async function getAppPath() {
+  try {
+    const { app } = await import("electron")
+    if (app) {
+      const appPath = app.getAppPath()
+      if (appPath) {
+        return appPath
+      }
+    }
+  } catch (err) {
+    console.error("Error fetching app path", err)
+  }
+
+  const appPath = process.argv.find((_) => /app-path/.test(_))
+  if (appPath) {
+    return appPath.replace(/^--app-path=/, "")
+  } else {
+    return "."
+  }
+}
+
 /**
  * In electron production builds, if the user launches by double
  * clicking, or via spotlight (macos), then the CODEFLARE_HEADLESS and
@@ -33,44 +54,34 @@ import { encodeComponent } from "@kui-shell/core"
  * @return the absolute path to the directory that includes the
  * headless bundle.js.
  */
-function electronProductionBuildHeadlessRoot() {
-  const appPath = process.argv.find((_) => /app-path/.test(_))
-  if (appPath) {
-    return join(appPath.replace(/^--app-path=/, ""), "dist/headless")
-  } else {
-    return "."
-  }
+async function electronProductionBuildHeadlessRoot() {
+  return join(await getAppPath(), "dist/headless")
 }
 
 /**
  * @return same as with `electronProductionBuildHeadlessRoot()`, except
  * returning the guidebook store absolute path
  */
-function electronProductionBuildGuidebookStore() {
-  const appPath = process.argv.find((_) => /app-path/.test(_))
-  if (appPath) {
-    return join(appPath.replace(/^--app-path=/, ""), "store")
-  } else {
-    return ""
-  }
+async function electronProductionBuildGuidebookStore() {
+  return join(await getAppPath(), "store")
 }
 
 /** @return the absolute path to the directory that contains the headless bundle.js */
-function headlessRoot() {
-  return process.env.CODEFLARE_HEADLESS || electronProductionBuildHeadlessRoot()
+async function headlessRoot() {
+  return process.env.CODEFLARE_HEADLESS || (await electronProductionBuildHeadlessRoot())
 }
 
 /** @return the absolute path to the directory that contains the guidebook store for this build */
-function guidebookStore() {
-  return process.env.GUIDEBOOK_STORE || electronProductionBuildGuidebookStore()
+async function guidebookStore() {
+  return process.env.GUIDEBOOK_STORE || (await electronProductionBuildGuidebookStore())
 }
 
 /** Fill in the given command line to spawn ourselves as a subprocess */
-export default function respawnCommand(cmdline: string | string[]) {
+export default async function respawnCommand(cmdline: string | string[]) {
   return {
     argv: [
       encodeComponent(process.argv[0]),
-      encodeComponent(headlessRoot() + "/codeflare.min.js"),
+      encodeComponent((await headlessRoot()) + "/codeflare.min.js"),
       "--",
       ...(typeof cmdline === "string" ? [cmdline] : cmdline),
     ],
@@ -79,7 +90,7 @@ export default function respawnCommand(cmdline: string | string[]) {
       KUI_HEADLESS: "true",
       KUI_HEADLESS_WEBPACK: "true",
       ELECTRON_RUN_AS_NODE: "true",
-      GUIDEBOOK_STORE: guidebookStore(),
+      GUIDEBOOK_STORE: await guidebookStore(),
       DEBUG: process.env.DEBUG || "",
       HOME: process.env.HOME || "",
       PATH: process.env.PATH || "",

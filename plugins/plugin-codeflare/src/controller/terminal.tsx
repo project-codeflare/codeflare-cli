@@ -32,9 +32,9 @@ import "allotment/dist/style.css"
 /**
  * This is a command handler that opens up a plain terminal that shows a login session using the user's $SHELL.
  */
-export function shell(args: Arguments) {
+export async function shell(args: Arguments) {
   // respawn, meaning launch it with codeflare
-  const { argv, env } = respawn(["$SHELL", "-l"])
+  const { argv, env } = await respawn(["$SHELL", "-l"])
   const cmdline = argv.map((_) => encodeComponent(_)).join(" ")
 
   return {
@@ -43,7 +43,7 @@ export function shell(args: Arguments) {
 }
 
 type Props = Pick<BaseProps, "tab" | "repl">
-type State = Pick<BaseProps, "cmdline" | "env"> & { error?: boolean; selectedProfile?: string }
+type State = Partial<Pick<BaseProps, "cmdline" | "env">> & { error?: boolean; selectedProfile?: string }
 class TaskTerminal extends React.PureComponent<Props, State> {
   /** Allotment initial split sizes */
   private readonly sizes = [35, 65]
@@ -53,13 +53,25 @@ class TaskTerminal extends React.PureComponent<Props, State> {
   public constructor(props: Props) {
     super(props)
 
-    // respawn, meaning launch it with codeflare
-    const { argv, env } = respawn(this.tasks[0].argv)
-    const cmdline = argv.map((_) => encodeComponent(_)).join(" ")
+    this.init()
+    this.state = {}
+  }
 
-    this.state = {
-      cmdline,
-      env,
+  private async init() {
+    try {
+      // respawn, meaning launch it with codeflare
+      const { argv, env } = await respawn(this.tasks[0].argv)
+      const cmdline = argv.map((_) => encodeComponent(_)).join(" ")
+
+      this.setState({
+        cmdline,
+        env,
+      })
+    } catch (error) {
+      console.error("Error initializing command line", error)
+      this.state = {
+        error: true,
+      }
     }
   }
 
@@ -75,7 +87,10 @@ class TaskTerminal extends React.PureComponent<Props, State> {
   public render() {
     if (this.state.error) {
       return "Internal Error"
+    } else if (!this.state.cmdline || !this.state.env) {
+      return <Loading />
     }
+
     return (
       <Allotment defaultSizes={this.sizes} snap>
         <Allotment.Pane className="flex-fill flex-layout flex-align-stretch" minSize={400}>
