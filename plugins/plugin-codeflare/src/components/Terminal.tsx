@@ -188,6 +188,7 @@ export default class XTerm extends React.PureComponent<Props, State> {
       }
     })
     observer.observe(xtermContainer)
+    this.cleaners.push(() => observer.disconnect())
   }
 
   /**
