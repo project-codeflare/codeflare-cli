@@ -24,7 +24,7 @@ import respawnCommand from "../../../controller/respawn"
 export default class ProfileStatusWatcher {
   private headReadiness = "pending"
   private workerReadiness = "pending"
-  private readonly _job: ReturnType<typeof spawn>
+  // private readonly _job: ReturnType<typeof spawn>
 
   public constructor(
     /** The profile to watch */
@@ -33,7 +33,7 @@ export default class ProfileStatusWatcher {
     /** How to update the Tray menu with changes*/
     private readonly updateFunction: UpdateFunction
   ) {
-    this._job = this.initJob(profile)
+    /* this._job = */ this.initJob(profile)
   }
 
   public get head() {
@@ -52,8 +52,8 @@ export default class ProfileStatusWatcher {
     return this.initJob(profile)
   }
 
-  private initJob(profile: string) {
-    const { argv, env } = respawnCommand([
+  private async initJob(profile: string) {
+    const { argv, env } = await respawnCommand([
       "guide",
       "-q",
       "-y",
