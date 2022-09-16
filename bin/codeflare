@@ -120,11 +120,10 @@ if [ "$NODE" != "node" ] && [ ! -f ~/.codeflare ] && [ $(uname) = Linux ]; then
         if [ $(apt -qq list sudo curl libx11-6 libglib2.0-0 libx11-xcb1 libxcb-dri3-0 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6 libxtst6 libnss3 libatk1.0-0 libdrm2 libgbm1 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libasound2 | grep installed 2> /dev/null | wc -l) != 20 ]; then
             # it's also possible we didn't see these in the list, because we have an out-of-date package list
             # so apt update to refresh that, then recheck
-            apt update
+            sudo apt update || exit 1
             if [ $(apt -qq list sudo curl libx11-6 libglib2.0-0 libx11-xcb1 libxcb-dri3-0 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6 libxtst6 libnss3 libatk1.0-0 libdrm2 libgbm1 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libasound2 | grep installed 2> /dev/null | wc -l) != 20 ]; then
                 # we really don't have them installed, so install them
-                apt install -y sudo curl libx11-6 libglib2.0-0 libx11-xcb1 libxcb-dri3-0 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6 libxtst6 libnss3 libatk1.0-0 libdrm2 libgbm1 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libasound2
-                touch ~/.codeflare
+                sudo apt install -y sudo curl libx11-6 libglib2.0-0 libx11-xcb1 libxcb-dri3-0 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6 libxtst6 libnss3 libatk1.0-0 libdrm2 libgbm1 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libasound2 && touch ~/.codeflare
             else
                 touch ~/.codeflare
             fi
