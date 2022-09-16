@@ -1,3 +1,16 @@
+# [0.13.0](https://github.com/project-codeflare/codeflare-cli/compare/v0.12.2...v0.13.0) (2022-09-16)
+
+### Bug Fixes
+
+- bin/codeflare's use of apt needs sudo ([cf73080](https://github.com/project-codeflare/codeflare-cli/commit/cf73080b89d8592fec7310b8ca5581fb16e31028))
+- bump to madwizard 0.22.2 to pick up windowsHide fix ([c5b8f0e](https://github.com/project-codeflare/codeflare-cli/commit/c5b8f0e10b001ef0359c0af963bf98eb7a8a8e7f))
+- some variants of launching production builds can result in infinite loops and bad spawn paths ([675c6ad](https://github.com/project-codeflare/codeflare-cli/commit/675c6ad0047c93c6d4d8193fb661659ff2766c31))
+- Terminal component can leak observers ([1233e37](https://github.com/project-codeflare/codeflare-cli/commit/1233e379553e377214a6f6ed2e0d92f5e1cad45b))
+
+### Features
+
+- bump to @guidebooks/store 0.12.0 to pick up no-ray-local breaking change ([9751cf0](https://github.com/project-codeflare/codeflare-cli/commit/9751cf0f5610e505461f7a8fd9af5cf198648f41))
+
 ## [0.12.2](https://github.com/project-codeflare/codeflare-cli/compare/v0.12.1...v0.12.2) (2022-09-16)
 
 ### Bug Fixes

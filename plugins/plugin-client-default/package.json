@@ -1,6 +1,6 @@
 {
   "name": "@kui-shell/plugin-client",
-  "version": "0.12.2",
+  "version": "0.13.0",
   "description": "Kui plugin that offers client defintion",
   "main": "dist/index.js",
   "module": "mdist/index.js",
