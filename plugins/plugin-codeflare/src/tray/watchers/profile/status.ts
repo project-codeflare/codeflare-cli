@@ -91,7 +91,9 @@ export default class ProfileStatusWatcher {
       Debug("codeflare")("Watcher error", profile)
       this.headReadiness = "error"
       this.workerReadiness = "error"
-      this.initJobWithDelay(profile, 2000) // restart after a delay
+      // WARNING: DO NOT initJob() here, that will be handled in the
+      // "close" handler. If you do so here (too), then an exponential
+      // cascade of subprocess spawning may result.
     })
 
     job.on("close", async (exitCode) => {
