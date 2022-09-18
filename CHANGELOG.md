@@ -1,3 +1,15 @@
+# [0.14.0](https://github.com/project-codeflare/codeflare-cli/compare/v0.13.1...v0.14.0) (2022-09-18)
+
+### Bug Fixes
+
+- after exit codeflare UI leaves dangling watcher processes ([7e8837e](https://github.com/project-codeflare/codeflare-cli/commit/7e8837e2ecb578d64a5afff63f872b83cef381cf))
+- respawn uses incorrect (Renderer) executable when called from UI mode ([ee16c63](https://github.com/project-codeflare/codeflare-cli/commit/ee16c63dc56589fe2a9c01281fc8c4b951ba4746))
+- status watcher exit may cause exponential cascade of subprocess spawning ([c39d6a5](https://github.com/project-codeflare/codeflare-cli/commit/c39d6a51fda3f10ddf7253a37897c5d7770c240b))
+
+### Features
+
+- add status dropdown with watcher support ([534c94f](https://github.com/project-codeflare/codeflare-cli/commit/534c94fdf3928bc426b5f150732483fbc256c725))
+
 ## [0.13.1](https://github.com/project-codeflare/codeflare-cli/compare/v0.13.0...v0.13.1) (2022-09-16)
 
 ### Bug Fixes
