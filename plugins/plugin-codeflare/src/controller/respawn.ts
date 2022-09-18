@@ -80,7 +80,13 @@ async function guidebookStore() {
 export default async function respawnCommand(cmdline: string | string[]) {
   return {
     argv: [
-      encodeComponent(process.argv[0]),
+      // re: replace, in UI mode on macOS, the argv[0] points to the renderer executable
+      encodeComponent(
+        process.argv[0].replace(
+          /\/Frameworks\/(\w+) Helper \(Renderer\)\.app\/Contents\/MacOS\/\w+ Helper \(Renderer\)$/,
+          "/MacOS/$1"
+        )
+      ),
       encodeComponent((await headlessRoot()) + "/codeflare.min.js"),
       "--",
       ...(typeof cmdline === "string" ? [cmdline] : cmdline),
