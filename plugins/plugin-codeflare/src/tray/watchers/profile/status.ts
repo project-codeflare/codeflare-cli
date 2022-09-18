@@ -65,21 +65,27 @@ export default class ProfileStatusWatcher {
     const job = spawn(argv[0], argv.slice(1), { env, stdio: ["pipe", "pipe", "inherit"], detached: true })
 
     // make sure to kill that watcher subprocess when we exit
-    process.on("exit", () => {
+    const onExit = () => {
       if (job.pid) {
         try {
-          process.kill(-job.pid) // kill the process group e.g. for pipes
+          Debug("codeflare")("killing process group " + -job.pid)
+          process.kill(-job.pid, "SIGKILL") // kill the process group e.g. for pipes
         } catch (err) {
           Debug("codeflare")("error killing process group " + -job.pid, err)
         }
       }
 
       try {
-        job.kill()
+        Debug("codeflare")("killing process " + job.pid)
+        job.kill("SIGKILL")
       } catch (err) {
         Debug("codeflare")("error killing process " + job.pid, err)
       }
-    })
+    }
+
+    process.on("exit", onExit)
+    process.on("SIGINT", onExit) // catch ctrl-c
+    process.on("SIGTERM", onExit) // catch kill
 
     job.on("error", () => {
       Debug("codeflare")("Watcher error", profile)
