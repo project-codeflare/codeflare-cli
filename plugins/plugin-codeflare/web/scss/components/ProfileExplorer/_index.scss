@@ -67,6 +67,10 @@
       background-color: var(--color-warning);
     }
 
+    &--offline {
+      background-color: var(--color-red);
+    }
+
     &--success {
       background-color: var(--color-ok);
     }

@@ -41,9 +41,16 @@ export default class ProfileStatusWatcher {
       ? "pending"
       : this.headReadiness === "error" || this.workerReadiness === "error"
       ? "error"
+      : this.isOffline(this.headReadiness) && this.isOffline(this.workerReadiness)
+      ? "offline"
       : !this.isReady(this.headReadiness) && !this.isReady(this.workerReadiness)
       ? "pending"
       : "success"
+  }
+
+  private isOffline(readiness: string) {
+    const match = readiness.match(/^(\d)+\/(\d)+$/)
+    return match && match[1] === "0"
   }
 
   private isReady(readiness: string) {
