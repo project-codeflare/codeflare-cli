@@ -72,6 +72,7 @@ export default class ProfileStatusWatcher {
       "guide",
       "-q",
       "-y",
+      "--no-bump", // don't bump the lastUsedTime of the profile
       "--profile",
       profile,
       "ml/ray/cluster/kubernetes/is-ready",
