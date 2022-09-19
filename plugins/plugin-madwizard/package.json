@@ -24,6 +24,6 @@
   },
   "dependencies": {
     "madwizard": "^0.22.2",
-    "@guidebooks/store": "^0.12.5"
+    "@guidebooks/store": "^0.12.6"
   }
 }
