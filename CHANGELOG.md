@@ -1,3 +1,9 @@
+## [0.14.1](https://github.com/project-codeflare/codeflare-cli/compare/v0.14.0...v0.14.1) (2022-09-19)
+
+### Bug Fixes
+
+- pick up fixes for roberta from @guidebooks/store 0.12.5 ([2dddaec](https://github.com/project-codeflare/codeflare-cli/commit/2dddaeca2ec8c46557f19ea751de97b0bbf2e3ba))
+
 # [0.14.0](https://github.com/project-codeflare/codeflare-cli/compare/v0.13.1...v0.14.0) (2022-09-18)
 
 ### Bug Fixes
