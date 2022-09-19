@@ -49,7 +49,8 @@ export default class ProfileActiveRunWatcher {
     try {
       const resp = await cli(["madwizard", "guide", guidebook], undefined, {
         profile,
-        clean: false /* don't kill the port-forward subprocess! we'll manage that */,
+        bump: false, // don't bump the lastUsedTime of the profile
+        clean: false, // don't kill the port-forward subprocess! we'll manage that
         interactive: false,
         store: process.env.GUIDEBOOK_STORE,
       })
