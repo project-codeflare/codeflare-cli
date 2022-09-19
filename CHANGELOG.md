@@ -1,3 +1,10 @@
+## [0.14.2](https://github.com/project-codeflare/codeflare-cli/compare/v0.14.1...v0.14.2) (2022-09-19)
+
+### Bug Fixes
+
+- avoid bumping profile lastUsedTime for tray menu watchers ([f356434](https://github.com/project-codeflare/codeflare-cli/commit/f35643446fcaa435e824c9a66e8f59462b0985db))
+- pin openshift to 4.10.33 (from @guidebooks/store 0.12.6) ([185c7b0](https://github.com/project-codeflare/codeflare-cli/commit/185c7b0eb20f04e42770100f88c6a84f3d4790c8))
+
 ## [0.14.1](https://github.com/project-codeflare/codeflare-cli/compare/v0.14.0...v0.14.1) (2022-09-19)
 
 ### Bug Fixes
