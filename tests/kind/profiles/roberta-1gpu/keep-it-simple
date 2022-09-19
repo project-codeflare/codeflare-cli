@@ -2,7 +2,7 @@
   "name": "keep-it-simple",
   "creationTime": 1660657756574,
   "lastModifiedTime": 1661642588298,
-  "lastUsedTime": 1661643221215,
+  "lastUsedTime": 1663625673754,
   "choices": {
     "madwizard/apriori/use-gpu": "don't use gpus",
     "madwizard/apriori/arch": "x64",
@@ -13,7 +13,7 @@
     "Run with CodeFlare Model Architecture####Bring Your Own Code####Demos": "Run with CodeFlare Model Architecture",
     "Training Tasks####Fine Tuning Tasks": "Training Tasks",
     "Train a Masked Language Model": "Train a Masked Language Model",
-    "I want to run a quick test with sample data####I have my own custom input data on S3": "I want to run a quick test with sample data",
+    "I want to run a quick test with sample data####I have my own input tar.gz file on S3####My S3 data will be pre-mounted via s3fs": "I want to run a quick test with sample data",
     "AWS####IBM####My data is not stored in S3": "My data is not stored in S3",
     "Run Locally####Run on a Kubernetes Cluster": "Run on a Kubernetes Cluster",
     "My Cluster is Running Locally####My Cluster is Running on Kubernetes": "My Cluster is Running on Kubernetes",
