@@ -68,6 +68,7 @@ export default function registerCodeflareCommands(registrar: Registrar) {
     height,
   })
 
+  registrar.listen("/codeflare/delete/profile", (args) => import("./profile/delete").then((_) => _.default(args)))
   registrar.listen("/codeflare/rename/profile", (args) => import("./profile/rename").then((_) => _.default(args)))
 
   registrar.listen("/codeflare/get/profile", () => import("./profile/get").then((_) => _.default()), {
