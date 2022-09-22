@@ -16,7 +16,7 @@
 
 import doPlan from "../plan"
 import Input, { Tree } from "../Input"
-import { importe, importd } from "./1.spec"
+import { importa, importe, importd } from "./1.spec"
 
 const snippetsInTab5: Tree = {
   name: "AAA",
@@ -30,7 +30,7 @@ const IN4: Input = {
   tree: () => [
     {
       name: "Sequence",
-      children: [importd, importe, snippetsInTab5],
+      children: [importd, importa(), importe, snippetsInTab5],
     },
   ],
 }
