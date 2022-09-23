@@ -35,7 +35,7 @@ const importd: Tree = {
 
 const prerequisites = {
   name: "Prerequisites",
-  children: [importa(), importe, importd],
+  children: [importe, importd],
 }
 
 const mainTasks = {

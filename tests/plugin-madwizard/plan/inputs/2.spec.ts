@@ -16,7 +16,7 @@
 
 import doPlan from "../plan"
 import Input, { Tree } from "../Input"
-import { importa, importe, importd } from "./1.spec"
+import { importe, importd } from "./1.spec"
 
 const snippetsInTab4: Tree = {
   name: "snippets-in-tab4.md",
@@ -28,7 +28,7 @@ const snippetsInTab4: Tree = {
 
 const prerequisites = {
   name: "Prerequisites",
-  children: [importa(), importe],
+  children: [importe],
 }
 
 const mainTasks = {
