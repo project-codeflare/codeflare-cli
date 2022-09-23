@@ -17,14 +17,14 @@
 import doPlan from "../plan"
 import Input from "../Input"
 import { importg } from "./6.spec"
-import { importa, importd } from "./1.spec"
+import { importd } from "./1.spec"
 
 const filename = "guidebook-tree-model7.md"
 
 export const tree: Input["tree"] = () => [
   {
     name: "Sequence",
-    children: [importg("importgg.md"), importa("importaa.md"), importd],
+    children: [importg("importgg.md"), importd],
   },
 ]
 
