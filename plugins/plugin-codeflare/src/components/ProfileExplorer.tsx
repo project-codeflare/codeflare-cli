@@ -102,6 +102,7 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
     this.updateDebouncer = setTimeout(() => {
       this.setState((curState) => {
         if (JSON.stringify(curState.watcher.profiles) === JSON.stringify(curState.profiles)) {
+          // no change to profiles model
           return null
         }
 
@@ -284,7 +285,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       <ChipGroup numChips={10}>
         {Object.entries(form).map(([title, name]) => (
           <Chip key={title} isReadOnly textMaxWidth="25ch">
-            <span className="slightly-deemphasize">{title}</span> <span className="semi-bold cyan-text">{name}</span>
+            <span className="slightly-deemphasize">{title}</span> <span className="semi-bold color-base0F">{name}</span>
           </Chip>
         ))}
       </ChipGroup>
@@ -338,26 +339,6 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     }
 
     return "Internal Error"
-    /*return (
-      <DescriptionList className="codeflare--profile-explorer--description">
-        <DescriptionListGroup className="codeflare--profile-explorer--description--group">
-          <DescriptionListTerm>Cluster Context</DescriptionListTerm>
-          <DescriptionListDescription>api-codeflare-train-v11-codeflare-openshift-com</DescriptionListDescription>
-        </DescriptionListGroup>
-        <DescriptionListGroup className="codeflare--profile-explorer--description--group">
-          <DescriptionListTerm>Cluster Namespace</DescriptionListTerm>
-          <DescriptionListDescription>nvidia-gpu-operator</DescriptionListDescription>
-        </DescriptionListGroup>
-        <DescriptionListGroup className="codeflare--profile-explorer--description--group">
-          <DescriptionListTerm>Memory per Worker</DescriptionListTerm>
-          <DescriptionListDescription>32Gi</DescriptionListDescription>
-        </DescriptionListGroup>
-        <DescriptionListGroup className="codeflare--profile-explorer--description--group">
-          <DescriptionListTerm>Worker Count</DescriptionListTerm>
-          <DescriptionListDescription>4-4</DescriptionListDescription>
-        </DescriptionListGroup>
-      </DescriptionList>
-    )*/
   }
 
   private footer() {
