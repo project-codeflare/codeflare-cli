@@ -1,25 +1,22 @@
 {
   "name": "keep-it-simple",
-  "creationTime": 1660657756574,
-  "lastModifiedTime": 1660658307175,
-  "lastUsedTime": 1661620649166,
+  "creationTime": 1664149787016,
+  "lastModifiedTime": 1664149821230,
+  "lastUsedTime": 1664149787016,
   "choices": {
     "madwizard/apriori/use-gpu": "don't use gpus",
     "madwizard/apriori/arch": "x64",
     "madwizard/apriori/platform": "darwin",
     "madwizard/apriori/mac-installer": "Homebrew",
     "madwizard/apriori/in-terminal": "HTML",
-    "Start a new Run####Connect Dashboard to an existing Run####Boot up a Cloud Computer####Shut down a Cloud Computer": "Start a new Run",
-    "Run with CodeFlare Model Architecture####Bring Your Own Code####Demos": "Bring Your Own Code",
-    "BERT####MLFlow Demo####Tensorboard Demo": "MLFlow Demo",
-    "Location of your working directory": "{\"Location of your working directory\":\"tests/kind/inputs/qiskit\"}",
-    "Provide custom base image, if any": "{\"Provide custom base image, if any\":\"rayproject/ray:1.13.1-py37\"}",
-    "AWS####IBM####My data is not stored in S3": "My data is not stored in S3",
-    "Run Locally####Run on a Kubernetes Cluster": "Run on a Kubernetes Cluster",
-    "My Cluster is Running Locally####My Cluster is Running on Kubernetes": "My Cluster is Running on Kubernetes",
-    "expand((kubectl config get-contexts -o name | grep -E . >& /dev/null && kubectl config get-contexts -o name) || (kubectl version | grep Server >& /dev/null && echo \"${KUBE_CONTEXT_FOR_TEST-In-cluster}\" || exit 1), Kubernetes contexts)": "kind-codeflare-test",
-    "expand([ -z ${KUBE_CONTEXT} ] && exit 1 || X=$([ -n \"$KUBE_NS_FOR_TEST\" ] && echo $KUBE_NS_FOR_TEST || kubectl get ${KUBE_CONTEXT_ARG} ns -o name || oc ${KUBE_CONTEXT_ARG} get projects -o name); echo \"$X\" | sed -E 's#(namespace|project.project.openshift.io)/##' | grep -Ev 'openshift|kube-', Kubernetes namespaces)####Create a namespace": "default",
-    "Number of CPUs####Number of GPUs####Minimum Workers####Maximum Workers####Worker Memory####Head Memory": "{\"Number of CPUs\":\"500m\",\"Number of GPUs\":\"0\",\"Minimum Workers\":\"1\",\"Maximum Workers\":\"1\",\"Worker Memory\":\"2Gi\",\"Head Memory\":\"2Gi\"}",
-    "Keep It Simple####Use the Ray Autoscaler####Use the Multi-user Enhanced Kubernetes Scheduler": "Keep It Simple"
+    "ml/codeflare": "Start a new Run",
+    "ml/codeflare/run": "Bring Your Own Code",
+    "ml/codeflare/training/byoc/working-directory": "{\"Location of your working directory\":\"tests/kind/inputs/qiskit\"}",
+    "ml/codeflare/training/byoc/base-ray-image": "{\"Provide custom base image, if any\":\"rayproject/ray:1.13.1-py37\"}",
+    "s3/choose/instance-maybe": "My data is not stored in S3",
+    "ml/ray/start/resources": "{\"Number of CPUs\":\"500m\",\"Number of GPUs\":\"0\",\"Minimum Workers\":\"1\",\"Maximum Workers\":\"1\",\"Worker Memory\":\"2Gi\",\"Head Memory\":\"2Gi\"}",
+    "kubernetes/context": "kind-codeflare-test",
+    "kubernetes/choose/ns-with-context": "default",
+    "ml/ray/cluster/kubernetes/choose-pod-scheduler": "Keep It Simple"
   }
 }
