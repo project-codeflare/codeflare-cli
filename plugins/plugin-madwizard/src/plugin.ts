@@ -41,6 +41,12 @@ export interface Options extends ParsedOptions {
   /** Use this named profile */
   profile: string
 
+  /** Absolute path to profiles directory */
+  P: string
+
+  /** Absolute path to profiles directory */
+  "profiles-path": string
+
   /** Do not tee logs to the console */
   q: boolean
 
@@ -131,6 +137,7 @@ export function doMadwizard({ readonlyUI = true, task, withFilepath = true, cb, 
         undefined,
         {
           profile,
+          profilesPath: parsedOptions.P,
           store: parsedOptions.s || process.env.GUIDEBOOK_STORE,
           verbose: parsedOptions.V,
           interactive: parsedOptions.i || !parsedOptions.y,
@@ -158,7 +165,16 @@ export function doMadwizard({ readonlyUI = true, task, withFilepath = true, cb, 
 export const flags = {
   boolean: ["u", "V", "n", "q", "i", "y"],
   configuration: { "populate--": true },
-  alias: { store: ["s"], quiet: ["q"], interactive: ["i"], yes: ["y"], profile: ["p"], verbose: ["V"], team: ["t"] },
+  alias: {
+    store: ["s"],
+    quiet: ["q"],
+    interactive: ["i"],
+    yes: ["y"],
+    profile: ["p"],
+    "profiles-path": ["P"],
+    verbose: ["V"],
+    team: ["t"],
+  },
 }
 
 /** Register Kui Commands */
