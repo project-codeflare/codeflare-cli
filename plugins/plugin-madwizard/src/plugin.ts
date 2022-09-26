@@ -137,7 +137,7 @@ export function doMadwizard({ readonlyUI = true, task, withFilepath = true, cb, 
         undefined,
         {
           profile,
-          profilesPath: parsedOptions.P,
+          profilesPath: parsedOptions["profiles-path"] || parsedOptions.P,
           store: parsedOptions.s || process.env.GUIDEBOOK_STORE,
           verbose: parsedOptions.V,
           interactive: parsedOptions.i || !parsedOptions.y,
