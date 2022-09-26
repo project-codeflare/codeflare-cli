@@ -28,14 +28,14 @@ import {
   Flex,
   FlexItem,
   CardFooter,
-  DescriptionList,
-  DescriptionListGroup,
-  DescriptionListTerm,
-  DescriptionListDescription,
   Divider,
   Select,
   SelectVariant,
   SelectOption,
+  TreeView,
+  TreeViewDataItem,
+  Chip,
+  ChipGroup,
 } from "@patternfly/react-core"
 
 import ProfileSelect from "./ProfileSelect"
@@ -61,6 +61,12 @@ type State = {
 
   updateCount: number
 }
+
+/** Tree node grouping */
+type Group = { title: string; name?: string }
+
+/** Metadata for tree node */
+type Metadata = { title: string; group: Group }
 
 export default class ProfileExplorer extends React.PureComponent<Props, State> {
   public constructor(props: Props) {
@@ -239,9 +245,100 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     )
   }
 
+  private readonly groups: Record<string, Group> = {
+    Application: {
+      title: "Application",
+      name: "Properties of what will be run against this computer",
+    },
+    Compute: {
+      title: "Compute",
+      name: "The computational aspects of this computer",
+    },
+  }
+
+  private readonly meta: Record<string, Metadata> = {
+    "ml/codeflare/run": {
+      title: "Scenario",
+      group: this.groups.Application,
+    },
+    "ml/codeflare/training/demos": {
+      title: "Demo Code",
+      group: this.groups.Application,
+    },
+    "ml/ray/start/resources": {
+      title: "Resources",
+      group: this.groups.Compute,
+    },
+    "kubernetes/context": {
+      title: "Cluster",
+      group: this.groups.Compute,
+    },
+    "kubernetes/choose/ns-with-context": {
+      title: "Namespace",
+      group: this.groups.Compute,
+    },
+  }
+
+  private form(form: Record<string, string>) {
+    return (
+      <ChipGroup numChips={10}>
+        {Object.entries(form).map(([title, name]) => (
+          <Chip key={title} isReadOnly textMaxWidth="25ch">
+            <span className="slightly-deemphasize">{title}</span> <span className="semi-bold cyan-text">{name}</span>
+          </Chip>
+        ))}
+      </ChipGroup>
+    )
+  }
+
+  private treeNode(meta: Metadata, value: string) {
+    try {
+      const form = JSON.parse(value) as Record<string, string>
+      return {
+        title: meta.title,
+        name: this.form(form),
+        //children: Object.entries(form).map(([title, name]) => ({ title, name }))
+      }
+    } catch (err) {
+      return {
+        title: meta.title,
+        name: value,
+      }
+    }
+  }
+
   private body() {
     // TODO: Retrieve real data and abstract to its own component
-    return (
+    const profile = this.props.profiles.find((_) => _.name === this.props.profile)
+    if (profile) {
+      const tree = Object.entries(profile.choices)
+        .filter((_) => !/^madwizard\//.test(_[0])) // filter out madwizard internals
+        .filter((_) => !/expand\(|####/.test(_[0])) // filter out old style of choices
+        .filter((_) => !/test\/inputs/.test(_[0])) // filter out test residuals
+        .reduce((groups, [title, value]) => {
+          const meta = this.meta[title]
+          if (meta) {
+            if (!groups[meta.group.title]) {
+              groups[meta.group.title] = {
+                title: meta.group.title,
+                name: meta.group.name,
+                children: [],
+              }
+            }
+            const { children } = groups[meta.group.title]
+
+            children.push(this.treeNode(meta, value))
+          }
+
+          return groups
+        }, {} as Record<string, TreeViewDataItem & Required<Pick<TreeViewDataItem, "children">>>)
+
+      const data = Object.values(tree)
+      return <TreeView hasGuides defaultAllExpanded data={data} variant="compactNoBackground" />
+    }
+
+    return "Internal Error"
+    /*return (
       <DescriptionList className="codeflare--profile-explorer--description">
         <DescriptionListGroup className="codeflare--profile-explorer--description--group">
           <DescriptionListTerm>Cluster Context</DescriptionListTerm>
@@ -260,7 +357,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
           <DescriptionListDescription>4-4</DescriptionListDescription>
         </DescriptionListGroup>
       </DescriptionList>
-    )
+    )*/
   }
 
   private footer() {

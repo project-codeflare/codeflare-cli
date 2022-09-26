@@ -27,7 +27,29 @@
 }
 
 @include ProfileExplorer {
+  display: flex;
+  .pf-c-card__body {
+    overflow-y: auto;
+  }
+
   font-family: var(--font-sans-serif);
+
+  button {
+    color: var(--color-text-01) !important;
+  }
+
+  .pf-c-tree-view {
+    --pf-c-tree-view--PaddingTop: 0;
+    --pf-c-tree-view--m-compact__node-container--PaddingTop: 1em;
+    --pf-c-tree-view--m-compact__node-container--nested--PaddingTop: 0.5em;
+    --pf-c-tree-view--m-compact__node-container--nested--PaddingBottom: 0.5em;
+    --pf-c-tree-view--m-compact__node-container--nested--PaddingRight: 1.5em;
+    --pf-c-tree-view--m-compact__node-container--nested--PaddingLeft: 1.5em;
+  }
+
+  .pf-c-tree-view__node-text {
+    color: var(--color-text-02);
+  }
 
   .pf-c-card {
     --pf-c-card--BackgroundColor: var(--color-base00);
@@ -36,19 +58,18 @@
   .pf-c-select {
     --pf-c-select__toggle--BackgroundColor: var(--color-base00);
 
-    button,
     .pf-c-select__toggle-text {
       color: var(--color-text-01) !important;
     }
   }
 
+  .pf-c-tree-view__list-item {
+    margin: 0;
+  }
+
   hr.pf-c-divider {
     margin: 0;
     border: none;
-  }
-  .pf-c-description-list__text {
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   &--status-light {
