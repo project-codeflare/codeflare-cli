@@ -17,9 +17,9 @@
 import doPlan from "../plan"
 import Input, { Tree } from "../Input"
 
-const importa: (name?: string) => Tree = (name = "importa.md") => ({ name, children: [{ name: "echo AAA" }] })
+const importa: (name?: string) => Tree = (name = "importa") => ({ name, children: [{ name: "echo AAA" }] })
 
-const importc: Tree = { name: "importc.md", children: [{ name: "echo CCC" }] }
+const importc: Tree = { name: "importc", children: [{ name: "echo CCC" }] }
 
 const option2Tab2: Tree = { name: "Option 2: Tab2", children: [importc] }
 

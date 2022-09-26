@@ -143,4 +143,4 @@ trap 'pkill -P $$; exit 1;' TERM INT
 
 # otherwise, we launch the UI version
 export CODEFLARE_HEADLESS=$HEADLESS
-"$NODE" "$HEADLESS"/codeflare.min.js -- codeflare $EXTRAPREFIX "$@"
+"$NODE" "$HEADLESS"/codeflare.min.js -- ${CMD-codeflare} $EXTRAPREFIX "$@"

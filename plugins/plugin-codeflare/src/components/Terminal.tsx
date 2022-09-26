@@ -18,6 +18,7 @@ import React from "react"
 import { Events } from "@kui-shell/core"
 import { ITheme, Terminal } from "xterm"
 import { FitAddon } from "xterm-addon-fit"
+import { WebglAddon } from "xterm-addon-webgl"
 import { SearchAddon, ISearchOptions } from "xterm-addon-search"
 import { Toolbar, ToolbarContent, ToolbarItem, SearchInput } from "@patternfly/react-core"
 
@@ -76,6 +77,7 @@ export default class XTerm extends React.PureComponent<Props, State> {
   private terminal: Terminal = new Terminal({
     convertEol: true,
     scrollback: 5000,
+    allowProposedApi: true,
   })
 
   private searchAddon = new SearchAddon()
@@ -172,6 +174,10 @@ export default class XTerm extends React.PureComponent<Props, State> {
 
     this.terminal.open(xtermContainer)
 
+    const webgl = new WebglAddon()
+    webgl.onContextLoss(() => webgl.dispose())
+    this.terminal.loadAddon(webgl)
+
     const doResize = () => {
       try {
         fitAddon.fit()
@@ -222,7 +228,7 @@ export default class XTerm extends React.PureComponent<Props, State> {
       foreground: val("text-01"),
       background: val("sidecar-background-02"),
       cursor: val("support-01"),
-      selection: this.alpha(val("selection-background"), 0.3),
+      selectionBackground: this.alpha(val("selection-background"), 0.3),
 
       black: val("black"),
       red: val("red"),
@@ -244,19 +250,19 @@ export default class XTerm extends React.PureComponent<Props, State> {
     }
 
     // debug('itheme for xterm', itheme)
-    xterm.setOption("theme", itheme)
-    xterm.setOption("fontFamily", val("monospace", "font"))
+    xterm.options.theme = itheme
+    xterm.options.fontFamily = val("monospace", "font")
 
     try {
       const standIn = document.querySelector("body .repl")
       if (standIn) {
         const fontTheme = getComputedStyle(standIn)
-        xterm.setOption("fontSize", parseInt(fontTheme.fontSize.replace(/px$/, ""), 10))
+        xterm.options.fontSize = parseInt(fontTheme.fontSize.replace(/px$/, ""), 10)
         // terminal.setOption('lineHeight', )//parseInt(fontTheme.lineHeight.replace(/px$/, ''), 10))
 
         // FIXME. not tied to theme
-        xterm.setOption("fontWeight", 400)
-        xterm.setOption("fontWeightBold", 600)
+        xterm.options.fontWeight = 400
+        xterm.options.fontWeightBold = 600
       }
     } catch (err) {
       console.error("Error setting terminal font size", err)
