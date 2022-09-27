@@ -16,7 +16,7 @@
     "ml/codeflare/training/roberta/choose-data": "I want to run a quick test with sample data",
     "ml/ray/start/resources": "{\"Number of CPUs\":\"1\",\"Number of GPUs\":\"1\",\"Minimum Workers\":\"1\",\"Maximum Workers\":\"1\",\"Worker Memory\":\"8Gi\",\"Head Memory\":\"8Gi\"}",
     "kubernetes/context": "kind-codeflare-test",
-    "kubernetes/choose/ns-with-context": "default",
+    "kubernetes/choose/ns": "default",
     "ml/ray/cluster/kubernetes/choose-pod-scheduler": "Keep It Simple"
   }
 }
