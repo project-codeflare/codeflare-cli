@@ -65,6 +65,12 @@ export interface Options extends ParsedOptions {
   /** Interactive guide mode? [default: false] */
   interactive: boolean
 
+  /** Interactive guide mode only for last question? [default: false] */
+  z: boolean
+
+  /** Interactive guide mode only for the given notebook? [default: false] */
+  ifor: string
+
   /** Use team-focused assertions */
   team?: string
 }
@@ -140,7 +146,8 @@ export function doMadwizard({ readonlyUI = true, task, withFilepath = true, cb, 
           profilesPath: parsedOptions["profiles-path"] || parsedOptions.P,
           store: parsedOptions.s || process.env.GUIDEBOOK_STORE,
           verbose: parsedOptions.V,
-          interactive: parsedOptions.i || !parsedOptions.y,
+          ifor: parsedOptions.ifor, // interactive only for a given guidebook?
+          interactive: parsedOptions.i || (!parsedOptions.ifor && !parsedOptions.y),
           assertions: assertionsFn ? assertionsFn(parsedOptions) : undefined,
         }
       )
@@ -163,7 +170,7 @@ export function doMadwizard({ readonlyUI = true, task, withFilepath = true, cb, 
 }
 
 export const flags = {
-  boolean: ["u", "V", "n", "q", "i", "y"],
+  boolean: ["u", "V", "n", "q", "i", "y", "z"],
   configuration: { "populate--": true },
   alias: {
     store: ["s"],

@@ -26,6 +26,12 @@
   }
 }
 
+@mixin EditButton {
+  button.codeflare--profile-explorer-edit-button {
+    @content;
+  }
+}
+
 @include ProfileExplorer {
   display: flex;
   .pf-c-card__body {
@@ -34,8 +40,17 @@
 
   font-family: var(--font-sans-serif);
 
-  button {
-    color: var(--color-text-01) !important;
+  .pf-c-card .pf-c-tree-view button.pf-c-tree-view__node {
+    color: var(--color-text-01);
+  }
+
+  .pf-c-tree-view {
+    @include EditButton {
+      color: var(--color-base04);
+      &:hover {
+        color: var(--color-text-01);
+      }
+    }
   }
 
   .pf-c-tree-view {
@@ -45,6 +60,11 @@
     --pf-c-tree-view--m-compact__node-container--nested--PaddingBottom: 0.5em;
     --pf-c-tree-view--m-compact__node-container--nested--PaddingRight: 1.5em;
     --pf-c-tree-view--m-compact__node-container--nested--PaddingLeft: 1.5em;
+  }
+
+  .pf-c-tree-view__content {
+    /* so that action items align top */
+    align-items: flex-start;
   }
 
   .pf-c-tree-view__node-text {

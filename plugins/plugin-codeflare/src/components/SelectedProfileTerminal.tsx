@@ -41,6 +41,6 @@ export default class SelectedProfileTerminal extends React.PureComponent<MyProps
   }
 
   public render() {
-    return <RestartableTerminal key={this.state.cmdline} {...this.props} cmdline={this.state.cmdline} />
+    return <RestartableTerminal {...this.props} cmdline={this.state.cmdline} />
   }
 }

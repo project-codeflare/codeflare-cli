@@ -16,7 +16,7 @@
 
 import React from "react"
 import { openWindow } from "../controller/profile/actions"
-import { Select, SelectOption, SelectOptionObject, SelectVariant } from "@patternfly/react-core"
+import { Select, SelectOption, SelectOptionObject } from "@patternfly/react-core"
 
 type Props = {
   selectedProfile?: string
@@ -62,7 +62,8 @@ export default class DashboardSelect extends React.PureComponent<Props, State> {
   public render() {
     return (
       <Select
-        variant={SelectVariant.single}
+        variant="single"
+        direction="up"
         placeholderText="Dashboards"
         aria-label="Dashboards selector"
         onToggle={this._dashboardSelectOnToggle}
