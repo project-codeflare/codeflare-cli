@@ -43,10 +43,23 @@ export async function shell(args: Arguments) {
 }
 
 type Props = Pick<BaseProps, "tab" | "repl">
-type State = Partial<Pick<BaseProps, "cmdline" | "env">> & { error?: boolean; selectedProfile?: string }
+type State = Partial<Pick<BaseProps, "cmdline" | "env">> & {
+  /** Internal error in rendering */
+  error?: boolean
+
+  /** Use this guidebook in the terminal execution */
+  guidebook?: string
+
+  /** Use this profile in the terminal execution */
+  selectedProfile?: string
+}
+
 class TaskTerminal extends React.PureComponent<Props, State> {
+  /** Default guidebook to show in the terminal */
+  private readonly defaultGuidebook = "ml/codeflare"
+
   /** Allotment initial split sizes */
-  private readonly sizes = [35, 65]
+  private readonly sizes = [40, 60]
 
   private readonly tasks = [{ label: "Run a Job", argv: ["codeflare", "-p", "${SELECTED_PROFILE}"] }]
 
@@ -57,11 +70,17 @@ class TaskTerminal extends React.PureComponent<Props, State> {
     this.state = {}
   }
 
-  private async init() {
+  private async init(guidebook?: string) {
     try {
       // respawn, meaning launch it with codeflare
       const { argv, env } = await respawn(this.tasks[0].argv)
-      const cmdline = argv.map((_) => encodeComponent(_)).join(" ")
+      const cmdline = [
+        ...argv.map((_) => encodeComponent(_)),
+        guidebook || this.defaultGuidebook,
+        ...(guidebook ? ["--ifor", guidebook] : []),
+      ]
+        .filter(Boolean)
+        .join(" ")
 
       this.setState({
         cmdline,
@@ -69,13 +88,17 @@ class TaskTerminal extends React.PureComponent<Props, State> {
       })
     } catch (error) {
       console.error("Error initializing command line", error)
-      this.state = {
+      this.setState({
         error: true,
-      }
+      })
     }
   }
 
+  /** Event handler for switching to a different profile */
   private readonly onSelectProfile = (selectedProfile: string) => this.setState({ selectedProfile })
+
+  /** Event handler for switching to a different guidebook */
+  private readonly onSelectGuidebook = (guidebook: string) => this.init(guidebook)
 
   public static getDerivedStateFromError() {
     return { error: true }
@@ -94,7 +117,7 @@ class TaskTerminal extends React.PureComponent<Props, State> {
     return (
       <Allotment defaultSizes={this.sizes} snap>
         <Allotment.Pane className="flex-fill flex-layout flex-align-stretch" minSize={400}>
-          <ProfileExplorer onSelectProfile={this.onSelectProfile} />
+          <ProfileExplorer onSelectProfile={this.onSelectProfile} onSelectGuidebook={this.onSelectGuidebook} />
         </Allotment.Pane>
         <Allotment.Pane className="flex-fill flex-layout flex-align-stretch">
           {!this.state.selectedProfile ? (

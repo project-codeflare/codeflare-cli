@@ -16,7 +16,7 @@
 
 import React from "react"
 import { Profiles } from "madwizard"
-import { Loading } from "@kui-shell/plugin-client-common"
+import { Icons, Loading, Tooltip } from "@kui-shell/plugin-client-common"
 import {
   Card,
   CardActions,
@@ -50,6 +50,7 @@ import "../../web/scss/components/ProfileExplorer/_index.scss"
 
 type Props = {
   onSelectProfile?(profile: string): void
+  onSelectGuidebook?(guidebook: string): void
 }
 
 type State = {
@@ -67,6 +68,9 @@ type Group = { title: string; name?: string }
 
 /** Metadata for tree node */
 type Metadata = { title: string; group: Group }
+
+/** */
+type TreeViewDataItemWithChildren = TreeViewDataItem & Required<Pick<TreeViewDataItem, "children">>
 
 export default class ProfileExplorer extends React.PureComponent<Props, State> {
   public constructor(props: Props) {
@@ -176,6 +180,7 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
             profile={this.state.selectedProfile}
             profiles={this.state.profiles}
             onSelectProfile={this._handleProfileSelection}
+            onSelectGuidebook={this.props.onSelectGuidebook}
             profileReadiness={this.state.statusWatcher?.readiness}
             profileStatus={this.state.statusWatcher}
           />
@@ -185,7 +190,7 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
   }
 }
 
-type ProfileCardProps = {
+type ProfileCardProps = Pick<Props, "onSelectGuidebook"> & {
   profile: string
   profiles: Profiles.Profile[]
   onSelectProfile: (profile: string) => void
@@ -274,7 +279,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       title: "Cluster",
       group: this.groups.Compute,
     },
-    "kubernetes/choose/ns-with-context": {
+    "kubernetes/choose/ns": {
       title: "Namespace",
       group: this.groups.Compute,
     },
@@ -285,7 +290,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       <ChipGroup numChips={10}>
         {Object.entries(form).map(([title, name]) => (
           <Chip key={title} isReadOnly textMaxWidth="25ch">
-            <span className="slightly-deemphasize">{title}</span> <span className="semi-bold color-base0F">{name}</span>
+            <span className="slightly-deemphasize">{title}</span> <span className="semi-bold color-base0D">{name}</span>
           </Chip>
         ))}
       </ChipGroup>
@@ -308,6 +313,35 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     }
   }
 
+  private readonly onEdit = (evt: React.MouseEvent) => {
+    const guidebook = evt.currentTarget.getAttribute("data-guidebook")
+    if (guidebook) {
+      if (this.props.onSelectGuidebook) {
+        this.props.onSelectGuidebook(guidebook)
+      }
+    } else {
+      console.error("Missing guidebook attribute")
+    }
+  }
+
+  private editable<T extends TreeViewDataItem>(guidebook: string, node: T) {
+    return Object.assign(node, {
+      action: (
+        <Tooltip markdown={`### Update\n#### ${guidebook}\n\nClick to update this choice`}>
+          <Button
+            variant="plain"
+            aria-label="Edit"
+            data-guidebook={guidebook}
+            onClick={this.onEdit}
+            className="codeflare--profile-explorer-edit-button"
+          >
+            <Icons icon="Edit" />
+          </Button>
+        </Tooltip>
+      ),
+    })
+  }
+
   private body() {
     // TODO: Retrieve real data and abstract to its own component
     const profile = this.props.profiles.find((_) => _.name === this.props.profile)
@@ -328,13 +362,19 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
             }
             const { children } = groups[meta.group.title]
 
-            children.push(this.treeNode(meta, value))
+            children.push(this.editable(title, this.treeNode(meta, value)))
           }
 
           return groups
-        }, {} as Record<string, TreeViewDataItem & Required<Pick<TreeViewDataItem, "children">>>)
+        }, {} as Record<string, TreeViewDataItemWithChildren>)
 
       const data = Object.values(tree)
+      if (data.length === 0) {
+        // oops, this profile has no "shape", no choices have been
+        // made for us to visualize
+        data.push({ name: "Empty", children: [] })
+      }
+
       return <TreeView hasGuides defaultAllExpanded data={data} variant="compactNoBackground" />
     }
 
@@ -366,7 +406,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
 
   public render() {
     return (
-      <Card className="top-pad left-pad right-pad bottompad" isSelectableRaised isSelected>
+      <Card className="top-pad left-pad right-pad bottom-pad" isSelectableRaised isSelected>
         <CardHeader>
           <CardTitle>{this.title()}</CardTitle>
           <CardActions hasNoOffset>{this.actions()}</CardActions>
