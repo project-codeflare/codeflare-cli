@@ -16,7 +16,7 @@
     "s3/choose/instance-maybe": "My data is not stored in S3",
     "ml/ray/start/resources": "{\"Number of CPUs\":\"500m\",\"Number of GPUs\":\"0\",\"Minimum Workers\":\"1\",\"Maximum Workers\":\"1\",\"Worker Memory\":\"2Gi\",\"Head Memory\":\"2Gi\"}",
     "kubernetes/context": "kind-codeflare-test",
-    "kubernetes/choose/ns-with-context": "default",
+    "kubernetes/choose/ns": "default",
     "ml/ray/cluster/kubernetes/choose-pod-scheduler": "Keep It Simple"
   }
 }
