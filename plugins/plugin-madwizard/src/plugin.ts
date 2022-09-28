@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { defaultGuidebook } from "@kui-shell/client/config.d/client.json"
 import { Arguments, ParsedOptions, ReactResponse, Registrar, Tab } from "@kui-shell/core"
 
 export interface Options extends ParsedOptions {
@@ -104,7 +105,7 @@ export function doMadwizard({ readonlyUI = true, task, withFilepath = true, cb, 
   return async ({ tab, argvNoOptions, parsedOptions }: Arguments<Options>) => {
     if (withFilepath && !argvNoOptions[1]) {
       // TODO codeflare should not be in plugin-madwizard
-      argvNoOptions.push(process.env.GUIDEBOOK || "ml/codeflare")
+      argvNoOptions.push(process.env.GUIDEBOOK || defaultGuidebook)
     }
 
     if (envFn) {
