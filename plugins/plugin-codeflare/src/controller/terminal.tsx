@@ -82,7 +82,7 @@ class TaskTerminal extends React.PureComponent<Props, State> {
 
       this.setState({
         cmdline,
-        env,
+        env: Object.assign({}, env, { MWCLEAR: "true" }),
       })
     } catch (error) {
       console.error("Error initializing command line", error)
