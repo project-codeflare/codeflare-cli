@@ -32,6 +32,13 @@ export async function openWindow(title: string, initialTabTitle: string, argv: (
   )
 }
 
+export async function handleReset(selectedProfile: string | undefined) {
+  if (selectedProfile) {
+    const { Profiles } = await import("madwizard")
+    await Profiles.reset({}, selectedProfile)
+  }
+}
+
 export function handleBoot(selectedProfile: string | undefined) {
   openWindow(`Booting ${selectedProfile}`, "Booting", [
     "codeflare",
