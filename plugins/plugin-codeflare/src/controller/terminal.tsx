@@ -18,6 +18,7 @@ import React from "react"
 import { Allotment } from "allotment"
 import { Loading } from "@kui-shell/plugin-client-common"
 import { Arguments, encodeComponent } from "@kui-shell/core"
+import { defaultGuidebook } from "@kui-shell/client/config.d/client.json"
 
 import respawn from "./respawn"
 
@@ -55,9 +56,6 @@ type State = Partial<Pick<BaseProps, "cmdline" | "env">> & {
 }
 
 class TaskTerminal extends React.PureComponent<Props, State> {
-  /** Default guidebook to show in the terminal */
-  private readonly defaultGuidebook = "ml/codeflare"
-
   /** Allotment initial split sizes */
   private readonly sizes = [40, 60]
 
@@ -76,7 +74,7 @@ class TaskTerminal extends React.PureComponent<Props, State> {
       const { argv, env } = await respawn(this.tasks[0].argv)
       const cmdline = [
         ...argv.map((_) => encodeComponent(_)),
-        guidebook || this.defaultGuidebook,
+        guidebook || defaultGuidebook,
         ...(guidebook ? ["--ifor", guidebook] : []),
       ]
         .filter(Boolean)
