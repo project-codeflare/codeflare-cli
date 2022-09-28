@@ -261,6 +261,10 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       title: "Compute",
       name: "The computational aspects of this computer",
     },
+    Storage: {
+      title: "Storage",
+      name: "The storage aspects of this computer",
+    },
   }
 
   private readonly meta: Record<string, Metadata> = {
@@ -276,6 +280,14 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       title: "Resources",
       group: this.groups.Compute,
     },
+    ".*constraints/compute/workers": {
+      title: "Resources",
+      group: this.groups.Compute,
+    },
+    ".*constraints/compute/accelerators/gpu": {
+      title: "GPU Class",
+      group: this.groups.Compute,
+    },
     "kubernetes/context": {
       title: "Cluster",
       group: this.groups.Compute,
@@ -283,6 +295,14 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     "kubernetes/choose/ns": {
       title: "Namespace",
       group: this.groups.Compute,
+    },
+    "aws/choose/profile": {
+      title: "AWS Profile",
+      group: this.groups.Storage,
+    },
+    ".*constraints/workload/type": {
+      title: "Workload Type",
+      group: this.groups.Application,
     },
   }
 
@@ -352,18 +372,21 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
         .filter((_) => !/expand\(|####/.test(_[0])) // filter out old style of choices
         .filter((_) => !/test\/inputs/.test(_[0])) // filter out test residuals
         .reduce((groups, [title, value]) => {
-          const meta = this.meta[title]
-          if (meta) {
-            if (!groups[meta.group.title]) {
-              groups[meta.group.title] = {
-                title: meta.group.title,
-                name: meta.group.name,
-                children: [],
+          const metaKey = this.meta[title] ? title : Object.keys(this.meta).find((_) => new RegExp(_).test(title))
+          if (metaKey) {
+            const meta = this.meta[metaKey]
+            if (meta) {
+              if (!groups[meta.group.title]) {
+                groups[meta.group.title] = {
+                  title: meta.group.title,
+                  name: meta.group.name,
+                  children: [],
+                }
               }
-            }
-            const { children } = groups[meta.group.title]
+              const { children } = groups[meta.group.title]
 
-            children.push(this.editable(title, this.treeNode(meta, value)))
+              children.push(this.editable(title, this.treeNode(meta, value)))
+            }
           }
 
           return groups
@@ -373,13 +396,26 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       if (data.length === 0) {
         // oops, this profile has no "shape", no choices have been
         // made for us to visualize
-        data.push({ name: "Empty", children: [] })
+        data.push({ title: "Empty", name: "So far, this profile has no constraints", children: [] })
       }
+      this.sort(data)
 
       return <TreeView hasGuides defaultAllExpanded data={data} variant="compactNoBackground" />
     }
 
     return "Internal Error"
+  }
+
+  private sort(data: TreeViewDataItem[]) {
+    data.sort((a, b) => (a.title || "").toString().localeCompare((b.title || "").toString()))
+
+    data.forEach((_) => {
+      if (Array.isArray(_.children)) {
+        _.children = this.sort(_.children)
+      }
+    })
+
+    return data
   }
 
   private footer() {
