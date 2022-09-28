@@ -16,6 +16,7 @@
 
 import { join } from "path"
 import { encodeComponent } from "@kui-shell/core"
+import { main } from "@kui-shell/client/package.json"
 
 async function getAppPath() {
   try {
@@ -87,7 +88,7 @@ export default async function respawnCommand(cmdline: string | string[]) {
           "/MacOS/$1"
         )
       ),
-      encodeComponent((await headlessRoot()) + "/codeflare.min.js"),
+      encodeComponent(join(await headlessRoot(), "../../", main)),
       "--",
       ...(typeof cmdline === "string" ? [cmdline] : cmdline),
     ],
