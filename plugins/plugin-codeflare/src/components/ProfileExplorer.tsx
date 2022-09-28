@@ -39,11 +39,11 @@ import {
 } from "@patternfly/react-core"
 
 import ProfileSelect from "./ProfileSelect"
-import DashboardSelect from "./DashboardSelect"
+// import DashboardSelect from "./DashboardSelect"
 import ProfileWatcher from "../tray/watchers/profile/list"
 import ProfileStatusWatcher from "../tray/watchers/profile/status"
 import UpdateFunction from "../tray/update"
-import { handleBoot, handleShutdown } from "../controller/profile/actions"
+import { handleReset } from "../controller/profile/actions"
 
 import "../../web/scss/components/Dashboard/Description.scss"
 import "../../web/scss/components/ProfileExplorer/_index.scss"
@@ -210,8 +210,9 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       isOpen: false,
     }
   }
-  private readonly _handleBoot = () => handleBoot(this.props.profile)
-  private readonly _handleShutdown = () => handleShutdown(this.props.profile)
+  private readonly _handleReset = () => handleReset(this.props.profile)
+  // private readonly _handleBoot = () => handleBoot(this.props.profile)
+  // private readonly _handleShutdown = () => handleShutdown(this.props.profile)
   private readonly _onToggle = () => this.setState({ isOpen: !this.state.isOpen })
 
   private title() {
@@ -384,8 +385,14 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
   private footer() {
     return (
       <Flex>
+        <FlexItem flex={{ default: "flex_1" }}></FlexItem>
         <FlexItem>
-          <Button variant="link" isSmall className="codeflare--profile-explorer--boot-btn" onClick={this._handleBoot}>
+          <Button variant="link" isSmall className="codeflare--profile-explorer--reset-btn" onClick={this._handleReset}>
+            Reset
+          </Button>
+        </FlexItem>
+        {/*<FlexItem>
+        <Button variant="link" isSmall className="codeflare--profile-explorer--boot-btn" onClick={this._handleBoot}>
             Boot
           </Button>
           <Button
@@ -399,7 +406,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
         </FlexItem>
         <FlexItem flex={{ default: "flex_1" }}>
           <DashboardSelect selectedProfile={this.props.profile} />
-        </FlexItem>
+          </FlexItem>*/}
       </Flex>
     )
   }
