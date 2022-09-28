@@ -15,6 +15,7 @@
  */
 
 import React from "react"
+import { diff } from "json-diff"
 import { Profiles } from "madwizard"
 import { Icons, Loading, Tooltip } from "@kui-shell/plugin-client-common"
 import {
@@ -53,13 +54,19 @@ type Props = {
   onSelectGuidebook?(guidebook: string): void
 }
 
-type State = {
+type Diff = {
+  /** Difference from last model */
+  profilesDiff: ReturnType<typeof diff>
+}
+
+type State = Partial<Diff> & {
   watcher: ProfileWatcher
   statusWatcher: ProfileStatusWatcher
   selectedProfile?: string
   profiles?: Profiles.Profile[]
   catastrophicError?: unknown
 
+  /** To help with re-rendering */
   updateCount: number
 }
 
@@ -132,8 +139,29 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
           }
         }
 
+        const before =
+          selectedProfile && curState.profiles ? curState.profiles.find((_) => _.name === selectedProfile) : undefined
+        const after = selectedProfile && curState.watcher.profiles.find((_) => _.name === selectedProfile)
+        const profilesDiff = before && after ? diff(before.choices, after.choices) : undefined
+
+        if (profilesDiff) {
+          setTimeout(
+            () =>
+              this.setState((curState) => {
+                if (curState.profilesDiff === profilesDiff) {
+                  return {
+                    profilesDiff: undefined,
+                  }
+                }
+                return null
+              }),
+            5000
+          )
+        }
+
         return {
           profiles,
+          profilesDiff,
           selectedProfile,
         }
       })
@@ -179,6 +207,7 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
           <ProfileCard
             profile={this.state.selectedProfile}
             profiles={this.state.profiles}
+            profilesDiff={this.state.profilesDiff}
             onSelectProfile={this._handleProfileSelection}
             onSelectGuidebook={this.props.onSelectGuidebook}
             profileReadiness={this.state.statusWatcher?.readiness}
@@ -190,17 +219,21 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
   }
 }
 
-type ProfileCardProps = Pick<Props, "onSelectGuidebook"> & {
-  profile: string
-  profiles: Profiles.Profile[]
-  onSelectProfile: (profile: string) => void
+type ProfileCardProps = Partial<Diff> &
+  Pick<Props, "onSelectGuidebook"> & {
+    profile: string
+    profiles: Profiles.Profile[]
+    onSelectProfile: (profile: string) => void
 
-  profileReadiness: string
-  profileStatus: ProfileStatusWatcher
-}
+    profileReadiness: string
+    profileStatus: ProfileStatusWatcher
+  }
 
 type ProfileCardState = {
   isOpen: boolean
+
+  /** Clear any "just changed" indicators after a brief delay */
+  // clearDiff?: ReturnType<typeof setTimeout>
 }
 
 class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState> {
@@ -326,17 +359,27 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     )
   }
 
-  private treeNode(meta: Metadata, value: string) {
+  private treeNode(id: string, meta: Metadata, value: string) {
+    const justChanged = this.props.profilesDiff && this.props.profilesDiff[id]
+    const title = (
+      <span>
+        {meta.title}
+        {justChanged && <JustChanged />}
+      </span>
+    )
+
     try {
       const form = JSON.parse(value) as Record<string, string>
       return {
-        title: meta.title,
+        id,
+        title,
         name: this.form(form),
         //children: Object.entries(form).map(([title, name]) => ({ title, name }))
       }
     } catch (err) {
       return {
-        title: meta.title,
+        id,
+        title,
         name: value,
       }
     }
@@ -393,7 +436,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
               }
               const { children } = groups[meta.group.title]
 
-              children.push(this.editable(title, this.treeNode(meta, value)))
+              children.push(this.editable(title, this.treeNode(title, meta, value)))
             }
           }
 
@@ -415,7 +458,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
   }
 
   private sort(data: TreeViewDataItem[]) {
-    data.sort((a, b) => (a.title || "").toString().localeCompare((b.title || "").toString()))
+    data.sort((a, b) => (a.id || a.title || "").toString().localeCompare((b.id || b.title || "").toString()))
 
     data.forEach((_) => {
       if (Array.isArray(_.children)) {
@@ -466,6 +509,26 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
         <Divider />
         <CardFooter>{this.footer()}</CardFooter>
       </Card>
+    )
+  }
+}
+
+/**
+ * A visual indicator that a tree node just changed. 1) Icon; 2)
+ * scroll it into view.
+ */
+class JustChanged extends React.PureComponent {
+  private readonly ref = React.createRef<HTMLSpanElement>()
+
+  public componentDidMount() {
+    this.ref.current?.scrollIntoView()
+  }
+
+  public render() {
+    return (
+      <span ref={this.ref} className="small-left-pad red-text">
+        <Icons icon="Info" />
+      </span>
     )
   }
 }

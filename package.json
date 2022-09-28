@@ -137,6 +137,7 @@
     "@kui-shell/webpack": "12.1.0-dev-20220926-145405",
     "@playwright/test": "^1.25.2",
     "@types/debug": "^4.1.7",
+    "@types/json-diff": "^0.9.0",
     "@types/needle": "^2.5.3",
     "@types/node": "18.7.18",
     "@types/react": "17.0.39",
