@@ -64,10 +64,10 @@
   .pf-c-tree-view {
     --pf-c-tree-view--PaddingTop: 0;
     --pf-c-tree-view--m-compact__node-container--PaddingTop: 1em;
-    --pf-c-tree-view--m-compact__node-container--nested--PaddingTop: 0.5em;
-    --pf-c-tree-view--m-compact__node-container--nested--PaddingBottom: 0.5em;
-    --pf-c-tree-view--m-compact__node-container--nested--PaddingRight: 1.5em;
-    --pf-c-tree-view--m-compact__node-container--nested--PaddingLeft: 1.5em;
+    --pf-c-tree-view--m-compact__node-container--nested--PaddingTop: 0.75rem;
+    --pf-c-tree-view--m-compact__node-container--nested--PaddingBottom: 0.75rem;
+    --pf-c-tree-view--m-compact__node-container--nested--PaddingRight: 1.5rem;
+    --pf-c-tree-view--m-compact__node-container--nested--PaddingLeft: 1.5rem;
   }
 
   .pf-c-tree-view__content {
