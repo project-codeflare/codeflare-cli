@@ -280,6 +280,14 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       title: "Resources",
       group: this.groups.Compute,
     },
+    ".*constraints/provider": {
+      title: "Cloud Provider",
+      group: this.groups.Compute,
+    },
+    ".*constraints/geo": {
+      title: "Geographic Constraint",
+      group: this.groups.Storage,
+    },
     ".*constraints/compute/workers": {
       title: "Resources",
       group: this.groups.Compute,
