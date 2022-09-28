@@ -305,7 +305,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       group: this.groups.Compute,
     },
     "aws/choose/profile": {
-      title: "AWS Profile",
+      title: "Credentials Profile",
       group: this.groups.Storage,
     },
     ".*constraints/workload/type": {
