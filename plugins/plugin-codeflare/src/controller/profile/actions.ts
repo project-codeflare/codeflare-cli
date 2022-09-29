@@ -32,11 +32,34 @@ export async function openWindow(title: string, initialTabTitle: string, argv: (
   )
 }
 
-export async function handleReset(selectedProfile: string | undefined) {
-  if (selectedProfile) {
-    const { Profiles } = await import("madwizard")
-    await Profiles.reset({}, selectedProfile)
-  }
+/** Delete the given profile */
+export async function handleDelete(selectedProfile: string) {
+  const { Profiles } = await import("madwizard")
+  await Profiles.remove({}, selectedProfile)
+}
+
+/** Create a new profile */
+export async function handleNew(selectedProfile: string, profiles: import("madwizard").Profiles.Profile[]) {
+  const { Profiles } = await import("madwizard")
+
+  const defaults = profiles
+    .map((_) => _.name.match(/default-?(\d+)?/))
+    .filter(Boolean)
+    .map((_) => (_ && _[1] ? parseInt(_[1], 10) : 0))
+  defaults.sort((a, b) => b - a)
+
+  const name = defaults.length === 0 ? "default" : `default-${defaults[0] + 1}`
+  await Profiles.clone({}, selectedProfile, name)
+  await Profiles.reset({}, name)
+  await Profiles.touch({}, name)
+
+  return name
+}
+
+/** Reset the choices of the given profile */
+export async function handleReset(selectedProfile: string) {
+  const { Profiles } = await import("madwizard")
+  await Profiles.reset({}, selectedProfile)
 }
 
 export function handleBoot(selectedProfile: string | undefined) {

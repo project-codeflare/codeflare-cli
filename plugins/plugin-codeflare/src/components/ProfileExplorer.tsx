@@ -44,7 +44,7 @@ import ProfileSelect from "./ProfileSelect"
 import ProfileWatcher from "../tray/watchers/profile/list"
 import ProfileStatusWatcher from "../tray/watchers/profile/status"
 import UpdateFunction from "../tray/update"
-import { handleReset } from "../controller/profile/actions"
+import { handleNew, handleDelete, handleReset } from "../controller/profile/actions"
 
 import "../../web/scss/components/Dashboard/Description.scss"
 import "../../web/scss/components/ProfileExplorer/_index.scss"
@@ -91,15 +91,36 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
     }))
   }
 
-  private readonly _handleProfileSelection = (selectedProfile: string) => {
-    this.setState({ selectedProfile })
+  /** If given `null`, then we will attempt to use the lastUsed profile */
+  private readonly _handleProfileSelection = (selectedProfile: string | null) => {
+    if (!selectedProfile && this.state.profiles) {
+      // last used, excluding the currently selected profile
+      const lastUsed = this.lastUsed(this.state.profiles.filter((_) => _.name !== this.state.selectedProfile))
+      if (lastUsed) {
+        selectedProfile = lastUsed.name
+      }
+    }
 
-    if (this.props.onSelectProfile) {
-      this.props.onSelectProfile(selectedProfile)
+    if (selectedProfile) {
+      this.setState({ selectedProfile })
+
+      if (this.props.onSelectProfile) {
+        this.props.onSelectProfile(selectedProfile)
+      }
     }
   }
 
   private updateDebouncer: null | ReturnType<typeof setTimeout> = null
+
+  private lastUsed(profiles: Profiles.Profile[]) {
+    return profiles.slice(1).reduce((lastUsed, profile) => {
+      if (lastUsed.lastUsedTime < profile.lastUsedTime) {
+        return profile
+      } else {
+        return lastUsed
+      }
+    }, profiles[0])
+  }
 
   private readonly profileWatcherUpdateFn = () => {
     if (this.updateDebouncer) {
@@ -122,13 +143,7 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
         let selectedProfile = curState.selectedProfile
         if (!curState || !curState.profiles || curState.profiles.length === 0) {
           // use the last-used profile by default
-          const newSelectedProfile = profiles.slice(1).reduce((lastUsed, profile) => {
-            if (lastUsed.lastUsedTime < profile.lastUsedTime) {
-              return profile
-            } else {
-              return lastUsed
-            }
-          }, profiles[0])
+          const newSelectedProfile = this.lastUsed(profiles)
 
           // also emit an initial profile selection event
           if (newSelectedProfile) {
@@ -223,7 +238,7 @@ type ProfileCardProps = Partial<Diff> &
   Pick<Props, "onSelectGuidebook"> & {
     profile: string
     profiles: Profiles.Profile[]
-    onSelectProfile: (profile: string) => void
+    onSelectProfile: (profile: string | null) => void
 
     profileReadiness: string
     profileStatus: ProfileStatusWatcher
@@ -231,9 +246,6 @@ type ProfileCardProps = Partial<Diff> &
 
 type ProfileCardState = {
   isOpen: boolean
-
-  /** Clear any "just changed" indicators after a brief delay */
-  // clearDiff?: ReturnType<typeof setTimeout>
 }
 
 class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState> {
@@ -243,7 +255,24 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       isOpen: false,
     }
   }
-  private readonly _handleReset = () => handleReset(this.props.profile)
+
+  /** Create new profile */
+  private readonly _handleNew = async () => {
+    if (this.props.profile) {
+      const newProfile = await handleNew(this.props.profile, this.props.profiles)
+      this.props.onSelectProfile(newProfile)
+    }
+  }
+
+  /** Delete selected profile */
+  private readonly _handleDelete = async () => {
+    if (this.props.profile) {
+      await handleDelete(this.props.profile)
+      this.props.onSelectProfile(null)
+    }
+  }
+
+  private readonly _handleReset = () => this.props.profile && handleReset(this.props.profile)
   // private readonly _handleBoot = () => handleBoot(this.props.profile)
   // private readonly _handleShutdown = () => handleShutdown(this.props.profile)
   private readonly _onToggle = () => this.setState({ isOpen: !this.state.isOpen })
@@ -454,7 +483,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       return <TreeView hasGuides defaultAllExpanded data={data} variant="compactNoBackground" />
     }
 
-    return "Internal Error"
+    return <Loading />
   }
 
   private sort(data: TreeViewDataItem[]) {
@@ -472,11 +501,24 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
   private footer() {
     return (
       <Flex>
-        <FlexItem flex={{ default: "flex_1" }}></FlexItem>
+        <FlexItem flex={{ default: "flex_1" }}>
+          <Tooltip content="Create a new profile">
+            <Button variant="control" className="codeflare--profile-explorer--new-btn" onClick={this._handleNew}>
+              <Icons icon="PlusSquare" />
+            </Button>
+          </Tooltip>
+        </FlexItem>
         <FlexItem>
-          <Button variant="link" isSmall className="codeflare--profile-explorer--reset-btn" onClick={this._handleReset}>
-            Reset
-          </Button>
+          <Tooltip content="Reset the choices in this profile">
+            <Button variant="link" className="codeflare--profile-explorer--reset-btn" onClick={this._handleReset}>
+              Reset
+            </Button>
+          </Tooltip>
+          <Tooltip content="Delete this profile">
+            <Button variant="link" className="codeflare--profile-explorer--delete-btn" onClick={this._handleDelete}>
+              <Icons icon="Trash" />
+            </Button>
+          </Tooltip>
         </FlexItem>
         {/*<FlexItem>
         <Button variant="link" isSmall className="codeflare--profile-explorer--boot-btn" onClick={this._handleBoot}>
