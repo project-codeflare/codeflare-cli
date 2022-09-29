@@ -15,3 +15,5 @@
  */
 
 /* Your exported API */
+
+export { TaskTerminal as WorkloadDesigner } from "./controller/terminal"
