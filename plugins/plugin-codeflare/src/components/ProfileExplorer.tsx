@@ -218,7 +218,7 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
       return <Loading />
     } else {
       return (
-        <div className="codeflare--profile-explorer flex-fill top-pad left-pad right-pad bottom-pad">
+        <div className="codeflare--profile-explorer flex-fill">
           <ProfileCard
             profile={this.state.selectedProfile}
             profiles={this.state.profiles}
@@ -548,7 +548,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
 
   public render() {
     return (
-      <Card className="top-pad left-pad right-pad bottom-pad" isSelectableRaised isSelected>
+      <Card>
         <CardHeader>
           <CardTitle>{this.title()}</CardTitle>
           <CardActions hasNoOffset>{this.actions()}</CardActions>

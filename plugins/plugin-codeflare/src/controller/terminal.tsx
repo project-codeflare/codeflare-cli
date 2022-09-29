@@ -55,7 +55,7 @@ type State = Partial<Pick<BaseProps, "cmdline" | "env">> & {
   selectedProfile?: string
 }
 
-class TaskTerminal extends React.PureComponent<Props, State> {
+export class TaskTerminal extends React.PureComponent<Props, State> {
   /** Allotment initial split sizes */
   private readonly sizes = [40, 60]
 
