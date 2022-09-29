@@ -62,11 +62,12 @@ export default class ProfileWatcher {
         return
       }
 
+      const profileObj = await Profiles.restore(this.madwizardOptions, basename(path)).then((_) => _.profile)
       const idx = this.profiles.findIndex((_) => _.name === profile)
       if (idx < 0) {
-        this._profiles.push(await Profiles.restore(this.madwizardOptions, basename(path)).then((_) => _.profile))
+        this._profiles.push(profileObj)
       } else {
-        this._profiles[idx] = await Profiles.restore(this.madwizardOptions, basename(path)).then((_) => _.profile)
+        this._profiles[idx] = profileObj
       }
       this.updateFn()
     } catch (err) {
