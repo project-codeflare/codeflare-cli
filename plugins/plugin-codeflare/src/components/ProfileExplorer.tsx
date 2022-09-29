@@ -389,7 +389,13 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
   }
 
   private treeNode(id: string, meta: Metadata, value: string) {
-    const justChanged = this.props.profilesDiff && this.props.profilesDiff[id]
+    // the `json-diff` npm has this behavior: for changed keys, the
+    // diff object will use that key (hence the `profilesDiff[id]`
+    // check); for added keys, the diff object will use a key
+    // `${id}__added`, and hence the second check
+    const justChanged =
+      this.props.profilesDiff && (this.props.profilesDiff[id] || this.props.profilesDiff[id + "__added"])
+
     const title = (
       <span>
         {meta.title}
