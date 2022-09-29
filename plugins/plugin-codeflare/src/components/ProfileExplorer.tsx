@@ -526,8 +526,8 @@ class JustChanged extends React.PureComponent {
 
   public render() {
     return (
-      <span ref={this.ref} className="small-left-pad red-text">
-        <Icons icon="Info" />
+      <span ref={this.ref} className="small-left-pad green-text">
+        <Icons icon="Checkmark" />
       </span>
     )
   }
