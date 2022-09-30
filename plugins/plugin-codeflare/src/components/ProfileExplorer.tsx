@@ -24,12 +24,12 @@ import {
   CardBody,
   CardHeader,
   CardTitle,
+  KebabToggle,
+  Dropdown,
+  DropdownItem,
+  DropdownSeparator,
   Title,
   Button,
-  Flex,
-  FlexItem,
-  CardFooter,
-  Divider,
   Select,
   SelectVariant,
   SelectOption,
@@ -251,6 +251,9 @@ type ProfileCardProps = Partial<Diff> &
 
 type ProfileCardState = {
   isOpen: boolean
+
+  /** Is the kebab action dropdown open? */
+  isKebabOpen?: boolean
 }
 
 class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState> {
@@ -294,7 +297,25 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     )
   }
 
+  /** Toggle kebab menu open/closed */
+  private readonly _onKebabToggle = () => this.setState((curState) => ({ isKebabOpen: !curState.isKebabOpen }))
+
   private actions() {
+    return (
+      <React.Fragment>
+        {this.title()}
+        <Dropdown
+          isOpen={this.state.isKebabOpen}
+          isPlain
+          position="right"
+          toggle={<KebabToggle onToggle={this._onKebabToggle} />}
+          dropdownItems={this.actionItems}
+        ></Dropdown>
+      </React.Fragment>
+    )
+  }
+
+  private actionsStatus() {
     const StatusTitle = ({ readiness }: { readiness: string | undefined }) => (
       <React.Fragment>
         <span>Status</span>
@@ -401,12 +422,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     const justChanged =
       this.props.profilesDiff && (this.props.profilesDiff[id] || this.props.profilesDiff[id + "__added"])
 
-    const title = (
-      <span>
-        {meta.title}
-        {justChanged && <JustChanged />}
-      </span>
-    )
+    const title = justChanged ? <JustChanged>{meta.title}</JustChanged> : meta.title
 
     try {
       const form = JSON.parse(value) as Record<string, string>
@@ -509,58 +525,51 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     return data
   }
 
-  private footer() {
-    return (
-      <Flex>
-        <FlexItem flex={{ default: "flex_1" }}>
-          <Tooltip content="Create a new profile">
-            <Button variant="control" className="codeflare--profile-explorer--new-btn" onClick={this._handleNew}>
-              <Icons icon="PlusSquare" />
-            </Button>
-          </Tooltip>
-        </FlexItem>
-        <FlexItem>
-          <Tooltip content="Reset the choices in this profile">
-            <Button variant="link" className="codeflare--profile-explorer--reset-btn" onClick={this._handleReset}>
-              <Icons icon="Clear" />
-            </Button>
-          </Tooltip>
-          <Tooltip content="Delete this profile">
-            <Button variant="link" className="codeflare--profile-explorer--delete-btn" onClick={this._handleDelete}>
-              <Icons icon="Trash" />
-            </Button>
-          </Tooltip>
-        </FlexItem>
-        {/*<FlexItem>
-        <Button variant="link" isSmall className="codeflare--profile-explorer--boot-btn" onClick={this._handleBoot}>
-            Boot
-          </Button>
-          <Button
-            variant="link"
-            isSmall
-            className="codeflare--profile-explorer--shutdown-btn"
-            onClick={this._handleShutdown}
-          >
-            Shutdown
-          </Button>
-        </FlexItem>
-        <FlexItem flex={{ default: "flex_1" }}>
-          <DashboardSelect selectedProfile={this.props.profile} />
-          </FlexItem>*/}
-      </Flex>
-    )
-  }
+  private readonly actionItems = [
+    <DropdownItem
+      key="new"
+      component="button"
+      description="Create a new profile"
+      icon={<Icons icon="PlusSquare" />}
+      className="codeflare--profile-explorer--new-btn"
+      onClick={this._handleNew}
+    >
+      New
+    </DropdownItem>,
+
+    <DropdownSeparator key="separator" />,
+
+    <DropdownItem
+      key="clear"
+      component="button"
+      description="Reset the choices in this profile"
+      icon={<Icons icon="Clear" />}
+      className="codeflare--profile-explorer--reset-btn"
+      onClick={this._handleReset}
+    >
+      Clear
+    </DropdownItem>,
+
+    <DropdownItem
+      key="delete"
+      component="button"
+      description="Delete this profile"
+      icon={<Icons icon="Trash" />}
+      className="codeflare--profile-explorer--delete-btn"
+      onClick={this._handleDelete}
+    >
+      Delete
+    </DropdownItem>,
+  ]
 
   public render() {
     return (
-      <Card>
+      <Card isLarge>
         <CardHeader>
-          <CardTitle>{this.title()}</CardTitle>
+          <CardTitle>Specification</CardTitle>
           <CardActions hasNoOffset>{this.actions()}</CardActions>
         </CardHeader>
         <CardBody>{this.body()}</CardBody>
-        <Divider />
-        <CardFooter>{this.footer()}</CardFooter>
       </Card>
     )
   }
@@ -574,13 +583,18 @@ class JustChanged extends React.PureComponent {
   private readonly ref = React.createRef<HTMLSpanElement>()
 
   public componentDidMount() {
-    this.ref.current?.scrollIntoView()
+    if (this.ref.current && (this.ref.current as any)["scrollIntoViewIfNeeded"]) {
+      (this.ref.current as any)["scrollIntoViewIfNeeded"]()
+    } else {
+      this.ref.current?.scrollIntoView()
+    }
   }
 
   public render() {
     return (
-      <span ref={this.ref} className="small-left-pad green-text">
-        <Icons icon="Checkmark" />
+      <span ref={this.ref}>
+        <span className="underline">{this.props.children}</span>
+        <Icons icon="Checkmark" className="small-left-pad green-text" />
       </span>
     )
   }
