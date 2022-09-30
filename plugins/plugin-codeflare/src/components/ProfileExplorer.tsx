@@ -50,7 +50,7 @@ import "../../web/scss/components/Dashboard/Description.scss"
 import "../../web/scss/components/ProfileExplorer/_index.scss"
 
 type Props = {
-  onSelectProfile?(profile: string): void
+  onSelectProfile?(profile: string, profiles?: import("madwizard").Profiles.Profile[]): void
   onSelectGuidebook?(guidebook: string): void
 }
 
@@ -105,7 +105,7 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
       this.setState({ selectedProfile })
 
       if (this.props.onSelectProfile) {
-        this.props.onSelectProfile(selectedProfile)
+        this.props.onSelectProfile(selectedProfile, this.state.profiles)
       }
     }
   }
@@ -172,6 +172,11 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
               }),
             5000
           )
+        }
+
+        const profForEvent = selectedProfile || curState.selectedProfile
+        if (profForEvent && this.props.onSelectProfile) {
+          this.props.onSelectProfile(profForEvent, profiles)
         }
 
         return {
@@ -517,7 +522,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
         <FlexItem>
           <Tooltip content="Reset the choices in this profile">
             <Button variant="link" className="codeflare--profile-explorer--reset-btn" onClick={this._handleReset}>
-              Reset
+              <Icons icon="Clear" />
             </Button>
           </Tooltip>
           <Tooltip content="Delete this profile">
