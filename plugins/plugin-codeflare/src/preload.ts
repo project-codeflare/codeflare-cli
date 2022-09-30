@@ -24,7 +24,11 @@ import { Capabilities } from "@kui-shell/core"
  */
 export default async function codeflarePreload() {
   if (!Capabilities.isHeadless()) {
-    const { ipcRenderer } = await import("electron")
-    import("./tray/renderer").then((_) => _.default(ipcRenderer))
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { tray } = require("@kui-shell/client/config.d/client.json")
+    if (tray !== false) {
+      const { ipcRenderer } = await import("electron")
+      import("./tray/renderer").then((_) => _.default(ipcRenderer))
+    }
   }
 }
