@@ -36,8 +36,8 @@ body[kui-theme-style] {
   @include ProfileExplorer {
     /** Override kui garbage */
     .pf-c-dropdown__menu {
-      background: none;
       max-height: unset;
+      background: var(--pf-c-dropdown__menu--BackgroundColor);
     }
     .pf-c-dropdown__menu .pf-c-dropdown__menu-item:hover {
       background-color: var(--pf-c-dropdown__menu-item--hover--BackgroundColor);
