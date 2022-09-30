@@ -257,7 +257,7 @@ export default class XTerm extends React.PureComponent<Props, State> {
       const standIn = document.querySelector("body .repl")
       if (standIn) {
         const fontTheme = getComputedStyle(standIn)
-        xterm.options.fontSize = parseInt(fontTheme.fontSize.replace(/px$/, ""), 10)
+        xterm.options.fontSize = (parseInt(fontTheme.fontSize.replace(/px$/, ""), 10) * 16) / 14
         // terminal.setOption('lineHeight', )//parseInt(fontTheme.lineHeight.replace(/px$/, ''), 10))
 
         // FIXME. not tied to theme
