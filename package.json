@@ -169,7 +169,6 @@
     "@kui-shell/plugin-kubectl": "12.1.0-dev-20220926-145405",
     "@kui-shell/plugin-madwizard": "file:./plugins/plugin-madwizard",
     "@kui-shell/plugin-patternfly4-themes": "12.1.0-dev-20220926-145405",
-    "@kui-shell/plugin-proxy-support": "12.1.0-dev-20220926-145405",
-    "@kui-shell/plugin-s3": "12.1.0-dev-20220926-145405"
+    "@kui-shell/plugin-proxy-support": "12.1.0-dev-20220926-145405"
   }
 }
