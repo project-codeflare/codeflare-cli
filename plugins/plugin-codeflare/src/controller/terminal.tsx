@@ -43,7 +43,10 @@ export async function shell(args: Arguments) {
   }
 }
 
-type Props = Pick<BaseProps, "tab" | "repl">
+type Props = Pick<BaseProps, "tab" | "repl"> & {
+  onSelectProfile?(profile: string, profiles?: import("madwizard").Profiles.Profile[]): void
+}
+
 type State = Partial<Pick<BaseProps, "cmdline" | "env">> & {
   /** Internal error in rendering */
   error?: boolean
@@ -93,7 +96,13 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
   }
 
   /** Event handler for switching to a different profile */
-  private readonly onSelectProfile = (selectedProfile: string) => this.setState({ selectedProfile })
+  private readonly onSelectProfile = (selectedProfile: string, profiles?: import("madwizard").Profiles.Profile[]) => {
+    this.setState({ selectedProfile })
+
+    if (this.props.onSelectProfile) {
+      this.props.onSelectProfile(selectedProfile, profiles)
+    }
+  }
 
   /** Event handler for switching to a different guidebook */
   private readonly onSelectGuidebook = (guidebook: string) => this.init(guidebook)
