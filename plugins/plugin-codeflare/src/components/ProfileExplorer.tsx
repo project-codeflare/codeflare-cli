@@ -414,6 +414,15 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     )
   }
 
+  private readonly leafStyle = { color: "var(--color-base04)" }
+  private leafFor(value: string) {
+    return <span style={this.leafStyle}>{value}</span>
+  }
+
+  private descriptionFor(desc: string) {
+    return <span className="italic">{desc}</span>
+  }
+
   private treeNode(id: string, meta: Metadata, value: string) {
     // the `json-diff` npm has this behavior: for changed keys, the
     // diff object will use that key (hence the `profilesDiff[id]`
@@ -429,14 +438,15 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       return {
         id,
         title,
-        name: this.form(form),
-        //children: Object.entries(form).map(([title, name]) => ({ title, name }))
+        //name: this.form(form),
+        name: "",
+        children: Object.entries(form).map(([title, name]) => ({ title, name: this.leafFor(name) })),
       }
     } catch (err) {
       return {
         id,
         title,
-        name: value,
+        name: this.leafFor(value),
       }
     }
   }
@@ -486,7 +496,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
               if (!groups[meta.group.title]) {
                 groups[meta.group.title] = {
                   title: meta.group.title,
-                  name: meta.group.name,
+                  name: meta.group.name && this.descriptionFor(meta.group.name),
                   children: [],
                 }
               }
