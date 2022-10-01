@@ -26,9 +26,20 @@ import ProfileExplorer from "../components/ProfileExplorer"
 import SelectedProfileTerminal from "../components/SelectedProfileTerminal"
 import Terminal, { Props as BaseProps } from "../components/RestartableTerminal"
 
+import "../../web/scss/components/Allotment/_index.scss"
 import "allotment/dist/style.css"
 
 // codeflare -p ${SELECTED_PROFILE}
+
+class AllotmentFillPane extends React.PureComponent<{ minSize?: number }> {
+  public render() {
+    return (
+      <Allotment.Pane className="flex-fill flex-layout flex-align-stretch" minSize={this.props.minSize}>
+        {this.props.children}
+      </Allotment.Pane>
+    )
+  }
+}
 
 /**
  * This is a command handler that opens up a plain terminal that shows a login session using the user's $SHELL.
@@ -44,7 +55,11 @@ export async function shell(args: Arguments) {
 }
 
 type Props = Pick<BaseProps, "tab" | "repl"> & {
+  /** Callback when user selects a profile */
   onSelectProfile?(profile: string, profiles?: import("madwizard").Profiles.Profile[]): void
+
+  /** Content to place below the terminal */
+  belowTerminal?: React.ReactNode
 }
 
 type State = Partial<Pick<BaseProps, "cmdline" | "env">> & {
@@ -59,8 +74,12 @@ type State = Partial<Pick<BaseProps, "cmdline" | "env">> & {
 }
 
 export class TaskTerminal extends React.PureComponent<Props, State> {
-  /** Allotment initial split sizes */
-  private readonly sizes = [40, 60]
+  /** Allotment initial split ... allotments */
+  private readonly splits = {
+    horizontal: [35, 65],
+    vertical1: [100], // no `this.props.belowTerminal`
+    vertical2: [50, 50], // yes
+  }
 
   private readonly tasks = [{ label: "Run a Job", argv: ["codeflare", "-p", "${SELECTED_PROFILE}"] }]
 
@@ -122,23 +141,32 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
     }
 
     return (
-      <Allotment defaultSizes={this.sizes} snap>
-        <Allotment.Pane className="flex-fill flex-layout flex-align-stretch" minSize={400}>
+      <Allotment defaultSizes={this.splits.horizontal} snap>
+        <AllotmentFillPane minSize={400}>
           <ProfileExplorer onSelectProfile={this.onSelectProfile} onSelectGuidebook={this.onSelectGuidebook} />
-        </Allotment.Pane>
-        <Allotment.Pane className="flex-fill flex-layout flex-align-stretch">
+        </AllotmentFillPane>
+        <AllotmentFillPane>
           {!this.state.selectedProfile ? (
             <Loading />
           ) : (
-            <SelectedProfileTerminal
-              key={this.state.cmdline + "-" + this.state.selectedProfile}
-              cmdline={this.state.cmdline}
-              env={this.state.env}
-              {...this.props}
-              selectedProfile={this.state.selectedProfile}
-            />
+            <Allotment
+              vertical
+              defaultSizes={!this.props.belowTerminal ? this.splits.vertical1 : this.splits.vertical2}
+              snap
+            >
+              <AllotmentFillPane>
+                <SelectedProfileTerminal
+                  key={this.state.cmdline + "-" + this.state.selectedProfile}
+                  cmdline={this.state.cmdline}
+                  env={this.state.env}
+                  {...this.props}
+                  selectedProfile={this.state.selectedProfile}
+                />
+              </AllotmentFillPane>
+              {this.props.belowTerminal && <AllotmentFillPane>{this.props.belowTerminal}</AllotmentFillPane>}
+            </Allotment>
           )}
-        </Allotment.Pane>
+        </AllotmentFillPane>
       </Allotment>
     )
   }
