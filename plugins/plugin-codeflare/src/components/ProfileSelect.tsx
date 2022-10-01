@@ -18,7 +18,6 @@ import React from "react"
 import prettyMillis from "pretty-ms"
 import { Profiles } from "madwizard"
 import { Select, SelectOption, SelectOptionObject, SelectVariant } from "@patternfly/react-core"
-import { UserIcon } from "@patternfly/react-icons"
 
 type Props = {
   selectedProfile?: string
@@ -82,7 +81,6 @@ export default class ProfileSelect extends React.PureComponent<Props, State> {
   public render() {
     return (
       <Select
-        toggleIcon={<UserIcon />}
         variant={SelectVariant.single}
         placeholderText="Select a profile"
         aria-label="Profiles selector with description"
