@@ -262,7 +262,7 @@ export default class XTerm extends React.PureComponent<Props, State> {
 
         // FIXME. not tied to theme
         xterm.options.fontWeight = 400
-        xterm.options.fontWeightBold = 600
+        xterm.options.fontWeightBold = 700
       }
     } catch (err) {
       console.error("Error setting terminal font size", err)
