@@ -90,16 +90,8 @@ body[kui-theme-style] {
     color: var(--color-text-02);
   }
 
-  .pf-c-card {
-    --pf-c-card--BackgroundColor: var(--color-base00);
-  }
-
-  .pf-c-select {
-    --pf-c-select__toggle--BackgroundColor: var(--color-base00);
-
-    .pf-c-select__toggle-text {
-      color: var(--color-text-01) !important;
-    }
+  .pf-c-tree-view__node-toggle {
+    --pf-c-tree-view__node-toggle--Color: var(--color-text-01);
   }
 
   .pf-c-tree-view__list-item {
