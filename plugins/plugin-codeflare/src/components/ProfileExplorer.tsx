@@ -576,7 +576,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     return (
       <Card isLarge>
         <CardHeader>
-          <CardTitle>Specification</CardTitle>
+          <CardTitle>Draft Specification</CardTitle>
           <CardActions hasNoOffset>{this.actions()}</CardActions>
         </CardHeader>
         <CardBody>{this.body()}</CardBody>
