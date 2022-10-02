@@ -439,8 +439,10 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
         id,
         title,
         //name: this.form(form),
-        name: "",
-        children: Object.entries(form).map(([title, name]) => ({ title, name: this.leafFor(name) })),
+        name: Array.isArray(form) ? form.join(" ║ ") : "",
+        children: Array.isArray(form)
+          ? undefined
+          : Object.entries(form).map(([title, name]) => ({ title, name: this.leafFor(name) })),
       }
     } catch (err) {
       return {
