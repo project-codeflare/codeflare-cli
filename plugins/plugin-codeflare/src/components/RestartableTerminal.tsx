@@ -34,11 +34,15 @@ function watch(stream: PassThrough, job: Job) {
   }
 }
 
-export type Props = {
+export type Props = Pick<Arguments, "tab" | "REPL"> & {
+  /** Execute this command line */
   cmdline: string
+
+  /** Execute the given `cmdline` with this set of environment variables */
   env: Record<string, string>
-  tab: Arguments["tab"]
-  repl: Arguments["REPL"]
+
+  /** Callback when the underlying PTY exits */
+  onExit?(code: number): void
 }
 
 type State = {
@@ -65,15 +69,19 @@ export default class RestartableTerminal extends React.PureComponent<Props, Stat
       // component, which expects something stream-like
       const passthrough = new PassThrough()
 
-      await this.props.repl.qexec(this.props.cmdline, undefined, undefined, {
+      await this.props.REPL.qexec(this.props.cmdline, undefined, undefined, {
         tab: this.props.tab,
         env: this.props.env,
         quiet: true, // strange i know, but this forces PTY execution
-        onExit: async () => {
+        onExit: async (code: number) => {
           if (this.mounted) {
-            // restart, if still mounted
-            await new Promise((resolve) => setTimeout(resolve, 50000))
-            this.initPty()
+            if (this.props.onExit) {
+              this.props.onExit(code)
+            } else {
+              // restart, if still mounted
+              await new Promise((resolve) => setTimeout(resolve, 60 * 1000))
+              this.initPty()
+            }
           }
         },
         onInit: () => (_) => {

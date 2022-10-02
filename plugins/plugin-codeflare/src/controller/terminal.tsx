@@ -18,7 +18,7 @@ import React from "react"
 import { Allotment } from "allotment"
 import { Loading } from "@kui-shell/plugin-client-common"
 import { Arguments, encodeComponent } from "@kui-shell/core"
-import { defaultGuidebook } from "@kui-shell/client/config.d/client.json"
+import { defaultGuidebook as defaultGuidebookFromClient } from "@kui-shell/client/config.d/client.json"
 
 import respawn from "./respawn"
 
@@ -50,11 +50,17 @@ export async function shell(args: Arguments) {
   const cmdline = argv.map((_) => encodeComponent(_)).join(" ")
 
   return {
-    react: <Terminal cmdline={cmdline} env={env} repl={args.REPL} tab={args.tab} />,
+    react: <Terminal cmdline={cmdline} env={env} REPL={args.REPL} tab={args.tab} />,
   }
 }
 
-type Props = Pick<BaseProps, "tab" | "repl"> & {
+export type Props = Pick<BaseProps, "tab" | "REPL" | "onExit"> & {
+  /** Default guidebook (if not given, we will take the value from the client definition) */
+  defaultGuidebook?: string
+
+  /** Run guidebook in non-interactive mode? */
+  defaultNoninteractive?: boolean
+
   /** Callback when user selects a profile */
   onSelectProfile?(profile: string, profiles?: import("madwizard").Profiles.Profile[]): void
 
@@ -63,11 +69,20 @@ type Props = Pick<BaseProps, "tab" | "repl"> & {
 }
 
 type State = Partial<Pick<BaseProps, "cmdline" | "env">> & {
+  /** Number of times we have called this.init() */
+  initCount: number
+
   /** Internal error in rendering */
   error?: boolean
 
   /** Use this guidebook in the terminal execution */
   guidebook?: string
+
+  /** Run guidebook in non-interactive mode? */
+  noninteractive?: boolean
+
+  /** Interactive only for the given guidebook? */
+  ifor?: boolean
 
   /** Use this profile in the terminal execution */
   selectedProfile?: string
@@ -86,31 +101,41 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
   public constructor(props: Props) {
     super(props)
 
+    this.state = { initCount: 0, guidebook: defaultGuidebookFromClient }
     this.init()
-    this.state = {}
   }
 
-  private async init(guidebook?: string) {
+  /**
+   * Initialize for a new guidebook execution. Which guidebook depends
+   * on: if as given, then as given in props, then as given in
+   * client.
+   */
+  private async init() {
+    const guidebook = this.state.guidebook
+
     try {
       // respawn, meaning launch it with codeflare
       const { argv, env } = await respawn(this.tasks[0].argv)
       const cmdline = [
         ...argv.map((_) => encodeComponent(_)),
-        guidebook || defaultGuidebook,
-        ...(guidebook ? ["--ifor", guidebook] : []),
+        guidebook,
+        ...(this.state.noninteractive ? ["--y"] : []),
+        ...(this.state.ifor ? ["--ifor", guidebook] : []),
       ]
         .filter(Boolean)
         .join(" ")
 
-      this.setState({
+      this.setState((curState) => ({
         cmdline,
+        initCount: curState.initCount + 1,
         env: Object.assign({}, env, { MWCLEAR_INITIAL: "true" }),
-      })
+      }))
     } catch (error) {
       console.error("Error initializing command line", error)
-      this.setState({
+      this.setState((curState) => ({
         error: true,
-      })
+        initCount: curState.initCount + 1,
+      }))
     }
   }
 
@@ -124,13 +149,32 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
   }
 
   /** Event handler for switching to a different guidebook */
-  private readonly onSelectGuidebook = (guidebook: string) => this.init(guidebook)
+  private readonly onSelectGuidebook = (guidebook: string) =>
+    this.setState({ guidebook, ifor: true, noninteractive: false })
+
+  public static getDerivedStateFromProps(props: Props, state: State) {
+    if (props.defaultGuidebook && state.guidebook !== props.defaultGuidebook) {
+      return {
+        ifor: false,
+        guidebook: props.defaultGuidebook,
+        noninteractive: props.defaultNoninteractive,
+      }
+    }
+
+    return
+  }
 
   public static getDerivedStateFromError() {
     return { error: true }
   }
   public componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error("catastrophic error", error, errorInfo)
+  }
+
+  public componentDidUpdate(prevProps: Props, prevState: State) {
+    if (prevState.guidebook !== this.state.guidebook || prevState.ifor !== this.state.ifor) {
+      this.init()
+    }
   }
 
   public render() {
@@ -156,7 +200,7 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
             >
               <AllotmentFillPane>
                 <SelectedProfileTerminal
-                  key={this.state.cmdline + "-" + this.state.selectedProfile}
+                  key={this.state.initCount + "_" + this.state.cmdline + "-" + this.state.selectedProfile}
                   cmdline={this.state.cmdline}
                   env={this.state.env}
                   {...this.props}
@@ -176,6 +220,6 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
  * This is a command handler that opens up a terminal to run a selected profile-oriented task */
 export function task(args: Arguments) {
   return {
-    react: <TaskTerminal repl={args.REPL} tab={args.tab} />,
+    react: <TaskTerminal REPL={args.REPL} tab={args.tab} />,
   }
 }
