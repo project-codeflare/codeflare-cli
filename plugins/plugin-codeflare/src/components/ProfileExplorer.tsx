@@ -402,6 +402,10 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       title: "Workload Type",
       group: this.groups.Application,
     },
+    ".*constraints/workload/checkpointable": {
+      title: "Checkpointable?",
+      group: this.groups.Application,
+    },
   }
 
   private form(form: Record<string, string>) {
