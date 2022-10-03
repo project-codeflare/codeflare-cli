@@ -16,7 +16,6 @@
 
 import React from "react"
 import { diff } from "json-diff"
-import { Profiles } from "madwizard"
 import { Icons, Loading, Tooltip } from "@kui-shell/plugin-client-common"
 import {
   Card,
@@ -46,11 +45,12 @@ import ProfileStatusWatcher from "../tray/watchers/profile/status"
 import UpdateFunction from "../tray/update"
 import { handleNew, handleDelete, handleReset } from "../controller/profile/actions"
 
-import "../../web/scss/components/Dashboard/Description.scss"
 import "../../web/scss/components/ProfileExplorer/_index.scss"
 
+type Profile = import("madwizard").Profiles.Profile[]
+
 type Props = {
-  onSelectProfile?(profile: string, profiles?: import("madwizard").Profiles.Profile[]): void
+  onSelectProfile?(profile: string, profiles?: Profile): void
   onSelectGuidebook?(guidebook: string): void
 }
 
@@ -63,7 +63,7 @@ type State = Partial<Diff> & {
   watcher: ProfileWatcher
   statusWatcher: ProfileStatusWatcher
   selectedProfile?: string
-  profiles?: Profiles.Profile[]
+  profiles?: Profile
   catastrophicError?: unknown
 
   /** To help with re-rendering */
@@ -112,7 +112,7 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
 
   private updateDebouncer: null | ReturnType<typeof setTimeout> = null
 
-  private lastUsed(profiles: Profiles.Profile[]) {
+  private lastUsed(profiles: Profile) {
     return profiles.slice(1).reduce((lastUsed, profile) => {
       if (lastUsed.lastUsedTime < profile.lastUsedTime) {
         return profile
@@ -190,6 +190,8 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
 
   private async init() {
     try {
+      const { Profiles } = await import("madwizard")
+      Profiles.createIfNeeded()
       const watcher = await new ProfileWatcher(
         this.profileWatcherUpdateFn,
         await Profiles.profilesPath({}, true)
@@ -242,7 +244,7 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
 type ProfileCardProps = Partial<Diff> &
   Pick<Props, "onSelectGuidebook"> & {
     profile: string
-    profiles: Profiles.Profile[]
+    profiles: Profile
     onSelectProfile: (profile: string | null) => void
 
     profileReadiness: string
