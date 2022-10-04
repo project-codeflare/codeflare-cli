@@ -61,6 +61,9 @@ export type Props = Pick<BaseProps, "tab" | "REPL" | "onExit"> & {
   /** Run guidebook in non-interactive mode? */
   defaultNoninteractive?: boolean
 
+  /** Any extra env vars to add to the guidebook execution. These will be pre-joined with the default env. */
+  extraEnv?: BaseProps["env"]
+
   /** Callback when user selects a profile */
   onSelectProfile?(profile: string, profiles?: import("madwizard").Profiles.Profile[]): void
 
@@ -128,7 +131,7 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
       this.setState((curState) => ({
         cmdline,
         initCount: curState.initCount + 1,
-        env: Object.assign({}, env, { MWCLEAR_INITIAL: "true" }),
+        env: Object.assign({}, env, { MWCLEAR_INITIAL: "true" }, this.props.extraEnv),
       }))
     } catch (error) {
       console.error("Error initializing command line", error)
