@@ -156,13 +156,15 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
     this.setState({ guidebook, ifor: true, noninteractive: false })
 
   public static getDerivedStateFromProps(props: Props, state: State) {
-    if (
-      props.defaultGuidebook &&
-      (state.guidebook !== props.defaultGuidebook || props.defaultNoninteractive !== state.noninteractive)
-    ) {
+    if (props.defaultGuidebook && state.guidebook !== props.defaultGuidebook) {
       return {
         ifor: false,
         guidebook: props.defaultGuidebook,
+        noninteractive: props.defaultNoninteractive,
+      }
+    } else if (props.defaultNoninteractive !== state.noninteractive) {
+      return {
+        ifor: false,
         noninteractive: props.defaultNoninteractive,
       }
     }
