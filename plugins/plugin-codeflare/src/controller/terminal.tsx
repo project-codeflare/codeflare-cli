@@ -54,7 +54,7 @@ export async function shell(args: Arguments) {
   }
 }
 
-export type Props = Pick<BaseProps, "tab" | "REPL" | "onExit"> & {
+export type Props = Pick<BaseProps, "tab" | "REPL" | "onExit" | "searchable"> & {
   /** Default guidebook (if not given, we will take the value from the client definition) */
   defaultGuidebook?: string
 
@@ -96,7 +96,7 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
   private readonly splits = {
     horizontal: [35, 65],
     vertical1: [100], // no `this.props.belowTerminal`
-    vertical2: [50, 50], // yes
+    vertical2: [40, 60], // yes
   }
 
   private readonly tasks = [{ label: "Run a Job", argv: ["codeflare", "-p", "${SELECTED_PROFILE}"] }]

@@ -49,7 +49,12 @@ type ClassName = {
   className?: string
 }
 
-interface Props extends ClassName {
+export type TerminalOptions = ClassName & {
+  /** Show search ui? [default: true] */
+  searchable?: boolean
+}
+
+type Props = TerminalOptions & {
   /** If given, the initial terminal output to render */
   initialContent?: string
 
@@ -257,7 +262,7 @@ export default class XTerm extends React.PureComponent<Props, State> {
       const standIn = document.querySelector("body .repl")
       if (standIn) {
         const fontTheme = getComputedStyle(standIn)
-        xterm.options.fontSize = (parseInt(fontTheme.fontSize.replace(/px$/, ""), 10) * 16) / 14
+        xterm.options.fontSize = parseInt(fontTheme.fontSize.replace(/px$/, ""), 10)
         // terminal.setOption('lineHeight', )//parseInt(fontTheme.lineHeight.replace(/px$/, ''), 10))
 
         // FIXME. not tied to theme
@@ -342,7 +347,7 @@ export default class XTerm extends React.PureComponent<Props, State> {
       <Toolbar className="codeflare--toolbar">
         <ToolbarContent className="flex-fill">
           <ToolbarItem variant="search-filter" className="flex-fill">
-            {this.searchInput()}
+            {this.props.searchable !== false && this.searchInput()}
           </ToolbarItem>
         </ToolbarContent>
       </Toolbar>
