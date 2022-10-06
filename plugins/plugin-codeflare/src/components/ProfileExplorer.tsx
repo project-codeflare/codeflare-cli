@@ -510,6 +510,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
             if (meta) {
               if (!groups[meta.group.title]) {
                 groups[meta.group.title] = {
+                  id: meta.group.title,
                   title: meta.group.title,
                   name: meta.group.name && this.descriptionFor(meta.group.name),
                   children: [],
