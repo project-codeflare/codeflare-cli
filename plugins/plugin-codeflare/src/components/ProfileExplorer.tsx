@@ -344,7 +344,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
   private readonly groups: Record<string, Group> = {
     Application: {
       title: "Application",
-      name: "Properties of what will be run against this computer",
+      name: "Properties of your workload",
     },
     Compute: {
       title: "Compute",
