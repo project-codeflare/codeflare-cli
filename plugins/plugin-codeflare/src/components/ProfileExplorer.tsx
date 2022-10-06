@@ -18,24 +18,23 @@ import React from "react"
 import { diff } from "json-diff"
 import { Icons, Loading, Tooltip } from "@kui-shell/plugin-client-common"
 import {
+  Button,
   Card,
   CardActions,
   CardBody,
   CardHeader,
   CardTitle,
-  KebabToggle,
+  Chip,
+  ChipGroup,
   Dropdown,
   DropdownItem,
   DropdownSeparator,
-  Title,
-  Button,
+  KebabToggle,
   Select,
-  SelectVariant,
   SelectOption,
+  Title,
   TreeView,
   TreeViewDataItem,
-  Chip,
-  ChipGroup,
 } from "@patternfly/react-core"
 
 import ProfileSelect from "./ProfileSelect"
@@ -329,7 +328,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     return (
       <Select
         className="codeflare--profile-explorer--select-status"
-        variant={SelectVariant.single}
+        variant="single"
         placeholderText={<StatusTitle readiness={this.props.profileStatus?.readiness} />}
         label="Status select"
         onToggle={this._onToggle}
@@ -408,12 +407,20 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     },
   }
 
-  private form(form: Record<string, string>) {
+  /** Present a form using <Chip/> components */
+  private chips(form: Record<string, string>) {
     return (
       <ChipGroup numChips={10}>
         {Object.entries(form).map(([title, name]) => (
           <Chip key={title} isReadOnly textMaxWidth="25ch">
-            <span className="slightly-deemphasize">{title}</span> <span className="semi-bold color-base0D">{name}</span>
+            <span className="slightly-deemphasize">
+              {title
+                .replace(/^Number of /, "")
+                .replace(/(GPU|CPU)s/, "$1")
+                .replace(/ per Worker$/, "")
+                .replace(/Memory/, "Mem")}
+            </span>{" "}
+            <span className="semi-bold color-base0D">{name}</span>
           </Chip>
         ))}
       </ChipGroup>
@@ -444,11 +451,11 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       return {
         id,
         title,
-        //name: this.form(form),
-        name: Array.isArray(form) ? form.join(" ║ ") : "",
-        children: Array.isArray(form)
+        // name: this.form(form),
+        name: Array.isArray(form) ? form.join(" ║ ") : this.chips(form),
+        /*children: Array.isArray(form)
           ? undefined
-          : Object.entries(form).map(([title, name]) => ({ title, name: this.leafFor(name) })),
+          : Object.entries(form).map(([title, name]) => ({ title, name: this.leafFor(name) })),*/
       }
     } catch (err) {
       return {
