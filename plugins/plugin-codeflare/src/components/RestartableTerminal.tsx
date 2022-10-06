@@ -19,7 +19,7 @@ import { PassThrough } from "stream"
 import { Loading } from "@kui-shell/plugin-client-common"
 import { Arguments, Job, isResizable } from "@kui-shell/core"
 
-import Terminal from "./Terminal"
+import Terminal, { TerminalOptions } from "./Terminal"
 
 /**
  * This is our impl of the `watch` property that our Terminal
@@ -34,16 +34,17 @@ function watch(stream: PassThrough, job: Job) {
   }
 }
 
-export type Props = Pick<Arguments, "tab" | "REPL"> & {
-  /** Execute this command line */
-  cmdline: string
+export type Props = Pick<Arguments, "tab" | "REPL"> &
+  TerminalOptions & {
+    /** Execute this command line */
+    cmdline: string
 
-  /** Execute the given `cmdline` with this set of environment variables */
-  env: Record<string, string>
+    /** Execute the given `cmdline` with this set of environment variables */
+    env: Record<string, string>
 
-  /** Callback when the underlying PTY exits */
-  onExit?(code: number): void
-}
+    /** Callback when the underlying PTY exits */
+    onExit?(code: number): void
+  }
 
 type State = {
   startCount?: number
@@ -134,7 +135,7 @@ export default class RestartableTerminal extends React.PureComponent<Props, Stat
           className="kui--inverted-color-context flex-fill flex-layout flex-align-stretch"
           style={{ backgroundColor: "var(--color-sidecar-background-02)" }}
         >
-          <Terminal watch={watch} key={key} />
+          <Terminal watch={watch} key={key} searchable={this.props.searchable} />
         </div>
       )
     }
