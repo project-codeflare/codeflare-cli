@@ -30,8 +30,8 @@ import {
   DropdownItem,
   DropdownSeparator,
   KebabToggle,
-  Select,
-  SelectOption,
+  // Select,
+  // SelectOption,
   Title,
   TreeView,
   TreeViewDataItem,
@@ -40,8 +40,8 @@ import {
 import ProfileSelect from "./ProfileSelect"
 // import DashboardSelect from "./DashboardSelect"
 import ProfileWatcher from "../tray/watchers/profile/list"
-import ProfileStatusWatcher from "../tray/watchers/profile/status"
-import UpdateFunction from "../tray/update"
+// import ProfileStatusWatcher from "../tray/watchers/profile/status"
+// import UpdateFunction from "../tray/update"
 import { handleNew, handleDelete, handleReset } from "../controller/profile/actions"
 
 import "../../web/scss/components/ProfileExplorer/_index.scss"
@@ -60,7 +60,7 @@ type Diff = {
 
 type State = Partial<Diff> & {
   watcher: ProfileWatcher
-  statusWatcher: ProfileStatusWatcher
+  // statusWatcher: ProfileStatusWatcher
   selectedProfile?: string
   profiles?: Profile
   catastrophicError?: unknown
@@ -84,11 +84,11 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
     this.init()
   }
 
-  private readonly statusWatcherUpdateFn: UpdateFunction = () => {
+  /* private readonly statusWatcherUpdateFn: UpdateFunction = () => {
     this.setState((curState) => ({
       updateCount: (curState?.updateCount || 0) + 1,
     }))
-  }
+  } */
 
   /** If given `null`, then we will attempt to use the lastUsed profile */
   private readonly _handleProfileSelection = (selectedProfile: string | null) => {
@@ -212,8 +212,8 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
   public componentDidUpdate(prevProps: Props, prevState: State) {
     if (prevState?.selectedProfile !== this.state?.selectedProfile) {
       if (!this.state?.selectedProfile) return
-      const statusWatcher = new ProfileStatusWatcher(this.state.selectedProfile, this.statusWatcherUpdateFn)
-      this.setState({ statusWatcher })
+      // const statusWatcher = new ProfileStatusWatcher(this.state.selectedProfile, this.statusWatcherUpdateFn)
+      // this.setState({ statusWatcher })
     }
   }
 
@@ -224,6 +224,8 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
       return <Loading />
     } else {
       return (
+        // profileReadiness={this.state.statusWatcher?.readiness}
+        // profileStatus={this.state.statusWatcher}
         <div className="codeflare--profile-explorer flex-fill">
           <ProfileCard
             profile={this.state.selectedProfile}
@@ -231,8 +233,6 @@ export default class ProfileExplorer extends React.PureComponent<Props, State> {
             profilesDiff={this.state.profilesDiff}
             onSelectProfile={this._handleProfileSelection}
             onSelectGuidebook={this.props.onSelectGuidebook}
-            profileReadiness={this.state.statusWatcher?.readiness}
-            profileStatus={this.state.statusWatcher}
           />
         </div>
       )
@@ -246,8 +246,8 @@ type ProfileCardProps = Partial<Diff> &
     profiles: Profile
     onSelectProfile: (profile: string | null) => void
 
-    profileReadiness: string
-    profileStatus: ProfileStatusWatcher
+    // profileReadiness: string
+    // profileStatus: ProfileStatusWatcher
   }
 
 type ProfileCardState = {
@@ -316,7 +316,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     )
   }
 
-  private actionsStatus() {
+  /* private actionsStatus() {
     const StatusTitle = ({ readiness }: { readiness: string | undefined }) => (
       <React.Fragment>
         <span>Status</span>
@@ -339,7 +339,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
         <SelectOption isPlaceholder>{this.props.profileStatus?.workers.label}</SelectOption>
       </Select>
     )
-  }
+  } */
 
   private readonly groups: Record<string, Group> = {
     Application: {
