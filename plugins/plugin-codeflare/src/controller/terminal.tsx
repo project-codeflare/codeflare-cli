@@ -169,7 +169,7 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
       }
     }
 
-    return
+    return state
   }
 
   public static getDerivedStateFromError() {
