@@ -348,11 +348,11 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     },
     Compute: {
       title: "Compute",
-      name: "The computational aspects of this computer",
+      name: "Properties of your workers",
     },
     Storage: {
       title: "Storage",
-      name: "The storage aspects of this computer",
+      name: "Properties of your data",
     },
   }
 
