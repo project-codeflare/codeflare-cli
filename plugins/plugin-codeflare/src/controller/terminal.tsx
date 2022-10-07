@@ -94,7 +94,7 @@ type State = Partial<Pick<BaseProps, "cmdline" | "env">> & {
 export class TaskTerminal extends React.PureComponent<Props, State> {
   /** Allotment initial split ... allotments */
   private readonly splits = {
-    horizontal: [35, 65],
+    horizontal: [25, 75],
     vertical1: [100], // no `this.props.belowTerminal`
     vertical2: [40, 60], // yes
   }
