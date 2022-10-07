@@ -377,8 +377,16 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       title: "Cloud Provider",
       group: this.groups.Storage,
     },
-    ".*constraints/geo": {
-      title: "Geographic Constraint",
+    ".*constraints/geo$": {
+      title: "Continent",
+      group: this.groups.Storage,
+    },
+    ".*constraints/geo/continent/asia$": {
+      title: "Country",
+      group: this.groups.Storage,
+    },
+    ".*constraints/geo/continent/asia/india$": {
+      title: "State",
       group: this.groups.Storage,
     },
     ".*constraints/compute/workers": {
