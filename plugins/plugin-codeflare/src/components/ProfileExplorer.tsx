@@ -425,7 +425,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       <ChipGroup numChips={10}>
         {Object.entries(form).map(([title, name]) => (
           <Chip key={title} isReadOnly textMaxWidth="25ch">
-            <span className="slightly-deemphasize">
+            <span>
               {title
                 .replace(/^Number of /, "")
                 .replace(/(GPU|CPU)s/, "$1")
