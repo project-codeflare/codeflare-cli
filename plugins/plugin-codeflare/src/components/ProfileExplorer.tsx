@@ -439,7 +439,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     )
   }
 
-  private readonly leafStyle = { color: "var(--color-base04)" }
+  private readonly leafStyle = {}
   private leafFor(value: string) {
     return <span style={this.leafStyle}>{value}</span>
   }
