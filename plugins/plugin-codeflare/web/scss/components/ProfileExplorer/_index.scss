@@ -61,6 +61,11 @@ body[kui-theme-style="dark"] {
 
   font-family: var(--font-sans-serif);
 
+  /** Handle tree text that isn't normally wrappable, such as long kubernetes contexts */
+  .pf-c-tree-view__node-text {
+    word-break: break-all;
+  }
+
   /** width management */
   .pf-c-card {
     flex: 1;
