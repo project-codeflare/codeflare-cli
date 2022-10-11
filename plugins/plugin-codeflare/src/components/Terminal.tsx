@@ -343,14 +343,18 @@ export default class XTerm extends React.PureComponent<Props, State> {
   }
 
   private toolbar() {
+    const needsToolbar = this.props.searchable !== false
+
     return (
-      <Toolbar className="codeflare--toolbar">
-        <ToolbarContent className="flex-fill">
-          <ToolbarItem variant="search-filter" className="flex-fill">
-            {this.props.searchable !== false && this.searchInput()}
-          </ToolbarItem>
-        </ToolbarContent>
-      </Toolbar>
+      needsToolbar && (
+        <Toolbar className="codeflare--toolbar">
+          <ToolbarContent className="flex-fill">
+            <ToolbarItem variant="search-filter" className="flex-fill">
+              {this.props.searchable !== false && this.searchInput()}
+            </ToolbarItem>
+          </ToolbarContent>
+        </Toolbar>
+      )
     )
   }
 
