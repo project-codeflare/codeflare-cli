@@ -52,6 +52,9 @@ type ClassName = {
 export type TerminalOptions = ClassName & {
   /** Show search ui? [default: true] */
   searchable?: boolean
+
+  /** Font size scaling factor from the stock font size from Kui [default: 1] */
+  fontSizeAdjust?: number
 }
 
 type Props = TerminalOptions & {
@@ -262,7 +265,7 @@ export default class XTerm extends React.PureComponent<Props, State> {
       const standIn = document.querySelector("body .repl")
       if (standIn) {
         const fontTheme = getComputedStyle(standIn)
-        xterm.options.fontSize = parseInt(fontTheme.fontSize.replace(/px$/, ""), 10)
+        xterm.options.fontSize = parseInt(fontTheme.fontSize.replace(/px$/, ""), 10) * (this.props.fontSizeAdjust || 1)
         // terminal.setOption('lineHeight', )//parseInt(fontTheme.lineHeight.replace(/px$/, ''), 10))
 
         // FIXME. not tied to theme
