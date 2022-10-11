@@ -45,6 +45,14 @@ body[kui-theme-style] {
   }
 }
 
+body[kui-theme-style="dark"] {
+  @include ProfileExplorer {
+    .pf-c-select button.pf-c-select__toggle {
+      color: var(--color-base00);
+    }
+  }
+}
+
 @include ProfileExplorer {
   display: flex;
   .pf-c-card__body {
