@@ -54,7 +54,7 @@ export async function shell(args: Arguments) {
   }
 }
 
-export type Props = Pick<BaseProps, "tab" | "REPL" | "onExit" | "searchable"> & {
+export type Props = Pick<BaseProps, "tab" | "REPL" | "onExit" | "searchable" | "fontSizeAdjust"> & {
   /** Default guidebook (if not given, we will take the value from the client definition) */
   defaultGuidebook?: string
 
