@@ -412,6 +412,10 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       title: "Checkpointable?",
       group: this.groups.Application,
     },
+    ".*constraints/workload/deadline": {
+      title: "SLAs",
+      group: this.groups.Application,
+    },
   }
 
   /** Present a form using <Chip/> components */
