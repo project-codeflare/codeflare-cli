@@ -24,6 +24,7 @@ import {
   CardBody,
   CardHeader,
   CardTitle,
+  CardFooter,
   Chip,
   ChipGroup,
   Dropdown,
@@ -299,7 +300,6 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
   private actions() {
     return (
       <React.Fragment>
-        {this.title()}
         <Dropdown
           isOpen={this.state.isKebabOpen}
           isPlain
@@ -597,12 +597,13 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
 
   public render() {
     return (
-      <Card isLarge>
+      <Card isLarge isPlain isFullHeight>
         <CardHeader>
           <CardTitle>Draft Specification</CardTitle>
           <CardActions hasNoOffset>{this.actions()}</CardActions>
         </CardHeader>
         <CardBody>{this.body()}</CardBody>
+        <CardFooter>{this.title()}</CardFooter>
       </Card>
     )
   }
