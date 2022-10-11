@@ -17,7 +17,7 @@
 import React from "react"
 import prettyMillis from "pretty-ms"
 import { Profiles } from "madwizard"
-import { Select, SelectOption, SelectOptionObject, SelectVariant } from "@patternfly/react-core"
+import { Select, SelectOption, SelectOptionObject } from "@patternfly/react-core"
 
 type Props = {
   selectedProfile?: string
@@ -81,7 +81,8 @@ export default class ProfileSelect extends React.PureComponent<Props, State> {
   public render() {
     return (
       <Select
-        variant={SelectVariant.single}
+        direction="up"
+        variant="single"
         placeholderText="Select a profile"
         aria-label="Profiles selector with description"
         onToggle={this._selectOnToggle}
