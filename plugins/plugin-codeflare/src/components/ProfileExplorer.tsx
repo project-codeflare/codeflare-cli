@@ -30,9 +30,6 @@ import {
   DropdownItem,
   DropdownSeparator,
   KebabToggle,
-  // Select,
-  // SelectOption,
-  Title,
   TreeView,
   TreeViewDataItem,
 } from "@patternfly/react-core"
@@ -288,13 +285,11 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
 
   private title() {
     return (
-      <Title headingLevel="h2" size="xl">
-        <ProfileSelect
-          selectedProfile={this.props.profile}
-          profiles={this.props.profiles}
-          onSelect={this.props.onSelectProfile}
-        />
-      </Title>
+      <ProfileSelect
+        selectedProfile={this.props.profile}
+        profiles={this.props.profiles}
+        onSelect={this.props.onSelectProfile}
+      />
     )
   }
 
