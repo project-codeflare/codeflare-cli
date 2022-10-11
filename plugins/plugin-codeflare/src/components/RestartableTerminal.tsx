@@ -135,7 +135,12 @@ export default class RestartableTerminal extends React.PureComponent<Props, Stat
           className="kui--inverted-color-context flex-fill flex-layout flex-align-stretch"
           style={{ backgroundColor: "var(--color-sidecar-background-02)" }}
         >
-          <Terminal watch={watch} key={key} searchable={this.props.searchable} />
+          <Terminal
+            watch={watch}
+            key={key}
+            searchable={this.props.searchable}
+            fontSizeAdjust={this.props.fontSizeAdjust}
+          />
         </div>
       )
     }
