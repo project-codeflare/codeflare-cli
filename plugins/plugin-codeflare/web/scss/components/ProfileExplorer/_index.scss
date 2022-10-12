@@ -57,6 +57,7 @@ body[kui-theme-style="dark"] {
   display: flex;
   .pf-c-card__body {
     overflow-y: auto;
+    margin-bottom: 1em;
   }
 
   font-family: var(--font-sans-serif);

@@ -601,7 +601,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
 
   public render() {
     return (
-      <Card isLarge isPlain isFullHeight>
+      <Card isCompact isPlain isFullHeight>
         <CardHeader>
           <CardTitle>Draft Specification</CardTitle>
           <CardActions hasNoOffset>{this.actions()}</CardActions>
