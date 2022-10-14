@@ -81,6 +81,9 @@ type State = Partial<Pick<BaseProps, "cmdline" | "env">> & {
   /** Use this guidebook in the terminal execution */
   guidebook?: string
 
+  /** Any extra env vars to add to the guidebook execution. These will be pre-joined with the default env. */
+  extraEnv?: BaseProps["env"]
+
   /** Run guidebook in non-interactive mode? */
   noninteractive?: boolean
 
@@ -131,7 +134,7 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
       this.setState((curState) => ({
         cmdline,
         initCount: curState.initCount + 1,
-        env: Object.assign({}, env, { MWCLEAR_INITIAL: "true" }, this.props.extraEnv),
+        env: Object.assign({}, env, { MWCLEAR_INITIAL: "true" }, this.state.extraEnv),
       }))
     } catch (error) {
       console.error("Error initializing command line", error)
@@ -156,13 +159,16 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
     this.setState({ guidebook, ifor: true, noninteractive: false })
 
   public static getDerivedStateFromProps(props: Props, state: State) {
-    if (props.defaultGuidebook && state.guidebook !== props.defaultGuidebook) {
+    if ((props.defaultGuidebook && state.guidebook !== props.defaultGuidebook) || props.extraEnv !== state.extraEnv) {
+      // different guidebook or different env vars to be passed to that guidebook
       return {
         ifor: false,
+        extraEnv: props.extraEnv,
         guidebook: props.defaultGuidebook,
         noninteractive: props.defaultNoninteractive,
       }
     } else if (props.defaultNoninteractive !== state.noninteractive) {
+      // different interactivity
       return {
         ifor: false,
         noninteractive: props.defaultNoninteractive,
