@@ -67,8 +67,8 @@ export type Props = Pick<BaseProps, "tab" | "REPL" | "onExit" | "searchable" | "
   /** Callback when user selects a profile */
   onSelectProfile?(profile: string, profiles?: import("madwizard").Profiles.Profile[]): void
 
-  /** Content to place below the terminal */
-  belowTerminal?: React.ReactNode
+  /** Content to place above the terminal */
+  aboveTerminal?: React.ReactNode
 }
 
 type State = Partial<Pick<BaseProps, "cmdline" | "env">> & {
@@ -95,8 +95,8 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
   /** Allotment initial split ... allotments */
   private readonly splits = {
     horizontal: [25, 75],
-    vertical1: [100], // no `this.props.belowTerminal`
-    vertical2: [40, 60], // yes
+    vertical1: [100], // no `this.props.aboveTerminal`
+    vertical2: [60, 40], // yes
   }
 
   private readonly tasks = [{ label: "Run a Job", argv: ["codeflare", "-p", "${SELECTED_PROFILE}"] }]
@@ -203,9 +203,10 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
           ) : (
             <Allotment
               vertical
-              defaultSizes={!this.props.belowTerminal ? this.splits.vertical1 : this.splits.vertical2}
+              defaultSizes={!this.props.aboveTerminal ? this.splits.vertical1 : this.splits.vertical2}
               snap
             >
+              {this.props.aboveTerminal && <AllotmentFillPane>{this.props.aboveTerminal}</AllotmentFillPane>}
               <AllotmentFillPane>
                 <SelectedProfileTerminal
                   key={this.state.initCount + "_" + this.state.cmdline + "-" + this.state.selectedProfile}
@@ -215,7 +216,6 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
                   selectedProfile={this.state.selectedProfile}
                 />
               </AllotmentFillPane>
-              {this.props.belowTerminal && <AllotmentFillPane>{this.props.belowTerminal}</AllotmentFillPane>}
             </Allotment>
           )}
         </AllotmentFillPane>
