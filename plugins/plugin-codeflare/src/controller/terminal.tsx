@@ -19,7 +19,7 @@ import { Allotment, AllotmentHandle } from "allotment"
 import { Loading } from "@kui-shell/plugin-client-common"
 import { Arguments, encodeComponent } from "@kui-shell/core"
 import { defaultGuidebook as defaultGuidebookFromClient } from "@kui-shell/client/config.d/client.json"
-import { Button, EmptyState, EmptyStateBody, EmptyStatePrimary, Title, Tooltip } from "@patternfly/react-core"
+import { Button, EmptyState, EmptyStateBody, EmptyStatePrimary, Flex, FlexItem, Title } from "@patternfly/react-core"
 
 import respawn from "./respawn"
 
@@ -93,6 +93,9 @@ type State = Partial<Pick<BaseProps, "cmdline" | "env">> & {
 
   /** Use this profile in the terminal execution */
   selectedProfile?: string
+
+  /** Hide terminal? */
+  hideTerminal?: boolean
 }
 
 export class TaskTerminal extends React.PureComponent<Props, State> {
@@ -142,6 +145,7 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
 
       this.setState((curState) => ({
         cmdline,
+        hideTerminal: false,
         initCount: curState.initCount + 1,
         env: Object.assign({}, env, { MWCLEAR_INITIAL: "true" }, this.state.extraEnv),
       }))
@@ -165,7 +169,7 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
 
   /** Event handler for switching to a different guidebook */
   private readonly onSelectGuidebook = (guidebook: string) =>
-    this.setState({ guidebook, ifor: true, noninteractive: false })
+    this.setState({ hideTerminal: false, guidebook, ifor: true, noninteractive: false })
 
   public static getDerivedStateFromProps(props: Props, state: State) {
     if ((props.defaultGuidebook && state.guidebook !== props.defaultGuidebook) || props.extraEnv !== state.extraEnv) {
@@ -203,8 +207,12 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
     }
   }
 
+  private readonly _gotit = () => {
+    this.setState({ hideTerminal: true })
+  }
+
   private readonly _refresh = () => {
-    this.setState({ guidebook: this.props.defaultGuidebook || defaultGuidebookFromClient })
+    this.setState({ hideTerminal: false, guidebook: this.props.defaultGuidebook || defaultGuidebookFromClient })
   }
 
   private get vertical1() {
@@ -216,7 +224,7 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
   }
 
   private noGuidebook() {
-    return <Empty refresh={this._refresh} />
+    return <Empty refresh={this._refresh} gotit={this._gotit} />
   }
 
   private readonly allotmentRef = React.createRef<AllotmentHandle>()
@@ -237,24 +245,26 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
           ) : (
             <Allotment
               vertical
-              defaultSizes={!this.props.aboveTerminal ? this.vertical1 : this.vertical2}
+              defaultSizes={this.state.hideTerminal || !this.props.aboveTerminal ? this.vertical1 : this.vertical2}
               snap
               ref={this.allotmentRef}
             >
               {this.props.aboveTerminal && <AllotmentFillPane>{this.props.aboveTerminal}</AllotmentFillPane>}
-              <AllotmentFillPane>
-                {!this.state.cmdline || !this.state.env ? (
-                  this.noGuidebook()
-                ) : (
-                  <SelectedProfileTerminal
-                    key={this.state.initCount + "_" + this.state.cmdline + "-" + this.state.selectedProfile}
-                    cmdline={this.state.cmdline}
-                    env={this.state.env}
-                    {...this.props}
-                    selectedProfile={this.state.selectedProfile}
-                  />
-                )}
-              </AllotmentFillPane>
+              {!this.state.hideTerminal && (
+                <AllotmentFillPane>
+                  {!this.state.cmdline || !this.state.env ? (
+                    this.noGuidebook()
+                  ) : (
+                    <SelectedProfileTerminal
+                      key={this.state.initCount + "_" + this.state.cmdline + "-" + this.state.selectedProfile}
+                      cmdline={this.state.cmdline}
+                      env={this.state.env}
+                      {...this.props}
+                      selectedProfile={this.state.selectedProfile}
+                    />
+                  )}
+                </AllotmentFillPane>
+              )}
             </Allotment>
           )}
         </AllotmentFillPane>
@@ -263,15 +273,22 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
   }
 }
 
-class Empty extends React.PureComponent<{ refresh(): void }> {
+class Empty extends React.PureComponent<{ refresh(): void; gotit(): void }> {
   /** Run through all questions again */
   private resubmit() {
     return (
-      <Tooltip content="Force a run through all constraints">
-        <Button variant="primary" onClick={this.props.refresh}>
-          Walk through the constraints again
-        </Button>
-      </Tooltip>
+      <Flex>
+        <FlexItem>
+          <Button variant="secondary" onClick={this.props.gotit}>
+            Got it!
+          </Button>
+        </FlexItem>
+        <FlexItem>
+          <Button variant="tertiary" onClick={this.props.refresh}>
+            Walk through the constraints again
+          </Button>
+        </FlexItem>
+      </Flex>
     )
   }
 
@@ -281,7 +298,7 @@ class Empty extends React.PureComponent<{ refresh(): void }> {
         <Title size="lg" headingLevel="h4">
           All constraints satisfied
         </Title>
-        <EmptyStateBody>Click here to walk through all of the constraints</EmptyStateBody>
+        <EmptyStateBody>Your current Draft Specification already satisfies all constraints</EmptyStateBody>
         <EmptyStatePrimary>{this.resubmit()}</EmptyStatePrimary>
       </EmptyState>
     )
