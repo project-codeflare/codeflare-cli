@@ -15,10 +15,11 @@
  */
 
 import React from "react"
-import { Allotment } from "allotment"
+import { Allotment, AllotmentHandle } from "allotment"
 import { Loading } from "@kui-shell/plugin-client-common"
 import { Arguments, encodeComponent } from "@kui-shell/core"
 import { defaultGuidebook as defaultGuidebookFromClient } from "@kui-shell/client/config.d/client.json"
+import { Button, EmptyState, EmptyStateBody, EmptyStatePrimary, Title, Tooltip } from "@patternfly/react-core"
 
 import respawn from "./respawn"
 
@@ -55,8 +56,8 @@ export async function shell(args: Arguments) {
 }
 
 export type Props = Pick<BaseProps, "tab" | "REPL" | "onExit" | "searchable" | "fontSizeAdjust"> & {
-  /** Default guidebook (if not given, we will take the value from the client definition) */
-  defaultGuidebook?: string
+  /** Default guidebook (if not given, we will take the value from the client definition); `null` means do not show anything */
+  defaultGuidebook?: string | null
 
   /** Run guidebook in non-interactive mode? */
   defaultNoninteractive?: boolean
@@ -79,7 +80,7 @@ type State = Partial<Pick<BaseProps, "cmdline" | "env">> & {
   error?: boolean
 
   /** Use this guidebook in the terminal execution */
-  guidebook?: string
+  guidebook?: string | null
 
   /** Any extra env vars to add to the guidebook execution. These will be pre-joined with the default env. */
   extraEnv?: BaseProps["env"]
@@ -99,7 +100,8 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
   private readonly splits = {
     horizontal: [25, 75],
     vertical1: [100], // no `this.props.aboveTerminal`
-    vertical2: [60, 40], // yes
+    vertical2a: [60, 40], // yes, and show a guidebook
+    vertical2b: [80, 20], // yes, and do not show a guidebook
   }
 
   private readonly tasks = [{ label: "Run a Job", argv: ["codeflare", "-p", "${SELECTED_PROFILE}"] }]
@@ -107,7 +109,10 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
   public constructor(props: Props) {
     super(props)
 
-    this.state = { initCount: 0, guidebook: defaultGuidebookFromClient }
+    this.state = {
+      initCount: 0,
+      guidebook: props.defaultGuidebook === null ? null : props.defaultGuidebook || defaultGuidebookFromClient,
+    }
     this.init()
   }
 
@@ -118,6 +123,10 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
    */
   private async init() {
     const guidebook = this.state.guidebook
+
+    if (guidebook === null) {
+      return
+    }
 
     try {
       // respawn, meaning launch it with codeflare
@@ -187,15 +196,34 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
 
   public componentDidUpdate(prevProps: Props, prevState: State) {
     if (prevState.guidebook !== this.state.guidebook || prevState.ifor !== this.state.ifor) {
+      if (prevState.guidebook === null) {
+        this.allotmentRef.current?.reset()
+      }
       this.init()
     }
   }
 
+  private readonly _refresh = () => {
+    this.setState({ guidebook: this.props.defaultGuidebook || defaultGuidebookFromClient })
+  }
+
+  private get vertical1() {
+    return this.splits.vertical1
+  }
+
+  private get vertical2() {
+    return !this.state.cmdline || !this.state.env ? this.splits.vertical2b : this.splits.vertical2a
+  }
+
+  private noGuidebook() {
+    return <Empty refresh={this._refresh} />
+  }
+
+  private readonly allotmentRef = React.createRef<AllotmentHandle>()
+
   public render() {
     if (this.state.error) {
       return "Internal Error"
-    } else if (!this.state.cmdline || !this.state.env) {
-      return <Loading />
     }
 
     return (
@@ -209,23 +237,53 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
           ) : (
             <Allotment
               vertical
-              defaultSizes={!this.props.aboveTerminal ? this.splits.vertical1 : this.splits.vertical2}
+              defaultSizes={!this.props.aboveTerminal ? this.vertical1 : this.vertical2}
               snap
+              ref={this.allotmentRef}
             >
               {this.props.aboveTerminal && <AllotmentFillPane>{this.props.aboveTerminal}</AllotmentFillPane>}
               <AllotmentFillPane>
-                <SelectedProfileTerminal
-                  key={this.state.initCount + "_" + this.state.cmdline + "-" + this.state.selectedProfile}
-                  cmdline={this.state.cmdline}
-                  env={this.state.env}
-                  {...this.props}
-                  selectedProfile={this.state.selectedProfile}
-                />
+                {!this.state.cmdline || !this.state.env ? (
+                  this.noGuidebook()
+                ) : (
+                  <SelectedProfileTerminal
+                    key={this.state.initCount + "_" + this.state.cmdline + "-" + this.state.selectedProfile}
+                    cmdline={this.state.cmdline}
+                    env={this.state.env}
+                    {...this.props}
+                    selectedProfile={this.state.selectedProfile}
+                  />
+                )}
               </AllotmentFillPane>
             </Allotment>
           )}
         </AllotmentFillPane>
       </Allotment>
+    )
+  }
+}
+
+class Empty extends React.PureComponent<{ refresh(): void }> {
+  /** Run through all questions again */
+  private resubmit() {
+    return (
+      <Tooltip content="Force a run through all constraints">
+        <Button variant="primary" onClick={this.props.refresh}>
+          Walk through the constraints again
+        </Button>
+      </Tooltip>
+    )
+  }
+
+  public render() {
+    return (
+      <EmptyState variant="xs" className="sans-serif flex-fill codeflare--workload-comparo">
+        <Title size="lg" headingLevel="h4">
+          All constraints satisfied
+        </Title>
+        <EmptyStateBody>Click here to walk through all of the constraints</EmptyStateBody>
+        <EmptyStatePrimary>{this.resubmit()}</EmptyStatePrimary>
+      </EmptyState>
     )
   }
 }
