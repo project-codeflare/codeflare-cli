@@ -299,7 +299,7 @@ class Empty extends React.PureComponent<{ refresh(): void; gotit(): void }> {
           All constraints satisfied
         </Title>
         <EmptyStateBody>
-          All application, compute, and storage constraints have been specified by your Draft Specification
+          All application, compute, and storage constraints have been defined by your Draft Specification.
         </EmptyStateBody>
         <EmptyStatePrimary>{this.resubmit()}</EmptyStatePrimary>
       </EmptyState>
