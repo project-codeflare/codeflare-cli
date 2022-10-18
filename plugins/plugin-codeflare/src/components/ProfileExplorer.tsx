@@ -297,14 +297,18 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
   /** Toggle kebab menu open/closed */
   private readonly _onKebabToggle = () => this.setState((curState) => ({ isKebabOpen: !curState.isKebabOpen }))
 
+  /** Set kebab menu closed */
+  private readonly _onKebabClose = () => this.setState(() => ({ isKebabOpen: false }))
+
   private actions() {
     return (
       <React.Fragment>
         <Dropdown
+          onBlur={this._onKebabClose}
           isOpen={this.state.isKebabOpen}
           isPlain
           position="right"
-          toggle={<KebabToggle onToggle={this._onKebabToggle} />}
+          toggle={<KebabToggle id="codeflare--profile-explorer-kebab" onToggle={this._onKebabToggle} />}
           dropdownItems={this.actionItems}
         ></Dropdown>
       </React.Fragment>
