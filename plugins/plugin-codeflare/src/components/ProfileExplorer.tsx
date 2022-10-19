@@ -297,18 +297,22 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
   /** Toggle kebab menu open/closed */
   private readonly _onKebabToggle = () => this.setState((curState) => ({ isKebabOpen: !curState.isKebabOpen }))
 
-  /** Set kebab menu closed */
-  private readonly _onKebabClose = () => this.setState(() => ({ isKebabOpen: false }))
+  /**
+   * Set kebab menu closed; hmm, if we don't delay this, then the
+   * DropdownItem onClicks don't fire. This seems like a patternfly
+   * bug, that the onClicks of menu items are processed *after* the
+   * onBlur of the menu dropdown...
+   */
+  private readonly _onKebabClose = () => setTimeout(() => this.setState(() => ({ isKebabOpen: false })), 200)
 
   private actions() {
     return (
       <React.Fragment>
         <Dropdown
-          onBlur={this._onKebabClose}
-          isOpen={this.state.isKebabOpen}
           isPlain
           position="right"
-          toggle={<KebabToggle id="codeflare--profile-explorer-kebab" onToggle={this._onKebabToggle} />}
+          isOpen={this.state.isKebabOpen}
+          toggle={<KebabToggle onBlur={this._onKebabClose} onToggle={this._onKebabToggle} />}
           dropdownItems={this.actionItems}
         ></Dropdown>
       </React.Fragment>
