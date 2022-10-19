@@ -1,0 +1,10 @@
+{
+  "app": "icons/png/codeflare.png",
+  "large": "icons/svg/codeflare.svg",
+  "favicon": "icons/ico/codeflare.ico",
+  "filesystem": {
+    "darwin": "icons/icns/codeflare.icns",
+    "win32": "icons/ico/codeflare.ico",
+    "linux": "icons/png/codeflare.png"
+  }
+}

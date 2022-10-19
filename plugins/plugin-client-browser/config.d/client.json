@@ -1,0 +1,8 @@
+{
+  "defaultGuidebook": "ml/codeflare",
+  "contextRoot": "",
+  "tray": false,
+  "offline": true,
+  "readonly": false,
+  "executable": false
+}

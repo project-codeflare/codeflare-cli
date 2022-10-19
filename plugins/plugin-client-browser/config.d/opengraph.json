@@ -1,0 +1,11 @@
+{
+  "ogSiteName": "CodeFlare",
+  "ogTitle": "CodeFlare: Awesome ML",
+  "ogUrl": "https://research.ibm.com/blog/codeflare-ml-experiments",
+  "ogDescription": "CodeFlare drastically reduces time to set up, run, and scale machine-learning tests",
+  "ogImage": "https://github.com/project-codeflare/codeflare/raw/develop/images/codeflare_square.svg",
+  "ogLabel1": "Clone on GitHub",
+  "ogData1": "https://github.com/project-codeflare/codeflare",
+  "ogLabel2": "Learn More",
+  "ogData2": "https://research.ibm.com/blog/codeflare-ml-experiments"
+}
