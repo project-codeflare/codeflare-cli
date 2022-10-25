@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/project-codeflare/codeflare-cli/compare/v1.0.0...v1.0.1) (2022-10-25)
+
+### Bug Fixes
+
+- update to @guidebooks/store@0.15.1 to pick up aws/auth fix ([a9fb177](https://github.com/project-codeflare/codeflare-cli/commit/a9fb177e235733fa765a05e1710429f281f4ae4e))
+
 # [1.0.0](https://github.com/project-codeflare/codeflare-cli/compare/v0.14.2...v1.0.0) (2022-10-25)
 
 ### Bug Fixes
