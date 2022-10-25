@@ -59,7 +59,7 @@ spec:
                 optional: true
           containers:
           - name: self-test
-            image: ghcr.io/project-codeflare/codeflare-self-test:0.14.2
+            image: ghcr.io/project-codeflare/codeflare-self-test:1.0.0
             volumeMounts:
               - mountPath: "/tmp/github/"
                 name: ssh-key
