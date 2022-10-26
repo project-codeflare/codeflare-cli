@@ -7,7 +7,7 @@ layout:
         maximized: true
 ---
 
-=== "Use the CodeFlare CLI"
+=== "Run a Job"
     ```shell
     ---
     execute: now
@@ -17,28 +17,7 @@ layout:
     codeflare terminal task
     ```
 
-=== "Gallery"
-    === "CodeFlare CLI"
-        ```shell
-        ---
-        execute: now
-        outputOnly: true
-        maximize: true
-        ---
-        codeflare gallery
-        ```
-
-    === "CodeFlare Dashboard"
-        ```shell
-        ---
-        execute: now
-        outputOnly: true
-        maximize: true
-        ---
-        codeflare dashboard-gallery
-        ```
-
-=== "Local Terminal"
+=== "Terminal"
     ```shell
     ---
     execute: now
