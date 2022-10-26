@@ -1,3 +1,9 @@
+## [1.0.2](https://github.com/project-codeflare/codeflare-cli/compare/v1.0.1...v1.0.2) (2022-10-26)
+
+### Bug Fixes
+
+- bump to @guidebooks/store@0.15.2 to pick up more pvc fixes ([c2b8bb2](https://github.com/project-codeflare/codeflare-cli/commit/c2b8bb220a8e2afa31be9ca2a40983a058f363a3))
+
 ## [1.0.1](https://github.com/project-codeflare/codeflare-cli/compare/v1.0.0...v1.0.1) (2022-10-25)
 
 ### Bug Fixes
