@@ -1,3 +1,13 @@
+## [1.0.3](https://github.com/project-codeflare/codeflare-cli/compare/v1.0.2...v1.0.3) (2022-11-02)
+
+### Bug Fixes
+
+- add abbreviations Minimum->Min, Maximum->Max ([c6dc9a7](https://github.com/project-codeflare/codeflare-cli/commit/c6dc9a7910da3cc632fde102f918def4cd71a6e9))
+- bump to madwizard@1.6.5 to pick up updated Choice messaging ([b64aea4](https://github.com/project-codeflare/codeflare-cli/commit/b64aea46997c44bbb033b8ee8c74d2aa8451c990))
+- in tray openDashboard, use verbose mode if DEBUG is set ([89246f2](https://github.com/project-codeflare/codeflare-cli/commit/89246f259639d64f374475fb28b224d0be2ac5ed))
+- increase default size of window to 1400x1050 ([7c4bdb0](https://github.com/project-codeflare/codeflare-cli/commit/7c4bdb01ba3a02830508cba3d41b8df57191e54b))
+- remove Gallery from hello guidebook ([d33dbf9](https://github.com/project-codeflare/codeflare-cli/commit/d33dbf913f090870fd0116e2e6f67b9390496afe))
+
 ## [1.0.2](https://github.com/project-codeflare/codeflare-cli/compare/v1.0.1...v1.0.2) (2022-10-26)
 
 ### Bug Fixes
