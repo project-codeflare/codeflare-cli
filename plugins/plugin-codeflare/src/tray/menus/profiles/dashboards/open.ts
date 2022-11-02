@@ -19,7 +19,7 @@ import { CreateWindowFunction } from "@kui-shell/core"
 
 import windowOptions from "../../../window"
 
-interface DashboardSpec {
+export interface DashboardSpec {
   /** Label for presentation e.g. "MLFlow" or "Tensorboard" */
   name: string
 
@@ -50,6 +50,7 @@ export default async function openDashboard(
   const resp = await cli(["madwizard", "guide", guidebook], undefined, {
     profile,
     clean: false /* don't kill the port-forward subprocess! we'll manage that */,
+    verbose: !!process.env.DEBUG,
     interactive: false,
     store: process.env.GUIDEBOOK_STORE,
   })
