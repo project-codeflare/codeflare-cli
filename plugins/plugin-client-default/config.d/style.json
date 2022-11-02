@@ -1,7 +1,7 @@
 {
   "bodyCss": "codeflare",
-  "width": 1204,
-  "height": 800,
+  "width": 1400,
+  "height": 1050,
   "titleBarStyle": "hiddenInset",
   "defaultTheme": "PatternFly4 Light"
 }
