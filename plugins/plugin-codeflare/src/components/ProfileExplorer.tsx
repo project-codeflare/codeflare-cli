@@ -437,6 +437,8 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
                 .replace(/^Number of /, "")
                 .replace(/(GPU|CPU)s/, "$1")
                 .replace(/ per Worker$/, "")
+                .replace(/Minimum/, "Min")
+                .replace(/Maximum/, "Max")
                 .replace(/Memory/, "Mem")}
             </span>{" "}
             <span className="semi-bold color-base0D">{name}</span>
