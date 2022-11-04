@@ -14,6 +14,10 @@ set -o pipefail
 SCRIPTDIR=$(cd $(dirname "$0") && pwd)
 . "$SCRIPTDIR"/values.sh
 
+# don't use coscheduler, which is now the default; see the
+# kubernetes/mcad/choose/scheduler guidebook
+export KUBE_POD_SCHEDULER=default
+
 while getopts "ab:f:is:" opt
 do
     case $opt in

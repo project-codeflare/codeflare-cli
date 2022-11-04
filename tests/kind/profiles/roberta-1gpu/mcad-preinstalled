@@ -9,7 +9,7 @@
     "madwizard/apriori/platform": "darwin",
     "madwizard/apriori/mac-installer": "Homebrew",
     "madwizard/apriori/in-terminal": "HTML",
-    "Start a new Run####Connect Dashboard to an existing Run####Boot up a Cloud Computer####Shut down a Cloud Computer": "Start a new Run",
+    "ml/codeflare": "Submit a new Run",
     "Run with CodeFlare Model Architecture####Bring Your Own Code####Demos": "Run with CodeFlare Model Architecture",
     "Training Tasks####Fine Tuning Tasks": "Training Tasks",
     "Train a Masked Language Model": "Train a Masked Language Model",

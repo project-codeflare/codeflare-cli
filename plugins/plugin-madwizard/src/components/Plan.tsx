@@ -116,6 +116,10 @@ class ReactUI implements Tree.UI<React.ReactNode> {
       </button>
     )
   }
+
+  public ask(/* prompt: import('enquirer').Prompt */): Promise<string | Record<string, string>> {
+    return Promise.resolve({})
+  }
 }
 
 type Props = Choices.Choices &

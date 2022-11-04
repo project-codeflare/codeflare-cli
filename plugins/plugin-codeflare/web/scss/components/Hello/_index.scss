@@ -132,10 +132,27 @@ $cell: 1.5em;
   .pf-c-tile__title {
     color: var(--color-tile-title);
     font-size: 1rem;
+    white-space: normal;
+    line-height: var(--pf-global--LineHeight--md);
   }
 
-  .pf-c-tile__body {
-    color: var(--color-text-02);
+  .pf-c-empty-state__icon {
+    &.yellow-text {
+      color: var(--color-yellow);
+    }
+    &.blue-text {
+      color: var(--color-blue);
+    }
+    &.green-text {
+      color: var(--color-ok);
+    }
+    &.red-text {
+      color: var(--color-error);
+    }
+  }
+
+  button[type="submit"] {
+    color: var(--pf-c-button--m-primary--Color) !important;
   }
 
   /** TODO move this somewhere else? */

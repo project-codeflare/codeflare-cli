@@ -44,6 +44,15 @@ export type Props = Pick<Arguments, "tab" | "REPL"> &
 
     /** Callback when the underlying PTY exits */
     onExit?(code: number): void
+
+    /** Line interceptor? Return null if you want to squash output of that line. */
+    intercept?(line: string, write: (data: string) => void): Promise<string | null>
+
+    /** Handler for terminal initialization */
+    onInit?(job: Job): void
+
+    /** Automatically restart on exit? [default: true ] */
+    restartOnExit?: boolean
   }
 
 type State = {
@@ -78,16 +87,29 @@ export default class RestartableTerminal extends React.PureComponent<Props, Stat
           if (this.mounted) {
             if (this.props.onExit) {
               this.props.onExit(code)
-            } else {
+            } else if (this.props.restartOnExit !== false) {
               // restart, if still mounted
               await new Promise((resolve) => setTimeout(resolve, 60 * 1000))
               this.initPty()
             }
           }
         },
-        onInit: () => (_) => {
-          // hooks pty output to our passthrough stream
-          passthrough.write(_)
+        onInit: (job) => {
+          if (this.props.onInit) {
+            this.props.onInit(job)
+          }
+          return async (_) => {
+            // hooks pty output to our passthrough stream
+            if (typeof _ === "string" && this.props.intercept) {
+              const resp = await this.props.intercept(_, job.write.bind(job))
+              if (resp === null) {
+                return
+              } else {
+                _ = resp
+              }
+            }
+            passthrough.write(_)
+          }
         },
         onReady: (job) => {
           if (this.mounted) {

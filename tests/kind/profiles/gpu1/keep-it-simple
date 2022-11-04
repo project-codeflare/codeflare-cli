@@ -9,7 +9,7 @@
     "madwizard/apriori/platform": "darwin",
     "madwizard/apriori/mac-installer": "Homebrew",
     "madwizard/apriori/in-terminal": "HTML",
-    "ml/codeflare": "Start a new Run",
+    "ml/codeflare": "Submit a new Run",
     "ml/codeflare/run": "Bring Your Own Code",
     "ml/codeflare/training/byoc/working-directory": "{\"Location of your working directory\":\"tests/kind/inputs/ray-tune-tutorial\"}",
     "ml/codeflare/training/byoc/base-ray-image": "{\"Provide custom base image, if any\":\"rayproject/ray-ml:1.13.1-py37-gpu\"}",

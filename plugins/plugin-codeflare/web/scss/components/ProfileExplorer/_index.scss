@@ -27,7 +27,7 @@
 }
 
 @mixin EditButton {
-  button.codeflare--profile-explorer-edit-button {
+  .codeflare--profile-explorer-edit-button {
     @content;
   }
 }
@@ -79,10 +79,18 @@ body[kui-theme-style="dark"] {
 
   .pf-c-tree-view {
     @include EditButton {
-      color: var(--color-base04);
+      opacity: 0.25;
+      color: var(--color-text-02);
       &:hover {
+        opacity: 1;
         color: var(--color-text-01);
       }
+    }
+  }
+
+  .pf-c-card__footer {
+    button.larger-text {
+      font-size: 1.25rem;
     }
   }
 
