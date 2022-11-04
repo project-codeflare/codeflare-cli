@@ -81,7 +81,6 @@ export default class ProfileSelect extends React.PureComponent<Props, State> {
   public render() {
     return (
       <Select
-        direction="up"
         variant="single"
         placeholderText="Select a profile"
         aria-label="Profiles selector with description"

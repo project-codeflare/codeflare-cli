@@ -17,7 +17,7 @@
 import { defaultGuidebook } from "@kui-shell/client/config.d/client.json"
 import { Arguments, ParsedOptions, ReactResponse, Registrar, Tab } from "@kui-shell/core"
 
-export interface Options extends ParsedOptions {
+export type Options = ParsedOptions & {
   /** Alternate guidebook store */
   s: string
 
@@ -74,6 +74,12 @@ export interface Options extends ParsedOptions {
 
   /** Use team-focused assertions */
   team?: string
+
+  /** */
+  raw?: boolean
+
+  /** */
+  "raw-prefix"?: string
 }
 
 // TODO export this from madwizard
@@ -147,6 +153,8 @@ export function doMadwizard({ readonlyUI = true, task, withFilepath = true, cb, 
           profilesPath: parsedOptions["profiles-path"] || parsedOptions.P,
           store: parsedOptions.s || process.env.GUIDEBOOK_STORE,
           verbose: parsedOptions.V,
+          raw: parsedOptions.raw,
+          rawPrefix: parsedOptions["raw-prefix"],
           ifor: parsedOptions.ifor, // interactive only for a given guidebook?
           interactive: parsedOptions.i || (!parsedOptions.ifor && !parsedOptions.y),
           assertions: assertionsFn ? assertionsFn(parsedOptions) : undefined,
@@ -171,7 +179,7 @@ export function doMadwizard({ readonlyUI = true, task, withFilepath = true, cb, 
 }
 
 export const flags = {
-  boolean: ["u", "V", "n", "q", "i", "y", "z"],
+  boolean: ["u", "V", "n", "q", "i", "y", "z", "raw"],
   configuration: { "populate--": true },
   alias: {
     store: ["s"],
@@ -182,6 +190,7 @@ export const flags = {
     "profiles-path": ["P"],
     verbose: ["V"],
     team: ["t"],
+    raw: ["r"],
   },
 }
 

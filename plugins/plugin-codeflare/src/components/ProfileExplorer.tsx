@@ -27,10 +27,8 @@ import {
   CardFooter,
   Chip,
   ChipGroup,
-  Dropdown,
-  DropdownItem,
-  DropdownSeparator,
-  KebabToggle,
+  Flex,
+  FlexItem,
   TreeView,
   TreeViewDataItem,
 } from "@patternfly/react-core"
@@ -42,7 +40,13 @@ import ProfileWatcher from "../tray/watchers/profile/list"
 // import UpdateFunction from "../tray/update"
 import { handleNew, handleDelete, handleReset } from "../controller/profile/actions"
 
+import Icon from "@patternfly/react-icons/dist/esm/icons/clipboard-list-icon"
+
 import "../../web/scss/components/ProfileExplorer/_index.scss"
+
+import PlusSquareIcon from "@patternfly/react-icons/dist/esm/icons/plus-square-icon"
+import EraserIcon from "@patternfly/react-icons/dist/esm/icons/eraser-icon"
+import TrashIcon from "@patternfly/react-icons/dist/esm/icons/trash-icon"
 
 type Profile = import("madwizard").Profiles.Profile[]
 
@@ -294,29 +298,9 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     )
   }
 
-  /** Toggle kebab menu open/closed */
-  private readonly _onKebabToggle = () => this.setState((curState) => ({ isKebabOpen: !curState.isKebabOpen }))
-
-  /**
-   * Set kebab menu closed; hmm, if we don't delay this, then the
-   * DropdownItem onClicks don't fire. This seems like a patternfly
-   * bug, that the onClicks of menu items are processed *after* the
-   * onBlur of the menu dropdown...
-   */
-  private readonly _onKebabClose = () => setTimeout(() => this.setState(() => ({ isKebabOpen: false })), 200)
-
+  /** Content to place in the upper right */
   private actions() {
-    return (
-      <React.Fragment>
-        <Dropdown
-          isPlain
-          position="right"
-          isOpen={this.state.isKebabOpen}
-          toggle={<KebabToggle onBlur={this._onKebabClose} onToggle={this._onKebabToggle} />}
-          dropdownItems={this.actionItems}
-        ></Dropdown>
-      </React.Fragment>
-    )
+    return <React.Fragment />
   }
 
   /* private actionsStatus() {
@@ -500,6 +484,23 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
 
   private editable<T extends TreeViewDataItem>(guidebook: string, node: T) {
     return Object.assign(node, {
+      title: (
+        <React.Fragment>
+          {node.title}{" "}
+          <Tooltip content="Update this choice">
+            <span
+              aria-label="Edit"
+              data-guidebook={guidebook}
+              onClick={this.onEdit}
+              className="codeflare--profile-explorer-edit-button small-left-pad"
+            >
+              <Icons icon="Edit" />
+            </span>
+          </Tooltip>
+        </React.Fragment>
+      ),
+    })
+    /* return Object.assign(node, {
       action: (
         <Tooltip markdown={`### Update\n#### ${guidebook}\n\nClick to update this choice`}>
           <Button
@@ -513,7 +514,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
           </Button>
         </Tooltip>
       ),
-    })
+    }) */
   }
 
   private body() {
@@ -572,52 +573,48 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     return data
   }
 
-  private readonly actionItems = [
-    <DropdownItem
-      key="new"
-      component="button"
-      description="Create a new profile"
-      icon={<Icons icon="PlusSquare" />}
-      className="codeflare--profile-explorer--new-btn"
-      onClick={this._handleNew}
-    >
-      New
-    </DropdownItem>,
+  private readonly nowrap = { default: "nowrap" as const }
+  private readonly flex1 = { default: "flex_1" as const }
+  private readonly flexEnd = { default: "justifyContentFlexEnd" as const }
+  private readonly nopadding = { padding: "0 0.5em" }
 
-    <DropdownSeparator key="separator" />,
+  private footer() {
+    return (
+      <Flex flexWrap={this.nowrap} justifyContent={this.flexEnd}>
+        <FlexItem flex={this.flex1}>
+          <Tooltip position="top" content="Create a new profile">
+            <Button variant="link" className="larger-text" icon={<PlusSquareIcon />} onClick={this._handleNew} />
+          </Tooltip>
+        </FlexItem>
 
-    <DropdownItem
-      key="clear"
-      component="button"
-      description="Reset the choices in this profile"
-      icon={<Icons icon="Clear" />}
-      className="codeflare--profile-explorer--reset-btn"
-      onClick={this._handleReset}
-    >
-      Clear
-    </DropdownItem>,
-
-    <DropdownItem
-      key="delete"
-      component="button"
-      description="Delete this profile"
-      icon={<Icons icon="Trash" />}
-      className="codeflare--profile-explorer--delete-btn"
-      onClick={this._handleDelete}
-    >
-      Delete
-    </DropdownItem>,
-  ]
+        <FlexItem>
+          <Tooltip position="top" content="Reset the choices in this profile">
+            <Button variant="link" className="larger-text" icon={<EraserIcon />} onClick={this._handleReset} />
+          </Tooltip>
+          <Tooltip position="top" content="Delete this profile">
+            <Button variant="link" className="larger-text" icon={<TrashIcon />} onClick={this._handleDelete} />
+          </Tooltip>
+        </FlexItem>
+      </Flex>
+    )
+  }
 
   public render() {
     return (
-      <Card isCompact isPlain isFullHeight>
+      <Card isLarge>
         <CardHeader>
-          <CardTitle>Draft Specification</CardTitle>
+          <CardTitle>
+            <div className="flex-layout">
+              <Icon className="larger-text slightly-deemphasize small-right-pad" /> Specification
+            </div>
+          </CardTitle>
           <CardActions hasNoOffset>{this.actions()}</CardActions>
         </CardHeader>
-        <CardBody>{this.body()}</CardBody>
-        <CardFooter>{this.title()}</CardFooter>
+        <CardBody>
+          {this.title()}
+          {this.body()}
+        </CardBody>
+        <CardFooter>{this.footer()}</CardFooter>
       </Card>
     )
   }

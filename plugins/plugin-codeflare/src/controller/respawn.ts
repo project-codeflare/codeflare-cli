@@ -73,8 +73,23 @@ async function headlessRoot() {
 }
 
 /** @return the absolute path to the directory that contains the guidebook store for this build */
-async function guidebookStore() {
+export async function guidebookStore() {
   return process.env.GUIDEBOOK_STORE || (await electronProductionBuildGuidebookStore())
+}
+
+/** @return an env that will at least point to our guidebook store */
+async function env() {
+  return {
+    KUI_S3: "false",
+    KUI_HEADLESS: "true",
+    KUI_HEADLESS_WEBPACK: "true",
+    ELECTRON_RUN_AS_NODE: "true",
+    GUIDEBOOK_STORE: await guidebookStore(),
+    DEBUG: process.env.DEBUG || "",
+    HOME: process.env.HOME || "",
+    PATH: process.env.PATH || "",
+    KUBECONFIG: process.env.KUBECONFIG || "",
+  }
 }
 
 /** Fill in the given command line to spawn ourselves as a subprocess */
@@ -92,16 +107,6 @@ export default async function respawnCommand(cmdline: string | string[]) {
       "--",
       ...(typeof cmdline === "string" ? [cmdline] : cmdline),
     ],
-    env: {
-      KUI_S3: "false",
-      KUI_HEADLESS: "true",
-      KUI_HEADLESS_WEBPACK: "true",
-      ELECTRON_RUN_AS_NODE: "true",
-      GUIDEBOOK_STORE: await guidebookStore(),
-      DEBUG: process.env.DEBUG || "",
-      HOME: process.env.HOME || "",
-      PATH: process.env.PATH || "",
-      KUBECONFIG: process.env.KUBECONFIG || "",
-    },
+    env: await env(),
   }
 }

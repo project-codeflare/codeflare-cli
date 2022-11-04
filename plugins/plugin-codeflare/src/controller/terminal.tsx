@@ -23,8 +23,8 @@ import { Button, EmptyState, EmptyStateBody, EmptyStatePrimary, Flex, FlexItem, 
 
 import respawn from "./respawn"
 
+import AskingTerminal from "../components/AskingTerminal"
 import ProfileExplorer from "../components/ProfileExplorer"
-import SelectedProfileTerminal from "../components/SelectedProfileTerminal"
 import Terminal, { Props as BaseProps } from "../components/RestartableTerminal"
 
 import "../../web/scss/components/Allotment/_index.scss"
@@ -102,7 +102,7 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
   /** Allotment initial split ... allotments */
   private readonly splits = {
     horizontal: [25, 75],
-    vertical1: [100], // no `this.props.aboveTerminal`
+    vertical1: [50, 50], // no `this.props.aboveTerminal`
     vertical2a: [60, 40], // yes, and show a guidebook
     vertical2b: [80, 20], // yes, and do not show a guidebook
   }
@@ -168,8 +168,8 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
   }
 
   /** Event handler for switching to a different guidebook */
-  private readonly onSelectGuidebook = (guidebook: string) =>
-    this.setState({ hideTerminal: false, guidebook, ifor: true, noninteractive: false })
+  private readonly onSelectGuidebook = (guidebook: string | null | undefined, ifor = true) =>
+    this.setState({ hideTerminal: false, guidebook, ifor, noninteractive: false })
 
   public static getDerivedStateFromProps(props: Props, state: State) {
     if ((props.defaultGuidebook && state.guidebook !== props.defaultGuidebook) || props.extraEnv !== state.extraEnv) {
@@ -207,12 +207,16 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
     }
   }
 
-  private readonly _gotit = () => {
-    this.setState({ hideTerminal: true })
-  }
+  private readonly _gotit = () => this.setState({ hideTerminal: true })
 
-  private readonly _refresh = () => {
+  private readonly _refresh = () =>
     this.setState({ hideTerminal: false, guidebook: this.props.defaultGuidebook || defaultGuidebookFromClient })
+
+  /** Return to top-level guidebook */
+  private readonly _home = (noninteractive = false) => {
+    const home = this.props.defaultGuidebook || defaultGuidebookFromClient
+    this.onSelectGuidebook(home, false)
+    this.setState((curState) => ({ initCount: curState.initCount + 1, noninteractive }))
   }
 
   private get vertical1() {
@@ -240,7 +244,7 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
           <ProfileExplorer onSelectProfile={this.onSelectProfile} onSelectGuidebook={this.onSelectGuidebook} />
         </AllotmentFillPane>
         <AllotmentFillPane>
-          {!this.state.selectedProfile ? (
+          {!this.state.selectedProfile || !this.state.guidebook ? (
             <Loading />
           ) : (
             <Allotment
@@ -255,12 +259,15 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
                   {!this.state.cmdline || !this.state.env ? (
                     this.noGuidebook()
                   ) : (
-                    <SelectedProfileTerminal
-                      key={this.state.initCount + "_" + this.state.cmdline + "-" + this.state.selectedProfile}
+                    <AskingTerminal
+                      initCount={this.state.initCount}
+                      guidebook={this.state.guidebook}
                       cmdline={this.state.cmdline}
                       env={this.state.env}
-                      {...this.props}
                       selectedProfile={this.state.selectedProfile}
+                      terminalProps={this.props}
+                      home={this._home}
+                      noninteractive={this.state.noninteractive}
                     />
                   )}
                 </AllotmentFillPane>
