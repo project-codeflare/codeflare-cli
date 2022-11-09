@@ -180,7 +180,7 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
         guidebook: props.defaultGuidebook,
         noninteractive: props.defaultNoninteractive,
       }
-    } else if (props.defaultNoninteractive !== state.noninteractive) {
+    } else if (props.defaultNoninteractive !== undefined && props.defaultNoninteractive !== state.noninteractive) {
       // different interactivity
       return {
         ifor: false,
