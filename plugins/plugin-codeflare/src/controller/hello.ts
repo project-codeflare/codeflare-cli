@@ -35,5 +35,8 @@ export async function dashboardGallery(args: Arguments) {
 }
 
 export default function hello(args: Arguments) {
+  if (args.parsedOptions.s) {
+    process.env.GUIDEBOOK_STORE = args.parsedOptions.s
+  }
   return args.REPL.qexec("commentary --readonly -f /kui/client/hello.md")
 }
