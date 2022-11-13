@@ -44,6 +44,8 @@ import Icon from "@patternfly/react-icons/dist/esm/icons/clipboard-list-icon"
 
 import "../../web/scss/components/ProfileExplorer/_index.scss"
 
+import LockIcon from "@patternfly/react-icons/dist/esm/icons/lock-icon"
+import LockOpenIcon from "@patternfly/react-icons/dist/esm/icons/lock-open-icon"
 import PlusSquareIcon from "@patternfly/react-icons/dist/esm/icons/plus-square-icon"
 import EraserIcon from "@patternfly/react-icons/dist/esm/icons/eraser-icon"
 import TrashIcon from "@patternfly/react-icons/dist/esm/icons/trash-icon"
@@ -253,22 +255,20 @@ type ProfileCardProps = Partial<Diff> &
   }
 
 type ProfileCardState = {
-  isOpen: boolean
-
-  /** Is the kebab action dropdown open? */
-  isKebabOpen?: boolean
+  /** Are we in editable mode? */
+  editable: boolean
 }
 
 class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState> {
   public constructor(props: ProfileCardProps) {
     super(props)
     this.state = {
-      isOpen: false,
+      editable: false,
     }
   }
 
   /** Create new profile */
-  private readonly _handleNew = async () => {
+  private readonly _onNew = async () => {
     if (this.props.profile) {
       const newProfile = await handleNew(this.props.profile, this.props.profiles)
       this.props.onSelectProfile(newProfile)
@@ -276,17 +276,14 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
   }
 
   /** Delete selected profile */
-  private readonly _handleDelete = async () => {
+  private readonly _onDelete = async () => {
     if (this.props.profile) {
       await handleDelete(this.props.profile)
       this.props.onSelectProfile(null)
     }
   }
 
-  private readonly _handleReset = () => this.props.profile && handleReset(this.props.profile)
-  // private readonly _handleBoot = () => handleBoot(this.props.profile)
-  // private readonly _handleShutdown = () => handleShutdown(this.props.profile)
-  private readonly _onToggle = () => this.setState({ isOpen: !this.state.isOpen })
+  private readonly _onReset = () => this.props.profile && handleReset(this.props.profile)
 
   private title() {
     return (
@@ -331,15 +328,15 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
   private readonly groups: Record<string, Group> = {
     Application: {
       title: "Application",
-      name: "Properties of your workload",
+      name: "", // "Properties of your workload",
     },
     Compute: {
       title: "Compute",
-      name: "Properties of your workers",
+      name: "", // "Properties of your workers",
     },
     Storage: {
       title: "Storage",
-      name: "Properties of your data",
+      name: "", // "Properties of your data",
     },
   }
 
@@ -471,7 +468,11 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     }
   }
 
-  private readonly onEdit = (evt: React.MouseEvent) => {
+  /** User has clicked to toggle editable mode */
+  private readonly _onToggleEditable = () => this.setState((curState) => ({ editable: !curState.editable }))
+
+  /** User has clicked to edit a particular choice */
+  private readonly _onEdit = (evt: React.MouseEvent) => {
     const guidebook = evt.currentTarget.getAttribute("data-guidebook")
     if (guidebook) {
       if (this.props.onSelectGuidebook) {
@@ -482,39 +483,25 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     }
   }
 
+  /** @return a `TreeViewDataItem` wrapper around `node` that adds an edit button */
   private editable<T extends TreeViewDataItem>(guidebook: string, node: T) {
-    return Object.assign(node, {
-      title: (
-        <React.Fragment>
-          {node.title}{" "}
-          <Tooltip content="Update this choice">
-            <span
-              aria-label="Edit"
-              data-guidebook={guidebook}
-              onClick={this.onEdit}
-              className="codeflare--profile-explorer-edit-button small-left-pad"
-            >
-              <Icons icon="Edit" />
-            </span>
-          </Tooltip>
-        </React.Fragment>
-      ),
-    })
-    /* return Object.assign(node, {
-      action: (
-        <Tooltip markdown={`### Update\n#### ${guidebook}\n\nClick to update this choice`}>
-          <Button
-            variant="plain"
-            aria-label="Edit"
-            data-guidebook={guidebook}
-            onClick={this.onEdit}
-            className="codeflare--profile-explorer-edit-button"
-          >
-            <Icons icon="Edit" />
-          </Button>
-        </Tooltip>
-      ),
-    }) */
+    return !this.state.editable
+      ? node
+      : Object.assign(node, {
+          action: (
+            <Tooltip markdown={`### Update\n#### ${guidebook}\n\nClick to update this choice`}>
+              <Button
+                variant="plain"
+                aria-label="Edit"
+                data-guidebook={guidebook}
+                onClick={this._onEdit}
+                className="codeflare--profile-explorer-edit-button"
+              >
+                <Icons icon="Edit" />
+              </Button>
+            </Tooltip>
+          ),
+        })
   }
 
   private body() {
@@ -555,7 +542,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       }
       this.sort(data)
 
-      return <TreeView hasGuides defaultAllExpanded data={data} variant="compactNoBackground" />
+      return <TreeView hasGuides defaultAllExpanded data={data} variant="compact" toolbar={this.title()} />
     }
 
     return <Loading />
@@ -583,16 +570,31 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       <Flex flexWrap={this.nowrap} justifyContent={this.flexEnd}>
         <FlexItem flex={this.flex1}>
           <Tooltip position="top" content="Create a new profile">
-            <Button variant="link" className="larger-text" icon={<PlusSquareIcon />} onClick={this._handleNew} />
+            <Button variant="link" className="larger-text" icon={<PlusSquareIcon />} onClick={this._onNew} />
           </Tooltip>
         </FlexItem>
 
         <FlexItem>
+          <Tooltip
+            position="top"
+            content={
+              this.state.editable
+                ? "Exit editable mode (disallow choices to be modified)"
+                : "Enter editable mode (allow choices to be modified)"
+            }
+          >
+            <Button
+              variant="link"
+              className="larger-text"
+              icon={this.state.editable ? <LockOpenIcon /> : <LockIcon />}
+              onClick={this._onToggleEditable}
+            />
+          </Tooltip>
           <Tooltip position="top" content="Reset the choices in this profile">
-            <Button variant="link" className="larger-text" icon={<EraserIcon />} onClick={this._handleReset} />
+            <Button variant="link" className="larger-text" icon={<EraserIcon />} onClick={this._onReset} />
           </Tooltip>
           <Tooltip position="top" content="Delete this profile">
-            <Button variant="link" className="larger-text" icon={<TrashIcon />} onClick={this._handleDelete} />
+            <Button variant="link" className="larger-text" icon={<TrashIcon />} onClick={this._onDelete} />
           </Tooltip>
         </FlexItem>
       </Flex>
@@ -610,10 +612,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
           </CardTitle>
           <CardActions hasNoOffset>{this.actions()}</CardActions>
         </CardHeader>
-        <CardBody>
-          {this.title()}
-          {this.body()}
-        </CardBody>
+        <CardBody>{this.body()}</CardBody>
         <CardFooter>{this.footer()}</CardFooter>
       </Card>
     )
