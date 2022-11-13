@@ -77,17 +77,6 @@ body[kui-theme-style="dark"] {
     color: var(--color-text-01);
   }
 
-  .pf-c-tree-view {
-    @include EditButton {
-      opacity: 0.25;
-      color: var(--color-text-02);
-      &:hover {
-        opacity: 1;
-        color: var(--color-text-01);
-      }
-    }
-  }
-
   .pf-c-card__footer {
     button.larger-text {
       font-size: 1.25rem;
