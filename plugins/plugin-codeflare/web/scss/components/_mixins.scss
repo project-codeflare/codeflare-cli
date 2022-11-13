@@ -19,3 +19,9 @@
     @content;
   }
 }
+
+@mixin AskActions {
+  .kui--guide-actions {
+    @content;
+  }
+}

@@ -109,9 +109,9 @@ export default class AskUI extends React.PureComponent<Props, State> {
   /** content to show in the upper right */
   private actions() {
     return (
-      <ActionGroup>
+      <ActionGroup className="kui--guide-actions">
         <Tooltip markdown={`### Home\n#### Jump back to the beginning\n\n⌘ or Alt-click to open a new window`}>
-          <Button variant="link" icon={<HomeIcon className="larger-text" />} onClick={this._home} />
+          <Button variant="link" icon={<HomeIcon />} onClick={this._home} />
         </Tooltip>
       </ActionGroup>
     )

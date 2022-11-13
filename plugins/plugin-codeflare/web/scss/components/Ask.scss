@@ -46,3 +46,18 @@
     }
   }
 }
+
+@include Ask {
+  .pf-c-card__actions {
+    align-self: unset;
+  }
+  @include AskActions {
+    button {
+      padding-top: 0;
+      padding-bottom: 0;
+      svg {
+        font-size: 1.25rem;
+      }
+    }
+  }
+}
