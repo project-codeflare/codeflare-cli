@@ -30,10 +30,11 @@ import {
   Grid,
   Form,
   FormGroup,
-  SimpleList,
-  SimpleListItem,
+  Select,
+  SelectGroup,
+  SelectOption,
+  SelectOptionObject,
   TextInput,
-  Tile,
 } from "@patternfly/react-core"
 
 import HomeIcon from "@patternfly/react-icons/dist/esm/icons/home-icon"
@@ -129,33 +130,8 @@ export default class AskUI extends React.PureComponent<Props, State> {
           <CardActions hasNoOffset>{this.actions()}</CardActions>
         </CardHeader>
 
-        <CardBody className="scrollable scrollable-auto" style={{ paddingTop: "1em" }}>
-          {body}
-        </CardBody>
+        <CardBody>{body}</CardBody>
       </Card>
-    )
-  }
-
-  /** Render a simplified set of choices where the message is the same as the title */
-  private select(ask: Ask<Prompts.Select>) {
-    return this.card(
-      ask.title,
-      <SimpleList>
-        {ask.prompt.choices.map((_) => {
-          const isSuggested = this.state?.userSelection === _.name
-          return (
-            <SimpleListItem
-              key={_.name}
-              itemId={_.name}
-              data-name={_.name}
-              isActive={isSuggested}
-              onClick={this._onSimpleListClick}
-            >
-              {_.name}
-            </SimpleListItem>
-          )
-        })}
-      </SimpleList>
     )
   }
 
@@ -183,60 +159,124 @@ export default class AskUI extends React.PureComponent<Props, State> {
     return false
   }
 
-  /** User has clicked on a tile */
-  private readonly _onTileClick = (evt: React.MouseEvent) => {
-    const name = evt.currentTarget.getAttribute("data-name")
-    if (name && this.props.ask) {
+  /** User has clicked on a SelectOption */
+  private readonly _onSelect = (
+    evt: React.MouseEvent | React.ChangeEvent,
+    selection: string | SelectOptionObject,
+    isPlaceholder?: boolean
+  ) => {
+    if (!isPlaceholder && selection && this.props.ask) {
+      const name = selection.toString()
       this.setState({ userSelection: name })
       this.props.ask.onChoose(Promise.resolve(name))
     }
   }
 
-  private tiles(ask: Ask<Prompts.Select>) {
-    // is every message the same as the title?
-    const isSimplistic = ask.prompt.choices.every(
-      (_) => _.name === stripAnsi(_.message).replace("  ◄ you selected this last time", "")
+  private readonly _selectOptionForChoice = (
+    _: Ask<Prompts.Select>["prompt"]["choices"][number],
+    isFocused = false
+  ) => {
+    const message = this.justTheMessage(_)
+    const isSuggested = this.state?.userSelection === _.name
+    const description = (
+      <React.Fragment>
+        {" "}
+        {message !== _.name && (
+          <div>
+            <Ansi noWrap="normal" className="sans-serif">
+              {_.message.split(/\n/).slice(-2)[0]}
+            </Ansi>
+          </div>
+        )}
+        {isSuggested && (
+          <div className="top-pad color-base0D">
+            <InfoIcon /> You selected this last time
+          </div>
+        )}
+      </React.Fragment>
     )
-    if (isSimplistic) {
-      return this.select(ask)
+
+    // re: className: pf-m-focus; patternfly seems to have a bug with isGrouped Select and isFocused SelectOptions
+    return (
+      <SelectOption
+        key={_.name}
+        id={_.name}
+        value={_.name}
+        description={description}
+        isFocused={isFocused}
+        className={isFocused ? "pf-m-focus" : undefined}
+      >
+        {_.name}
+      </SelectOption>
+    )
+  }
+
+  /** PatternFly's <Select> requires an onToggle, but we want the Select to remain ever-open */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private readonly _doNothing = () => {
+    // Intentionally empty
+  }
+
+  /** Render a UI for making a selection */
+  private select(ask: Ask<Prompts.Select>) {
+    const suggested = ask.prompt.choices.find((_) => _.name === this.state?.userSelection)
+
+    // present a filtered list of options; note that we filter based
+    // on the full "message" field, which includes both the title
+    // (_.name) and the description (which is buried inside of
+    // _.message
+    const mkOptions = (filter = "") => {
+      const pattern = new RegExp(filter, "i")
+
+      // options other than the "suggested" (i.e. prior choice)
+      const others = ask.prompt.choices
+        .filter((_) => _.name !== this.state?.userSelection && (!filter || pattern.test(_.message)))
+        .map((_) => this._selectOptionForChoice(_))
+
+      // ugh, a bit of syntactic garbage here to make typescript
+      // happy. this is just creating a filtered list of two groups:
+      // Prior choice and Other choices, but either one may be empty
+      // due to the filtering, or the lack of a prior choice
+      return [
+        ...(suggested && (!filter || pattern.test(suggested.message))
+          ? [<SelectGroup label="Prior choice">{this._selectOptionForChoice(suggested, true)}</SelectGroup>]
+          : []),
+        ...(others.length > 0
+          ? [<SelectGroup label={suggested ? "Other choices" : "Choices"}>{others}</SelectGroup>]
+          : []),
+      ]
     }
 
-    return this.card(
-      ask.title,
-      <Grid hasGutter md={3}>
-        {ask.prompt.choices.map((_) => {
-          const message = this.justTheMessage(_)
-          const isSuggested = this.state?.userSelection === _.name
+    const onFilter = (evt: React.ChangeEvent | null, filter: string) => mkOptions(filter)
 
-          //icon={isSuggested && <Icons icon="Info"/>}
+    const placeholderText = "Select an option"
+    const titleId = "kui--madwizard-ask-ui-title"
 
-          return (
-            <Tile
-              className="kui--guide-tile"
-              isSelected={isSuggested}
-              key={_.name}
-              title={_.name}
-              data-name={_.name}
-              data-large={!isSimplistic || undefined}
-              isStacked
-              onClick={this._onTileClick}
-            >
-              {message !== _.name && (
-                <div>
-                  <Ansi noWrap="normal" className="sans-serif">
-                    {_.message.split(/\n/).slice(-2)[0]}
-                  </Ansi>
-                </div>
-              )}
-              {isSuggested && (
-                <div className="top-pad color-base0D">
-                  <InfoIcon /> You selected this last time
-                </div>
-              )}
-            </Tile>
-          )
-        })}
-      </Grid>
+    const props = {
+      isOpen: true,
+      isGrouped: true,
+      hasInlineFilter: true,
+      isInputValuePersisted: true,
+      isInputFilterPersisted: true,
+      //      variant: "typeahead" as const,
+      //      typeAheadAriaLabel: "Select an option",
+      onFilter,
+      "aria-labelledby": titleId,
+      noResultsFoundText: "No matching choices",
+      placeholderText,
+      onSelect: this._onSelect,
+      onToggle: this._doNothing,
+      toggleIndicator: <React.Fragment />,
+      children: mkOptions(),
+    }
+
+    return (
+      <React.Fragment>
+        <span id={titleId} hidden>
+          {placeholderText}
+        </span>
+        {this.card(ask.title, <Select {...props} />)}
+      </React.Fragment>
     )
   }
 
@@ -290,7 +330,7 @@ export default class AskUI extends React.PureComponent<Props, State> {
 
   private ask(ask: Ask) {
     if (this.isSelect(ask)) {
-      return this.tiles(ask)
+      return this.select(ask)
     } else if (this.isMultiSelect(ask)) {
       return this.checkboxes(ask)
     } else {
