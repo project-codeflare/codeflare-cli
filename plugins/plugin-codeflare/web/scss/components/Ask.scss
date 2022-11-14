@@ -17,33 +17,12 @@
 @import "mixins";
 
 @include Ask {
-  .kui--guide-tile {
-    &[data-large] {
-      --kui-font-factor: 1.25;
-      .pf-c-tile__title {
-        font-size: 1.125rem;
-        line-height: 1.375rem;
-        padding-bottom: 0.25rem;
-      }
-      .pf-c-tile__body {
-        font-size: 0.875rem;
-      }
-    }
-  }
-
-  button:not(.pf-m-link) {
+  button:not(.pf-m-link):not(.pf-c-select__toggle-button) {
     color: var(--pf-c-button--m-primary--Color) !important;
   }
 
   &.pf-c-empty-state.pf-m-xs .pf-c-button.larger-text {
     font-size: 1.5rem;
-  }
-
-  .pf-c-tile__body {
-    color: var(--color-text-02);
-    p {
-      font-size: var(--pf-c-tile__body--FontSize) !important;
-    }
   }
 }
 
