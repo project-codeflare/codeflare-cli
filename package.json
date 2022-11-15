@@ -131,10 +131,10 @@
     }
   },
   "devDependencies": {
-    "@kui-shell/builder": "12.2.0-dev-20221114-181230",
-    "@kui-shell/proxy": "12.2.0-dev-20221114-181230",
-    "@kui-shell/react": "12.2.0-dev-20221114-181230",
-    "@kui-shell/webpack": "12.2.0-dev-20221114-181230",
+    "@kui-shell/builder": "12.2.0-dev-20221115-085303",
+    "@kui-shell/proxy": "12.2.0-dev-20221115-085303",
+    "@kui-shell/react": "12.2.0-dev-20221115-085303",
+    "@kui-shell/webpack": "12.2.0-dev-20221115-085303",
     "@playwright/test": "^1.27.1",
     "@types/debug": "^4.1.7",
     "@types/json-diff": "^0.9.0",
@@ -160,15 +160,15 @@
   },
   "dependencies": {
     "@kui-shell/client": "file:./plugins/plugin-client-default",
-    "@kui-shell/core": "12.2.0-dev-20221114-181230",
-    "@kui-shell/plugin-bash-like": "12.2.0-dev-20221114-181230",
-    "@kui-shell/plugin-client-common": "12.2.0-dev-20221114-181230",
+    "@kui-shell/core": "12.2.0-dev-20221115-085303",
+    "@kui-shell/plugin-bash-like": "12.2.0-dev-20221115-085303",
+    "@kui-shell/plugin-client-common": "12.2.0-dev-20221115-085303",
     "@kui-shell/plugin-codeflare": "file:./plugins/plugin-codeflare",
-    "@kui-shell/plugin-core-support": "12.2.0-dev-20221114-181230",
-    "@kui-shell/plugin-electron-components": "12.2.0-dev-20221114-181230",
-    "@kui-shell/plugin-kubectl": "12.2.0-dev-20221114-181230",
+    "@kui-shell/plugin-core-support": "12.2.0-dev-20221115-085303",
+    "@kui-shell/plugin-electron-components": "12.2.0-dev-20221115-085303",
+    "@kui-shell/plugin-kubectl": "12.2.0-dev-20221115-085303",
     "@kui-shell/plugin-madwizard": "file:./plugins/plugin-madwizard",
-    "@kui-shell/plugin-patternfly4-themes": "12.2.0-dev-20221114-181230",
-    "@kui-shell/plugin-proxy-support": "12.2.0-dev-20221114-181230"
+    "@kui-shell/plugin-patternfly4-themes": "12.2.0-dev-20221115-085303",
+    "@kui-shell/plugin-proxy-support": "12.2.0-dev-20221115-085303"
   }
 }
