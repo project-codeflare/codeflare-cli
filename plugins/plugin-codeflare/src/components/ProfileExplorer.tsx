@@ -603,7 +603,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
 
   public render() {
     return (
-      <Card isLarge>
+      <Card isPlain>
         <CardHeader>
           <CardTitle>
             <div className="flex-layout">
