@@ -67,6 +67,12 @@ body[kui-theme-style="dark"] {
     overflow-wrap: anywhere; /** WARNING: does not work on safari; we'll need the junkier word-break: break-all there */
   }
 
+  .pf-c-card {
+    background-color: var(--color-sidecar-background-02);
+  }
+  .pf-c-tree-view__node-container {
+  }
+
   /** width management */
   .pf-c-card {
     flex: 1;
@@ -101,7 +107,14 @@ body[kui-theme-style="dark"] {
   }
 
   .pf-c-tree-view__node-text {
+    margin-top: 0;
     color: var(--color-text-02);
+    font-size: var(--pf-global--FontSize--xs);
+  }
+
+  .pf-c-tree-view__node-title {
+    font-weight: 500;
+    line-height: var(--pf-global--LineHeight--md);
   }
 
   .pf-c-tree-view__node-toggle {

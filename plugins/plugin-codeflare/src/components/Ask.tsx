@@ -32,6 +32,7 @@ import {
   FormGroup,
   Select,
   SelectGroup,
+  SelectProps,
   SelectOption,
   SelectOptionObject,
   TextInput,
@@ -39,7 +40,7 @@ import {
 
 import HomeIcon from "@patternfly/react-icons/dist/esm/icons/home-icon"
 import InfoIcon from "@patternfly/react-icons/dist/esm/icons/info-circle-icon"
-import ChoiceIcon from "@patternfly/react-icons/dist/esm/icons/lightbulb-icon"
+import ChoiceIcon from "@patternfly/react-icons/dist/esm/icons/user-cog-icon"
 
 import "../../web/scss/components/Ask.scss"
 
@@ -120,11 +121,11 @@ export default class AskUI extends React.PureComponent<Props, State> {
 
   private card(title: string, body: React.ReactNode) {
     return (
-      <Card isLarge className="sans-serif flex-fill">
+      <Card isPlain className="sans-serif">
         <CardHeader>
           <CardTitle>
             <div className="flex-layout">
-              <ChoiceIcon className="larger-text slightly-deemphasize small-right-pad" /> {title.replace(/\?$/, "")}
+              <ChoiceIcon className="larger-text slightly-deemphasize small-right-pad" /> Configure
             </div>
           </CardTitle>
           <CardActions hasNoOffset>{this.actions()}</CardActions>
@@ -217,6 +218,11 @@ export default class AskUI extends React.PureComponent<Props, State> {
     // Intentionally empty
   }
 
+  /** Format title for presentation */
+  private title(ask: Ask) {
+    return ask.title.replace(/\?$/, "")
+  }
+
   /** Render a UI for making a selection */
   private select(ask: Ask<Prompts.Select>) {
     const suggested = ask.prompt.choices.find((_) => _.name === this.state?.userSelection)
@@ -249,21 +255,20 @@ export default class AskUI extends React.PureComponent<Props, State> {
 
     const onFilter = (evt: React.ChangeEvent | null, filter: string) => mkOptions(filter)
 
-    const placeholderText = "Select an option"
     const titleId = "kui--madwizard-ask-ui-title"
 
-    const props = {
+    const props: SelectProps = {
       isOpen: true,
+      isPlain: true,
       isGrouped: true,
       hasInlineFilter: true,
       isInputValuePersisted: true,
       isInputFilterPersisted: true,
-      //      variant: "typeahead" as const,
-      //      typeAheadAriaLabel: "Select an option",
       onFilter,
       "aria-labelledby": titleId,
       noResultsFoundText: "No matching choices",
-      placeholderText,
+      placeholderText: this.title(ask), // place the guidebook title here
+      inlineFilterPlaceholderText: "Filter choices",
       onSelect: this._onSelect,
       onToggle: this._doNothing,
       toggleIndicator: <React.Fragment />,
@@ -272,9 +277,7 @@ export default class AskUI extends React.PureComponent<Props, State> {
 
     return (
       <React.Fragment>
-        <span id={titleId} hidden>
-          {placeholderText}
-        </span>
+        <span id={titleId} hidden />
         {this.card(ask.title, <Select {...props} />)}
       </React.Fragment>
     )
@@ -297,26 +300,33 @@ export default class AskUI extends React.PureComponent<Props, State> {
 
     return this.card(
       ask.title,
-      <Form onSubmit={this._onFormSubmit}>
-        <Grid hasGutter md={6}>
-          {ask.prompt.choices.map((_) => (
-            <FormGroup isRequired key={_.name} label={_.name}>
-              <TextInput
-                aria-label={`text-input-${_.name}`}
-                isRequired
-                value={form[_.name]}
-                onChange={(value) => (form[_.name] = value)}
-              />
-            </FormGroup>
-          ))}
-        </Grid>
+      <Card>
+        <CardHeader>
+          <CardTitle>{this.title(ask)}</CardTitle>
+        </CardHeader>
+        <CardBody>
+          <Form onSubmit={this._onFormSubmit}>
+            <Grid hasGutter md={6}>
+              {ask.prompt.choices.map((_) => (
+                <FormGroup isRequired key={_.name} label={_.name}>
+                  <TextInput
+                    aria-label={`text-input-${_.name}`}
+                    isRequired
+                    value={form[_.name]}
+                    onChange={(value) => (form[_.name] = value)}
+                  />
+                </FormGroup>
+              ))}
+            </Grid>
 
-        <ActionGroup>
-          <Button variant="primary" type="submit">
-            Next
-          </Button>
-        </ActionGroup>
-      </Form>
+            <ActionGroup>
+              <Button variant="primary" type="submit">
+                Next
+              </Button>
+            </ActionGroup>
+          </Form>
+        </CardBody>
+      </Card>
     )
   }
 

@@ -27,6 +27,19 @@
 }
 
 @include Ask {
+  &,
+  .pf-c-card {
+    width: 40rem;
+    min-width: 0;
+    max-width: 40rem;
+  }
+
+  .pf-c-select__menu-item-main {
+    white-space: normal;
+  }
+}
+
+@include Ask {
   .pf-c-card__actions {
     align-self: unset;
   }
