@@ -203,7 +203,7 @@ export default class AskingTerminal extends React.PureComponent<Props, State> {
               write((typeof choice === "string" ? choice : JSON.stringify(choice)) + "\n")
             }
             const prompt = msg.ask
-            const ask = { title: prompt.name || "Make a Choice", prompt, onChoose }
+            const ask = { title: prompt.name || "Make a Choice", description: prompt.description, prompt, onChoose }
             this.setState({ ask, status: "q&a" })
           }
         } catch (err) {

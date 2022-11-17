@@ -85,7 +85,7 @@ export default class Guide extends React.PureComponent<Props, State> {
 
   /** Guidebook runner presents a question to the user */
   private async onAsk(prompt: Prompts.Prompt, onChoose: (choice: ReturnType<Tree.AnsiUI["ask"]>) => void) {
-    this.setState({ ask: { prompt, onChoose, title: prompt.name || "Make a Choice" } })
+    this.setState({ ask: { prompt, onChoose, title: prompt.name || "Make a Choice", description: prompt.description } })
   }
 
   private async init() {
