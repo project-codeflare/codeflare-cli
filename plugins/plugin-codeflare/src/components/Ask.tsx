@@ -42,7 +42,7 @@ import HomeIcon from "@patternfly/react-icons/dist/esm/icons/home-icon"
 import InfoIcon from "@patternfly/react-icons/dist/esm/icons/info-circle-icon"
 import ChoiceIcon from "@patternfly/react-icons/dist/esm/icons/user-cog-icon"
 
-import "../../web/scss/components/Ask.scss"
+import "../../web/scss/components/Ask/_index.scss"
 
 /** One choice to present to the user */
 export type Ask<P extends Prompts.Prompt = Prompts.Prompt> = {
