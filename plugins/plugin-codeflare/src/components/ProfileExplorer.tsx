@@ -422,7 +422,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
                 .replace(/Maximum/, "Max")
                 .replace(/Memory/, "Mem")}
             </span>{" "}
-            <span className="semi-bold color-base0D">{name}</span>
+            <span className="semi-bold color-base0F">{name}</span>
           </Chip>
         ))}
       </ChipGroup>
