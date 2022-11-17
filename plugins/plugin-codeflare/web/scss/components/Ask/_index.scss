@@ -27,6 +27,23 @@
 }
 
 @include Ask {
+  .pf-c-select__toggle-text {
+    text-align: left;
+  }
+}
+
+/** Title */
+@include Ask {
+  .pf-c-select__toggle {
+    /* This is the default <button> from PatternFly's <Select> */
+    display: none;
+  }
+  .pf-c-card__body .pf-c-content {
+    height: auto;
+  }
+}
+
+@include Ask {
   &,
   .pf-c-card {
     width: 40rem;

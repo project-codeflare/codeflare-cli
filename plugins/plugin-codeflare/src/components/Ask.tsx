@@ -18,7 +18,7 @@ import React from "react"
 import stripAnsi from "strip-ansi"
 import { Prompts, Tree } from "madwizard"
 
-import { Ansi, Tooltip } from "@kui-shell/plugin-client-common"
+import { Ansi, Markdown, Tooltip } from "@kui-shell/plugin-client-common"
 import {
   ActionGroup,
   Button,
@@ -48,6 +48,9 @@ import "../../web/scss/components/Ask/_index.scss"
 export type Ask<P extends Prompts.Prompt = Prompts.Prompt> = {
   /** Title for this ask */
   title: string
+
+  /** Description for this ask */
+  description?: string
 
   /** Model of what to ask the user */
   prompt: P
@@ -119,7 +122,7 @@ export default class AskUI extends React.PureComponent<Props, State> {
     )
   }
 
-  private card(title: string, body: React.ReactNode) {
+  private card(title: React.ReactNode, body: React.ReactNode) {
     return (
       <Card isPlain className="sans-serif">
         <CardHeader>
@@ -131,7 +134,10 @@ export default class AskUI extends React.PureComponent<Props, State> {
           <CardActions hasNoOffset>{this.actions()}</CardActions>
         </CardHeader>
 
-        <CardBody>{body}</CardBody>
+        <CardBody>
+          {title}
+          {body}
+        </CardBody>
       </Card>
     )
   }
@@ -267,18 +273,21 @@ export default class AskUI extends React.PureComponent<Props, State> {
       onFilter,
       "aria-labelledby": titleId,
       noResultsFoundText: "No matching choices",
-      placeholderText: this.title(ask), // place the guidebook title here
+      placeholderText: "",
       inlineFilterPlaceholderText: "Filter choices",
       onSelect: this._onSelect,
       onToggle: this._doNothing,
       toggleIndicator: <React.Fragment />,
       children: mkOptions(),
     }
+    console.error("!!!!!!!!SSSS", ask)
+
+    const title = <Markdown nested source={`#### ${this.title(ask)}\n\n${ask.description || ""}`} />
 
     return (
       <React.Fragment>
         <span id={titleId} hidden />
-        {this.card(ask.title, <Select {...props} />)}
+        {this.card(title, <Select {...props} />)}
       </React.Fragment>
     )
   }
@@ -299,7 +308,7 @@ export default class AskUI extends React.PureComponent<Props, State> {
     this._form = form
 
     return this.card(
-      ask.title,
+      "",
       <Card>
         <CardHeader>
           <CardTitle>{this.title(ask)}</CardTitle>
