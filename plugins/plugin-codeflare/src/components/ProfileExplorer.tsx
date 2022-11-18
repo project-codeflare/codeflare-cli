@@ -592,31 +592,27 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     return (
       <Flex flexWrap={this.nowrap} justifyContent={this.flexEnd} spaceItems={this.spaceNone}>
         <FlexItem flex={this.flex1}>
-          <Tooltip position="top" content="Create a new profile">
-            <Button variant="link" icon={<PlusSquareIcon />} onClick={this._onNew} />
+          <Tooltip position="top-start" content="Create a new profile">
+            <Button variant="control" icon={<PlusSquareIcon />} onClick={this._onNew} />
           </Tooltip>
         </FlexItem>
 
         <FlexItem>
           <Tooltip
-            position="top"
-            content={
-              this.state.editable
-                ? "Exit editable mode (disallow choices to be modified)"
-                : "Enter editable mode (allow choices to be modified)"
-            }
+            position="top-start"
+            content={this.state.editable ? "Lock out changes" : "Unlock, allowing choices to be modified"}
           >
             <Button
-              variant="link"
+              variant="control"
               icon={this.state.editable ? <LockOpenIcon /> : <LockIcon />}
               onClick={this._onToggleEditable}
             />
           </Tooltip>
           <Tooltip position="top" content="Reset the choices in this profile">
-            <Button variant="link" icon={<EraserIcon />} onClick={this._onReset} />
+            <Button variant="control" icon={<EraserIcon />} onClick={this._onReset} />
           </Tooltip>
           <Tooltip position="top" content="Delete this profile">
-            <Button variant="link" icon={<TrashIcon />} onClick={this._onDelete} />
+            <Button variant="control" icon={<TrashIcon />} onClick={this._onDelete} />
           </Tooltip>
         </FlexItem>
       </Flex>
