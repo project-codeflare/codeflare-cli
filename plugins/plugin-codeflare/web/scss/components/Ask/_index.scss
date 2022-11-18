@@ -16,6 +16,8 @@
 
 @import "mixins";
 
+$max-width: 50rem;
+
 @include Ask {
   button:not(.pf-m-link):not(.pf-c-select__toggle-button) {
     color: var(--pf-c-button--m-primary--Color) !important;
@@ -46,9 +48,9 @@
 @include Ask {
   &,
   .pf-c-card {
-    width: 40rem;
+    width: $max-width;
     min-width: 0;
-    max-width: 40rem;
+    max-width: $max-width;
   }
 
   .pf-c-select__menu-item-main {

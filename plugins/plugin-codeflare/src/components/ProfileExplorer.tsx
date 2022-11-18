@@ -586,11 +586,11 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
   private readonly nowrap = { default: "nowrap" as const }
   private readonly flex1 = { default: "flex_1" as const }
   private readonly flexEnd = { default: "justifyContentFlexEnd" as const }
-  private readonly nopadding = { padding: "0 0.5em" }
+  private readonly spaceNone = { default: "spaceItemsNone" as const }
 
   private footer() {
     return (
-      <Flex flexWrap={this.nowrap} justifyContent={this.flexEnd}>
+      <Flex flexWrap={this.nowrap} justifyContent={this.flexEnd} spaceItems={this.spaceNone}>
         <FlexItem flex={this.flex1}>
           <Tooltip position="top" content="Create a new profile">
             <Button variant="link" icon={<PlusSquareIcon />} onClick={this._onNew} />
