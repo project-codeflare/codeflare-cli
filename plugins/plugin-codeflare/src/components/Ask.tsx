@@ -23,13 +23,11 @@ import {
   ActionGroup,
   Button,
   Card,
-  CardActions,
   CardBody,
-  CardHeader,
-  CardTitle,
   Grid,
   Form,
   FormGroup,
+  Hint,
   Select,
   SelectGroup,
   SelectProps,
@@ -39,8 +37,9 @@ import {
 } from "@patternfly/react-core"
 
 import HomeIcon from "@patternfly/react-icons/dist/esm/icons/home-icon"
+import FilterIcon from "@patternfly/react-icons/dist/esm/icons/filter-icon"
+import FilterAltIcon from "@patternfly/react-icons/dist/esm/icons/filter-alt-icon"
 import InfoIcon from "@patternfly/react-icons/dist/esm/icons/info-circle-icon"
-import ChoiceIcon from "@patternfly/react-icons/dist/esm/icons/user-cog-icon"
 
 import "../../web/scss/components/Ask/_index.scss"
 
@@ -60,12 +59,19 @@ export type Ask<P extends Prompts.Prompt = Prompts.Prompt> = {
 }
 
 type Props = {
+  /** Current prompt model */
   ask: Ask
+
+  /** onClick handler for the home button */
   home(noninteractive?: boolean): void
 }
 
 type State = {
+  /** User has selected from the Select */
   userSelection?: string
+
+  /** User has opted for inline filters in the Select */
+  hasInlineFilter?: boolean
 }
 
 /**
@@ -111,10 +117,21 @@ export default class AskUI extends React.PureComponent<Props, State> {
     }
   }
 
+  /** User has clicked on Filter icon */
+  private readonly _toggleFilter = () => this.setState((curState) => ({ hasInlineFilter: !curState.hasInlineFilter }))
+
   /** content to show in the upper right */
   private actions() {
     return (
-      <ActionGroup className="kui--guide-actions">
+      <ActionGroup>
+        <Tooltip content={this.state.hasInlineFilter ? `Disable filter` : `Enable filter`}>
+          <Button
+            variant="link"
+            icon={this.state.hasInlineFilter ? <FilterAltIcon /> : <FilterIcon />}
+            onClick={this._toggleFilter}
+          />
+        </Tooltip>
+
         <Tooltip markdown={`### Home\n#### Jump back to the beginning\n\n⌘ or Alt-click to open a new window`}>
           <Button variant="link" icon={<HomeIcon />} onClick={this._home} />
         </Tooltip>
@@ -124,18 +141,12 @@ export default class AskUI extends React.PureComponent<Props, State> {
 
   private card(title: React.ReactNode, body: React.ReactNode) {
     return (
-      <Card isPlain className="sans-serif">
-        <CardHeader>
-          <CardTitle>
-            <div className="flex-layout">
-              <ChoiceIcon className="larger-text slightly-deemphasize small-right-pad" /> Configure
-            </div>
-          </CardTitle>
-          <CardActions hasNoOffset>{this.actions()}</CardActions>
-        </CardHeader>
-
+      <Card isLarge isPlain className="sans-serif">
         <CardBody>
-          {title}
+          <Hint actions={this.actions()} className="somewhat-larger-text">
+            {title}
+          </Hint>
+
           {body}
         </CardBody>
       </Card>
@@ -267,7 +278,7 @@ export default class AskUI extends React.PureComponent<Props, State> {
       isOpen: true,
       isPlain: true,
       isGrouped: true,
-      hasInlineFilter: true,
+      hasInlineFilter: this.state.hasInlineFilter,
       isInputValuePersisted: true,
       isInputFilterPersisted: true,
       onFilter,
@@ -280,9 +291,8 @@ export default class AskUI extends React.PureComponent<Props, State> {
       toggleIndicator: <React.Fragment />,
       children: mkOptions(),
     }
-    console.error("!!!!!!!!SSSS", ask)
 
-    const title = <Markdown nested source={`#### ${this.title(ask)}\n\n${ask.description || ""}`} />
+    const title = <Markdown nested source={`### ${this.title(ask)}\n\n${ask.description || ""}`} />
 
     return (
       <React.Fragment>
@@ -308,34 +318,27 @@ export default class AskUI extends React.PureComponent<Props, State> {
     this._form = form
 
     return this.card(
-      "",
-      <Card>
-        <CardHeader>
-          <CardTitle>{this.title(ask)}</CardTitle>
-        </CardHeader>
-        <CardBody>
-          <Form onSubmit={this._onFormSubmit}>
-            <Grid hasGutter md={6}>
-              {ask.prompt.choices.map((_) => (
-                <FormGroup isRequired key={_.name} label={_.name}>
-                  <TextInput
-                    aria-label={`text-input-${_.name}`}
-                    isRequired
-                    value={form[_.name]}
-                    onChange={(value) => (form[_.name] = value)}
-                  />
-                </FormGroup>
-              ))}
-            </Grid>
+      this.title(ask),
+      <Form onSubmit={this._onFormSubmit} className="top-pad">
+        <Grid hasGutter md={6}>
+          {ask.prompt.choices.map((_) => (
+            <FormGroup isRequired key={_.name} label={_.name}>
+              <TextInput
+                aria-label={`text-input-${_.name}`}
+                isRequired
+                value={form[_.name]}
+                onChange={(value) => (form[_.name] = value)}
+              />
+            </FormGroup>
+          ))}
+        </Grid>
 
-            <ActionGroup>
-              <Button variant="primary" type="submit">
-                Next
-              </Button>
-            </ActionGroup>
-          </Form>
-        </CardBody>
-      </Card>
+        <ActionGroup>
+          <Button variant="primary" type="submit">
+            Next
+          </Button>
+        </ActionGroup>
+      </Form>
     )
   }
 

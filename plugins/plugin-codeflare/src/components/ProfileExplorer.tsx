@@ -542,7 +542,16 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       }
       this.sort(data)
 
-      return <TreeView hasGuides defaultAllExpanded data={data} variant="compact" toolbar={this.title()} />
+      return (
+        <TreeView
+          defaultAllExpanded={this.state.editable}
+          hasBadges
+          hasGuides
+          data={data}
+          variant="compact"
+          toolbar={this.title()}
+        />
+      )
     }
 
     return <Loading />
@@ -570,7 +579,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       <Flex flexWrap={this.nowrap} justifyContent={this.flexEnd}>
         <FlexItem flex={this.flex1}>
           <Tooltip position="top" content="Create a new profile">
-            <Button variant="link" className="larger-text" icon={<PlusSquareIcon />} onClick={this._onNew} />
+            <Button variant="link" icon={<PlusSquareIcon />} onClick={this._onNew} />
           </Tooltip>
         </FlexItem>
 
@@ -585,16 +594,15 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
           >
             <Button
               variant="link"
-              className="larger-text"
               icon={this.state.editable ? <LockOpenIcon /> : <LockIcon />}
               onClick={this._onToggleEditable}
             />
           </Tooltip>
           <Tooltip position="top" content="Reset the choices in this profile">
-            <Button variant="link" className="larger-text" icon={<EraserIcon />} onClick={this._onReset} />
+            <Button variant="link" icon={<EraserIcon />} onClick={this._onReset} />
           </Tooltip>
           <Tooltip position="top" content="Delete this profile">
-            <Button variant="link" className="larger-text" icon={<TrashIcon />} onClick={this._onDelete} />
+            <Button variant="link" icon={<TrashIcon />} onClick={this._onDelete} />
           </Tooltip>
         </FlexItem>
       </Flex>
@@ -603,7 +611,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
 
   public render() {
     return (
-      <Card isPlain>
+      <Card isLarge isPlain>
         <CardHeader>
           <CardTitle>
             <div className="flex-layout">
