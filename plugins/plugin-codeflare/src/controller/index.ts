@@ -76,7 +76,7 @@ export default function registerCodeflareCommands(registrar: Registrar) {
   })
 
   // launch our explore guidebook
-  ;["explore", "explorer", "hello"].forEach((explore) =>
+  ;["ui", "explore", "explorer", "hello"].forEach((explore) =>
     registrar.listen(`/codeflare/${explore}`, (args) => import("./hello").then((_) => _.default(args)), {
       needsUI: true,
       outputOnly: true,
