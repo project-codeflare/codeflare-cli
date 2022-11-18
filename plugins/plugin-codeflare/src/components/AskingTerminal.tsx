@@ -81,7 +81,7 @@ export default class AskingTerminal extends React.PureComponent<Props, State> {
   private readonly allotmentRef = React.createRef<AllotmentHandle>()
 
   private readonly _sizes = {
-    qa: [73, 27],
+    qa: [80, 20],
     noqa: [27, 73],
   }
 
@@ -97,7 +97,7 @@ export default class AskingTerminal extends React.PureComponent<Props, State> {
   }
 
   public componentDidUpdate(prevProps: Props, prevState: State) {
-    if (this.state && prevState && prevState.ask !== this.state.ask) {
+    if (this.state && prevState && prevState.ask && prevState.ask !== this.state.ask) {
       setTimeout(() => this.allotmentRef.current?.resize(this.sizes))
     }
   }
