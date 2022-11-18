@@ -139,12 +139,12 @@ export default class AskUI extends React.PureComponent<Props, State> {
     )
   }
 
-  private card(title: React.ReactNode, body: React.ReactNode) {
+  private card(ask: Ask, body: React.ReactNode) {
     return (
       <Card isLarge isPlain className="sans-serif">
         <CardBody>
           <Hint actions={this.actions()} className="somewhat-larger-text">
-            {title}
+            <Markdown nested source={`### ${this.title(ask)}\n\n${ask.description || ""}`} />
           </Hint>
 
           {body}
@@ -292,12 +292,10 @@ export default class AskUI extends React.PureComponent<Props, State> {
       children: mkOptions(),
     }
 
-    const title = <Markdown nested source={`### ${this.title(ask)}\n\n${ask.description || ""}`} />
-
     return (
       <React.Fragment>
         <span id={titleId} hidden />
-        {this.card(title, <Select {...props} />)}
+        {this.card(ask, <Select {...props} />)}
       </React.Fragment>
     )
   }
@@ -318,7 +316,7 @@ export default class AskUI extends React.PureComponent<Props, State> {
     this._form = form
 
     return this.card(
-      this.title(ask),
+      ask,
       <Form onSubmit={this._onFormSubmit} className="top-pad">
         <Grid hasGutter md={6}>
           {ask.prompt.choices.map((_) => (
