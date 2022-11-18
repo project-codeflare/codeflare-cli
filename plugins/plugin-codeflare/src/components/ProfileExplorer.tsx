@@ -38,7 +38,7 @@ import ProfileSelect from "./ProfileSelect"
 import ProfileWatcher from "../tray/watchers/profile/list"
 // import ProfileStatusWatcher from "../tray/watchers/profile/status"
 // import UpdateFunction from "../tray/update"
-import { handleNew, handleDelete, handleReset } from "../controller/profile/actions"
+import { handleNew } from "../controller/profile/actions"
 
 import Icon from "@patternfly/react-icons/dist/esm/icons/clipboard-list-icon"
 
@@ -278,12 +278,26 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
   /** Delete selected profile */
   private readonly _onDelete = async () => {
     if (this.props.profile) {
-      await handleDelete(this.props.profile)
+      await this.executeKuiCommand(
+        `Are you sure you wish to delete the profile named ${this.props.profile}?`,
+        `codeflare delete profile ${this.props.profile}`
+      )
       this.props.onSelectProfile(null)
     }
   }
 
-  private readonly _onReset = () => this.props.profile && handleReset(this.props.profile)
+  private executeKuiCommand(question: string, cmdline: string) {
+    import("@kui-shell/core").then((_) =>
+      _.pexecInCurrentTab(`confirm --asking "${question}" "${cmdline}"`, undefined, false, true)
+    )
+  }
+
+  private readonly _onReset = () =>
+    this.props.profile &&
+    this.executeKuiCommand(
+      `Are you sure you wish to reset the profile named ${this.props.profile}?`,
+      `codeflare reset profile ${this.props.profile}`
+    )
 
   private title() {
     return (
