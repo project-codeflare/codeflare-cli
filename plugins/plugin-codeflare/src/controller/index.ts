@@ -99,7 +99,7 @@ export default function registerCodeflareCommands(registrar: Registrar) {
   registrar.listen("/codeflare/dashboard-gallery", (args) => import("./hello").then((_) => _.dashboardGallery(args)))
 
   /** UI for running profile-related tasks */
-  registrar.listen("/codeflare/terminal/task", (args) => import("./terminal").then((_) => _.task(args)), {
+  registrar.listen("/codeflare/designer", (args) => import("./terminal").then((_) => _.designer(args)), {
     needsUI: true,
   })
 

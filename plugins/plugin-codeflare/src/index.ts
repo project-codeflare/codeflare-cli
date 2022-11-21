@@ -16,4 +16,4 @@
 
 /* Your exported API */
 
-export { TaskTerminal as WorkloadDesigner, Props as WorkloadDesignerProps } from "./controller/terminal"
+export { WorkloadDesigner, Props as WorkloadDesignerProps } from "./controller/terminal"
