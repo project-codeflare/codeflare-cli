@@ -145,7 +145,14 @@ export class WorkloadDesigner extends React.PureComponent<Props, State> {
         cmdline,
         hideTerminal: false,
         initCount: curState.initCount + 1,
-        env: Object.assign({}, env, { MWCLEAR_INITIAL: "true" }, this.state.extraEnv),
+        env: Object.assign(
+          {},
+          env,
+          {
+            /* MWCLEAR_INITIAL: "true" */
+          },
+          this.state.extraEnv
+        ),
       }))
     } catch (error) {
       console.error("Error initializing command line", error)

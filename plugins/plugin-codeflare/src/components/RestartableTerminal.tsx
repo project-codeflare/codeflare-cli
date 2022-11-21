@@ -162,6 +162,7 @@ export default class RestartableTerminal extends React.PureComponent<Props, Stat
             key={key}
             searchable={this.props.searchable}
             fontSizeAdjust={this.props.fontSizeAdjust}
+            initialContent={this.props.initialContent}
           />
         </div>
       )
