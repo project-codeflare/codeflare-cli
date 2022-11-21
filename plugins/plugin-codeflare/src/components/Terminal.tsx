@@ -55,12 +55,12 @@ export type TerminalOptions = ClassName & {
 
   /** Font size scaling factor from the stock font size from Kui [default: 16/14] */
   fontSizeAdjust?: number
+
+  /** Initial content to display in the terminal */
+  initialContent?: string
 }
 
 type Props = TerminalOptions & {
-  /** If given, the initial terminal output to render */
-  initialContent?: string
-
   /**
    * Commence/recommence streaming. Will be invoked on mount.
    */
@@ -82,13 +82,13 @@ interface State extends ClassName {
 }
 
 export default class XTerm extends React.PureComponent<Props, State> {
-  private terminal: Terminal = new Terminal({
+  private readonly terminal: Terminal = new Terminal({
     convertEol: true,
     scrollback: 5000,
     allowProposedApi: true,
   })
 
-  private searchAddon = new SearchAddon()
+  private readonly searchAddon = new SearchAddon()
 
   private readonly cleaners: (() => void)[] = []
   private readonly container = React.createRef<HTMLDivElement>()
@@ -110,24 +110,24 @@ export default class XTerm extends React.PureComponent<Props, State> {
   }
 
   public componentDidMount() {
-    this.mountTerminal()
+    if (this.mountTerminal()) {
+      if (this.props.watch) {
+        const streamer = this.props.watch()
+        streamer.on("data", this.terminal.write.bind(this.terminal))
 
-    if (this.props.watch) {
-      const streamer = this.props.watch()
-      streamer.on("data", this.terminal.write.bind(this.terminal))
+        if (streamer.onInput) {
+          // pass user input from the terminal to the watcher
+          this.terminal.onData(streamer.onInput)
+          this.terminal.focus()
+        }
 
-      if (streamer.onInput) {
-        // pass user input from the terminal to the watcher
-        this.terminal.onData(streamer.onInput)
-        this.terminal.focus()
+        if (streamer.onResize) {
+          const onResize = streamer.onResize
+          this.terminal.onResize(({ rows, cols }) => onResize(rows, cols))
+        }
+
+        this.setState({ streamer })
       }
-
-      if (streamer.onResize) {
-        const onResize = streamer.onResize
-        this.terminal.onResize(({ rows, cols }) => onResize(rows, cols))
-      }
-
-      this.setState({ streamer })
     }
   }
 
@@ -150,7 +150,8 @@ export default class XTerm extends React.PureComponent<Props, State> {
   private mountTerminal() {
     const xtermContainer = this.container.current
     if (!xtermContainer) {
-      return
+      // no, we are not yet ready to initialize the terminal
+      return false
     }
 
     const fitAddon = new FitAddon()
@@ -203,6 +204,9 @@ export default class XTerm extends React.PureComponent<Props, State> {
     })
     observer.observe(xtermContainer)
     this.cleaners.push(() => observer.disconnect())
+
+    // yes, we have initialized the terminal
+    return true
   }
 
   /**

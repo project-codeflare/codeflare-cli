@@ -15,6 +15,7 @@
  */
 
 import React from "react"
+import { Chalk } from "chalk"
 import stripAnsi from "strip-ansi"
 import { Prompts } from "madwizard"
 import { Job } from "@kui-shell/core"
@@ -219,10 +220,14 @@ export default class AskingTerminal extends React.PureComponent<Props, State> {
     }
   }
 
+  private readonly initialContent = new Chalk({ level: 2 }).dim.italic("Logs will appear here")
+
   private terminal() {
     return (
       <SelectedProfileTerminal
         searchable={false}
+        initialContent={this.initialContent}
+        fontSizeAdjust={1 /* relative to 14px */}
         key={
           this.state.myInitCount +
           "_" +
