@@ -262,10 +262,18 @@ export default class AskUI extends React.PureComponent<Props, State> {
       // due to the filtering, or the lack of a prior choice
       return [
         ...(suggested && (!filter || pattern.test(suggested.message))
-          ? [<SelectGroup label="Prior choice">{this._selectOptionForChoice(suggested, true)}</SelectGroup>]
+          ? [
+              <SelectGroup key="prior" label="Prior choice">
+                {this._selectOptionForChoice(suggested, true)}
+              </SelectGroup>,
+            ]
           : []),
         ...(others.length > 0
-          ? [<SelectGroup label={suggested ? "Other choices" : "Choices"}>{others}</SelectGroup>]
+          ? [
+              <SelectGroup key="other" label={suggested ? "Other choices" : "Choices"}>
+                {others}
+              </SelectGroup>,
+            ]
           : []),
       ]
     }
