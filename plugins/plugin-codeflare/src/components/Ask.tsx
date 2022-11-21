@@ -373,7 +373,9 @@ export default class AskUI extends React.PureComponent<Props, State> {
 
   public render() {
     return (
-      <div className="kui--madwizard-ask-ui flex-fill flex-layout flex-align-stretch">{this.ask(this.props.ask)}</div>
+      <div className="kui--madwizard-ask-ui flex-fill flex-layout flex-align-stretch scrollable scrollable-auto">
+        {this.ask(this.props.ask)}
+      </div>
     )
   }
 }
