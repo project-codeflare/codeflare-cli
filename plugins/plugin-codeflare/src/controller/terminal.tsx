@@ -233,48 +233,61 @@ export class TaskTerminal extends React.PureComponent<Props, State> {
 
   private readonly allotmentRef = React.createRef<AllotmentHandle>()
 
+  private left() {
+    return <ProfileExplorer onSelectProfile={this.onSelectProfile} onSelectGuidebook={this.onSelectGuidebook} />
+  }
+
+  private rightTop() {
+    return this.props.aboveTerminal
+  }
+
+  private rightBottom(selectedProfile: string, guidebook: string) {
+    return !this.state.cmdline || !this.state.env ? (
+      this.noGuidebook()
+    ) : (
+      <AskingTerminal
+        initCount={this.state.initCount}
+        guidebook={guidebook}
+        cmdline={this.state.cmdline}
+        env={this.state.env}
+        selectedProfile={selectedProfile}
+        terminalProps={this.props}
+        home={this._home}
+        noninteractive={this.state.noninteractive}
+      />
+    )
+  }
+
+  private right() {
+    const { aboveTerminal } = this.props
+    const { hideTerminal, selectedProfile, guidebook } = this.state
+
+    if (!selectedProfile || !guidebook) {
+      return <Loading />
+    } else {
+      return (
+        <Allotment
+          snap
+          vertical
+          defaultSizes={hideTerminal || !aboveTerminal ? this.vertical1 : this.vertical2}
+          ref={this.allotmentRef}
+        >
+          {aboveTerminal && <AllotmentFillPane>{this.rightTop()}</AllotmentFillPane>}
+          {!hideTerminal && <AllotmentFillPane>{this.rightBottom(selectedProfile, guidebook)}</AllotmentFillPane>}
+        </Allotment>
+      )
+    }
+  }
+
   public render() {
     if (this.state.error) {
       return "Internal Error"
     }
 
     return (
-      <Allotment defaultSizes={this.splits.horizontal} snap>
-        <AllotmentFillPane minSize={400}>
-          <ProfileExplorer onSelectProfile={this.onSelectProfile} onSelectGuidebook={this.onSelectGuidebook} />
-        </AllotmentFillPane>
-        <AllotmentFillPane>
-          {!this.state.selectedProfile || !this.state.guidebook ? (
-            <Loading />
-          ) : (
-            <Allotment
-              vertical
-              defaultSizes={this.state.hideTerminal || !this.props.aboveTerminal ? this.vertical1 : this.vertical2}
-              snap
-              ref={this.allotmentRef}
-            >
-              {this.props.aboveTerminal && <AllotmentFillPane>{this.props.aboveTerminal}</AllotmentFillPane>}
-              {!this.state.hideTerminal && (
-                <AllotmentFillPane>
-                  {!this.state.cmdline || !this.state.env ? (
-                    this.noGuidebook()
-                  ) : (
-                    <AskingTerminal
-                      initCount={this.state.initCount}
-                      guidebook={this.state.guidebook}
-                      cmdline={this.state.cmdline}
-                      env={this.state.env}
-                      selectedProfile={this.state.selectedProfile}
-                      terminalProps={this.props}
-                      home={this._home}
-                      noninteractive={this.state.noninteractive}
-                    />
-                  )}
-                </AllotmentFillPane>
-              )}
-            </Allotment>
-          )}
-        </AllotmentFillPane>
+      <Allotment snap defaultSizes={this.splits.horizontal}>
+        <AllotmentFillPane minSize={400}>{this.left()}</AllotmentFillPane>
+        <AllotmentFillPane>{this.right()}</AllotmentFillPane>
       </Allotment>
     )
   }
