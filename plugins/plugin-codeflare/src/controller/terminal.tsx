@@ -30,8 +30,6 @@ import Terminal, { Props as BaseProps } from "../components/RestartableTerminal"
 import "../../web/scss/components/Allotment/_index.scss"
 import "allotment/dist/style.css"
 
-// codeflare -p ${SELECTED_PROFILE}
-
 class AllotmentFillPane extends React.PureComponent<{ minSize?: number }> {
   public render() {
     return (
@@ -98,7 +96,7 @@ type State = Partial<Pick<BaseProps, "cmdline" | "env">> & {
   hideTerminal?: boolean
 }
 
-export class TaskTerminal extends React.PureComponent<Props, State> {
+export class WorkloadDesigner extends React.PureComponent<Props, State> {
   /** Allotment initial split ... allotments */
   private readonly splits = {
     horizontal: [25, 75],
@@ -329,8 +327,8 @@ class Empty extends React.PureComponent<{ refresh(): void; gotit(): void }> {
 
 /**
  * This is a command handler that opens up a terminal to run a selected profile-oriented task */
-export function task(args: Arguments) {
+export function designer(args: Arguments) {
   return {
-    react: <TaskTerminal REPL={args.REPL} tab={args.tab} />,
+    react: <WorkloadDesigner REPL={args.REPL} tab={args.tab} />,
   }
 }
