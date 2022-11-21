@@ -40,8 +40,6 @@ import ProfileWatcher from "../tray/watchers/profile/list"
 // import UpdateFunction from "../tray/update"
 import { handleNew } from "../controller/profile/actions"
 
-import Icon from "@patternfly/react-icons/dist/esm/icons/clipboard-list-icon"
-
 import "../../web/scss/components/ProfileExplorer/_index.scss"
 
 import LockIcon from "@patternfly/react-icons/dist/esm/icons/lock-icon"
@@ -360,7 +358,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       group: this.groups.Application,
     },
     "ml/codeflare/training/demos": {
-      title: "Demo Code",
+      title: "Code",
       group: this.groups.Application,
     },
     "ml/ray/start/resources": {
@@ -443,11 +441,6 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
     )
   }
 
-  private readonly leafStyle = {}
-  private leafFor(value: string) {
-    return <span style={this.leafStyle}>{value}</span>
-  }
-
   private descriptionFor(desc: string) {
     return <span className="italic">{desc}</span>
   }
@@ -477,7 +470,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
       return {
         id,
         title,
-        name: this.leafFor(value),
+        name: value,
       }
     }
   }
@@ -539,9 +532,19 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
                   children: [],
                 }
               }
-              const { children } = groups[meta.group.title]
 
-              children.push(this.editable(title, this.treeNode(title, meta, value)))
+              const { children } = groups[meta.group.title]
+              const already = children.find((_) => _.title === meta.title)
+
+              // meta.group.title: e.g. Application or Compute or Storage
+              // meta.title: e.g. Scenario or Cluster/Namespace or Region
+              // value: e.g. "Getting Started Demo" or yourNamespace or us-east
+              if (already) {
+                // there is
+                already.name = already.name + ", " + value
+              } else {
+                children.push(this.editable(title, this.treeNode(title, meta, value)))
+              }
             }
           }
 
@@ -621,12 +624,10 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
 
   public render() {
     return (
-      <Card isLarge isPlain>
+      <Card isPlain>
         <CardHeader>
           <CardTitle>
-            <div className="flex-layout">
-              <Icon className="larger-text slightly-deemphasize small-right-pad" /> Specification
-            </div>
+            <div className="flex-layout">Profile</div>
           </CardTitle>
           <CardActions hasNoOffset>{this.actions()}</CardActions>
         </CardHeader>
