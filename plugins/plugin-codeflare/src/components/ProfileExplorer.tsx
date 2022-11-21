@@ -28,7 +28,6 @@ import {
   Chip,
   ChipGroup,
   Flex,
-  FlexItem,
   TreeView,
   TreeViewDataItem,
 } from "@patternfly/react-core"
@@ -587,37 +586,34 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
   }
 
   private readonly nowrap = { default: "nowrap" as const }
-  private readonly flex1 = { default: "flex_1" as const }
-  private readonly flexEnd = { default: "justifyContentFlexEnd" as const }
+  private readonly justify = { default: "justifyContentCenter" as const }
   private readonly spaceNone = { default: "spaceItemsNone" as const }
 
   private footer() {
     return (
-      <Flex flexWrap={this.nowrap} justifyContent={this.flexEnd} spaceItems={this.spaceNone}>
-        <FlexItem flex={this.flex1}>
-          <Tooltip position="top-start" content="Create a new profile">
-            <Button variant="control" icon={<PlusSquareIcon />} onClick={this._onNew} />
-          </Tooltip>
-        </FlexItem>
+      <Flex flexWrap={this.nowrap} justifyContent={this.justify} spaceItems={this.spaceNone}>
+        <Tooltip position="top-start" content="Create a new profile">
+          <Button variant="control" icon={<PlusSquareIcon />} onClick={this._onNew} />
+        </Tooltip>
 
-        <FlexItem>
-          <Tooltip
-            position="top-start"
-            content={this.state.editable ? "Lock out changes" : "Unlock, allowing choices to be modified"}
-          >
-            <Button
-              variant="control"
-              icon={this.state.editable ? <LockOpenIcon /> : <LockIcon />}
-              onClick={this._onToggleEditable}
-            />
-          </Tooltip>
-          <Tooltip position="top" content="Reset the choices in this profile">
-            <Button variant="control" icon={<EraserIcon />} onClick={this._onReset} />
-          </Tooltip>
-          <Tooltip position="top" content="Delete this profile">
-            <Button variant="control" icon={<TrashIcon />} onClick={this._onDelete} />
-          </Tooltip>
-        </FlexItem>
+        <Tooltip
+          position="top-start"
+          content={
+            this.state.editable ? "Cick to lock out changes" : "Click to unlock, allowing choices to be modified"
+          }
+        >
+          <Button
+            variant="control"
+            icon={this.state.editable ? <LockOpenIcon /> : <LockIcon />}
+            onClick={this._onToggleEditable}
+          />
+        </Tooltip>
+        <Tooltip position="top" content="Reset the choices in this profile">
+          <Button variant="control" icon={<EraserIcon />} onClick={this._onReset} />
+        </Tooltip>
+        <Tooltip position="top" content="Delete this profile">
+          <Button variant="control" icon={<TrashIcon />} onClick={this._onDelete} />
+        </Tooltip>
       </Flex>
     )
   }
