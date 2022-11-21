@@ -300,10 +300,15 @@ export default class AskUI extends React.PureComponent<Props, State> {
       children: mkOptions(),
     }
 
+    // is every message the same as the title?
+    const isSimplistic = ask.prompt.choices.every(
+      (_) => _.name === stripAnsi(_.message).replace("  ◄ you selected this last time", "")
+    )
+
     return (
       <React.Fragment>
         <span id={titleId} hidden />
-        {this.card(ask, <Select {...props} />)}
+        {this.card(ask, <Select {...props} data-is-simplistic={isSimplistic || undefined} />)}
       </React.Fragment>
     )
   }
