@@ -53,8 +53,10 @@ $max-width: 50rem;
     max-width: $max-width;
   }
 
-  .pf-c-select__menu-item-main {
+  .pf-c-select__menu:not([data-is-simplistic]) .pf-c-select__menu-item-main {
     font-weight: 500;
+  }
+  .pf-c-select__menu-item-main {
     white-space: normal;
   }
 }
