@@ -47,18 +47,28 @@ export default class ProfileActiveRunWatcher {
   private static async initWatcher(profile: string) {
     const guidebook = "ml/ray/cluster/connect"
     try {
+      const { app } = await import("electron")
+      const registerCleanup = ({ cleanExit }: { cleanExit: () => void }) => {
+        const onExit = () => cleanExit()
+        process.on("exit", onExit)
+        process.on("SIGINT", onExit) // catch ctrl-c
+        process.on("SIGTERM", onExit) // catch kill
+
+        // use the electron API to register our onExit handler
+        app.on("before-quit", onExit)
+      }
+
       const resp = await cli(["madwizard", "guide", guidebook], undefined, {
         profile,
         bump: false, // don't bump the lastUsedTime of the profile
         clean: false, // don't kill the port-forward subprocess! we'll manage that
         interactive: false,
         store: process.env.GUIDEBOOK_STORE,
+        onBeforeRun: registerCleanup, // use this hook to register our electron-based cleanup hook
       })
 
       if (resp) {
-        if (resp.cleanExit) {
-          process.on("exit", () => resp.cleanExit())
-        }
+        registerCleanup(resp)
 
         if (resp.env && typeof resp.env.RAY_ADDRESS === "string") {
           return resp.env.RAY_ADDRESS
