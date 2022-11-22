@@ -25,11 +25,10 @@ import logAggregator from "./log-aggregator"
 
 export default function tasks(profile: string, createWindow: CreateWindowFunction): MenuItemConstructorOptions[] {
   return [
-    boot(profile, createWindow),
     shutdown(profile, createWindow),
     {
       label: "Advanced",
-      submenu: [...section("Log Aggregator", logAggregator(profile, createWindow))],
+      submenu: [boot(profile, createWindow), ...section("Log Aggregator", logAggregator(profile, createWindow))],
     },
   ]
 }
