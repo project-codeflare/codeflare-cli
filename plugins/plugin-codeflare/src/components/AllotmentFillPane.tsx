@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 The Kubernetes Authors
+ * Copyright 2022 The Kubernetes Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,15 @@
  * limitations under the License.
  */
 
-/* Your exported API */
+import React from "react"
+import { Allotment } from "allotment"
 
-export { default as WorkloadDesigner, Props as WorkloadDesignerProps } from "./components/WorkloadDesigner"
+export default class AllotmentFillPane extends React.PureComponent<{ minSize?: number }> {
+  public render() {
+    return (
+      <Allotment.Pane className="flex-fill flex-layout flex-align-stretch" minSize={this.props.minSize}>
+        {this.props.children}
+      </Allotment.Pane>
+    )
+  }
+}
