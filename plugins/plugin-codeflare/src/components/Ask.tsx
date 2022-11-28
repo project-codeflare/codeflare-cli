@@ -72,6 +72,9 @@ type State = {
 
   /** User has opted for inline filters in the Select */
   hasInlineFilter?: boolean
+
+  /** Current form state (if any) */
+  form?: Record<string, string>
 }
 
 /**
@@ -88,9 +91,20 @@ export default class AskUI extends React.PureComponent<Props, State> {
   public static getDerivedStateFromProps(props: Props, state: State) {
     if (state.userSelection && props.ask.prompt.choices.find((_) => _.name === state.userSelection)) {
       return state
+    } else if (state.form) {
+      // there has been an update to the form, nothing to do here
+      return state
     } else {
       const suggested = props.ask.prompt.choices.find((_) => (_ as any)["isSuggested"])
+      const form =
+        !props.ask || !Prompts.isForm(props.ask.prompt)
+          ? undefined
+          : props.ask.prompt.choices.reduce((M, _) => {
+              M[_.name] = (_ as any)["initial"]
+              return M
+            }, {} as Record<string, string>)
       return {
+        form,
         userSelection: !suggested ? undefined : suggested.name,
       }
     }
@@ -170,9 +184,9 @@ export default class AskUI extends React.PureComponent<Props, State> {
 
   /** User has clicked to submit a form */
   private readonly _onFormSubmit = (evt: React.SyntheticEvent) => {
-    if (this.props.ask) {
+    if (this.props.ask && this.state.form) {
       evt.preventDefault()
-      this.props.ask.onChoose(Promise.resolve(this._form))
+      this.props.ask.onChoose(Promise.resolve(this.state.form))
     }
     return false
   }
@@ -319,15 +333,18 @@ export default class AskUI extends React.PureComponent<Props, State> {
     return "multiselect"
   }
 
-  private _form: Record<string, string> = {}
+  /** User has edited the form */
+  private readonly _onFormChange = (value: string, evt: React.FormEvent<HTMLInputElement>) => {
+    const name = evt.currentTarget.getAttribute("data-name")
+    if (name && this.state.form) {
+      this.setState((curState) =>
+        !curState.form ? null : { form: Object.assign({}, curState.form, { [name]: value }) }
+      )
+    }
+  }
 
-  private form(ask: Ask<Prompts.Form>) {
-    const form = ask.prompt.choices.reduce((M, _) => {
-      M[_.name] = (_ as any)["initial"]
-      return M
-    }, {} as Record<string, string>)
-    this._form = form
-
+  /** Render a form ui */
+  private form(ask: Ask<Prompts.Form>, form: Required<State>["form"]) {
     return this.card(
       ask,
       <Form onSubmit={this._onFormSubmit} className="top-pad">
@@ -336,9 +353,10 @@ export default class AskUI extends React.PureComponent<Props, State> {
             <FormGroup isRequired key={_.name} label={_.name}>
               <TextInput
                 aria-label={`text-input-${_.name}`}
+                data-name={_.name}
                 isRequired
                 value={form[_.name]}
-                onChange={(value) => (form[_.name] = value)}
+                onChange={this._onFormChange}
               />
             </FormGroup>
           ))}
@@ -366,8 +384,8 @@ export default class AskUI extends React.PureComponent<Props, State> {
       return this.select(ask)
     } else if (this.isMultiSelect(ask)) {
       return this.checkboxes(ask)
-    } else {
-      return this.form(ask)
+    } else if (this.state.form) {
+      return this.form(ask, this.state.form)
     }
   }
 
