@@ -14,7 +14,7 @@
     "ml/codeflare/training/byoc/working-directory": "{\"Location of your working directory\":\"tests/kind/inputs/qiskit-runtime-env-with-pips\"}",
     "ml/codeflare/training/byoc/base-ray-image": "{\"Provide custom base image, if any\":\"rayproject/ray:1.13.1-py37\"}",
     "s3/choose/instance-maybe": "My data is not stored in S3",
-    "ml/ray/start/resources": "{\"Number of CPUs\":\"500m\",\"Number of GPUs\":\"0\",\"Minimum Workers\":\"1\",\"Maximum Workers\":\"1\",\"Worker Memory\":\"2Gi\",\"Head Memory\":\"2Gi\"}",
+    "ml/ray/start/resources": "{\"Number of CPUs\":\"500m\",\"Number of GPUs\":\"0\",\"Minimum Workers\":\"1\",\"Maximum Workers\":\"1\",\"Worker Memory\":\"500Mi\",\"Head Memory\":\"3Gi\"}",
     "kubernetes/context": "kind-codeflare-test",
     "kubernetes/choose/ns": "default",
     "ml/ray/cluster/kubernetes/choose-pod-scheduler": "Keep It Simple"
