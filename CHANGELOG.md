@@ -1,3 +1,49 @@
+# [1.1.0](https://github.com/project-codeflare/codeflare-cli/compare/v1.0.3...v1.1.0) (2022-11-29)
+
+### Bug Fixes
+
+- add missing descriptions to form elements in Ask component ([7274152](https://github.com/project-codeflare/codeflare-cli/commit/72741524da886b05f79a6d0d65256b62cd6d3a78))
+- adjust default window size to 1152x864 (from 1400x1050) ([5bf3463](https://github.com/project-codeflare/codeflare-cli/commit/5bf3463567dc142d8a2a89b0b27fe6acc10ed581))
+- adjust font-weight in Ask titles to match those in ProfileExplorer (500) ([b6051d1](https://github.com/project-codeflare/codeflare-cli/commit/b6051d1e63befc642297dea4f958274a8d0b7a05))
+- another bump for store to re-pick up description fixes ([809f30f](https://github.com/project-codeflare/codeflare-cli/commit/809f30f56b6c35e3c8c765e034378a513c1b6a93))
+- Ask component body does not vertically scroll on overflow ([5b5bb1e](https://github.com/project-codeflare/codeflare-cli/commit/5b5bb1e5718a574c56924b55bdb04f8b4a1bd6a9))
+- Ask component does not handle form updates ([100b6d9](https://github.com/project-codeflare/codeflare-cli/commit/100b6d9628dfefc6b43e8909b99ec8f20a864014))
+- Ask component's Home button causes header height unconformity vs ProfileExplorer ([fdf9b5e](https://github.com/project-codeflare/codeflare-cli/commit/fdf9b5eaee284880437f9be1494cead92c4248f5))
+- ask user to confirm profile reset and delete ([767cc08](https://github.com/project-codeflare/codeflare-cli/commit/767cc089274d2e1b311dec4702a2f439d1490931))
+- avoid key warning from react in Ask component ([f327967](https://github.com/project-codeflare/codeflare-cli/commit/f327967efebdabbaff37f69a4c4cd320355b23ba))
+- bump kui to pick up fix for markdown terminal links ([5dabe8c](https://github.com/project-codeflare/codeflare-cli/commit/5dabe8c896331940102d26dac65562eb1bd12a94))
+- bump kui to pick up fix for multi-link markdown ([e8be7dd](https://github.com/project-codeflare/codeflare-cli/commit/e8be7dd7048a90b988afbae710fe500965dc79b9))
+- bump madwizard and store to pick up nested import description fixes ([4a47c06](https://github.com/project-codeflare/codeflare-cli/commit/4a47c0611f1105b83df33f66f88ad4d22302f23c))
+- bump roberta self-test to 1.0.3 ([209f8bf](https://github.com/project-codeflare/codeflare-cli/commit/209f8bfab37c45fbba524e23b45ff3c859eda22f))
+- bump store to pick up byoc description updates ([6b5dc91](https://github.com/project-codeflare/codeflare-cli/commit/6b5dc9143d889ad845514288a69bd8ef276edb5f))
+- bump to `@guidebooks/store@1.1.1` to pick to roberta ray v1 fix ([04b72a8](https://github.com/project-codeflare/codeflare-cli/commit/04b72a86ed4a1d1bac61d10047ae3a9e67154dde))
+- bump to `@guidebooks/store@1.2.2` to pick up roberta base image fixes ([2959090](https://github.com/project-codeflare/codeflare-cli/commit/295909030694db9b4467dd533080f5ed7cdbba98))
+- bump to madwizard@1.9.1 to pick up a RAY_ADDRESS fix ([1b3d0e8](https://github.com/project-codeflare/codeflare-cli/commit/1b3d0e8139910c9c1bfd3d632dcd418b52678c5c))
+- do not use font-weight: 500 for "simplistic" selects, those with no item descriptions ([dc2c137](https://github.com/project-codeflare/codeflare-cli/commit/dc2c13799355bdcd03a0073450092a7609ce74bc))
+- group all ProfileExplorer action buttons, don't float new to the left ([c1d2d00](https://github.com/project-codeflare/codeflare-cli/commit/c1d2d00481bf656ca85986aa20fe074bc5c4472a))
+- multiple fixes for excessive cpu consumption ([b092604](https://github.com/project-codeflare/codeflare-cli/commit/b092604668075394043fe5af4da7e0f9f5ebbf75))
+- ProfileExplorer chips blue->purple ([cf0a55c](https://github.com/project-codeflare/codeflare-cli/commit/cf0a55c4e5b7673e91b73687b7616524283e6ced))
+- ProfileExplorer has extra spacing to the right of New button ([5e603fd](https://github.com/project-codeflare/codeflare-cli/commit/5e603fd33047cc5e38d4b90ccd94fd519ad4d3f6))
+- ProfileExplorer should only show edit buttons when in an editable/unlocked mode ([f99f56d](https://github.com/project-codeflare/codeflare-cli/commit/f99f56db87a17acc4e396b9e8309eea7fdb8e7c2))
+- reduce default height of terminal portion ([33bd3da](https://github.com/project-codeflare/codeflare-cli/commit/33bd3daa44309052e19b930bf7442f84a7f227d0))
+- refine <Ask/> component to use a fixed title, and instead put guidebook title below ([ab23956](https://github.com/project-codeflare/codeflare-cli/commit/ab239565d18377b28f1d66ff832dfd6ce13ea68d))
+- refine some of the major groupings in ProfileExploer ([4adf94b](https://github.com/project-codeflare/codeflare-cli/commit/4adf94b45e0827ed9e6b7fec61983fd1e4357153))
+- simplify hello guidebook to remove top-level markdown tabs ([2616ac2](https://github.com/project-codeflare/codeflare-cli/commit/2616ac24f3abf59d0854b54b8a461fee572eb858))
+- switch from Tile UI to Select UI for <Ask/> ([95bcc47](https://github.com/project-codeflare/codeflare-cli/commit/95bcc47ad8d23c9d3a18a20e05ec4551d444bc3b))
+- switch to control buttons in ProfileExplorer ([91512d1](https://github.com/project-codeflare/codeflare-cli/commit/91512d1089a3436324834833acc2732b04c16abf))
+- terminal resets interactive-for state too aggressively ([d6f1b84](https://github.com/project-codeflare/codeflare-cli/commit/d6f1b84126d439c1e33245aefef172d1448f9b0d))
+- ui refinements to ProfileExplorer and Ask ([e737969](https://github.com/project-codeflare/codeflare-cli/commit/e7379696423d7cd6c7206c8205c4cf8d5f690e6e))
+- update madwizard to not show guidebook title in terminal section ([c133c93](https://github.com/project-codeflare/codeflare-cli/commit/c133c930395a72ffa8eee77755b8fcd393c2487e))
+- update test profiles to increase head memory for non-gpu runs ([72ad409](https://github.com/project-codeflare/codeflare-cli/commit/72ad409258b731161887e17c7a1ee7993250f330))
+
+### Features
+
+- bump to @guidebooks/store@0.18.0 to pick up ray auto-stop ([e3b641e](https://github.com/project-codeflare/codeflare-cli/commit/e3b641e342081a6f1bae1b4b5280b84c4ac5a11a))
+- bump to `@guidebooks/store@1.1.0` to pick up ray/v1 support and bert updates ([b942761](https://github.com/project-codeflare/codeflare-cli/commit/b94276134475564b7441dc2a735d5ef095a412f9))
+- graphical guide ([48187fe](https://github.com/project-codeflare/codeflare-cli/commit/48187fec6c94cc3be7783b84fe95e28b0dcb411b))
+- incorporate madwizard@1.8.0 support for Choice descriptions into <Ask/> ([8036b28](https://github.com/project-codeflare/codeflare-cli/commit/8036b2888ad7ad1d35a35bbe9c8a036d4175d537))
+- update `codeflare hello` to pass through `-s` guidebook store option ([617be01](https://github.com/project-codeflare/codeflare-cli/commit/617be013112988b3fab37e59a0e9290dca10c937))
+
 ## [1.0.3](https://github.com/project-codeflare/codeflare-cli/compare/v1.0.2...v1.0.3) (2022-11-02)
 
 ### Bug Fixes
