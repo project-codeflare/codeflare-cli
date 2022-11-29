@@ -1,3 +1,13 @@
+# [1.2.0](https://github.com/project-codeflare/codeflare-cli/compare/v1.1.0...v1.2.0) (2022-11-29)
+
+### Bug Fixes
+
+- bump to `@guidebooks/store@1.2.3` to pick up description changes for roberta ([ea1da00](https://github.com/project-codeflare/codeflare-cli/commit/ea1da00a602cfd9f27df011966e48d43ebd7a9aa))
+
+### Features
+
+- disable status watching in tray menu ([73664b3](https://github.com/project-codeflare/codeflare-cli/commit/73664b39632636593d98d4734062e8623525f345))
+
 # [1.1.0](https://github.com/project-codeflare/codeflare-cli/compare/v1.0.3...v1.1.0) (2022-11-29)
 
 ### Bug Fixes
