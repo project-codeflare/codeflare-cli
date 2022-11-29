@@ -18,7 +18,7 @@ import { Profiles } from "madwizard"
 import { MenuItemConstructorOptions } from "electron"
 import { CreateWindowFunction } from "@kui-shell/core"
 
-import status from "./status"
+// import status from "./status"
 import tasks from "./tasks"
 import dashboards from "./dashboards"
 import activeRuns from "./active-runs"
@@ -40,7 +40,7 @@ async function profileMenu(
     label: profile,
     icon: profileIcon,
     submenu: [
-      ...section("Status", status(profile, updateFn)),
+      // ...section("Status", status(profile, updateFn)),
       ...section("Dashboards", await dashboards(profile, createWindow, updateFn)),
       ...section("Tasks", tasks(profile, createWindow)),
       ...section("Active Runs", await activeRuns(profile, createWindow, updateFn)),
