@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/project-codeflare/codeflare-cli/compare/v1.3.0...v1.3.1) (2022-11-30)
+
+### Bug Fixes
+
+- regression in user updates to form inputs ([75e1ec8](https://github.com/project-codeflare/codeflare-cli/commit/75e1ec817efa86ae645a7d77d1dbdd9082254683))
+- second of back-to-back forms does not work ([3b9a4d3](https://github.com/project-codeflare/codeflare-cli/commit/3b9a4d3bdd92d425d94f1615247a07e3eb55bfe9))
+
 # [1.3.0](https://github.com/project-codeflare/codeflare-cli/compare/v1.2.0...v1.3.0) (2022-11-30)
 
 ### Features
