@@ -1,3 +1,9 @@
+# [1.3.0](https://github.com/project-codeflare/codeflare-cli/compare/v1.2.0...v1.3.0) (2022-11-30)
+
+### Features
+
+- bump to `@guidebooks/store@1.3.0` to pick to ibm cloud codeengine support ([962affe](https://github.com/project-codeflare/codeflare-cli/commit/962affe97b689b3341bbb5153d3e28a06a0a69b8))
+
 # [1.2.0](https://github.com/project-codeflare/codeflare-cli/compare/v1.1.0...v1.2.0) (2022-11-29)
 
 ### Bug Fixes
