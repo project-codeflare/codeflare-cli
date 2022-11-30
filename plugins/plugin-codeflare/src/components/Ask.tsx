@@ -74,7 +74,19 @@ type State = {
   hasInlineFilter?: boolean
 
   /** Current form state (if any) */
-  form?: Record<string, string>
+  form?: {
+    /**
+     * The question being asked by this form; so we can noticed when
+     * the question changes for back-to-back forms.
+     */
+    ask: Ask
+
+    /**
+     * The current set of answers provided by the user, and
+     * initialized by the guidebook's `initial` value for each key.
+     */
+    state: Record<string, string>
+  }
 }
 
 /**
@@ -91,12 +103,12 @@ export default class AskUI extends React.PureComponent<Props, State> {
   public static getDerivedStateFromProps(props: Props, state: State) {
     if (state.userSelection && props.ask.prompt.choices.find((_) => _.name === state.userSelection)) {
       return state
-    } else if (state.form) {
+    } else if (state.form && state.form.ask === props.ask) {
       // there has been an update to the form, nothing to do here
       return state
     } else {
       const suggested = props.ask.prompt.choices.find((_) => (_ as any)["isSuggested"])
-      const form =
+      const state =
         !props.ask || !Prompts.isForm(props.ask.prompt)
           ? undefined
           : props.ask.prompt.choices.reduce((M, _) => {
@@ -104,7 +116,7 @@ export default class AskUI extends React.PureComponent<Props, State> {
               return M
             }, {} as Record<string, string>)
       return {
-        form,
+        form: { ask: props.ask, state },
         userSelection: !suggested ? undefined : suggested.name,
       }
     }
@@ -186,7 +198,7 @@ export default class AskUI extends React.PureComponent<Props, State> {
   private readonly _onFormSubmit = (evt: React.SyntheticEvent) => {
     if (this.props.ask && this.state.form) {
       evt.preventDefault()
-      this.props.ask.onChoose(Promise.resolve(this.state.form))
+      this.props.ask.onChoose(Promise.resolve(this.state.form.state))
     }
     return false
   }
@@ -355,7 +367,7 @@ export default class AskUI extends React.PureComponent<Props, State> {
                 aria-label={`text-input-${_.name}`}
                 data-name={_.name}
                 isRequired
-                value={form[_.name]}
+                value={form.state[_.name]}
                 onChange={this._onFormChange}
               />
             </FormGroup>
