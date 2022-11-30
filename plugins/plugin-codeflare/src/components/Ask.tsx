@@ -101,10 +101,19 @@ export default class AskUI extends React.PureComponent<Props, State> {
   }
 
   public static getDerivedStateFromProps(props: Props, state: State) {
+    console.error(
+      "!!!!!!!!",
+      state.form,
+      state.form && state.form.ask === props.ask,
+      state.form && state.form.ask,
+      props.ask
+    )
     if (state.userSelection && props.ask.prompt.choices.find((_) => _.name === state.userSelection)) {
+      console.error("!!!!!!!A")
       return state
     } else if (state.form && state.form.ask === props.ask) {
       // there has been an update to the form, nothing to do here
+      console.error("!!!!!!!B", state.form)
       return state
     } else {
       const suggested = props.ask.prompt.choices.find((_) => (_ as any)["isSuggested"])
@@ -115,6 +124,7 @@ export default class AskUI extends React.PureComponent<Props, State> {
               M[_.name] = (_ as any)["initial"]
               return M
             }, {} as Record<string, string>)
+      console.error("!!!!!!!C", state)
       return {
         form: { ask: props.ask, state },
         userSelection: !suggested ? undefined : suggested.name,
@@ -349,9 +359,14 @@ export default class AskUI extends React.PureComponent<Props, State> {
   private readonly _onFormChange = (value: string, evt: React.FormEvent<HTMLInputElement>) => {
     const name = evt.currentTarget.getAttribute("data-name")
     if (name && this.state.form) {
-      this.setState((curState) =>
-        !curState.form ? null : { form: Object.assign({}, curState.form, { [name]: value }) }
-      )
+      this.setState((curState) => {
+        if (curState.form) {
+          curState.form.state[name] = value
+          return { form: Object.assign({}, curState.form) }
+        } else {
+          return null
+        }
+      })
     }
   }
 
