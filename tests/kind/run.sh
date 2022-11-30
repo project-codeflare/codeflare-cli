@@ -18,6 +18,9 @@ SCRIPTDIR=$(cd $(dirname "$0") && pwd)
 # kubernetes/mcad/choose/scheduler guidebook
 export KUBE_POD_SCHEDULER=default
 
+# use a fixed cluster name
+export RAY_KUBE_CLUSTER_NAME=codeflare-test-ray-cluster
+
 while getopts "ab:f:is:" opt
 do
     case $opt in
@@ -244,7 +247,7 @@ function test {
     fi
 
     # 0. clean up prior ray clusters
-    cleanup_ray "$1"
+    # cleanup_ray "$1"
     
     # 1. launch codeflare guidebook run
     run "$1" | tee $OUTPUT &
