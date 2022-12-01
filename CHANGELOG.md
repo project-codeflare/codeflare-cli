@@ -1,3 +1,9 @@
+# [1.4.0](https://github.com/project-codeflare/codeflare-cli/compare/v1.3.2...v1.4.0) (2022-12-01)
+
+### Features
+
+- bump store and madwizard to pick up venv and expansion keying support ([db3a48f](https://github.com/project-codeflare/codeflare-cli/commit/db3a48f7a91545301f446297feceee2e668d0e04))
+
 ## [1.3.2](https://github.com/project-codeflare/codeflare-cli/compare/v1.3.1...v1.3.2) (2022-12-01)
 
 ### Bug Fixes
