@@ -1,3 +1,9 @@
+## [1.3.2](https://github.com/project-codeflare/codeflare-cli/compare/v1.3.1...v1.3.2) (2022-12-01)
+
+### Bug Fixes
+
+- bump to `@guidebooks/store@1.4.0` to use different ray cluster name per run ([fdbb900](https://github.com/project-codeflare/codeflare-cli/commit/fdbb900e57b0aa5100f78e8fd5da29b536517399))
+
 ## [1.3.1](https://github.com/project-codeflare/codeflare-cli/compare/v1.3.0...v1.3.1) (2022-11-30)
 
 ### Bug Fixes
