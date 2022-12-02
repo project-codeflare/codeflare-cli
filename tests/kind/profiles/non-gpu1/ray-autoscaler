@@ -17,6 +17,7 @@
     "ml/ray/start/resources": "{\"Number of CPUs\":\"200m\",\"Number of GPUs\":\"0\",\"Minimum Workers\":\"1\",\"Maximum Workers\":\"1\",\"Worker Memory\":\"500Mi\",\"Head Memory\":\"3Gi\"}",
     "kubernetes/context": "kind-codeflare-test",
     "kubernetes/choose/ns": "default",
+    "ml/ray/storage/s3/maybe": "My code does not use Ray Workflows",
     "ml/ray/cluster/choose": "codeflare-test-ray-cluster",
     "ml/ray/cluster/kubernetes/choose-pod-scheduler": "Use the Ray Autoscaler"
   }
