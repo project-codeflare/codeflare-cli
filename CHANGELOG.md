@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/project-codeflare/codeflare-cli/compare/v1.4.0...v1.4.1) (2022-12-02)
+
+### Bug Fixes
+
+- bump to @guidebooks/store@1.6.1 to pick up no-torchx fix ([0c0d6ce](https://github.com/project-codeflare/codeflare-cli/commit/0c0d6cef4b2774a1bae284396ed142c81d76ede5))
+- bump to madwizard@1.10.2 to pick up expansion fix ([812f1b2](https://github.com/project-codeflare/codeflare-cli/commit/812f1b2cff5c3ea41517081237b00532c016457f))
+
 # [1.4.0](https://github.com/project-codeflare/codeflare-cli/compare/v1.3.2...v1.4.0) (2022-12-01)
 
 ### Features
