@@ -1,3 +1,9 @@
+# [1.5.0](https://github.com/project-codeflare/codeflare-cli/compare/v1.4.1...v1.5.0) (2022-12-02)
+
+### Features
+
+- bump to @guidebooks/store@1.7.0 to pick up support for s3 ray storage ([1121d90](https://github.com/project-codeflare/codeflare-cli/commit/1121d902a6b17c5b49eb620e9ff12304757c88cf))
+
 ## [1.4.1](https://github.com/project-codeflare/codeflare-cli/compare/v1.4.0...v1.4.1) (2022-12-02)
 
 ### Bug Fixes
