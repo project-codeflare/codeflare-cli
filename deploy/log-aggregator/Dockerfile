@@ -5,6 +5,7 @@ LABEL org.opencontainers.image.source https://github.com/project-codeflare/codef
 ENV DEBIAN_FRONTEND=noninteractive
 ENV KUI_HEADLESS=true
 ENV KUI_HEADLESS_WEBPACK=true
+ENV NODE=node
 ENV CODEFLARE_HEADLESS_HOME=/usr/local/CodeFlare
 
 # TODO hard-coded arch

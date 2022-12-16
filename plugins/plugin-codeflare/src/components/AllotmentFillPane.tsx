@@ -17,7 +17,9 @@
 import React from "react"
 import { Allotment } from "allotment"
 
-export default class AllotmentFillPane extends React.PureComponent<{ minSize?: number }> {
+type Props = React.PropsWithChildren<{ minSize?: number }>
+
+export default class AllotmentFillPane extends React.PureComponent<Props> {
   public render() {
     return (
       <Allotment.Pane className="flex-fill flex-layout flex-align-stretch" minSize={this.props.minSize}>

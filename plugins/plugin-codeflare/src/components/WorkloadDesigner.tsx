@@ -56,6 +56,9 @@ export default class WorkloadDesigner extends React.PureComponent<Props, State> 
       initCount: 0,
       guidebook: props.defaultGuidebook === null ? null : props.defaultGuidebook || defaultGuidebookFromClient,
     }
+  }
+
+  public componentDidMount() {
     this.init()
   }
 

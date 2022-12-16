@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { cli } from "madwizard/dist/fe/cli"
+import { guide } from "madwizard/dist/fe/cli"
 
 import { onRun } from "./run"
 import UpdateFunction from "../../update"
@@ -58,7 +58,7 @@ export default class ProfileActiveRunWatcher {
         app.on("before-quit", onExit)
       }
 
-      const resp = await cli(["madwizard", "guide", guidebook], undefined, {
+      const resp = await guide(["madwizard", "guide", guidebook], undefined, {
         profile,
         bump: false, // don't bump the lastUsedTime of the profile
         clean: false, // don't kill the port-forward subprocess! we'll manage that

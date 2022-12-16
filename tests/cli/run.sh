@@ -7,8 +7,8 @@ SCRIPTDIR=$(cd $(dirname "$0") && pwd)
 
 # this forces bin/codeflare to run in headless mode using a platform
 # nodejs runtime (rather than using electron via ELECTRON_RUN_AS_NODE)
-NODE=node
-CODEFLARE_HEADLESS_HOME=$SCRIPTDIR/../../dist/headless
+export NODE=node
+export CODEFLARE_HEADLESS_HOME=$SCRIPTDIR/../../dist/headless
 
 for i in "$SCRIPTDIR"/inputs/*; do
     OUT=$(mktemp)

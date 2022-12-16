@@ -123,7 +123,7 @@ export function doMadwizard({ readonlyUI = true, task, withFilepath = true, cb, 
 
     if (!parsedOptions.u) {
       // CLI path
-      const { cli } = await import("madwizard/dist/fe/cli/index.js")
+      const { guide: cli } = await import("madwizard/dist/fe/cli/index.js")
 
       if (parsedOptions.q) {
         // TODO add this to madwizard?
