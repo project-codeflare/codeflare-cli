@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { cli } from "madwizard/dist/fe/cli"
+import { guide } from "madwizard/dist/fe/cli"
 import { CreateWindowFunction } from "@kui-shell/core"
 
 import windowOptions from "../../../window"
@@ -47,7 +47,7 @@ export default async function openDashboard(
   profile: string,
   createWindow: CreateWindowFunction
 ) {
-  const resp = await cli(["madwizard", "guide", guidebook], undefined, {
+  const resp = await guide(["madwizard", "guide", guidebook], undefined, {
     profile,
     clean: false /* don't kill the port-forward subprocess! we'll manage that */,
     verbose: !!process.env.DEBUG,

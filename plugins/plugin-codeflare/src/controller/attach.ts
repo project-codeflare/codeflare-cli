@@ -66,7 +66,7 @@ export async function attach(
     opts
   )
 
-  const { cli } = await import("madwizard/dist/fe/cli")
+  const { guide } = await import("madwizard/dist/fe/cli")
 
   // *deploy* the aggregator pod, then *start* an aggregator instance
   // for the given jobId
@@ -74,7 +74,7 @@ export async function attach(
     const deployOptions = Object.assign({}, options, { name: "log-aggregator-deploy" })
     debug("Deploying log aggregator", deployGuidebook, deployOptions)
     stderr("Deploying log aggregator...\n")
-    await cli(["codeflare", "guide", deployGuidebook], undefined, deployOptions)
+    await guide(["codeflare", "guide", deployGuidebook], undefined, deployOptions)
     debug("deploying log aggregator: done")
   } catch (err) {
     console.error("Error attaching", err)
@@ -83,7 +83,7 @@ export async function attach(
 
   debug("attaching to", jobId)
   stderr("Attaching to job...\n")
-  const resp = await cli(
+  const resp = await guide(
     ["codeflare", "guide", startGuidebook],
     undefined,
     Object.assign({}, options, { name: "log-aggregator-start", clean: false })

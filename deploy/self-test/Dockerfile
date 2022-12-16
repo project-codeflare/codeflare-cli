@@ -4,7 +4,7 @@ LABEL org.opencontainers.image.source https://github.com/project-codeflare/codef
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt update && apt -y install sudo curl python3 python3-pip git \
+RUN apt update && apt -y install sudo curl python3 python3-pip python3-venv git \
         && pip3 install --no-cache-dir  -U pip && pip3 install --no-cache-dir -U setuptools \
         && apt -y clean && rm -rf /var/lib/apt/lists/*
 
@@ -12,6 +12,7 @@ ENV KUI_HEADLESS=true
 ENV KUI_HEADLESS_WEBPACK=true
 ENV NO_KIND=true
 ENV ROOT=/usr/local
+ENV NODE=node
 ENV CODEFLARE_HEADLESS_HOME=/usr/local/CodeFlare
 
 ADD dist/headless /usr/local/CodeFlare

@@ -82,6 +82,9 @@ type TreeViewDataItemWithChildren = TreeViewDataItem & Required<Pick<TreeViewDat
 export default class ProfileExplorer extends React.PureComponent<Props, State> {
   public constructor(props: Props) {
     super(props)
+  }
+
+  public componentDidMount() {
     this.init()
   }
 
@@ -638,7 +641,7 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
  * A visual indicator that a tree node just changed. 1) Icon; 2)
  * scroll it into view.
  */
-class JustChanged extends React.PureComponent {
+class JustChanged extends React.PureComponent<React.PropsWithChildren<unknown>> {
   private readonly ref = React.createRef<HTMLSpanElement>()
 
   public componentDidMount() {

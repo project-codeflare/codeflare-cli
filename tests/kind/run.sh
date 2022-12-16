@@ -79,6 +79,11 @@ function run {
     local guidebook=${2-$GUIDEBOOK}
     local yes=$([ -z "$FORCE_ALL" ] && [ "$FORCE" != "$profileFull" ] && [ -f "$MWPROFILES_PATH/$profile" ] && echo "--yes" || echo "")
 
+    # this forces bin/codeflare to run in headless mode using a platform
+    # nodejs runtime (rather than using electron via ELECTRON_RUN_AS_NODE)
+    export NODE=node
+    export CODEFLARE_HEADLESS_HOME=${CODEFLARE_HEADLESS_HOME-$ROOT/dist/headless}
+    
     local PRE="$MWPROFILES_PATH_BASE"/../profiles.d/$profile/pre
     if [ -f "$PRE" ]; then
         echo "[Test] Running pre guidebooks for profile=$profile"
