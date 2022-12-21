@@ -16,8 +16,13 @@
 
 import React from "react"
 
-import { Kui, KuiProps, ContextWidgets, GitHubIcon, MeterWidgets, SpaceFiller } from "@kui-shell/plugin-client-common"
+import Kui, { Props as KuiProps } from "@kui-shell/plugin-client-common/mdist/components/Client/Kui"
+import GitHubIcon from "@kui-shell/plugin-client-common/mdist/components/Client/StatusStripe/GitHubIcon"
+import ContextWidgets from "@kui-shell/plugin-client-common/mdist/components/Client/StatusStripe/ContextWidgets"
+import SpaceFiller from "@kui-shell/plugin-client-common/mdist/components/Client/StatusStripe/SpaceFiller"
 
+// import MeterWidgets from '@kui-shell/plugin-client-common/mdist/components/Client/StatusStripe/MeterWidgets'
+// import CurrentWorkingDirectory from '@kui-shell/plugin-client-common/mdist/components/Client/StatusStripe/CurrentWorkingDirectory'
 // import { CurrentContext, CurrentNamespace } from "@kui-shell/plugin-kubectl/components"
 // import { Search } from "@kui-shell/plugin-electron-components"
 
@@ -71,7 +76,6 @@ export default function renderMain(props: KuiProps) {
       </ContextWidgets>
 
       <SpaceFiller />
-      <MeterWidgets></MeterWidgets>
     </Kui>
   )
 }
