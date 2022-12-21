@@ -15,7 +15,8 @@
  */
 
 import React from "react"
-import { Icons, TextWithIconWidget } from "@kui-shell/plugin-client-common"
+import Icons from "@kui-shell/plugin-client-common/dist/components/spi/Icons"
+import TextWithIconWidget from "@kui-shell/plugin-client-common/dist/components/Client/StatusStripe/TextWithIconWidget"
 
 import { homepage, version } from "@kui-shell/client/package.json"
 import { productName } from "@kui-shell/client/config.d/name.json"
