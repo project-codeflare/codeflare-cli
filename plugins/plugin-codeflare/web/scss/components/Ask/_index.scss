@@ -32,6 +32,12 @@ $max-width: 50rem;
   .pf-c-select__toggle-text {
     text-align: left;
   }
+
+  /* Without this, the select is clipped at the bottom :( */
+  .pf-c-select__menu {
+    position: unset;
+    margin-top: 1em;
+  }
 }
 
 /** Title */
