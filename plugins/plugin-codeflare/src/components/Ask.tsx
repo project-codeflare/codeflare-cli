@@ -66,27 +66,40 @@ type Props = {
   home(noninteractive?: boolean): void
 }
 
-type State = {
-  /** User has selected from the Select */
-  userSelection?: string
+type AssociateWithAsk<A extends Prompts.Prompt, T> = T & {
+  /**
+   * The question being asked by this form; so we can noticed when
+   * the question changes for back-to-back forms.
+   */
+  ask: Ask<A>
+}
 
+type State = {
   /** User has opted for inline filters in the Select */
   hasInlineFilter?: boolean
 
-  /** Current form state (if any) */
-  form?: {
-    /**
-     * The question being asked by this form; so we can noticed when
-     * the question changes for back-to-back forms.
-     */
-    ask: Ask
+  /** User has selected from the Select */
+  userSelection?: string
 
-    /**
-     * The current set of answers provided by the user, and
-     * initialized by the guidebook's `initial` value for each key.
-     */
-    state: Record<string, string>
-  }
+  /** Current multiselect state (if any) */
+  multiselectOptionsChecked?: AssociateWithAsk<
+    Prompts.MultiSelect,
+    {
+      state: string[]
+    }
+  >
+
+  /** Current form state (if any) */
+  form?: AssociateWithAsk<
+    Prompts.Form,
+    {
+      /**
+       * The current set of answers provided by the user, and
+       * initialized by the guidebook's `initial` value for each key.
+       */
+      state: Record<string, string>
+    }
+  >
 }
 
 /**
@@ -101,32 +114,36 @@ export default class AskUI extends React.PureComponent<Props, State> {
   }
 
   public static getDerivedStateFromProps(props: Props, state: State) {
-    console.error(
-      "!!!!!!!!",
-      state.form,
-      state.form && state.form.ask === props.ask,
-      state.form && state.form.ask,
-      props.ask
-    )
     if (state.userSelection && props.ask.prompt.choices.find((_) => _.name === state.userSelection)) {
-      console.error("!!!!!!!A")
       return state
     } else if (state.form && state.form.ask === props.ask) {
       // there has been an update to the form, nothing to do here
-      console.error("!!!!!!!B", state.form)
+      return state
+    } else if (state.multiselectOptionsChecked && state.multiselectOptionsChecked.ask === props.ask) {
+      // there has been an update to the multiselect, nothing to do here
       return state
     } else {
       const suggested = props.ask.prompt.choices.find((_) => (_ as any)["isSuggested"])
-      const state =
+
+      const form =
         !props.ask || !Prompts.isForm(props.ask.prompt)
           ? undefined
-          : props.ask.prompt.choices.reduce((M, _) => {
-              M[_.name] = (_ as any)["initial"]
-              return M
-            }, {} as Record<string, string>)
-      console.error("!!!!!!!C", state)
+          : {
+              ask: props.ask,
+              state: props.ask.prompt.choices.reduce((M, _) => {
+                M[_.name] = (_ as any)["initial"]
+                return M
+              }, {} as Record<string, string>),
+            }
+
+      const multiselectOptionsChecked =
+        !props.ask || !Prompts.isMultiSelect(props.ask.prompt)
+          ? undefined
+          : { ask: props.ask, state: props.ask.prompt.initial }
+
       return {
-        form: { ask: props.ask, state },
+        form,
+        multiselectOptionsChecked,
         userSelection: !suggested ? undefined : suggested.name,
       }
     }
@@ -206,9 +223,14 @@ export default class AskUI extends React.PureComponent<Props, State> {
 
   /** User has clicked to submit a form */
   private readonly _onFormSubmit = (evt: React.SyntheticEvent) => {
-    if (this.props.ask && this.state.form) {
-      evt.preventDefault()
-      this.props.ask.onChoose(Promise.resolve(this.state.form.state))
+    if (this.props.ask) {
+      if (this.state.form) {
+        evt.preventDefault()
+        this.props.ask.onChoose(Promise.resolve(this.state.form.state))
+      } else if (this.state.multiselectOptionsChecked) {
+        evt.preventDefault()
+        this.props.ask.onChoose(Promise.resolve(this.state.multiselectOptionsChecked.state))
+      }
     }
     return false
   }
@@ -223,6 +245,30 @@ export default class AskUI extends React.PureComponent<Props, State> {
       const name = selection.toString()
       this.setState({ userSelection: name })
       this.props.ask.onChoose(Promise.resolve(name))
+    }
+  }
+
+  /** User has clicked on a MultiSelectOption checkbox */
+  private readonly _onMultiSelect = (
+    evt: React.MouseEvent | React.ChangeEvent,
+    selection: string | SelectOptionObject,
+    isPlaceholder?: boolean
+  ) => {
+    const { ask } = this.props
+    if (!isPlaceholder && selection && ask && this.isMultiSelect(ask)) {
+      const name = selection.toString()
+      this.setState((curState) => {
+        const selections = this.selections(curState)
+        return selections === undefined
+          ? { multiselectOptionsChecked: { ask, state: [name] } }
+          : {
+              multiselectOptionsChecked: Object.assign({}, curState.multiselectOptionsChecked, {
+                state: selections.includes(name)
+                  ? selections.filter((_) => _ !== name) // toggle off
+                  : [...selections, name], // toggle on
+              }),
+            }
+      })
     }
   }
 
@@ -276,8 +322,17 @@ export default class AskUI extends React.PureComponent<Props, State> {
     return ask.title.replace(/\?$/, "")
   }
 
+  private selections(state = this.state) {
+    if (state.multiselectOptionsChecked) {
+      return state.multiselectOptionsChecked.state
+    }
+  }
+
   /** Render a UI for making a selection */
-  private select(ask: Ask<Prompts.Select>) {
+  private select(
+    ask: Ask<Prompts.Select | Prompts.MultiSelect>,
+    wrap: (node: React.ReactNode) => React.ReactNode = (_) => _
+  ) {
     const suggested = ask.prompt.choices.find((_) => _.name === this.state?.userSelection)
 
     // present a filtered list of options; note that we filter based
@@ -314,26 +369,29 @@ export default class AskUI extends React.PureComponent<Props, State> {
       ]
     }
 
+    const isMulti = this.isMultiSelect(ask)
     const onFilter = (evt: React.ChangeEvent | null, filter: string) => mkOptions(filter)
 
     const titleId = "kui--madwizard-ask-ui-title"
 
     const props: SelectProps = {
+      onFilter,
       isOpen: true,
       isPlain: true,
       isGrouped: true,
-      hasInlineFilter: this.state.hasInlineFilter,
+      placeholderText: "",
+      children: mkOptions(),
+      onToggle: this._doNothing,
+      "aria-labelledby": titleId,
       isInputValuePersisted: true,
       isInputFilterPersisted: true,
-      onFilter,
-      "aria-labelledby": titleId,
-      noResultsFoundText: "No matching choices",
-      placeholderText: "",
-      inlineFilterPlaceholderText: "Filter choices",
-      onSelect: this._onSelect,
-      onToggle: this._doNothing,
+      selections: this.selections(),
       toggleIndicator: <React.Fragment />,
-      children: mkOptions(),
+      noResultsFoundText: "No matching choices",
+      variant: !isMulti ? undefined : "checkbox",
+      hasInlineFilter: this.state.hasInlineFilter,
+      inlineFilterPlaceholderText: "Filter choices",
+      onSelect: !isMulti ? this._onSelect : this._onMultiSelect,
     }
 
     // is every message the same as the title?
@@ -344,15 +402,19 @@ export default class AskUI extends React.PureComponent<Props, State> {
     return (
       <React.Fragment>
         <span id={titleId} hidden />
-        {this.card(ask, <Select {...props} data-is-simplistic={isSimplistic || undefined} />)}
+        {this.card(ask, wrap(<Select {...props} data-is-simplistic={isSimplistic || undefined} />))}
       </React.Fragment>
     )
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private checkboxes(ask: Ask<Prompts.MultiSelect>) {
-    console.error("!!!!!!MMM", ask.prompt)
-    return "multiselect"
+    return this.select(ask, (select) => (
+      <Form onSubmit={this._onFormSubmit} className="top-pad">
+        {select}
+        {this.formButtons()}
+      </Form>
+    ))
   }
 
   /** User has edited the form */
@@ -368,6 +430,17 @@ export default class AskUI extends React.PureComponent<Props, State> {
         }
       })
     }
+  }
+
+  /** Render button group for form */
+  private formButtons() {
+    return (
+      <ActionGroup>
+        <Button variant="primary" type="submit">
+          Next
+        </Button>
+      </ActionGroup>
+    )
   }
 
   /** Render a form ui */
@@ -389,11 +462,7 @@ export default class AskUI extends React.PureComponent<Props, State> {
           ))}
         </Grid>
 
-        <ActionGroup>
-          <Button variant="primary" type="submit">
-            Next
-          </Button>
-        </ActionGroup>
+        {this.formButtons()}
       </Form>
     )
   }
