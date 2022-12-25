@@ -14,5 +14,4 @@
  * limitations under the License.
  */
 
-export { setTabReadonly } from "./util"
-export { doMadwizard, flags, Options as MadWizardOptions } from "./plugin"
+export { default as hello } from "./controller/hello"

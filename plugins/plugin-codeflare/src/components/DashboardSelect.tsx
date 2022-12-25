@@ -15,7 +15,7 @@
  */
 
 import React from "react"
-import { openWindow } from "../controller/profile/actions"
+import { openWindow } from "@kui-shell/plugin-madwizard/watch"
 import { Select, SelectOption, SelectOptionObject } from "@patternfly/react-core"
 
 type Props = {

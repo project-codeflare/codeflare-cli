@@ -54,7 +54,7 @@ async function dashboardcli(args: Arguments<DashboardOptions>) {
 }
 
 async function dashboardui(args: Arguments<DashboardOptions>) {
-  const { setTabReadonly } = await import("@kui-shell/plugin-madwizard")
+  const { setTabReadonly } = await import("@kui-shell/plugin-madwizard/do")
   setTabReadonly(args)
 
   const filepath = args.argvNoOptions[2]

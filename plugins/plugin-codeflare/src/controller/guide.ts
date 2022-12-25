@@ -15,10 +15,6 @@
  */
 
 import { Arguments } from "@kui-shell/core"
-import { doExecWithPty } from "@kui-shell/plugin-bash-like"
-import { setTabReadonly } from "@kui-shell/plugin-madwizard"
-
-import respawnCommand from "./respawn"
 
 /**
  * Entrypoint for madwizard tasks from tray.ts. We could improve the
@@ -28,9 +24,15 @@ import respawnCommand from "./respawn"
  * see bin/codeflare; we are mostly copying bits from there
  */
 export default async function guide(args: Arguments) {
+  const [{ doExecWithPty }, { respawn }, { setTabReadonly }] = await Promise.all([
+    import("@kui-shell/plugin-bash-like"),
+    import("@kui-shell/plugin-madwizard/watch"),
+    import("@kui-shell/plugin-madwizard/do"),
+  ])
+
   setTabReadonly(args)
 
-  const { argv, env } = await respawnCommand(
+  const { argv, env } = await respawn(
     args.command.replace(/--type=renderer/, "").replace(/^codeflare\s+gui\s+guide/, "codeflare")
   )
 

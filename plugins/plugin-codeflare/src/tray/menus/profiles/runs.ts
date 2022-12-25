@@ -17,8 +17,7 @@
 import prettyMillis from "pretty-ms"
 import { MenuItemConstructorOptions } from "electron"
 
-import UpdateFunction from "../../update"
-import ProfileRunWatcher, { RUNS_ERROR } from "../../watchers/profile/run"
+import { UpdateFunction, ProfileRunWatcher, RUNS_ERROR } from "@kui-shell/plugin-madwizard/watch"
 
 /** Handler for "opening" the selected `runId` in the given `profile` */
 type RunOpener = (profile: string, runId: string) => void

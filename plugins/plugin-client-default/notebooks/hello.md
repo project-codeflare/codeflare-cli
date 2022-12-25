@@ -13,5 +13,5 @@ execute: now
 outputOnly: true
 maximize: true
 ---
-codeflare designer
+madwizard designer
 ```

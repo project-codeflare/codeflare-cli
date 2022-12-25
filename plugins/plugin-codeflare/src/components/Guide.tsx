@@ -19,8 +19,8 @@ import { Prompts, Tree } from "madwizard"
 import { cli } from "madwizard/dist/fe/cli"
 import { Loading } from "@kui-shell/plugin-client-common"
 
-import AskUI, { Ask } from "./Ask"
-import { guidebookStore } from "../controller/respawn"
+import { AskUI, Ask } from "@kui-shell/plugin-madwizard/components"
+import { guidebookStore } from "@kui-shell/plugin-madwizard/watch"
 
 type Props = {
   guidebook: string

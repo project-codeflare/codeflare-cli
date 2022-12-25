@@ -15,7 +15,7 @@
  */
 
 import { version } from "@kui-shell/client/package.json"
-import { doMadwizard, MadWizardOptions } from "@kui-shell/plugin-madwizard"
+import { doMadwizard, MadWizardOptions } from "@kui-shell/plugin-madwizard/do"
 
 import comIBMResearchFM from "../teams/com/ibm/research/fm"
 import comIBMResearchNASA from "../teams/com/ibm/research/nasa"
