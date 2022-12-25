@@ -15,7 +15,7 @@
  */
 
 import { KResponse, Registrar } from "@kui-shell/core"
-import { MadWizardOptions, flags } from "@kui-shell/plugin-madwizard"
+import { MadWizardOptions, flags } from "@kui-shell/plugin-madwizard/do"
 
 import { width, height } from "@kui-shell/client/config.d/style.json"
 
@@ -64,13 +64,6 @@ export default function registerCodeflareCommands(registrar: Registrar) {
     height,
   })
 
-  registrar.listen("/codeflare/reset/profile", (args) => import("./profile/reset").then((_) => _.default(args)))
-  registrar.listen("/codeflare/delete/profile", (args) => import("./profile/delete").then((_) => _.default(args)))
-  registrar.listen("/codeflare/rename/profile", (args) => import("./profile/rename").then((_) => _.default(args)))
-
-  registrar.listen("/codeflare/get/profile", () => import("./profile/get").then((_) => _.default()), {
-    needsUI: true,
-  })
   registrar.listen("/codeflare/get/run", (args) => import("./run/get").then((_) => _.default(args)), {
     needsUI: true,
     outputOnly: true,
@@ -78,35 +71,34 @@ export default function registerCodeflareCommands(registrar: Registrar) {
 
   // launch our explore guidebook
   ;["ui", "explore", "explorer", "hello"].forEach((explore) =>
-    registrar.listen(`/codeflare/${explore}`, (args) => import("./hello").then((_) => _.default(args)), {
-      needsUI: true,
-      outputOnly: true,
-      width,
-      height,
-    })
+    registrar.listen(
+      `/codeflare/${explore}`,
+      (args) => import("@kui-shell/plugin-madwizard").then((_) => _.hello(args)),
+      {
+        needsUI: true,
+        outputOnly: true,
+        width,
+        height,
+      }
+    )
   )
 
   /**
    * Launch the gallery with asciinema plays
    */
-  registrar.listen("/codeflare/gallery", () => import("./hello").then((_) => _.gallery()), {
+  /* registrar.listen("/codeflare/gallery", () => import("./hello").then((_) => _.gallery()), {
     outputOnly: true,
-  })
+  }) */
 
   /**
    * Launch a gallery with the example dashboards
    */
-  registrar.listen("/codeflare/dashboard-gallery", (args) => import("./hello").then((_) => _.dashboardGallery(args)))
-
-  /** UI for running profile-related tasks */
-  registrar.listen("/codeflare/designer", (args) => import("./terminal").then((_) => _.designer(args)), {
-    needsUI: true,
-  })
+  // registrar.listen("/codeflare/dashboard-gallery", (args) => import("./hello").then((_) => _.dashboardGallery(args)))
 
   /** Open a plain terminal */
-  registrar.listen("/codeflare/terminal/shell", (args) => import("./terminal").then((_) => _.shell(args)), {
+  /* registrar.listen("/codeflare/terminal/shell", (args) => import("./terminal").then((_) => _.shell(args)), {
     needsUI: true,
-  })
+  }) */
 
   /**
    * Register a catch-all command handler: any `/^codeflare/` command

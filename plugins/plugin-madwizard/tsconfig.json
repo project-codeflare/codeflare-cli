@@ -7,5 +7,6 @@
     "jsx": "react",
     "outDir": "mdist",
     "rootDir": "src"
-  }
+  },
+  "references": [{ "path": "./do" }, { "path": "./watch" }, { "path": "./components" }]
 }

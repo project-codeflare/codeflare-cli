@@ -15,13 +15,13 @@
  */
 
 import { CreateWindowFunction } from "@kui-shell/core"
+import { UpdateFunction } from "@kui-shell/plugin-madwizard/watch"
 
 import { bugs, version } from "@kui-shell/client/package.json"
 import { productName } from "@kui-shell/client/config.d/name.json"
 import { width, height } from "@kui-shell/client/config.d/style.json"
 
 import profilesMenu from "./profiles"
-import UpdateFunction from "../update"
 import { bugIcon, powerOffIcon, gettingStartedIcon } from "../icons"
 
 /** @return an Electron `Menu` model for our tray menu */

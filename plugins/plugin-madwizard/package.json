@@ -1,5 +1,5 @@
 {
-  "name": "@kui-shell/plugin-client",
+  "name": "@kui-shell/plugin-madwizard",
   "version": "0.0.1",
   "description": "Kui plugin that offers a madwizard UI",
   "main": "dist/index.js",
@@ -23,6 +23,7 @@
     "access": "public"
   },
   "dependencies": {
+    "chalk": "^5.2.0",
     "madwizard": "^2.5.2",
     "@guidebooks/store": "^1.9.4"
   }

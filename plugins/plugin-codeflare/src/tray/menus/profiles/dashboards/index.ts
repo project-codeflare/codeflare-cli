@@ -16,9 +16,9 @@
 
 import { MenuItemConstructorOptions } from "electron"
 import { CreateWindowFunction } from "@kui-shell/core"
+import { UpdateFunction } from "@kui-shell/plugin-madwizard/watch"
 
 import codeflare from "./codeflare"
-import UpdateFunction from "../../../update"
 
 /** @return menu items that open dashboards for the given `profile` */
 export default async function dashboards(

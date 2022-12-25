@@ -16,10 +16,8 @@
 
 import React from "react"
 import { Arguments, encodeComponent } from "@kui-shell/core"
-
-import respawn from "./respawn"
-import Terminal from "../components/RestartableTerminal"
-import WorkloadDesigner from "../components/WorkloadDesigner"
+import { respawn } from "@kui-shell/plugin-madwizard/watch"
+import { RestartableTerminal } from "@kui-shell/plugin-madwizard/components"
 
 /**
  * This is a command handler that opens up a plain terminal that shows
@@ -32,17 +30,6 @@ export async function shell(args: Arguments) {
   const cmdline = argv.map((_) => encodeComponent(_)).join(" ")
 
   return {
-    react: <Terminal cmdline={cmdline} env={env} REPL={args.REPL} tab={args.tab} />,
-  }
-}
-
-/**
- * This is a command handler that opens up a terminal to run a
- * selected profile-oriented task.
- *
- */
-export function designer(args: Arguments) {
-  return {
-    react: <WorkloadDesigner REPL={args.REPL} tab={args.tab} />,
+    react: <RestartableTerminal cmdline={cmdline} env={env} REPL={args.REPL} tab={args.tab} />,
   }
 }

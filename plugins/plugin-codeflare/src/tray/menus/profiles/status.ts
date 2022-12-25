@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import UpdateFunction from "../../update"
-import ProfileStatusWatcher from "../../watchers/profile/status"
+import { ProfileStatusWatcher, UpdateFunction } from "@kui-shell/plugin-madwizard/watch"
 
 /** Memo of `ProfileStatusWatcher`, keyed by profile name */
 const watchers: Record<string, ProfileStatusWatcher> = {}

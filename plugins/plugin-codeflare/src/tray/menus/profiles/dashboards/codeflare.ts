@@ -18,12 +18,12 @@ import { join } from "path"
 import { Profiles } from "madwizard"
 import { MenuItemConstructorOptions } from "electron"
 import { CreateWindowFunction } from "@kui-shell/core"
+import { UpdateFunction } from "@kui-shell/plugin-madwizard/watch"
 
 import runs from "../runs"
 import section from "../../section"
 import { gridIcon } from "../../../icons"
 import windowOptions from "../../../window"
-import UpdateFunction from "../../../update"
 
 /** @return a new Window with a dashboard of the selected job run */
 function openRunInCodeflareDashboard(createWindow: CreateWindowFunction, profile: string, runId: string) {

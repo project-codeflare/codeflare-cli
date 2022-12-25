@@ -19,7 +19,6 @@ import { Profiles } from "madwizard"
 import { basename, join } from "path"
 import prettyMilliseconds from "pretty-ms"
 import { Arguments, Table } from "@kui-shell/core"
-import { setTabReadonly } from "@kui-shell/plugin-madwizard"
 
 import { productName } from "@kui-shell/client/config.d/name.json"
 
@@ -78,6 +77,8 @@ function getRunTime(start: number, end: number): string {
 }
 
 export default async function getRuns(args: Arguments) {
+  const [{ setTabReadonly }] = await Promise.all([import("@kui-shell/plugin-madwizard/do")])
+
   setTabReadonly(args)
   const profile = args.parsedOptions.p || args.parsedOptions.profile
 

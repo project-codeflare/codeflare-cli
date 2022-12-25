@@ -28,7 +28,7 @@ async function tail(args: Arguments<FollowOptions>) {
   const fp = expand(filepath)
   const [React, Terminal] = await Promise.all([
     import("react"),
-    import("../components/Terminal").then((_) => _.default),
+    import("@kui-shell/plugin-madwizard/components").then((_) => _.Terminal),
   ])
 
   if (process.env.FOLLOW) {

@@ -17,6 +17,7 @@
 import { Profiles } from "madwizard"
 import { MenuItemConstructorOptions } from "electron"
 import { CreateWindowFunction } from "@kui-shell/core"
+import { ProfileWatcher, UpdateFunction } from "@kui-shell/plugin-madwizard/watch"
 
 // import status from "./status"
 import tasks from "./tasks"
@@ -24,9 +25,7 @@ import dashboards from "./dashboards"
 import activeRuns from "./active-runs"
 
 import section from "../section"
-import UpdateFunction from "../../update"
 import { profileIcon } from "../../icons"
-import ProfileWatcher from "../../watchers/profile/list"
 
 /** @return a menu for the given `profile` */
 async function profileMenu(
