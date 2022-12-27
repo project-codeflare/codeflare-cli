@@ -541,11 +541,16 @@ class ProfileCard extends React.PureComponent<ProfileCardProps, ProfileCardState
               // meta.group.title: e.g. Application or Compute or Storage
               // meta.title: e.g. Scenario or Cluster/Namespace or Region
               // value: e.g. "Getting Started Demo" or yourNamespace or us-east
+              const thisNode = this.treeNode(title, meta, value)
               if (already) {
                 // there is
-                already.name = already.name + ", " + value
+                already.name = (
+                  <span>
+                    {already.name} {thisNode.name}
+                  </span>
+                )
               } else {
-                children.push(this.editable(title, this.treeNode(title, meta, value)))
+                children.push(this.editable(title, thisNode))
               }
             }
           }
