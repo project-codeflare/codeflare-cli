@@ -31,6 +31,52 @@ import { Props as BaseProps } from "./RestartableTerminal"
 import "../../web/scss/components/Allotment/_index.scss"
 import "allotment/dist/style.css"
 
+export type Props = Pick<BaseProps, "tab" | "REPL" | "onExit" | "searchable" | "fontSizeAdjust"> & {
+  /** Default guidebook (if not given, we will take the value from the client definition); `null` means do not show anything */
+  defaultGuidebook?: string | null
+
+  /** Run guidebook in non-interactive mode? */
+  defaultNoninteractive?: boolean
+
+  /** Any extra env vars to add to the guidebook execution. These will be pre-joined with the default env. */
+  extraEnv?: BaseProps["env"]
+
+  /** Callback when user selects a profile */
+  onSelectProfile?(profile: string, profiles?: import("madwizard").Profiles.Profile[]): void
+
+  /** Content to place above the terminal */
+  aboveTerminal?: React.ReactNode
+
+  /** Default left-right split */
+  lrSplit?: [number, number]
+}
+
+type State = Partial<Pick<BaseProps, "cmdline" | "env">> & {
+  /** Number of times we have called this.init() */
+  initCount: number
+
+  /** Internal error in rendering */
+  error?: boolean
+
+  /** Use this guidebook in the terminal execution */
+  guidebook?: string | null
+
+  /** Any extra env vars to add to the guidebook execution. These will be pre-joined with the default env. */
+  extraEnv?: BaseProps["env"]
+
+  /** Run guidebook in non-interactive mode? */
+  noninteractive?: boolean
+
+  /** Interactive only for the given guidebook? */
+  ifor?: boolean
+
+  /** Use this profile in the terminal execution */
+  selectedProfile?: string
+
+  /** Hide terminal? */
+  hideTerminal?: boolean
+}
+
 /**
  * ProfileExplorer |   props.aboveTerminal?
  *                 | ----------
@@ -230,59 +276,24 @@ export default class WorkloadDesigner extends React.PureComponent<Props, State> 
     }
   }
 
+  private get defaultSizes() {
+    return this.props.lrSplit || this.splits.horizontal
+  }
+
+  private get minSize() {
+    return this.defaultSizes[0] === 0 ? 0 : 275
+  }
+
   public render() {
     if (this.state.error) {
       return "Internal Error"
     }
 
     return (
-      <Allotment snap defaultSizes={this.splits.horizontal}>
-        <AllotmentFillPane minSize={400}>{this.left()}</AllotmentFillPane>
+      <Allotment snap defaultSizes={this.defaultSizes} minSize={this.minSize}>
+        <AllotmentFillPane minSize={this.minSize}>{this.left()}</AllotmentFillPane>
         <AllotmentFillPane>{this.right()}</AllotmentFillPane>
       </Allotment>
     )
   }
-}
-
-export type Props = Pick<BaseProps, "tab" | "REPL" | "onExit" | "searchable" | "fontSizeAdjust"> & {
-  /** Default guidebook (if not given, we will take the value from the client definition); `null` means do not show anything */
-  defaultGuidebook?: string | null
-
-  /** Run guidebook in non-interactive mode? */
-  defaultNoninteractive?: boolean
-
-  /** Any extra env vars to add to the guidebook execution. These will be pre-joined with the default env. */
-  extraEnv?: BaseProps["env"]
-
-  /** Callback when user selects a profile */
-  onSelectProfile?(profile: string, profiles?: import("madwizard").Profiles.Profile[]): void
-
-  /** Content to place above the terminal */
-  aboveTerminal?: React.ReactNode
-}
-
-type State = Partial<Pick<BaseProps, "cmdline" | "env">> & {
-  /** Number of times we have called this.init() */
-  initCount: number
-
-  /** Internal error in rendering */
-  error?: boolean
-
-  /** Use this guidebook in the terminal execution */
-  guidebook?: string | null
-
-  /** Any extra env vars to add to the guidebook execution. These will be pre-joined with the default env. */
-  extraEnv?: BaseProps["env"]
-
-  /** Run guidebook in non-interactive mode? */
-  noninteractive?: boolean
-
-  /** Interactive only for the given guidebook? */
-  ifor?: boolean
-
-  /** Use this profile in the terminal execution */
-  selectedProfile?: string
-
-  /** Hide terminal? */
-  hideTerminal?: boolean
 }
