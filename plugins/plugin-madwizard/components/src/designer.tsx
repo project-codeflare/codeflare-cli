@@ -15,9 +15,16 @@
  */
 
 import React from "react"
-import { Arguments } from "@kui-shell/core"
+import { Arguments, ParsedOptions } from "@kui-shell/core"
 import WorkloadDesigner from "./WorkloadDesigner"
 
-export default function designer(args: Arguments) {
-  return <WorkloadDesigner REPL={args.REPL} tab={args.tab} />
+type Options = ParsedOptions & {
+  left?: number
+}
+
+export default function designer(args: Arguments<Options>) {
+  const lrSplit: [number, number] | undefined =
+    typeof args.parsedOptions.left === "number" ? [args.parsedOptions.left, 100 - args.parsedOptions.left] : undefined
+
+  return <WorkloadDesigner REPL={args.REPL} tab={args.tab} lrSplit={lrSplit} />
 }
