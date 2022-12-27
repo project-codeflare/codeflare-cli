@@ -220,29 +220,29 @@ export default class AskingTerminal extends React.PureComponent<Props, State> {
     }
   }
 
-  private readonly initialContent = new Chalk({ level: 2 }).dim.italic("Logs will appear here")
+  /** Placeholder content for terminal */
+  private readonly initialTerminalContent = new Chalk({ level: 2 }).dim.italic("Logs will appear here")
+
+  /** React `key` prop for terminal */
+  private get terminalKey() {
+    return (
+      this.state.myInitCount + "_" + this.props.initCount + "_" + this.props.cmdline + "-" + this.props.selectedProfile
+    )
+  }
 
   private terminal() {
     return (
       <SelectedProfileTerminal
         searchable={false}
-        initialContent={this.initialContent}
-        fontSizeAdjust={1 /* relative to 14px */}
-        key={
-          this.state.myInitCount +
-          "_" +
-          this.props.initCount +
-          "_" +
-          this.props.cmdline +
-          "-" +
-          this.props.selectedProfile
-        }
-        cmdline={this.props.cmdline + this.extraCommandLine}
         env={this.props.env}
+        key={this.terminalKey}
+        initialContent={this.initialTerminalContent}
+        fontSizeAdjust={1 /* relative to 14px */}
+        cmdline={this.props.cmdline + this.extraCommandLine}
         selectedProfile={this.props.selectedProfile}
-        intercept={this._onTerminalLine}
         onInit={this._onTerminalInit}
         onExit={this._onTerminalExit}
+        intercept={this._onTerminalLine /* intercept terminal output lines */}
         restartOnExit={false /* don't auto-restart on exit */}
         {...this.props.terminalProps}
       />
