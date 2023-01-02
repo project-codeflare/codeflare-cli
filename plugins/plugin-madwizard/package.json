@@ -23,6 +23,7 @@
     "access": "public"
   },
   "dependencies": {
+    "allotment": "^1.17.1",
     "chalk": "^5.2.0",
     "madwizard": "^2.5.2",
     "@guidebooks/store": "^1.9.4"
