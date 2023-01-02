@@ -26,7 +26,6 @@
     "@logdna/tail-file": "^3.0.0",
     "@patternfly/react-charts": "^6.94.15",
     "@patternfly/react-core": "^4.267.6",
-    "allotment": "^1.17.1",
     "asciinema-player": "^3.0.1",
     "chokidar": "^3.5.3",
     "json-diff": "^1.0.0",
