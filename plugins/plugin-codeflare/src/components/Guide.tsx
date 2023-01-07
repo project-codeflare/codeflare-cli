@@ -84,7 +84,7 @@ export default class Guide extends React.PureComponent<Props, State> {
   private readonly _home = () => this.setState({ currentGuidebook: this.props.guidebook })
 
   /** Guidebook runner presents a question to the user */
-  private async onAsk(prompt: Prompts.Prompt, onChoose: (choice: ReturnType<Tree.AnsiUI["ask"]>) => void) {
+  private async onAsk(prompt: Prompts.Prompt, onChoose: Ask["onChoose"]) {
     this.setState({ ask: { prompt, onChoose, title: prompt.name || "Make a Choice", description: prompt.description } })
   }
 

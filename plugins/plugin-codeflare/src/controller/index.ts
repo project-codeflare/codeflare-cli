@@ -73,7 +73,12 @@ export default function registerCodeflareCommands(registrar: Registrar) {
   ;["ui", "explore", "explorer", "hello"].forEach((explore) =>
     registrar.listen(
       `/codeflare/${explore}`,
-      (args) => import("@kui-shell/plugin-madwizard").then((_) => _.hello(args)),
+      (args) => {
+        if (args.parsedOptions.s) {
+          process.env.GUIDEBOOK_STORE = args.parsedOptions.s
+        }
+        return args.REPL.qexec("commentary --readonly -f /kui/client/hello.md")
+      },
       {
         needsUI: true,
         outputOnly: true,
