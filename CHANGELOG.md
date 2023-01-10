@@ -1,3 +1,27 @@
+# [2.0.0](https://github.com/project-codeflare/codeflare-cli/compare/v1.5.0...v2.0.0) (2023-01-10)
+
+### Bug Fixes
+
+- allotment dep needs to move from plugin-codeflare to plugin-madwizard ([bcca439](https://github.com/project-codeflare/codeflare-cli/commit/bcca439dd4b2f46bed6dd2a73dad1bf5d464791b))
+- bump kui to pick up fix for weird right border in title ([31d129e](https://github.com/project-codeflare/codeflare-cli/commit/31d129e6a45dd3b1ca2848b02e55dddd19969b76))
+- bump madwizard 2.5.2 to pick up multiselect fix ([4d3cb9a](https://github.com/project-codeflare/codeflare-cli/commit/4d3cb9a4e23184d163b0241435e5c0391658aa94))
+- fill in missing support for multiselect in <Ask/> ([aa54823](https://github.com/project-codeflare/codeflare-cli/commit/aa54823c202e0b9f7a5cd4b28e27fd1eea31c60e))
+- in <Ask/> select is clipped at the bottom ([b360218](https://github.com/project-codeflare/codeflare-cli/commit/b3602188aa21cdf885f944eac6b655d81996720a))
+- move additional deps from plugin-codeflare to plugin-madwizard ([8e62070](https://github.com/project-codeflare/codeflare-cli/commit/8e620703bfed12cf037f7cc50a363045ddfe545e))
+- ProfileExplorer can show object Object for duplicate forms in profile ([0744a41](https://github.com/project-codeflare/codeflare-cli/commit/0744a41997b568e3c72eb1065eff406b12b59e04))
+
+### Features
+
+- allow WorkloadDesigner to hide ProfileExplorer ([89735ff](https://github.com/project-codeflare/codeflare-cli/commit/89735ff46a3c54afff9e361674711a98fc2cdcb3))
+- major bump to kui and madwizard dependencies ([b340b33](https://github.com/project-codeflare/codeflare-cli/commit/b340b33e41ced1ca19eaeb466a7eb15a88a6ab6e))
+
+### BREAKING CHANGES
+
+- this pulls in react 18, which has some breaking changes on react components that this PR addresses
+- this pulls in a few breaking changes to the madwizard API
+
+bump to store 1.9.3
+
 # [1.5.0](https://github.com/project-codeflare/codeflare-cli/compare/v1.4.1...v1.5.0) (2022-12-02)
 
 ### Features
