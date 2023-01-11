@@ -12,7 +12,7 @@
     "ml/codeflare": "Submit a new Run",
     "ml/codeflare/run": "Bring Your Own Code",
     "ml/codeflare/training/byoc/form": "{\"Path to source\":\"tests/kind/inputs/qiskit\",\"Base image\":\"rayproject/ray:2.1.0\"}",
-    "kubernetes/secrets/image-pull": "No secret needed, since my image is public"
+    "kubernetes/choose/secret/image-pull": "No secret needed, since my image is public",
     "s3/choose/bucket/maybe": "My data is not stored in S3",
     "ml/ray/start/resources": "{\"Number of CPUs\":\"1\",\"Number of GPUs\":\"1\",\"Minimum Workers\":\"1\",\"Maximum Workers\":\"1\",\"Worker Memory\":\"5Gi\",\"Head Memory\":\"1.5Gi\"}",
     "kubernetes/context": "kind-codeflare-test",
