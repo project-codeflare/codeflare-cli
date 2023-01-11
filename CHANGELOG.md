@@ -1,3 +1,13 @@
+# [2.1.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.0.0...v2.1.0) (2023-01-11)
+
+### Bug Fixes
+
+- bump plugin-madwizard to pick up parsing bug in raw mode with madwizard ([52808fb](https://github.com/project-codeflare/codeflare-cli/commit/52808fb0cb6be2d9bff504e8cb42be4138605e8c))
+
+### Features
+
+- bump to electron 22 ([2b18ba8](https://github.com/project-codeflare/codeflare-cli/commit/2b18ba8478ae52d893e347613d1994e184e41c2f))
+
 # [2.0.0](https://github.com/project-codeflare/codeflare-cli/compare/v1.5.0...v2.0.0) (2023-01-10)
 
 ### Bug Fixes
