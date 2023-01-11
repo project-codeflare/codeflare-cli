@@ -1,3 +1,5 @@
+## [2.1.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.1.0...v2.1.1) (2023-01-11)
+
 # [2.1.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.0.0...v2.1.0) (2023-01-11)
 
 ### Bug Fixes
