@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/project-codeflare/codeflare-cli/compare/v2.1.1...v2.1.2) (2023-01-12)
+
+### Bug Fixes
+
+- bump @guidebook/store 2.0.1 -> 2.0.2 ([2968293](https://github.com/project-codeflare/codeflare-cli/commit/2968293ce684b9de2ac3b7381e488df8382bd726))
+- bump kui again to pick up vfs race condition fix ([86f75ad](https://github.com/project-codeflare/codeflare-cli/commit/86f75adda3615ed545fbf677920570e4cf038f70))
+
 ## [2.1.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.1.0...v2.1.1) (2023-01-11)
 
 # [2.1.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.0.0...v2.1.0) (2023-01-11)
