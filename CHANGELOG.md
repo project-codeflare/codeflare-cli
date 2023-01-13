@@ -1,3 +1,9 @@
+## [2.1.3](https://github.com/project-codeflare/codeflare-cli/compare/v2.1.2...v2.1.3) (2023-01-13)
+
+### Bug Fixes
+
+- bump to @guidebooks/store 2.0.3 to pick up helm dry-run support ([a4b81dd](https://github.com/project-codeflare/codeflare-cli/commit/a4b81dd04a72b46427d184dd0109ec4d93b04b7c))
+
 ## [2.1.2](https://github.com/project-codeflare/codeflare-cli/compare/v2.1.1...v2.1.2) (2023-01-12)
 
 ### Bug Fixes
