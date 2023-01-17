@@ -1,3 +1,9 @@
+## [2.2.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.2.0...v2.2.1) (2023-01-17)
+
+### Bug Fixes
+
+- bump to madwizard@4.3.5 to pick up enquirer bump ([fdffb11](https://github.com/project-codeflare/codeflare-cli/commit/fdffb1116d954d90704b537c8838a3217604a546))
+
 # [2.2.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.1.3...v2.2.0) (2023-01-17)
 
 ### Bug Fixes
