@@ -1,3 +1,13 @@
+# [2.2.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.1.3...v2.2.0) (2023-01-17)
+
+### Bug Fixes
+
+- bump @guidebooks/store@2.1.2 to pick up imagePullSecret helm parse error ([d2e71a1](https://github.com/project-codeflare/codeflare-cli/commit/d2e71a1d9172a65b61b3e5c0f4e40457e119767a))
+
+### Features
+
+- bump to madwizard@4.3.0 and @guidebooks/store@2.1.0 to pick up finally support ([db8f0e4](https://github.com/project-codeflare/codeflare-cli/commit/db8f0e4bf6df31983cfb5058e7d2dbdbba5d2015))
+
 ## [2.1.3](https://github.com/project-codeflare/codeflare-cli/compare/v2.1.2...v2.1.3) (2023-01-13)
 
 ### Bug Fixes
