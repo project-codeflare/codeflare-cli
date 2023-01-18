@@ -1,3 +1,9 @@
+## [2.2.2](https://github.com/project-codeflare/codeflare-cli/compare/v2.2.1...v2.2.2) (2023-01-18)
+
+### Bug Fixes
+
+- bump madwizard@4.4.0 to pick up fix for ray working-dir relative path ([a984dbd](https://github.com/project-codeflare/codeflare-cli/commit/a984dbd0ce14533f670fb169a97cb261e106569b))
+
 ## [2.2.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.2.0...v2.2.1) (2023-01-17)
 
 ### Bug Fixes
