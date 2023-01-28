@@ -17,10 +17,11 @@
 import { MenuItemConstructorOptions } from "electron"
 import { CreateWindowFunction } from "@kui-shell/core"
 import { productName } from "@kui-shell/client/config.d/name.json"
-import { UpdateFunction, ProfileActiveRunWatcher } from "@kui-shell/plugin-madwizard/watch"
+import { UpdateFunction } from "@kui-shell/plugin-madwizard/watch"
 
 import { rayIcon } from "../../icons"
 import { runMenuItems } from "./runs"
+import ProfileActiveRunWatcher from "../../watchers/profile/active-runs"
 
 /** active run watcher per profile */
 const watchers: Record<string, ProfileActiveRunWatcher> = {}
