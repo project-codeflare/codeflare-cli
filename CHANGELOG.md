@@ -1,3 +1,9 @@
+# [2.3.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.2.2...v2.3.0) (2023-01-31)
+
+### Features
+
+- bump to @guidebooks/store@2.2.2 s3fs storage class choice ([6d2312a](https://github.com/project-codeflare/codeflare-cli/commit/6d2312abdc967c7ac591733d444177b5b4755dd7))
+
 ## [2.2.2](https://github.com/project-codeflare/codeflare-cli/compare/v2.2.1...v2.2.2) (2023-01-18)
 
 ### Bug Fixes
