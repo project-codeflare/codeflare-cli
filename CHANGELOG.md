@@ -1,3 +1,10 @@
+## [2.3.2](https://github.com/project-codeflare/codeflare-cli/compare/v2.3.1...v2.3.2) (2023-02-01)
+
+### Bug Fixes
+
+- bump to store 2.2.8 to pick up fixes for s3fs ([9bcaf91](https://github.com/project-codeflare/codeflare-cli/commit/9bcaf91e3b4ed516c997b70260c8c49e5511edca))
+- do not trap ctrl+c as this prevents madwizard cleanup ([b40f345](https://github.com/project-codeflare/codeflare-cli/commit/b40f34549730233ae40b296bc14672eb2670aba0))
+
 ## [2.3.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.3.0...v2.3.1) (2023-02-01)
 
 ### Bug Fixes
