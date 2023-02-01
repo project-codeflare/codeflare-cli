@@ -139,7 +139,7 @@ if [ "$NODE" != "node" ] && [ ! -f ~/.codeflare ] && [ $(uname) = Linux ]; then
 fi
 
 # helps with ctrl+c when running in a docker container
-trap 'pkill -P $$; exit 1;' TERM INT
+# trap 'pkill -P $$; exit 1;' TERM INT
 
 # otherwise, we launch the UI version
 export CODEFLARE_HEADLESS=$HEADLESS
