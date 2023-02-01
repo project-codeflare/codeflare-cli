@@ -106,11 +106,6 @@ export KUI_HEADLESS=true
 export KUI_S3=${KUI_S3-false} # we don't need plugin-s3 capabilities when in headless mode
 export ELECTRON_RUN_AS_NODE=true
 
-# This tells the core Kui plugin resolver that we are using webpack to
-# build our headless bundles, not the old headless hacks. In the next
-# major semver of Kui, this should no longer be necessary.
-export KUI_HEADLESS_WEBPACK=true
-
 # This points the headless->electron launcher to our Electron
 export KUI_ELECTRON_HOME="${KUI_ELECTRON_HOME-$NODE}"
 
