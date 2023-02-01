@@ -1,5 +1,5 @@
 cask "codeflare" do
-  version "2.3.0"
+  version "2.3.1"
 
   name "CodeFlare"
   desc "CLI for Project CodeFlare"
@@ -7,11 +7,11 @@ cask "codeflare" do
 
   if Hardware::CPU.intel?
     url "https://github.com/project-codeflare/codeflare-cli/releases/download/v#{version}/CodeFlare-darwin-x64.tar.bz2"
-    sha256 "30f58719eef90e273b9c90d2e28016fe243401b2553e627f60526de153efeacd"
+    sha256 "0905aadfd159f289db0c485669f8043453d6ceb972b558f931e197a9b8318d72"
     app "CodeFlare-darwin-x64/CodeFlare.app"
   else
     url "https://github.com/project-codeflare/codeflare-cli/releases/download/v#{version}/CodeFlare-darwin-arm64.tar.bz2"
-    sha256 "cc4203cf63afa40814fa78ec42192a2f314461e6403a2ab90bb726c2bd93ee3f"
+    sha256 "1bf77f27041f574e2a94d0a525bd093b1bc6c47c0be5f6a4cc89bac09b144dae"
     app "CodeFlare-darwin-arm64/CodeFlare.app"
   end
 

@@ -1,3 +1,9 @@
+## [2.3.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.3.0...v2.3.1) (2023-02-01)
+
+### Bug Fixes
+
+- update store to pick up helm chart fixes for s3fs ([5735c17](https://github.com/project-codeflare/codeflare-cli/commit/5735c175397c861434ad3eaddee219656b7f39a7))
+
 # [2.3.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.2.2...v2.3.0) (2023-01-31)
 
 ### Features
