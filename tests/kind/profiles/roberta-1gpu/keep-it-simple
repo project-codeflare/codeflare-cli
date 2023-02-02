@@ -14,7 +14,7 @@
     "ml/codeflare/run-with-codeflare": "Training Tasks",
     "ml/codeflare/training": "Train a Masked Language Model",
     "ml/codeflare/training/roberta/choose-data": "I want to run a quick test with sample data",
-    "ml/ray/start/resources": "{\"Number of CPUs\":\"1\",\"Number of GPUs\":\"1\",\"Minimum Workers\":\"1\",\"Maximum Workers\":\"1\",\"Worker Memory\":\"8Gi\",\"Head Memory\":\"8Gi\"}",
+    "ml/ray/start/resources": "{\"Number of CPUs\":\"1\",\"Number of GPUs\":\"1\",\"Minimum Workers\":\"1\",\"Maximum Workers\":\"1\",\"Worker Memory\":\"8Gi\",\"Head Memory\":\"8Gi\",\"Ephemeral Storage\":\"5Gi\"}",
     "kubernetes/context": "kind-codeflare-test",
     "kubernetes/choose/ns": "default",
     "ml/ray/storage/s3/maybe": "My code does not use Ray Workflows",
