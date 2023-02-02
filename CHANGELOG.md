@@ -1,3 +1,12 @@
+## [2.3.3](https://github.com/project-codeflare/codeflare-cli/compare/v2.3.2...v2.3.3) (2023-02-02)
+
+### Bug Fixes
+
+- bump @guidebooks/store@2.2.10 to pick up s3fs mounting on ray head ([b6f3231](https://github.com/project-codeflare/codeflare-cli/commit/b6f3231b696286df366f9c993035bdc801a34fdf))
+- bump madwziard@5.0.6 to pick up ctrl+c fixes ([8ae53aa](https://github.com/project-codeflare/codeflare-cli/commit/8ae53aa68406e08b89908255c84f09aa2d05dad2))
+- pull back in ProfileActiveRunWatcher from kui core ([5dfb4b2](https://github.com/project-codeflare/codeflare-cli/commit/5dfb4b298aaa94a210330dcf1f7142a9f25eaac1))
+- remove useless env var assignment in bin/codeflare ([e9396dd](https://github.com/project-codeflare/codeflare-cli/commit/e9396dd93e53fb03e5b1e51915213063f0a65601))
+
 ## [2.3.2](https://github.com/project-codeflare/codeflare-cli/compare/v2.3.1...v2.3.2) (2023-02-01)
 
 ### Bug Fixes
