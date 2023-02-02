@@ -1,3 +1,9 @@
+## [2.3.4](https://github.com/project-codeflare/codeflare-cli/compare/v2.3.3...v2.3.4) (2023-02-02)
+
+### Bug Fixes
+
+- bump @guidebook/store@2.3.0 to pick up support for specifying ray ephemeral storage ([f9e0aa2](https://github.com/project-codeflare/codeflare-cli/commit/f9e0aa2c7d74919e1b4a2590d0d655aeb758846c))
+
 ## [2.3.3](https://github.com/project-codeflare/codeflare-cli/compare/v2.3.2...v2.3.3) (2023-02-02)
 
 ### Bug Fixes
