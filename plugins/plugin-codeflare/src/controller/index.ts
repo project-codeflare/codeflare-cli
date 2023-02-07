@@ -105,6 +105,12 @@ export default function registerCodeflareCommands(registrar: Registrar) {
     needsUI: true,
   }) */
 
+  registrar.catchall<KResponse, MadWizardOptions>(
+    (argv) => argv[0] === "codeflare" && argv[1] === "profile",
+    (args) => import("./catchall").then((_) => _.profile(args)),
+    10
+  )
+
   /**
    * Register a catch-all command handler: any `/^codeflare/` command
    * lines, send to madwizard.
