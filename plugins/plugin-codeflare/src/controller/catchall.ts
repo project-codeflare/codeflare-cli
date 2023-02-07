@@ -54,6 +54,11 @@ function assertionsFn({ team }: Pick<MadWizardOptions, "team">): Record<string, 
   return {}
 }
 
+export const profile = doMadwizard({
+  task: "profile",
+  withFilepath: false,
+})
+
 /**
  * Our catch-all command handler: send to madwizard.
  */
