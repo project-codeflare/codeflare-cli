@@ -1,3 +1,9 @@
+# [2.4.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.3.4...v2.4.0) (2023-02-07)
+
+### Features
+
+- `codeflare profile list/edit/delete/prune/clone` commands ([7c72209](https://github.com/project-codeflare/codeflare-cli/commit/7c72209a320cce41702e7ca9838f8f1023ac4ef2))
+
 ## [2.3.4](https://github.com/project-codeflare/codeflare-cli/compare/v2.3.3...v2.3.4) (2023-02-02)
 
 ### Bug Fixes
