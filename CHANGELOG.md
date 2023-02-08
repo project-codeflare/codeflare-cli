@@ -1,3 +1,9 @@
+## [2.4.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.4.0...v2.4.1) (2023-02-08)
+
+### Bug Fixes
+
+- bump @guidebooks/store to pick up improved ray cluster name ([b782fb4](https://github.com/project-codeflare/codeflare-cli/commit/b782fb4023a8c0c4d36f0ccbf9850818c0628e69))
+
 # [2.4.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.3.4...v2.4.0) (2023-02-07)
 
 ### Features
