@@ -17,8 +17,13 @@
 @import "@kui-shell/plugin-client-common/web/scss/components/Terminal/mixins";
 
 @include Scrollback {
+  .pf-c-content dl {
+    grid-template: unset;
+    grid-template-columns: 1fr;
+  }
   dd {
     margin: 0;
+    grid-column: unset;
   }
   .pf-c-description-list__description {
     font-weight: 300;

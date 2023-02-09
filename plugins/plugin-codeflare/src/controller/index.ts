@@ -45,7 +45,7 @@ export default function registerCodeflareCommands(registrar: Registrar) {
   registrar.listen<KResponse, AttachOptions>(
     "/codeflare/attach",
     (args) => import("./attach").then((_) => _.default(args)),
-    { flags: { boolean: ["wait"] } }
+    { flags: Object.assign({}, flags, { boolean: ["wait"].concat(flags.boolean) }) }
   )
 
   registrar.listen("/codeflare/version", (args) =>
