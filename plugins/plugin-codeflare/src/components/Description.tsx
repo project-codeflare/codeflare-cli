@@ -35,7 +35,7 @@ const Description = (props: Props) => {
   const { summaryData } = props
 
   return (
-    <DescriptionList isAutoColumnWidths isFluid>
+    <DescriptionList>
       {summaryData.map(({ label, value }, index) => (
         <DescriptionListGroup key={index}>
           <DescriptionListTerm>{label}</DescriptionListTerm>

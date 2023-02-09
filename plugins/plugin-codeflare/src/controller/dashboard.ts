@@ -31,11 +31,14 @@ export type DashboardOptions = FollowOptions & {
 
   p: string
   profile: string
+
+  s: string
+  store: string
 }
 
 export const followFlags: CommandOptions["flags"] = {
   boolean: ["f", "follow", "i", "y", "V"],
-  alias: { follow: ["f"], attach: ["a"], profile: ["p"] },
+  alias: { follow: ["f"], attach: ["a"], profile: ["p"], store: ["s"] },
 }
 
 async function dashboardcli(args: Arguments<DashboardOptions>) {

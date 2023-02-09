@@ -56,12 +56,13 @@ export async function attach(
     process.env.JOB_ID = jobId
   }
 
+  const appName = "codeflare"
   const options: MadWizardOptions = Object.assign(
     {
+      appName,
       profile,
       interactive: false,
       verbose: true,
-      store: process.env.GUIDEBOOK_STORE,
     },
     opts
   )
@@ -74,7 +75,7 @@ export async function attach(
     const deployOptions = Object.assign({}, options, { name: "log-aggregator-deploy" })
     debug("Deploying log aggregator", deployGuidebook, deployOptions)
     stderr("Deploying log aggregator...\n")
-    await guide(["codeflare", "guide", deployGuidebook], undefined, deployOptions)
+    await guide([appName, "guide", deployGuidebook], undefined, deployOptions)
     debug("deploying log aggregator: done")
   } catch (err) {
     console.error("Error attaching", err)
@@ -84,7 +85,7 @@ export async function attach(
   debug("attaching to", jobId)
   stderr("Attaching to job...\n")
   const resp = await guide(
-    ["codeflare", "guide", startGuidebook],
+    [appName, "guide", startGuidebook],
     undefined,
     Object.assign({}, options, { name: "log-aggregator-start", clean: false })
   )
@@ -111,13 +112,12 @@ export async function attach(
  * @return the local logdir for the run
  */
 export default async function attachCommand(args: Arguments<Options>) {
-  const Profiles = await import("madwizard").then((_) => _.Profiles)
-
   const jobId = args.parsedOptions.a
-  const profile = args.parsedOptions.p || (await Profiles.lastUsed())
+  const store = args.parsedOptions.s || process.env.GUIDEBOOK_STORE
+  const profile = args.parsedOptions.p || (await import("madwizard").then((_) => _.Profiles.lastUsed()))
 
   const stderr = await args.createErrorStream()
-  const { logdir, cleanExit } = await attach(profile, jobId, { verbose: args.parsedOptions.V }, stderr)
+  const { logdir, cleanExit } = await attach(profile, jobId, { store, verbose: args.parsedOptions.V }, stderr)
 
   if (logdir) {
     if (cleanExit) {
