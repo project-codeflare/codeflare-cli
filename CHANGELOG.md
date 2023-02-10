@@ -1,3 +1,9 @@
+## [2.4.3](https://github.com/project-codeflare/codeflare-cli/compare/v2.4.2...v2.4.3) (2023-02-10)
+
+### Bug Fixes
+
+- refinements to dashboard ui, including removal of Events pane ([d02447a](https://github.com/project-codeflare/codeflare-cli/commit/d02447a200af93508f9dc432b739be7e36079030))
+
 ## [2.4.2](https://github.com/project-codeflare/codeflare-cli/compare/v2.4.1...v2.4.2) (2023-02-10)
 
 ### Bug Fixes
