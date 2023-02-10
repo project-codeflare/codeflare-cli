@@ -1,3 +1,10 @@
+## [2.4.2](https://github.com/project-codeflare/codeflare-cli/compare/v2.4.1...v2.4.2) (2023-02-10)
+
+### Bug Fixes
+
+- bumps to pick up improved cancel output and waiting for ray job to start ([d300e3d](https://github.com/project-codeflare/codeflare-cli/commit/d300e3d92bf639cc14e6d7432f93ab1ecd0f9b80))
+- restore codeflare db -a` ([2ca946e](https://github.com/project-codeflare/codeflare-cli/commit/2ca946e5c9bc0a2cffea292d16855247e0cdd6ae))
+
 ## [2.4.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.4.0...v2.4.1) (2023-02-08)
 
 ### Bug Fixes
