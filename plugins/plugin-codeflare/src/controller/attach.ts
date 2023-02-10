@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import chalk from "chalk"
 import Debug from "debug"
 import { MadWizardOptions } from "madwizard"
 import { Arguments, Capabilities, ParsedOptions } from "@kui-shell/core"
@@ -61,8 +62,8 @@ export async function attach(
     {
       appName,
       profile,
+      quiet: true,
       interactive: false,
-      verbose: true,
     },
     opts
   )
@@ -74,7 +75,7 @@ export async function attach(
   try {
     const deployOptions = Object.assign({}, options, { name: "log-aggregator-deploy" })
     debug("Deploying log aggregator", deployGuidebook, deployOptions)
-    stderr("Deploying log aggregator...\n")
+    stderr(chalk.yellow("Deploying log aggregator...\n"))
     await guide([appName, "guide", deployGuidebook], undefined, deployOptions)
     debug("deploying log aggregator: done")
   } catch (err) {
@@ -83,21 +84,21 @@ export async function attach(
   }
 
   debug("attaching to", jobId)
-  stderr("Attaching to job...\n")
+  stderr(chalk.yellow("Attaching to job...\n"))
   const resp = await guide(
     [appName, "guide", startGuidebook],
     undefined,
     Object.assign({}, options, { name: "log-aggregator-start", clean: false })
   )
-  stderr("Attaching to job done...\n")
+  stderr(chalk.yellow("Attaching to job done...\n"))
 
   // the logdir that we captured
   const logdir = resp && resp.env ? resp.env.LOGDIR_STAGE : undefined
   if (logdir) {
     debug("successfully attached to", jobId, logdir)
-    stderr("Successfully attached to job")
+    stderr(chalk.green("Successfully attached to job\n"))
   } else {
-    stderr("Error in attach to job (logdir not found)")
+    stderr(chalk.red("Error in attach to job (logdir not found)\n"))
   }
 
   return {
