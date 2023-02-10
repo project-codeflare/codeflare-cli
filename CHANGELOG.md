@@ -1,3 +1,9 @@
+## [2.4.4](https://github.com/project-codeflare/codeflare-cli/compare/v2.4.3...v2.4.4) (2023-02-10)
+
+### Bug Fixes
+
+- `codeflare dashboard --attach` does not clean up on ctrl+c ([13fb464](https://github.com/project-codeflare/codeflare-cli/commit/13fb4644685ea0bd27f83387064fd721eb379cb3))
+
 ## [2.4.3](https://github.com/project-codeflare/codeflare-cli/compare/v2.4.2...v2.4.3) (2023-02-10)
 
 ### Bug Fixes
