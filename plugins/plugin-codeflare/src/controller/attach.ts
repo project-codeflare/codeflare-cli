@@ -112,7 +112,7 @@ export async function attach(
  *
  * @return the local logdir for the run
  */
-export default async function attachCommand(args: Arguments<Options>) {
+export default async function attachCommand(args: Arguments<Options>, wait = args.parsedOptions.wait) {
   const jobId = args.parsedOptions.a
   const store = args.parsedOptions.s || process.env.GUIDEBOOK_STORE
   const profile = args.parsedOptions.p || (await import("madwizard").then((_) => _.Profiles.lastUsed()))
@@ -126,13 +126,14 @@ export default async function attachCommand(args: Arguments<Options>) {
         process.once("exit", () => {
           console.error("attach exit")
         })
-        if (args.parsedOptions.wait) {
+        if (wait) {
           await new Promise<void>((resolve) => {
-            process.once("SIGTERM", () => {
-              console.error("attach sigterm")
-              cleanExit("SIGTERM")
-              resolve()
-            })
+            ["SIGINT" as const, "SIGTERM" as const].forEach((signal) =>
+              process.once(signal, () => {
+                cleanExit(signal)
+                resolve()
+              })
+            )
           })
         }
       } else {

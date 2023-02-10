@@ -44,7 +44,7 @@ export const followFlags: CommandOptions["flags"] = {
 async function dashboardcli(args: Arguments<DashboardOptions>) {
   if (args.parsedOptions.attach) {
     // attach to a running job
-    const logdir = await import("./attach").then((_) => _.default(args))
+    const logdir = await import("./attach").then((_) => _.default(args, true))
     return args.REPL.qexec(`codeflare dashboardui -f ${encodeComponent(logdir)}`)
   }
 
