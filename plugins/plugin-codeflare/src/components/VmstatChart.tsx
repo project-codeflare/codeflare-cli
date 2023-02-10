@@ -57,7 +57,7 @@ export default class VmstatChart extends React.PureComponent<Props, State> {
 
     const series = [
       { impl: "ChartArea" as const, stroke: BaseChart.colors[1], data: d1 },
-      { impl: "ChartLine" as const, stroke: BaseChart.colors[2], data: d2 },
+      { impl: "ChartDashedLine" as const, stroke: BaseChart.colors[2], data: d2 },
     ]
 
     const data = series.map((_, idx) => BaseChart.normalize(_, idx === 0 ? "percentage" : "memory"))

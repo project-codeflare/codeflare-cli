@@ -11,9 +11,6 @@ layout:
     3:
         position: default
         maximized: true
-    4:
-        position: default
-        maximized: true
         inverseColors: true
 ---
 
@@ -82,15 +79,4 @@ layout:
     outputOnly: true
     ---
     codeflare chart all "${LOGDIR}"
-    ```
-
----
-
-=== "Events"
-    ```shell
-    ---
-    execute: now
-    outputOnly: true
-    ---
-    codeflare chart events "${LOGDIR}"
     ```
