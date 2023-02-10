@@ -149,7 +149,7 @@ export default class Combo extends React.PureComponent<Props, State> {
   private static noData(node: string, kind: "CPU Utilization" | "GPU Utilization", idx: number) {
     return (
       <div key={`nodata-${kind}-${idx}`} className="flex-layout" title={`No ${kind} for ${node}`}>
-        <span className="flex-fill flex-layout flex-align-center">no data</span>
+        <span className="flex-fill flex-layout flex-align-center">no {kind.replace(/ Utilization/, "")} data</span>
       </div>
     )
   }
