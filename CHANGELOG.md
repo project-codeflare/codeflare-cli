@@ -1,3 +1,9 @@
+## [2.4.5](https://github.com/project-codeflare/codeflare-cli/compare/v2.4.4...v2.4.5) (2023-02-13)
+
+### Bug Fixes
+
+- pick up guidebook fixes for app label and ray v1; madwizard dashdash escape and ray-submit exception handling ([ec1a827](https://github.com/project-codeflare/codeflare-cli/commit/ec1a8271d615318ec61bd0e73615a21fc1261a46))
+
 ## [2.4.4](https://github.com/project-codeflare/codeflare-cli/compare/v2.4.3...v2.4.4) (2023-02-10)
 
 ### Bug Fixes
