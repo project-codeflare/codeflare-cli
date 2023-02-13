@@ -30,13 +30,13 @@
     "@types/split2": "^3.2.1"
   },
   "dependencies": {
-    "@guidebooks/store": "^2.3.4",
+    "@guidebooks/store": "^2.3.5",
     "@logdna/tail-file": "^3.0.1",
     "@patternfly/react-charts": "^6.94.18",
     "@patternfly/react-core": "^4.276.6",
     "asciinema-player": "^3.0.1",
     "chokidar": "^3.5.3",
-    "madwizard": "^5.2.8",
+    "madwizard": "^5.2.9",
     "needle": "^3.2.0",
     "open": "^8.4.0",
     "pretty-bytes": "^6.0.0",
