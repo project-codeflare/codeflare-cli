@@ -1,3 +1,9 @@
+## [2.4.6](https://github.com/project-codeflare/codeflare-cli/compare/v2.4.5...v2.4.6) (2023-02-14)
+
+### Bug Fixes
+
+- bump store to pick up fix for ray service and madwizard to pick up fix for double quoted command lines ([282639a](https://github.com/project-codeflare/codeflare-cli/commit/282639a1af5b7e21d5485b7654a3bbe0bbc6aa6e))
+
 ## [2.4.5](https://github.com/project-codeflare/codeflare-cli/compare/v2.4.4...v2.4.5) (2023-02-13)
 
 ### Bug Fixes
