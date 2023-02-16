@@ -1,3 +1,10 @@
+# [2.5.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.4.6...v2.5.0) (2023-02-15)
+
+### Features
+
+- bump madwizard and store to pick up avoiding ray cli for job submission ([0071db9](https://github.com/project-codeflare/codeflare-cli/commit/0071db99d905a377a30799b25f5ce02725e61817))
+- bump to madwizard@6 and @guidebooks/store@3 ([31420e3](https://github.com/project-codeflare/codeflare-cli/commit/31420e3cd000381499516d85aa313fb2d19d46a2))
+
 ## [2.4.6](https://github.com/project-codeflare/codeflare-cli/compare/v2.4.5...v2.4.6) (2023-02-14)
 
 ### Bug Fixes
