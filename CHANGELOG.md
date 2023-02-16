@@ -1,3 +1,13 @@
+# [2.6.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.5.0...v2.6.0) (2023-02-16)
+
+### Bug Fixes
+
+- ray self-destruct job was not cleaning up in some cases ([41dc322](https://github.com/project-codeflare/codeflare-cli/commit/41dc32269eef259ad2f324a0e5c36680d647c357))
+
+### Features
+
+- pick up ray self destruct from @guidebooks/store@3.3.1 ([dc0325b](https://github.com/project-codeflare/codeflare-cli/commit/dc0325b603ad5d8051388d38974e61c863a1a143))
+
 # [2.5.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.4.6...v2.5.0) (2023-02-15)
 
 ### Features
