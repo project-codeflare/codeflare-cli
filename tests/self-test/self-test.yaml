@@ -19,7 +19,7 @@ rules:
   verbs: ["create", "delete", "get", "watch", "list"]
 - apiGroups: ["batch"]
   resources: ["jobs"]
-  verbs: ["create", "get", "watch", "list"]
+  verbs: ["create", "get", "watch", "list", "delete"]
 - apiGroups: [""]
   resources: ["pods/exec", "pods/portforward"]
   verbs: ["create", "delete"]
