@@ -15,6 +15,7 @@
  */
 
 import { version } from "@kui-shell/client/package.json"
+import { productName } from "@kui-shell/client/config.d/name.json"
 import { doMadwizard, MadWizardOptions } from "@kui-shell/plugin-madwizard/do"
 
 import comIBMResearchFM from "../teams/com/ibm/research/fm"
@@ -55,6 +56,7 @@ function assertionsFn({ team }: Pick<MadWizardOptions, "team">): Record<string, 
 }
 
 export const profile = doMadwizard({
+  appName: productName.toLowerCase(),
   task: "profile",
   withFilepath: false,
 })
@@ -63,6 +65,7 @@ export const profile = doMadwizard({
  * Our catch-all command handler: send to madwizard.
  */
 export default doMadwizard({
+  appName: productName.toLowerCase(),
   task: "guide",
   envFn,
   assertionsFn,
