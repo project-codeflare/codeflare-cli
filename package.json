@@ -131,16 +131,16 @@
     }
   },
   "devDependencies": {
-    "@kui-shell/builder": "13.0.0-dev-20230214-175935",
-    "@kui-shell/proxy": "13.0.0-dev-20230214-175935",
-    "@kui-shell/react": "13.0.0-dev-20230214-175935",
-    "@kui-shell/webpack": "13.0.0-dev-20230214-175935",
+    "@kui-shell/builder": "13.0.0-dev-20230217-121657",
+    "@kui-shell/proxy": "13.0.0-dev-20230217-121657",
+    "@kui-shell/react": "13.0.0-dev-20230217-121657",
+    "@kui-shell/webpack": "13.0.0-dev-20230217-121657",
     "@playwright/test": "^1.30.0",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
-    "electron": "^22.2.1",
+    "electron": "^22.3.0",
     "eslint": "^8.33.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.1",
@@ -152,15 +152,15 @@
   "dependencies": {
     "node-pty": "0.11.0-beta27",
     "@kui-shell/client": "file:./plugins/plugin-client-default",
-    "@kui-shell/core": "13.0.0-dev-20230214-175935",
-    "@kui-shell/plugin-bash-like": "13.0.0-dev-20230214-175935",
-    "@kui-shell/plugin-client-common": "13.0.0-dev-20230214-175935",
+    "@kui-shell/core": "13.0.0-dev-20230217-121657",
+    "@kui-shell/plugin-bash-like": "13.0.0-dev-20230217-121657",
+    "@kui-shell/plugin-client-common": "13.0.0-dev-20230217-121657",
     "@kui-shell/plugin-codeflare": "file:./plugins/plugin-codeflare",
-    "@kui-shell/plugin-core-support": "13.0.0-dev-20230214-175935",
-    "@kui-shell/plugin-electron-components": "13.0.0-dev-20230214-175935",
-    "@kui-shell/plugin-kubectl": "13.0.0-dev-20230214-175935",
-    "@kui-shell/plugin-madwizard": "13.0.0-dev-20230214-175935",
-    "@kui-shell/plugin-patternfly4-themes": "13.0.0-dev-20230214-175935",
-    "@kui-shell/plugin-proxy-support": "13.0.0-dev-20230214-175935"
+    "@kui-shell/plugin-core-support": "13.0.0-dev-20230217-121657",
+    "@kui-shell/plugin-electron-components": "13.0.0-dev-20230217-121657",
+    "@kui-shell/plugin-kubectl": "13.0.0-dev-20230217-121657",
+    "@kui-shell/plugin-madwizard": "13.0.0-dev-20230217-121657",
+    "@kui-shell/plugin-patternfly4-themes": "13.0.0-dev-20230217-121657",
+    "@kui-shell/plugin-proxy-support": "13.0.0-dev-20230217-121657"
   }
 }
