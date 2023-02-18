@@ -1,3 +1,12 @@
+## [2.6.2](https://github.com/project-codeflare/codeflare-cli/compare/v2.6.1...v2.6.2) (2023-02-18)
+
+### Bug Fixes
+
+- bump kui to pick up fix for weird errors on `codeflare profile` ([ee25cc2](https://github.com/project-codeflare/codeflare-cli/commit/ee25cc21d670ea3a35b7e4a17b9144e7c0641e69))
+- bump to @guidebooks/store@3.3.9 to pick up port-forward pod ready timeout fix ([68b715f](https://github.com/project-codeflare/codeflare-cli/commit/68b715fd3b4c354186d7616cc7c7b2b05c666b7b))
+- helm chart names may fail if they have uppercase chars ([0f6b32d](https://github.com/project-codeflare/codeflare-cli/commit/0f6b32d3c65e150c9ba25bd48120342f798ecbcb))
+- some cli commands respond with usage that references madwizard ([0508d1e](https://github.com/project-codeflare/codeflare-cli/commit/0508d1eb0ef1f81499de59c52f261a879fa11efc))
+
 ## [2.6.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.6.0...v2.6.1) (2023-02-17)
 
 ### Bug Fixes
