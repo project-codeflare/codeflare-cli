@@ -21,6 +21,11 @@ export KUBE_POD_SCHEDULER=default
 # use a fixed cluster name
 export RAY_KUBE_CLUSTER_NAME=codeflare-test-ray-cluster
 
+# this forces bin/codeflare to run in headless mode using a platform
+# nodejs runtime (rather than using electron via ELECTRON_RUN_AS_NODE)
+export NODE=node
+export CODEFLARE_HEADLESS_HOME=${CODEFLARE_HEADLESS_HOME-$ROOT/dist/headless}
+
 while getopts "ab:f:is:" opt
 do
     case $opt in
@@ -52,16 +57,6 @@ function start_kind {
     fi
 }
 
-# build docker image of log aggregator just for this test and load it
-# into kind
-function build {
-    if [ -n "$TEST_LOG_AGGREGATOR" ]; then
-        export LOG_AGGREGATOR_IMAGE=codeflare-log-aggregator:test
-        FAST=true npm run build:docker:log-aggregator
-        kind load docker-image $LOG_AGGREGATOR_IMAGE --name $CLUSTER
-    fi
-}
-
 #
 # !!!! This is the main work of the test !!!!
 #
@@ -70,20 +65,15 @@ function build {
 #   e.g. by looking for "succeeded" (see below)
 #
 function run {
-    local profileFull=$1
-    local variant=$(dirname $profileFull)
-    local profile=$(basename $profileFull)
+    local profileFull="$1"
+    local variant=$(dirname "$profileFull")
+    local profile=$(basename "$profileFull")
     export MWPROFILES_PATH="$MWPROFILES_PATH_BASE"/$variant
     mkdir -p "$MWPROFILES_PATH"
 
     local guidebook=${2-$GUIDEBOOK}
     local yes=$([ -z "$FORCE_ALL" ] && [ "$FORCE" != "$profileFull" ] && [ -f "$MWPROFILES_PATH/$profile" ] && echo "--yes" || echo "")
 
-    # this forces bin/codeflare to run in headless mode using a platform
-    # nodejs runtime (rather than using electron via ELECTRON_RUN_AS_NODE)
-    export NODE=node
-    export CODEFLARE_HEADLESS_HOME=${CODEFLARE_HEADLESS_HOME-$ROOT/dist/headless}
-    
     local PRE="$MWPROFILES_PATH_BASE"/../profiles.d/$profile/pre
     if [ -f "$PRE" ]; then
         echo "[Test] Running pre guidebooks for profile=$profile"
@@ -94,87 +84,40 @@ function run {
     GUIDEBOOK_NAME="main-job-run" "$ROOT"/bin/codeflare -p $profile $yes $guidebook
 }
 
-# Undeploy any prior ray cluster
-function cleanup_ray {
-    local profileFull=$1
-    local variant=$(dirname $profileFull)
-    local profile=$(basename $profileFull)
-    export MWPROFILES_PATH="$MWPROFILES_PATH_BASE"/$variant
-
-    echo "[Test] Undeploying any prior ray cluster with variant=$variant profile=$profile"
-    (GUIDEBOOK_NAME="ray-undeploy" "$ROOT"/bin/codeflare -p $profile -y ml/ray/stop/kubernetes \
-         || exit 0)
-}
-
-# Undeploy any prior log aggregator
-function cleanup_log_aggregator {
-    local profileFull=$1
-    local variant=$(dirname $profileFull)
-    local profile=$(basename $profileFull)
-    export MWPROFILES_PATH="$MWPROFILES_PATH_BASE"/$variant
-
-    echo "[Test] Undeploying any prior ray cluster"
-    (GUIDEBOOK_NAME="ray-undeploy" "$ROOT"/bin/codeflare -p $profile -y ml/ray/aggregator/in-cluster/client-side/undeploy \
-         || exit 0)
-}
-
 #
-# Attach a log aggregator
+# Attach a log streamer
 # - $1: variant/profile e.g. non-gpu1/keep-it-simple
 # - $2: JOB_ID
 #
 function attach {
-    local profileFull=$1
-    local variant=$(dirname $profileFull)
-    local profile=$(basename $profileFull)
+    local profileFull="$1"
+    local variant=$(dirname "$profileFull")
+    local profile=$(basename "$profileFull")
     export MWPROFILES_PATH="$MWPROFILES_PATH_BASE"/$variant
 
     local jobId=$2
+
+    LOGFILE=$(mktemp)
 
     echo "[Test] Attaching variant=$variant profile=$profile jobId=$jobId"
-    GUIDEBOOK_NAME="log-aggregator-attach" "$ROOT"/bin/codeflare -V -p $profile attach -a $jobId --wait &
+    GUIDEBOOK_NAME="log-streamer" "$ROOT"/bin/codeflare -V -p $profile logs $jobId > $LOGFILE &
     ATTACH_PID=$!
-    echo "[Test] Attach underway"
+    echo "[Test] Attach underway, streaming to $LOGFILE"
 }
 
-# @return path to locally captured logs for the given jobId, run in the given profile
-function localpath {
-    local profile=$1
-    local jobId=$2
-
-    local BASE=$(node -e "import('madwizard/dist/profiles/index.js').then(_ => _.guidebookJobDataPath({ profile: \"$profile\" })).then(console.log)")
-    echo "$BASE/$jobId"
-}
-
-# Validate the output of the log aggregator
+# Validate the output of the log streamer
 function validateAttach {
-    local profileFull=$1
-    local variant=$(dirname $profileFull)
-    local profile=$(basename $profileFull)
-    export MWPROFILES_PATH="$MWPROFILES_PATH_BASE"/$variant
+    local LOGFILE=$1
 
-    local jobId=$2
-
-    RUNDIR=$(localpath $profile $jobId)
-
-    if [ ! -d "$RUNDIR" ]; then
-        echo "[Test] ❌ Logs were not captured locally: missing logdir"
-        exit 1
-    elif [ ! -f "$RUNDIR/jobid.txt" ]; then
-        echo "[Test] ❌ Logs were not captured locally: missing jobid.txt"
-        exit 1
-    elif [ ! -f "$RUNDIR/logs/job.txt" ]; then
-        echo "[Test] ❌ Logs were not captured locally: missing logs/job.txt"
-        exit 1
-    elif [ ! -s "$RUNDIR/logs/job.txt" ]; then
-        echo "[Test] ❌ Logs were not captured locally: empty logs/job.txt"
+    if [ ! -f "$LOGFILE" ]; then
+        echo "[Test] ❌ Logs were not captured locally: missing log file"
         exit 1
     fi
 
     # TODO the expected output is going to be profile-specific
-    grep -q 'Final result' "$RUNDIR/logs/job.txt" \
+    grep -q 'Final result' "$LOGFILE" \
         && echo "[Test] ✅ Logs seem good!" \
-            || (echo "[Test] ❌ Logs were not captured locally: job logs incomplete" && exit 1)
+            || (echo "[Test] ❌ Logs were not captured locally to $LOGFILE: job logs incomplete" && ls -l "$LOGFILE" && cat "$LOGFILE" && exit 1)
 }
 
 function logpoller {
@@ -203,12 +146,10 @@ function onexit {
     if [ -n "$EVENTS_PID" ]; then
         (pkill -P $EVENTS_PID || exit 0)
     fi
-    if [ -n "$AGGREGATOR_POLLER_PID" ]; then
-        (pkill -P $AGGREGATOR_POLLER_PID || exit 0)
-    fi
 
     if [ -z "$NO_KIND" ]; then
         # don't kill ourselves if we're running in a container
+        sleep 10
         echo "[Test] pkilling ourselves to help with cleanup"
         pkill -P $$
     fi
@@ -224,9 +165,6 @@ function debug {
 
         logpoller ray-node-type=worker &
         WORKER_POLLER_PID=$!
-
-        logpoller app=guidebook-log-aggregator &
-        AGGREGATOR_POLLER_PID=$!
 
         kubectl get events -w &
         EVENTS_PID=$!
@@ -246,51 +184,45 @@ function test {
 
     # allocate JOB_ID (requires node and `uuid` npm; but we should
     # have both for codeflare-cli dev)
-    if [ -n "$TEST_LOG_AGGREGATOR" ]; then
-        export JOB_ID=$(node -e 'console.log(require("uuid").v4())')
-        echo "[Test] Using JOB_ID=$JOB_ID"
-    fi
+    export JOB_ID=$(uuidgen | tr '[:upper:]' '[:lower:]')
+    echo "[Test] Using JOB_ID=$JOB_ID"
 
-    # 0. clean up prior ray clusters
-    # cleanup_ray "$1"
-    
     # 1. launch codeflare guidebook run
     run "$1" | tee $OUTPUT &
-    RUN_PID=$!
+    local RUN_PID=$!
+    echo "[Test] Run submitted pid=$RUN_PID"
 
-    # 2. if asked, attach a log aggregator
-    if [ -n "$TEST_LOG_AGGREGATOR" ]; then
-        cleanup_log_aggregator "$1"
+    # wait to attach until the job has been submitted
+    while true; do
+        grep -q 'Run it' "$OUTPUT" && break
+        echo "[Test] Waiting to attach log streamer..."
+        sleep 1
+    done
 
-        # wait to attach until the job has been submitted
-        # while true; do
-        #     grep -q 'submitted successfully' "$OUTPUT" && break
-        #     sleep 1
-        # done
-        sleep 10
-
-        attach "$1" "$JOB_ID"
-    fi
+    echo "[Test] Preparing to attach log streamer jobid=$JOB_ID"
+    attach "$1" "$JOB_ID"
 
     wait $RUN_PID
     echo "[Test] Run has finished"
     # the job should be done now
 
-    # 3. if asked, now validate the log aggregator
-    if [ -n "$TEST_LOG_AGGREGATOR" ]; then
-        # TODO validate run status in captured logs; should be SUCCESSFUL
-        validateAttach "$1" "$JOB_ID"
-    fi
+    # 3. if asked, now validate the log streamer
+    # TODO validate run status in captured logs; should be SUCCESSFUL
+    validateAttach $LOGFILE
     
     # 4. validate the output of the job itself
     echo "[Test] Validating run output"
-    grep succeeded $OUTPUT
+    if grep -q succeeded $OUTPUT ; then
+        echo "[Test] ✅ Job submit output seems good!"
+    else
+        echo "[Test] ❌ Job submit output seems incomplete"
+        exit 1
+    fi
 }
 
 trap onexit INT
 trap onexit EXIT
 
 start_kind
-build
 debug
 test "$1"

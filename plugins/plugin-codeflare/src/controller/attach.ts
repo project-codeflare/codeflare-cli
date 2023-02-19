@@ -19,6 +19,7 @@ import Debug from "debug"
 import { MadWizardOptions } from "madwizard"
 import { Arguments, Capabilities, ParsedOptions } from "@kui-shell/core"
 
+import appName from "./appName"
 import { DashboardOptions } from "./dashboard"
 
 export type Options = ParsedOptions &
@@ -57,7 +58,6 @@ export async function attach(
     process.env.JOB_ID = jobId
   }
 
-  const appName = "codeflare"
   const options: MadWizardOptions = Object.assign(
     {
       appName,
