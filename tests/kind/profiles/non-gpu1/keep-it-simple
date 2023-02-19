@@ -1,8 +1,8 @@
 {
   "name": "keep-it-simple",
   "creationTime": 1664149787016,
-  "lastModifiedTime": 1664149821230,
-  "lastUsedTime": 1675364320141,
+  "lastModifiedTime": 1676828268772,
+  "lastUsedTime": 1676836671254,
   "choices": {
     "madwizard/apriori/use-gpu": "don't use gpus",
     "madwizard/apriori/arch": "x64",
@@ -19,6 +19,7 @@
     "kubernetes/choose/ns": "default",
     "ml/ray/storage/s3/maybe": "My code does not use Ray Workflows",
     "ml/ray/cluster/choose": "codeflare-test-ray-cluster",
+    "ml/ray/cluster/choose/kubernetes": "codeflare-test-ray-cluster",
     "ml/ray/cluster/kubernetes/choose-pod-scheduler": "Keep It Simple"
   }
 }

@@ -4,7 +4,7 @@ LABEL org.opencontainers.image.source https://github.com/project-codeflare/codef
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt update && apt -y install sudo curl python3 python3-pip python3-venv git \
+RUN apt update && apt -y install sudo curl python3 python3-pip python3-venv git uuid-runtime \
         && pip3 install --no-cache-dir  -U pip && pip3 install --no-cache-dir -U setuptools \
         && apt -y clean && rm -rf /var/lib/apt/lists/*
 
