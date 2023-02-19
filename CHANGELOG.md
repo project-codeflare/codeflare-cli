@@ -1,3 +1,9 @@
+# [2.7.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.6.2...v2.7.0) (2023-02-19)
+
+### Features
+
+- `codeflare logs` command ([3e65eb7](https://github.com/project-codeflare/codeflare-cli/commit/3e65eb7ec1f60e4b3349eeed49f31defa777af1a))
+
 ## [2.6.2](https://github.com/project-codeflare/codeflare-cli/compare/v2.6.1...v2.6.2) (2023-02-18)
 
 ### Bug Fixes
