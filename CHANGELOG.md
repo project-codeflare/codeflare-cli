@@ -1,3 +1,9 @@
+# [2.8.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.7.0...v2.8.0) (2023-02-20)
+
+### Features
+
+- bump to @guidebooks/store@4 to pick up improved cpu and memory util output ([60b7ea6](https://github.com/project-codeflare/codeflare-cli/commit/60b7ea6f45c090cff48ee8bc6ec23ce2e6dc2bab))
+
 # [2.7.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.6.2...v2.7.0) (2023-02-19)
 
 ### Features
