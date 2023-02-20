@@ -1,3 +1,9 @@
+## [2.8.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.8.0...v2.8.1) (2023-02-20)
+
+### Bug Fixes
+
+- pick up fixes for too-long helm assets and restoration of vmstat colors in logs ([287fdbb](https://github.com/project-codeflare/codeflare-cli/commit/287fdbbeff25cabe456cc1bb0ead44411bf6f639))
+
 # [2.8.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.7.0...v2.8.0) (2023-02-20)
 
 ### Features
