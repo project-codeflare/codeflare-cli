@@ -65,11 +65,16 @@ async function live(filepath: string): Promise<ReactResponse> {
   })
 }
 
+function noData(err: unknown) {
+  console.error(err)
+  return []
+}
+
 async function offline(filepath: string, REPL: Arguments["REPL"]): Promise<ReactResponse> {
   // parse the data
   const [gpuData, cpuData] = await Promise.all([
-    import("./gpu").then((_) => _.parse(join(filepath, "resources/gpu.txt"), REPL)),
-    import("./vmstat").then((_) => _.parse(join(filepath, "resources/pod-vmstat.txt"), REPL)),
+    import("./gpu").then((_) => _.parse(join(filepath, "resources/gpu.txt"), REPL)).catch(noData),
+    import("./vmstat").then((_) => _.parse(join(filepath, "resources/pod-vmstat.txt"), REPL)).catch(noData),
   ])
 
   const Combo = await import("../../components/ComboChart").then((_) => _.default)
