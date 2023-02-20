@@ -15,6 +15,7 @@
  */
 
 import React from "react"
+import stripAnsi from "strip-ansi"
 import { Arguments, ReactResponse, encodeComponent } from "@kui-shell/core"
 
 import { expand } from "../../lib/util"
@@ -34,16 +35,15 @@ export type Log = LogRecord<{
 
 /** log line -> Log object */
 export function parseLine(line: string): Log {
-  const cells = line.split(/\s+/)
+  const cells = stripAnsi(line).split(/\s+/)
 
-  const N = cells.length
   const hostname = cells[0]
-  const freeMemory = parseInt(cells[4], 10)
-  const user = parseInt(cells[13], 10)
-  const system = parseInt(cells[14], 10)
-  const idle = parseInt(cells[15], 10)
-  const iowait = parseInt(cells[16], 10)
-  const timestamp = new Date(cells[N - 2] + " " + cells[N - 1]).getTime()
+  const freeMemory = parseInt(cells[1], 10)
+  const user = parseInt(cells[2], 10)
+  const system = parseInt(cells[3], 10)
+  const idle = parseInt(cells[4], 10)
+  const iowait = parseInt(cells[5], 10)
+  const timestamp = new Date(stripAnsi(line.slice(line.indexOf("]") + 1).trim())).getTime()
 
   return {
     hostname,
