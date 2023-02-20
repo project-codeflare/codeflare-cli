@@ -71,6 +71,12 @@ function run {
     export MWPROFILES_PATH="$MWPROFILES_PATH_BASE"/$variant
     mkdir -p "$MWPROFILES_PATH"
 
+    if [ "$profile" = "ray-autoscaler" ]; then
+        # ugh, the old ray operator uses a different naming convention
+        export RAY_KUBE_CLUSTER_HEAD_SERVICE=$RAY_KUBE_CLUSTER_NAME-ray-head
+        echo "[Test] Run: using Ray operator's convention for naming ray-head service $RAY_KUBE_CLUSTER_HEAD_SERVICE"
+    fi
+
     local guidebook=${2-$GUIDEBOOK}
     local yes=$([ -z "$FORCE_ALL" ] && [ "$FORCE" != "$profileFull" ] && [ -f "$MWPROFILES_PATH/$profile" ] && echo "--yes" || echo "")
 
@@ -96,6 +102,12 @@ function attach {
     export MWPROFILES_PATH="$MWPROFILES_PATH_BASE"/$variant
 
     local jobId=$2
+
+    if [ "$profile" = "ray-autoscaler" ]; then
+        # ugh, the old ray operator uses a different naming convention
+        export RAY_KUBE_CLUSTER_HEAD_SERVICE=$RAY_KUBE_CLUSTER_NAME-ray-head
+        echo "[Test] Attach: using Ray operator's convention for naming ray-head service $RAY_KUBE_CLUSTER_HEAD_SERVICE"
+    fi
 
     LOGFILE=$(mktemp)
 

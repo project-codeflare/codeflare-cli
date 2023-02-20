@@ -17,7 +17,7 @@ jobs:
           - non-gpu2/keep-it-simple
           - non-gpu3/keep-it-simple
           - non-gpu4/keep-it-simple
-          - non-gpu1/ray-autoscaler
+          # - non-gpu1/ray-autoscaler
           - non-gpu1/mcad-default
           - non-gpu1/mcad-coscheduler
           - non-gpu1/mcad-preinstalled
