@@ -1,3 +1,9 @@
+## [2.9.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.9.0...v2.9.1) (2023-02-21)
+
+### Bug Fixes
+
+- `codeflare -v` reports madwizard verison, not codeflare version ([ffe9cdf](https://github.com/project-codeflare/codeflare-cli/commit/ffe9cdf64e42069761f362a90d3a76c246497fa5))
+
 # [2.9.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.8.1...v2.9.0) (2023-02-21)
 
 ### Features
