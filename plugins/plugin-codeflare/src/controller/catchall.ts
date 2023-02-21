@@ -66,6 +66,7 @@ export const profile = doMadwizard({
  */
 export default doMadwizard({
   appName: productName.toLowerCase(),
+  appVersion: version.split(/\./).map((_) => parseInt(_)) as [number, number, number],
   task: "guide",
   envFn,
   assertionsFn,
