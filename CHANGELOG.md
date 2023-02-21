@@ -1,3 +1,9 @@
+# [2.9.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.8.1...v2.9.0) (2023-02-21)
+
+### Features
+
+- remove ray autoscaler support ([7200bd9](https://github.com/project-codeflare/codeflare-cli/commit/7200bd963de4c8a256db93f1d1ec6872dafaec13))
+
 ## [2.8.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.8.0...v2.8.1) (2023-02-20)
 
 ### Bug Fixes
