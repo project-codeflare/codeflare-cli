@@ -1,3 +1,9 @@
+## [2.10.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.10.0...v2.10.1) (2023-02-22)
+
+### Bug Fixes
+
+- ray cleaner may never exit in some cases ([ef517e0](https://github.com/project-codeflare/codeflare-cli/commit/ef517e0c5b93b76735d37865f87eeb71a3a25e94))
+
 # [2.10.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.9.1...v2.10.0) (2023-02-22)
 
 ### Bug Fixes
