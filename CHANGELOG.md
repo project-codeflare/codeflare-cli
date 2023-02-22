@@ -1,3 +1,13 @@
+# [2.10.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.9.1...v2.10.0) (2023-02-22)
+
+### Bug Fixes
+
+- ray cleaner pod may fail due to lack of image pull secret ([dccddaf](https://github.com/project-codeflare/codeflare-cli/commit/dccddafc036c47c4cd8676cff0a7759b746ebcd6))
+
+### Features
+
+- BYOC task now uses updated logs (with utilization info) ([19662a3](https://github.com/project-codeflare/codeflare-cli/commit/19662a375cfadcfb3f83c4f7a65ab87bc3509017))
+
 ## [2.9.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.9.0...v2.9.1) (2023-02-21)
 
 ### Bug Fixes
