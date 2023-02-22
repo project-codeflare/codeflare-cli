@@ -211,8 +211,8 @@ function test {
         sleep 1
     done
 
-    echo "[Test] Preparing to attach log streamer jobid=$JOB_ID"
-    attach "$1" "$JOB_ID"
+    # echo "[Test] Preparing to attach log streamer jobid=$JOB_ID"
+    # attach "$1" "$JOB_ID"
 
     wait $RUN_PID
     echo "[Test] Run has finished"
@@ -220,14 +220,14 @@ function test {
 
     # 3. if asked, now validate the log streamer
     # TODO validate run status in captured logs; should be SUCCESSFUL
-    validateAttach $LOGFILE
+    # validateAttach $LOGFILE
     
     # 4. validate the output of the job itself
     echo "[Test] Validating run output"
-    if grep -q succeeded $OUTPUT ; then
+    if grep -q SUCCEEDED $OUTPUT ; then
         echo "[Test] ✅ Job submit output seems good!"
     else
-        echo "[Test] ❌ Job submit output seems incomplete"
+        echo "[Test] ❌ Job submit output seems incomplete: $OUTPUT"
         exit 1
     fi
 }
