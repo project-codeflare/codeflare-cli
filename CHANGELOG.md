@@ -1,3 +1,9 @@
+## [2.10.3](https://github.com/project-codeflare/codeflare-cli/compare/v2.10.2...v2.10.3) (2023-02-23)
+
+### Bug Fixes
+
+- flow ray utilization stats to stderr ([0d55d29](https://github.com/project-codeflare/codeflare-cli/commit/0d55d29eef536eeacadf4bdc6ff7d602a84a4307))
+
 ## [2.10.2](https://github.com/project-codeflare/codeflare-cli/compare/v2.10.1...v2.10.2) (2023-02-23)
 
 ### Bug Fixes
