@@ -1,3 +1,9 @@
+## [2.10.4](https://github.com/project-codeflare/codeflare-cli/compare/v2.10.3...v2.10.4) (2023-02-23)
+
+### Bug Fixes
+
+- utilization was streaming to both stderr and stdout ([b57a2dc](https://github.com/project-codeflare/codeflare-cli/commit/b57a2dc75b318371d6c88ad588c2f6052d143050))
+
 ## [2.10.3](https://github.com/project-codeflare/codeflare-cli/compare/v2.10.2...v2.10.3) (2023-02-23)
 
 ### Bug Fixes
