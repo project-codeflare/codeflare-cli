@@ -1,3 +1,9 @@
+## [2.10.2](https://github.com/project-codeflare/codeflare-cli/compare/v2.10.1...v2.10.2) (2023-02-23)
+
+### Bug Fixes
+
+- bump @guidebooks/store@5.1.5 to pick up zsh status= assignment fix ([a8d5edc](https://github.com/project-codeflare/codeflare-cli/commit/a8d5edc833b0805f31465236425a6b4d162c427c))
+
 ## [2.10.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.10.0...v2.10.1) (2023-02-22)
 
 ### Bug Fixes
