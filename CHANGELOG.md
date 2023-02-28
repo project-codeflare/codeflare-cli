@@ -1,3 +1,9 @@
+# [2.11.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.10.4...v2.11.0) (2023-02-28)
+
+### Features
+
+- bump to `@guidebooks/store@5.2.0` to pick up more flexible (non-ray) vmstat tracking ([c3c4863](https://github.com/project-codeflare/codeflare-cli/commit/c3c4863770b942bc299b04d610529f8017fed05a))
+
 ## [2.10.4](https://github.com/project-codeflare/codeflare-cli/compare/v2.10.3...v2.10.4) (2023-02-23)
 
 ### Bug Fixes
