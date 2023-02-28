@@ -24,8 +24,8 @@ import charts from "./charts"
 import events from "./events"
 import dashboard from "./dashboard"
 import description from "./description"
+import { LogsOptions, logsFlags } from "./logs"
 import { Options as AttachOptions } from "./attach"
-import { ProfileOptions, profileFlags } from "./options"
 
 function help() {
   return `Usage:
@@ -43,11 +43,9 @@ export default function registerCodeflareCommands(registrar: Registrar) {
   description(registrar)
   registrar.listen("/help", help)
 
-  registrar.listen<KResponse, ProfileOptions>(
-    "/codeflare/logs",
-    (args) => import("./logs").then((_) => _.default(args)),
-    { flags: profileFlags }
-  )
+  registrar.listen<KResponse, LogsOptions>("/codeflare/logs", (args) => import("./logs").then((_) => _.default(args)), {
+    flags: logsFlags,
+  })
 
   registrar.listen<KResponse, AttachOptions>(
     "/codeflare/attach",

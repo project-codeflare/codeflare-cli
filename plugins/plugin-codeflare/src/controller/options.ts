@@ -25,7 +25,7 @@ export type ProfileOptions = ParsedOptions & {
   verbose: string
 }
 
-export const profileFlags: CommandOptions["flags"] = {
+export const profileFlags: Required<Pick<CommandOptions, "flags">>["flags"] = {
   boolean: ["V", "verbose"],
   alias: {
     verbose: ["V"],
