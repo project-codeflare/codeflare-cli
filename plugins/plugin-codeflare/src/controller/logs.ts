@@ -14,13 +14,24 @@
  * limitations under the License.
  */
 
-import { Arguments } from "@kui-shell/core"
-import { MadWizardOptions } from "madwizard"
+import type { Arguments } from "@kui-shell/core"
+import type { MadWizardOptions } from "madwizard"
 
 import appName from "./appName"
-import { ProfileOptions } from "./options"
+import { ProfileOptions, profileFlags } from "./options"
 
-export default async function logs(args: Arguments<ProfileOptions>) {
+export type LogsOptions = ProfileOptions & {
+  l: string
+  "label-selector": string
+}
+
+export const logsFlags = Object.assign({}, profileFlags, {
+  alias: Object.assign({}, profileFlags.alias, {
+    "label-selector": ["l"],
+  }),
+})
+
+export default async function logs(args: Arguments<LogsOptions>) {
   // Display logs for this jobID; if not provided, the user will be
   // prompted (via the guidebook) to choose one
   const jobId = args.argvNoOptions[args.argvNoOptions.indexOf("logs") + 1]
@@ -28,8 +39,19 @@ export default async function logs(args: Arguments<ProfileOptions>) {
     process.env.JOB_ID = jobId
   }
 
+  // query by label selector?
+  const byLabelSelector = typeof args.parsedOptions.l === "string"
+  if (byLabelSelector) {
+    process.env.WAIT = "true"
+    process.env.KUBE_POD_LABEL_SELECTOR = args.parsedOptions.l
+  }
+
   // play this guidebook
-  const guidebook = jobId === undefined ? "ml/ray/aggregator" : "ml/ray/aggregator/with-jobid"
+  const guidebook = byLabelSelector
+    ? "ml/ray/run/pod-stats"
+    : jobId === undefined
+    ? "ml/ray/aggregator"
+    : "ml/ray/aggregator/with-jobid"
 
   // but only interactive starting here
   const ifor =
