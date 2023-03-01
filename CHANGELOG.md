@@ -1,3 +1,9 @@
+## [2.11.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.11.0...v2.11.1) (2023-03-01)
+
+### Bug Fixes
+
+- increase default podSchedulingTimeout from 10 seconds to 1000 seconds ([59dc712](https://github.com/project-codeflare/codeflare-cli/commit/59dc712bae79e03c447b7f6db61afa08940e76fc))
+
 # [2.11.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.10.4...v2.11.0) (2023-02-28)
 
 ### Features
