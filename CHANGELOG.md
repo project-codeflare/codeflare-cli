@@ -1,3 +1,9 @@
+# [2.12.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.11.1...v2.12.0) (2023-03-01)
+
+### Features
+
+- add support for choosing mcad scheduling priority ([31240d9](https://github.com/project-codeflare/codeflare-cli/commit/31240d94266dbb969a6882cc4a7a980c67234552))
+
 ## [2.11.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.11.0...v2.11.1) (2023-03-01)
 
 ### Bug Fixes
