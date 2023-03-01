@@ -1,8 +1,8 @@
 {
-  "name": "zzz",
+  "name": "mcad-coscheduler",
   "creationTime": 1660657756574,
   "lastModifiedTime": 1664150418757,
-  "lastUsedTime": 1664150668384,
+  "lastUsedTime": 1677700501499,
   "choices": {
     "madwizard/apriori/use-gpu": "don't use gpus",
     "madwizard/apriori/arch": "x64",
@@ -21,6 +21,7 @@
     "ml/ray/cluster/choose": "codeflare-test-ray-cluster",
     "ml/ray/cluster/choose/kubernetes": "codeflare-test-ray-cluster",
     "ml/ray/cluster/kubernetes/choose-pod-scheduler": "Use the Multi-user Enhanced Kubernetes Scheduler",
+    "kubernetes/mcad/choose/job-priority": "Default Priority",
     "kubernetes/mcad/choose/scheduler": "MCAD with the Advanced Coscheduler"
   }
 }

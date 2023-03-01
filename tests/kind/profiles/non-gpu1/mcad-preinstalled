@@ -21,6 +21,7 @@
     "ml/ray/cluster/choose": "codeflare-test-ray-cluster",
     "ml/ray/cluster/choose/kubernetes": "codeflare-test-ray-cluster",
     "ml/ray/cluster/kubernetes/choose-pod-scheduler": "Use the Multi-user Enhanced Kubernetes Scheduler",
+    "kubernetes/mcad/choose/job-priority": "Default Priority",
     "kubernetes/mcad/choose/scheduler": "My administrator has already installed and configured MCAD"
   }
 }
