@@ -1,3 +1,9 @@
+# [2.13.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.12.1...v2.13.0) (2023-03-02)
+
+### Features
+
+- byoc/submitonly ([2be19d1](https://github.com/project-codeflare/codeflare-cli/commit/2be19d186fe7709654b382f6e8134718571b9008))
+
 ## [2.12.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.12.0...v2.12.1) (2023-03-02)
 
 ### Bug Fixes
