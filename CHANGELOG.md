@@ -1,3 +1,9 @@
+## [2.12.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.12.0...v2.12.1) (2023-03-02)
+
+### Bug Fixes
+
+- improved error handling in log streaming for pods disappearing ([5087213](https://github.com/project-codeflare/codeflare-cli/commit/508721346f16535d41a28180d38ed0a3ba82171a))
+
 # [2.12.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.11.1...v2.12.0) (2023-03-01)
 
 ### Features
