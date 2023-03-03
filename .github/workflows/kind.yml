@@ -47,5 +47,4 @@ jobs:
       env:
         EXECUTABLE_PATH: github-actions-production
         DEBUG_KUBERNETES: true
-        TEST_LOG_AGGREGATOR: true
       run: ./tests/kind/run.sh ${{ matrix.profile }}

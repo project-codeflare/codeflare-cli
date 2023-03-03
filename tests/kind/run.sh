@@ -10,6 +10,7 @@
 
 set -e
 set -o pipefail
+if [ -z "$TERM" ]; then export TERM=xterm-256color; fi
 
 SCRIPTDIR=$(cd $(dirname "$0") && pwd)
 . "$SCRIPTDIR"/values.sh
@@ -87,7 +88,7 @@ function run {
     fi
 
     echo "[Test] Running with variant=$variant profile=$profile yes=$yes"
-    GUIDEBOOK_NAME="main-job-run" "$ROOT"/bin/codeflare -p $profile $yes $guidebook
+    GUIDEBOOK_NAME="main-job-run" "$ROOT"/bin/codeflare -p $profile $yes $guidebook | tee $OUTPUT
 }
 
 #
@@ -159,6 +160,9 @@ function onexit {
         (pkill -P $EVENTS_PID || exit 0)
     fi
 
+    # just in case...
+    (kubectl delete job ray-cleaner-codeflare-test-ray-cluster || exit 0)
+
     if [ -z "$NO_KIND" ]; then
         # don't kill ourselves if we're running in a container
         sleep 10
@@ -200,21 +204,20 @@ function test {
     echo "[Test] Using JOB_ID=$JOB_ID"
 
     # 1. launch codeflare guidebook run
-    run "$1" | tee $OUTPUT &
-    local RUN_PID=$!
-    echo "[Test] Run submitted pid=$RUN_PID"
+    echo "[Test] Submitting run"
+    run "$1"
 
     # wait to attach until the job has been submitted
-    while true; do
-        grep -q 'Run it' "$OUTPUT" && break
-        echo "[Test] Waiting to attach log streamer..."
-        sleep 1
-    done
+    # while true; do
+    #    grep -q 'Run it' "$OUTPUT" && break
+    #    echo "[Test] Waiting to attach log streamer..."
+    #    sleep 1
+    #done
 
     # echo "[Test] Preparing to attach log streamer jobid=$JOB_ID"
     # attach "$1" "$JOB_ID"
 
-    wait $RUN_PID
+    # wait $RUN_PID
     echo "[Test] Run has finished"
     # the job should be done now
 
