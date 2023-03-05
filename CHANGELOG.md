@@ -1,3 +1,15 @@
+# [2.14.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.13.0...v2.14.0) (2023-03-05)
+
+### Bug Fixes
+
+- improve formatting of kubernetes event stream ([89f9d5e](https://github.com/project-codeflare/codeflare-cli/commit/89f9d5e9b42d89ce0322c2129a2b5ca422750542))
+- vmstat and events may not stream on linux ([99a64b7](https://github.com/project-codeflare/codeflare-cli/commit/99a64b766408ccc4d5c0cb4c46aa990970db4c96))
+
+### Features
+
+- allow BYOC to specify command line prefix ([66b609d](https://github.com/project-codeflare/codeflare-cli/commit/66b609d9013e42aa5a476028b6767a3a19ce0cfa))
+- in BYOC mode, ray helm chart should also submit the job ([333e8d9](https://github.com/project-codeflare/codeflare-cli/commit/333e8d9f8ed49a77367621d8f74e1648ceed47e4))
+
 # [2.13.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.12.1...v2.13.0) (2023-03-02)
 
 ### Features
