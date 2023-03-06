@@ -1,3 +1,11 @@
+## [2.14.2](https://github.com/project-codeflare/codeflare-cli/compare/v2.14.1...v2.14.2) (2023-03-06)
+
+### Bug Fixes
+
+- helm install may fail on linux due to base64-created newlines ([1e2c784](https://github.com/project-codeflare/codeflare-cli/commit/1e2c7840600b9fdd67f2eea5da7d16c6c3c1b87b))
+- helm install may fail on linux due to base64-induced newlines ([7cc64ee](https://github.com/project-codeflare/codeflare-cli/commit/7cc64ee9f1805d6772732800f37f31731a51d8e5))
+- shorten helm install command line, and update dryrun to emit command line, too ([7b9190e](https://github.com/project-codeflare/codeflare-cli/commit/7b9190e96226685f6bfe9ae3dfb640a1c9dd6850))
+
 ## [2.14.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.14.0...v2.14.1) (2023-03-06)
 
 ### Bug Fixes
