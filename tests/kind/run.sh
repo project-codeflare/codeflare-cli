@@ -81,6 +81,16 @@ function run {
     local guidebook=${2-$GUIDEBOOK}
     local yes=$([ -z "$FORCE_ALL" ] && [ "$FORCE" != "$profileFull" ] && [ -f "$MWPROFILES_PATH/$profile" ] && echo "--yes" || echo "")
 
+    local dashdashFile="$MWPROFILES_PATH_BASE"/$variant/dashdash.txt
+    if [ -f "$dashdashFile" ]; then
+        DASHDASH=$(cat "$dashdashFile")
+        pushd "$SCRIPTDIR"
+        expectedDashDash="$(node ./expected-dashdash.js "$dashdashFile")"
+        popd
+        echo "[Test] Run: using dashdash: $DASHDASH"
+        echo "[Test] Run: expecting dashdash: $expectedDashDash"
+    fi
+    
     local PRE="$MWPROFILES_PATH_BASE"/../profiles.d/$profile/pre
     if [ -f "$PRE" ]; then
         echo "[Test] Running pre guidebooks for profile=$profile"
@@ -88,7 +98,7 @@ function run {
     fi
 
     echo "[Test] Running with variant=$variant profile=$profile yes=$yes"
-    GUIDEBOOK_NAME="main-job-run" "$ROOT"/bin/codeflare -p $profile $yes $guidebook | tee $OUTPUT
+    GUIDEBOOK_NAME="main-job-run" "$ROOT"/bin/codeflare -p $profile $yes $guidebook -- $DASHDASH | tee $OUTPUT
 }
 
 #
@@ -232,6 +242,17 @@ function test {
     else
         echo "[Test] ❌ Job submit output seems incomplete: $OUTPUT"
         exit 1
+    fi
+
+    # 5. validate dashdash if the profile being tested specifies dashdash args
+    if [ -n "$expectedDashDash" ]; then
+        echo "[Test] Validating dashdash handling $expectedDashDash"
+        if grep -q "$expectedDashDash" $OUTPUT ; then
+            echo "[Test] ✅ DashDash support seems good!"
+        else
+            echo "[Test] ❌ DashDash support missing, expected to find this in $OUTPUT: $DASHDASH"
+            exit 1
+        fi
     fi
 }
 
