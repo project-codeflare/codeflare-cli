@@ -1,3 +1,13 @@
+# [2.15.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.14.3...v2.15.0) (2023-03-07)
+
+### Bug Fixes
+
+- vmstats were using `sed -l` in a way that only made sense on BSD sed ([6619224](https://github.com/project-codeflare/codeflare-cli/commit/6619224788a5afb152b13a2bb412acd58cb7b037))
+
+### Features
+
+- move cpu and memory utilization to be first column ([d39a3f8](https://github.com/project-codeflare/codeflare-cli/commit/d39a3f8e42ea4442e553934dc6510ba15526b8ae))
+
 ## [2.14.3](https://github.com/project-codeflare/codeflare-cli/compare/v2.14.2...v2.14.3) (2023-03-07)
 
 ### Bug Fixes
