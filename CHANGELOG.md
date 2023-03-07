@@ -1,3 +1,9 @@
+## [2.15.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.15.0...v2.15.1) (2023-03-07)
+
+### Bug Fixes
+
+- restore -Winteractive for awk ([84e8936](https://github.com/project-codeflare/codeflare-cli/commit/84e8936fadc95f263cf786ac73c429ddc7754123))
+
 # [2.15.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.14.3...v2.15.0) (2023-03-07)
 
 ### Bug Fixes

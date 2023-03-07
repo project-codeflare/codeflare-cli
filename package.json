@@ -1,6 +1,6 @@
 {
   "name": "CodeFlare.app",
-  "version": "2.15.0",
+  "version": "2.15.1",
   "description": "",
   "main": "dist/headless/codeflare.min.js",
   "scripts": {
