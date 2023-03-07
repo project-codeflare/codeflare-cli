@@ -1,3 +1,9 @@
+## [2.14.3](https://github.com/project-codeflare/codeflare-cli/compare/v2.14.2...v2.14.3) (2023-03-07)
+
+### Bug Fixes
+
+- pick up fix for byoc command line, add tests for it and dashdash ([9ae8196](https://github.com/project-codeflare/codeflare-cli/commit/9ae819676fcfd7b08bbf483be927ed3be6569ee9))
+
 ## [2.14.2](https://github.com/project-codeflare/codeflare-cli/compare/v2.14.1...v2.14.2) (2023-03-06)
 
 ### Bug Fixes
