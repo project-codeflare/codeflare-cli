@@ -1,3 +1,9 @@
+## [2.15.2](https://github.com/project-codeflare/codeflare-cli/compare/v2.15.1...v2.15.2) (2023-03-09)
+
+### Bug Fixes
+
+- ray would fail if workdir had no runtime-env.yaml nor requirements.txt ([4816d37](https://github.com/project-codeflare/codeflare-cli/commit/4816d377e3b31aaf0ca4520e9f36baf561493be3))
+
 ## [2.15.1](https://github.com/project-codeflare/codeflare-cli/compare/v2.15.0...v2.15.1) (2023-03-07)
 
 ### Bug Fixes
