@@ -13,15 +13,16 @@ jobs:
     strategy:
       matrix:
         profile:
-          - non-gpu1/keep-it-simple
-          - non-gpu2/keep-it-simple
-          - non-gpu3/keep-it-simple
-          - non-gpu4/keep-it-simple
-          - non-gpu5/keep-it-simple
+          - non-gpu1/keep-it-simple # ray
+          - non-gpu2/keep-it-simple # ray
+          - non-gpu3/keep-it-simple # ray
+          - non-gpu4/keep-it-simple # ray
+          - non-gpu5/keep-it-simple # ray with dashdash args
+          - non-gpu6/mcad-default # torchx
           # - non-gpu1/ray-autoscaler
-          - non-gpu1/mcad-default
-          - non-gpu1/mcad-coscheduler
-          - non-gpu1/mcad-preinstalled
+          - non-gpu1/mcad-default # ray
+          - non-gpu1/mcad-coscheduler # ray
+          - non-gpu1/mcad-preinstalled # ray
         os: [ubuntu-latest]
         node-version: [16.x]
 
