@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/project-codeflare/codeflare-cli/compare/v3.0.0...v3.0.1) (2023-03-13)
+
+### Bug Fixes
+
+- ray helm chart should specify `parallelism` to avoid livelock ([56952bc](https://github.com/project-codeflare/codeflare-cli/commit/56952bcd98d9dde0965197cda4dafabfb890f781))
+- re-enable torchx test with fix from store@6.0.10 ([bfd6e15](https://github.com/project-codeflare/codeflare-cli/commit/bfd6e15b8c9fe79d756fa8f1fb8847a78398c4f9))
+
 # [3.0.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.15.2...v3.0.0) (2023-03-13)
 
 ### Features
