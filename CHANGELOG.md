@@ -1,3 +1,9 @@
+## [3.0.2](https://github.com/project-codeflare/codeflare-cli/compare/v3.0.1...v3.0.2) (2023-03-13)
+
+### Bug Fixes
+
+- (again) for ray workdir with no runtime-env ([bdbbc32](https://github.com/project-codeflare/codeflare-cli/commit/bdbbc32c63ec0adc8d563e25b62840159400ed14))
+
 ## [3.0.1](https://github.com/project-codeflare/codeflare-cli/compare/v3.0.0...v3.0.1) (2023-03-13)
 
 ### Bug Fixes
