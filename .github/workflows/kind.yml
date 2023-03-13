@@ -18,7 +18,7 @@ jobs:
           - non-gpu3/keep-it-simple # ray
           - non-gpu4/keep-it-simple # ray
           - non-gpu5/keep-it-simple # ray with dashdash args
-## TORCHX BREAKAGE /app/compute_world_size/main.py not found          - non-gpu6/mcad-default # torchx
+          - non-gpu6/mcad-default # torchx
           # - non-gpu1/ray-autoscaler
           - non-gpu1/mcad-default # ray
           - non-gpu1/mcad-coscheduler # ray
