@@ -30,7 +30,7 @@
     "@types/split2": "^3.2.1"
   },
   "dependencies": {
-    "@guidebooks/store": "^6.0.10",
+    "@guidebooks/store": "^6.0.11",
     "@logdna/tail-file": "^3.0.1",
     "@patternfly/react-charts": "^6.94.18",
     "@patternfly/react-core": "^4.276.6",
