@@ -1,3 +1,13 @@
+# [3.0.0](https://github.com/project-codeflare/codeflare-cli/compare/v2.15.2...v3.0.0) (2023-03-13)
+
+### Features
+
+- torchx run support ([eb0d362](https://github.com/project-codeflare/codeflare-cli/commit/eb0d3623ea9773401dd1c4bcbf5f6711f6a5f768))
+
+### BREAKING CHANGES
+
+- this pulls in `@guidebooks/store@6` which changes the menu structure of ml/codeflare/run so as to introduce TorchX
+
 ## [2.15.2](https://github.com/project-codeflare/codeflare-cli/compare/v2.15.1...v2.15.2) (2023-03-09)
 
 ### Bug Fixes
