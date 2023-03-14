@@ -1,3 +1,11 @@
+## [3.0.3](https://github.com/project-codeflare/codeflare-cli/compare/v3.0.2...v3.0.3) (2023-03-14)
+
+### Bug Fixes
+
+- also allocate gpus to ray head node ([69a84ea](https://github.com/project-codeflare/codeflare-cli/commit/69a84eafbd7e13a06372d640e2ff4890a66e8dac))
+- helm workdir fails for relative paths; improved detection of ray job failure ([23426d2](https://github.com/project-codeflare/codeflare-cli/commit/23426d24270fb371030f69c23b5a2ab07e6aae0b))
+- ray stop may never be called; ray self-destruct permissions; run id re-prompt ([6b5a40a](https://github.com/project-codeflare/codeflare-cli/commit/6b5a40adc334ba959d0d6698e031f0e47f11a389))
+
 ## [3.0.2](https://github.com/project-codeflare/codeflare-cli/compare/v3.0.1...v3.0.2) (2023-03-13)
 
 ### Bug Fixes
