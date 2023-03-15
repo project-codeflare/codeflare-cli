@@ -1,3 +1,9 @@
+## [3.0.4](https://github.com/project-codeflare/codeflare-cli/compare/v3.0.3...v3.0.4) (2023-03-14)
+
+### Bug Fixes
+
+- improved kubectl and gpu streaming ([3cb3c4e](https://github.com/project-codeflare/codeflare-cli/commit/3cb3c4e6b70c217450a78aca3c50fe10b6d7ba61))
+
 ## [3.0.3](https://github.com/project-codeflare/codeflare-cli/compare/v3.0.2...v3.0.3) (2023-03-14)
 
 ### Bug Fixes
