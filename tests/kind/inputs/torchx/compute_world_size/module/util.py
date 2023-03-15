@@ -10,16 +10,15 @@ import os
 import torch
 import torch.distributed as dist
 import torch.nn.functional as F
-from omegaconf import DictConfig
 
 
-def compute_world_size(cfg: DictConfig) -> int:
+def compute_world_size() -> int:
 
-    rank = int(os.getenv("RANK", cfg.main.rank))
-    world_size = int(os.getenv("WORLD_SIZE", cfg.main.world_size))
-    master_addr = os.getenv("MASTER_ADDR", cfg.main.master_addr)
-    master_port = int(os.getenv("MASTER_PORT", cfg.main.master_port))
-    backend = cfg.main.backend
+    rank = int(os.getenv("RANK", 0))
+    world_size = int(os.getenv("WORLD_SIZE", 1))
+    master_addr = os.getenv("MASTER_ADDR", "localhost")
+    master_port = int(os.getenv("MASTER_PORT", 29500))
+    backend = "gloo"
 
     print(f"initializing `{backend}` process group")
     dist.init_process_group(

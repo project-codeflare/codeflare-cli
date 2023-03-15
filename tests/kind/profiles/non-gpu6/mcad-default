@@ -2,7 +2,7 @@
   "name": "mcad-default",
   "creationTime": 1660657756574,
   "lastModifiedTime": 1678638052528,
-  "lastUsedTime": 1678715380516,
+  "lastUsedTime": 1678980273687,
   "choices": {
     "madwizard/apriori/use-gpu": "don't use gpus",
     "madwizard/apriori/arch": "x64",
@@ -11,7 +11,7 @@
     "madwizard/apriori/in-terminal": "HTML",
     "ml/codeflare": "Submit a new Run",
     "ml/codeflare/run": "Bring Your Own Torch Native Code",
-    "ml/codeflare/training/byoc/form": "{\"Path to source\":\"$PWD/tests/kind/inputs/torchx\",\"Base image\":\"ghcr.io/pytorch/torchx:0.5.0dev0\",\"Command line prefix\":\"python3 compute_world_size/main.py\"}",
+    "ml/codeflare/training/byoc/form": "{\"Path to source\":\"$PWD/tests/kind/inputs/torchx\",\"Base image\":\"bitnami/pytorch:1.13.1\",\"Command line prefix\":\"python3 compute_world_size/main.py\"}",
     "kubernetes/choose/secret/image-pull": "No secret needed, since my image is public",
     "s3/choose/bucket/maybe": "My data is not stored in S3",
     "ml/torchx/run/resources": "{\"Number of Workers\":\"1\",\"CPUs per worker\":\"500m\",\"GPUs per worker\":\"0\",\"Memory per worker\":\"500Mi\",\"Ephemeral Storage per worker\":\"5Gi\"}",
