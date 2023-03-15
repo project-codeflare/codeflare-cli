@@ -26,30 +26,16 @@ Run it with the ``dist.ddp`` builtin component to use as a validation applicatio
 to ensure that the stack has been setup properly for more serious distributed training jobs.
 """
 
-import hydra
-from omegaconf import DictConfig, OmegaConf
 from torch.distributed.elastic.multiprocessing.errors import record
 from module.util import compute_world_size
 
 
 @record
-def run(cfg: DictConfig) -> None:
-    print(OmegaConf.to_yaml(cfg))
-
-    if cfg.main.throws:
-        raise RuntimeError(f"raising error because cfg.main.throws={cfg.main.throws}")
-    compute_world_size(cfg)
+def run() -> None:
+    compute_world_size()
 
 
 if __name__ == "__main__":
-    # use compose API to make this compatible with ipython notebooks
-    # need to initialize the config directory as a module to make it
-    # not depends on rel path (PWD) or abs path (torchx install dir)
-    # see: https://hydra.cc/docs/advanced/jupyter_notebooks/
-    with hydra.initialize_config_module(
-        config_module="compute_world_size.config"
-    ):
-        cfg: DictConfig = hydra.compose(config_name="defaults")
-        run(cfg)
+    run()
 
-        print("SUCCEEDED") # @starpit 20230312 for testing
+    print("SUCCEEDED") # @starpit 20230312 for testing
