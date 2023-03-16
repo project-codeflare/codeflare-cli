@@ -1,3 +1,10 @@
+## [3.0.5](https://github.com/project-codeflare/codeflare-cli/compare/v3.0.4...v3.0.5) (2023-03-16)
+
+### Bug Fixes
+
+- codeflare prune export should prune obsolete choices ([a4eb426](https://github.com/project-codeflare/codeflare-cli/commit/a4eb4269b8ce0d993d4fe16942874ab09fcc739c))
+- profile import should not overwrite existing profile by default ([632837f](https://github.com/project-codeflare/codeflare-cli/commit/632837f682aeafbec0ac1608d2c31f9bff44f345))
+
 ## [3.0.4](https://github.com/project-codeflare/codeflare-cli/compare/v3.0.3...v3.0.4) (2023-03-14)
 
 ### Bug Fixes
