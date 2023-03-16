@@ -1,3 +1,9 @@
+# [3.1.0](https://github.com/project-codeflare/codeflare-cli/compare/v3.0.5...v3.1.0) (2023-03-16)
+
+### Features
+
+- disable ray workflows option, also fix buggy profile clone ([def6ce5](https://github.com/project-codeflare/codeflare-cli/commit/def6ce5bb96f4fada96054621be5503c2d62e169))
+
 ## [3.0.5](https://github.com/project-codeflare/codeflare-cli/compare/v3.0.4...v3.0.5) (2023-03-16)
 
 ### Bug Fixes
