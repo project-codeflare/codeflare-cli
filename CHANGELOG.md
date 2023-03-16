@@ -1,3 +1,9 @@
+## [3.1.1](https://github.com/project-codeflare/codeflare-cli/compare/v3.1.0...v3.1.1) (2023-03-16)
+
+### Bug Fixes
+
+- torchx priority support ([7e1b6dd](https://github.com/project-codeflare/codeflare-cli/commit/7e1b6dd1cc84ebe039efaefed824adc5f0b4e19b))
+
 # [3.1.0](https://github.com/project-codeflare/codeflare-cli/compare/v3.0.5...v3.1.0) (2023-03-16)
 
 ### Features
