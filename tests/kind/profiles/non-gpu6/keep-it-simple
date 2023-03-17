@@ -14,7 +14,7 @@
     "ml/codeflare/training/byoc/form": "{\"Path to source\":\"$PWD/tests/kind/inputs/torchx\",\"Base image\":\"ghcr.io/pytorch/torchx:0.5.0dev0\",\"Command line prefix\":\"python3 compute_world_size/main.py\"}",
     "kubernetes/choose/secret/image-pull": "No secret needed, since my image is public",
     "s3/choose/bucket/maybe": "My data is not stored in S3",
-    "ml/torchx/run/resources": "{\"Number of Workers\":\"1\",\"CPUs per worker\":\"500m\",\"GPUs per worker\":\"0\",\"Memory per worker\":\"500Mi\",\"Ephemeral Storage per worker\":\"5Gi\"}",
+    "ml/ray/start/resources": "{\"Number of Workers\":1,\"CPUs per worker\":\"500m\",\"GPUs per worker\":0,\"Memory per worker\":\"1.5Gi\",\"Ephemeral Storage per worker\":\"5Gi\"}",
     "kubernetes/context": "kind-codeflare-test",
     "kubernetes/choose/ns": "default",
     "ml/ray/storage/s3/maybe": "My code does not use Ray Workflows",
