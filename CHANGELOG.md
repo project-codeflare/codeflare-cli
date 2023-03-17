@@ -1,3 +1,10 @@
+## [3.1.2](https://github.com/project-codeflare/codeflare-cli/compare/v3.1.1...v3.1.2) (2023-03-17)
+
+### Bug Fixes
+
+- madwizard multi-select fails if options include dashes ([d224f8b](https://github.com/project-codeflare/codeflare-cli/commit/d224f8b35b17fc9e5ab66678a47850804e39a7ae))
+- torchx run fails to delete helm chart ([faa4563](https://github.com/project-codeflare/codeflare-cli/commit/faa4563564dfb44eadb720ea5d3f20ae95b26a82))
+
 ## [3.1.1](https://github.com/project-codeflare/codeflare-cli/compare/v3.1.0...v3.1.1) (2023-03-16)
 
 ### Bug Fixes
