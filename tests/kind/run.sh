@@ -27,9 +27,10 @@ export RAY_KUBE_CLUSTER_NAME=codeflare-test-ray-cluster
 export NODE=node
 export CODEFLARE_HEADLESS_HOME=${CODEFLARE_HEADLESS_HOME-$ROOT/dist/headless}
 
-while getopts "ab:f:is:" opt
+while getopts "Vab:f:is:" opt
 do
     case $opt in
+        V) VERBOSE=true; continue;;
         a) FORCE_ALL=true; continue;;
         f) FORCE=$OPTARG; continue;;
         s) export GUIDEBOOK_STORE=$OPTARG; echo "[Test] Using store=$GUIDEBOOK_STORE"; continue;;
@@ -79,7 +80,10 @@ function run {
     fi
 
     local guidebook=${2-$GUIDEBOOK}
-    local yes=$([ -z "$FORCE_ALL" ] && [ "$FORCE" != "$profileFull" ] && [ -f "$MWPROFILES_PATH/$profile" ] && echo "--yes" || echo "")
+    local yes=${YES-$([ -z "$FORCE_ALL" ] && [ "$FORCE" != "$profileFull" ] && [ -f "$MWPROFILES_PATH/$profile" ] && echo "--yes" || echo "")}
+    if [[ -n "$VERBOSE" ]]; then 
+        local verbose="-V"
+    fi
 
     local dashdashFile="$MWPROFILES_PATH_BASE"/$variant/dashdash.txt
     if [ -f "$dashdashFile" ]; then
@@ -98,7 +102,7 @@ function run {
     fi
 
     echo "[Test] Running with variant=$variant profile=$profile yes=$yes"
-    GUIDEBOOK_NAME="main-job-run" "$ROOT"/bin/codeflare -p $profile $yes $guidebook -- $DASHDASH | tee $OUTPUT
+    GUIDEBOOK_NAME="main-job-run" "$ROOT"/bin/codeflare -p $profile $verbose $yes $guidebook -- $DASHDASH | tee $OUTPUT
 }
 
 #
