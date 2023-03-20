@@ -1,3 +1,20 @@
+# [4.0.0](https://github.com/project-codeflare/codeflare-cli/compare/v3.1.2...v4.0.0) (2023-03-20)
+
+### Bug Fixes
+
+- torchx runs always emit verbose command line execution text ([8563cba](https://github.com/project-codeflare/codeflare-cli/commit/8563cba3ef38f92d8231326b69a852492bac779c))
+
+### Features
+
+- pull in autocomplete support from madwizard@6.7.0 ([03f3195](https://github.com/project-codeflare/codeflare-cli/commit/03f31953a97d4397d5d40adf24e7491788ef582b))
+- support for selecting multiple s3 buckets to be mounted ([a23ac94](https://github.com/project-codeflare/codeflare-cli/commit/a23ac94d84a55aca16ff7ead26e9d09a637f9202))
+- update ray resources to match the newer/cleaner torchx resources form ([35260c2](https://github.com/project-codeflare/codeflare-cli/commit/35260c23c269aa31cf042f80f1fcebf61a854975))
+
+### BREAKING CHANGES
+
+- this updates s3/choose/bucket from single-select to multi-select, which may require re-selecting this choice
+- this changes the structure of the ray form; tests may need updates. Also, any automated -y runs will require an update.
+
 ## [3.1.2](https://github.com/project-codeflare/codeflare-cli/compare/v3.1.1...v3.1.2) (2023-03-17)
 
 ### Bug Fixes
