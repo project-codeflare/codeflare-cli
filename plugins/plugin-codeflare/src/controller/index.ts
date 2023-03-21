@@ -22,7 +22,7 @@ import { width, height } from "@kui-shell/client/config.d/style.json"
 import tailf from "./tailf"
 import charts from "./charts"
 import events from "./events"
-import dashboard from "./dashboard"
+// import dashboard from "./dashboard"
 import description from "./description"
 import { LogsOptions, logsFlags } from "./logs"
 import { Options as AttachOptions } from "./attach"
@@ -30,7 +30,6 @@ import { Options as AttachOptions } from "./attach"
 function help() {
   return `Usage:
 codeflare [run] [<task>] [-s /path/to/store] [-u]
-codeflare dashboard /path/to/logdir
 codeflare chart gpu /path/to/logdir`
 }
 
@@ -39,7 +38,7 @@ export default function registerCodeflareCommands(registrar: Registrar) {
   tailf(registrar)
   charts(registrar)
   events(registrar)
-  dashboard(registrar)
+  // dashboard(registrar)
   description(registrar)
   registrar.listen("/help", help)
 

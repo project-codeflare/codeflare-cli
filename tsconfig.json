@@ -1,4 +1,8 @@
 {
   "extends": "./node_modules/@kui-shell/builder/tsconfig-base.json",
-  "references": [{ "path": "./plugins/plugin-codeflare" }, { "path": "./plugins/plugin-client-default" }]
+  "references": [
+    { "path": "./plugins/plugin-codeflare-dashboard" },
+    { "path": "./plugins/plugin-codeflare" },
+    { "path": "./plugins/plugin-client-default" }
+  ]
 }

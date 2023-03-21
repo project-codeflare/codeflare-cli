@@ -156,6 +156,7 @@
     "@kui-shell/plugin-bash-like": "13.1.3-dev-20230329-123301",
     "@kui-shell/plugin-client-common": "13.1.3-dev-20230329-123301",
     "@kui-shell/plugin-codeflare": "file:./plugins/plugin-codeflare",
+    "@kui-shell/plugin-codeflare-dashboard": "file:./plugins/plugin-codeflare-dashboard",
     "@kui-shell/plugin-core-support": "13.1.3-dev-20230329-123301",
     "@kui-shell/plugin-electron-components": "13.1.3-dev-20230329-123301",
     "@kui-shell/plugin-kubectl": "13.1.3-dev-20230329-123301",
