@@ -1,0 +1,37 @@
+{
+  "name": "@kui-shell/plugin-codeflare-dashboard",
+  "version": "0.0.1",
+  "description": "ML dashboarding",
+  "types": "./mdist/index.d.ts",
+  "module": "./mdist/index.js",
+  "main": "./mdist/index.js",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/IBM/kui#readme",
+  "bugs": {
+    "url": "https://github.com/IBM/kui/issues/new"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IBM/kui.git"
+  },
+  "keywords": [
+    "kui",
+    "plugin"
+  ],
+  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/split2": "^3.2.1",
+    "react-devtools-core": "^4.27.2"
+  },
+  "dependencies": {
+    "@logdna/tail-file": "^3.0.1",
+    "chokidar": "^3.5.3",
+    "ink": "^3.2.0",
+    "madwizard": "^7.0.3",
+    "pretty-ms": "^7.0.1",
+    "strip-ansi": "6.0.0"
+  }
+}
