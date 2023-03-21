@@ -1,3 +1,13 @@
+# [4.1.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.0.0...v4.1.0) (2023-03-21)
+
+### Bug Fixes
+
+- bump store@7.1.1 to pick up aws endpoint-url fix ([7687269](https://github.com/project-codeflare/codeflare-cli/commit/76872692745950ded18153af6cb52fb2b962564f))
+
+### Features
+
+- bump to madwizard@7 to pick up multiselect autocomplete ([b0e4e4c](https://github.com/project-codeflare/codeflare-cli/commit/b0e4e4c8874f56bdddb875125a2c43df5f34c59d))
+
 # [4.0.0](https://github.com/project-codeflare/codeflare-cli/compare/v3.1.2...v4.0.0) (2023-03-20)
 
 ### Bug Fixes
