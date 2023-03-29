@@ -1,0 +1,33 @@
+{
+  "name": "mcad-preinstalled",
+  "creationTime": 1660657756574,
+  "lastModifiedTime": 1660747919298,
+  "lastUsedTime": 1668210325310,
+  "choices": {
+    "madwizard/apriori/use-gpu": "don't use gpus",
+    "madwizard/apriori/arch": "arm64",
+    "madwizard/apriori/platform": "darwin",
+    "madwizard/apriori/mac-installer": "Homebrew",
+    "madwizard/apriori/in-terminal": "HTML",
+    "ml/codeflare": "Submit a new Run",
+    "ml/codeflare/run": "Bring Your Own Ray Code",
+    "ml/codeflare/training/byoc/form": "{\"Path to source\":\"$PWD/tests/kind/inputs/qiskit\",\"Base image\":\"rayproject/ray:2.3.0-py38-aarch64\",\"Command line prefix\":\"python3 main.py\"}",
+    "kubernetes/choose/secret/image-pull": "No secret needed, since my image is public",
+    "s3/choose/bucket/maybe": "My data is not stored in S3",
+    "ml/ray/start/resources": {
+      "Number of Workers": 1,
+      "CPUs per worker": "200m",
+      "GPUs per worker": 0,
+      "Memory per worker": "1.25Gi",
+      "Ephemeral Storage per worker": "5Gi"
+    },
+    "kubernetes/context": "kind-codeflare-test",
+    "kubernetes/choose/ns": "default",
+    "ml/ray/storage/s3/maybe": "My code does not use Ray Workflows",
+    "ml/ray/cluster/choose": "codeflare-test-ray-cluster",
+    "ml/ray/cluster/choose/kubernetes": "codeflare-test-ray-cluster",
+    "ml/ray/cluster/kubernetes/choose-pod-scheduler": "Use the Multi-user Enhanced Kubernetes Scheduler",
+    "kubernetes/mcad/choose/job-priority": "Default Priority",
+    "kubernetes/mcad/choose/scheduler": "My administrator has already installed and configured MCAD"
+  }
+}

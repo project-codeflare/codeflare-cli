@@ -69,7 +69,9 @@ function start_kind {
 function run {
     local profileFull="$1"
     local variant=$(dirname "$profileFull")
-    local profile=$(basename "$profileFull")
+    local profileBase=$(basename "$profileFull")
+    local profile=$(basename "$profileFull").$(uname -m)
+
     export MWPROFILES_PATH="$MWPROFILES_PATH_BASE"/$variant
     mkdir -p "$MWPROFILES_PATH"
 
@@ -95,10 +97,10 @@ function run {
         echo "[Test] Run: expecting dashdash: $expectedDashDash"
     fi
     
-    local PRE="$MWPROFILES_PATH_BASE"/../profiles.d/$profile/pre
+    local PRE="$MWPROFILES_PATH_BASE"/../profiles.d/$profileBase/pre
     if [ -f "$PRE" ]; then
         echo "[Test] Running pre guidebooks for profile=$profile"
-        cat "$PRE" | xargs -n1 "$ROOT"/bin/codeflare -p $profile $yes
+        cat "$PRE" | xargs -n1 "$ROOT"/bin/codeflare -p $profileBase $yes
     fi
 
     echo "[Test] Running with variant=$variant profile=$profile yes=$yes"
