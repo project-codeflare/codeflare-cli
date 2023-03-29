@@ -38,4 +38,4 @@ def run() -> None:
 if __name__ == "__main__":
     run()
 
-    print("SUCCEEDED") # @starpit 20230312 for testing
+    print("Succeeded") # @starpit 20230312,20230329 for testing

@@ -11,7 +11,7 @@
     "madwizard/apriori/in-terminal": "HTML",
     "ml/codeflare": "Submit a new Run",
     "ml/codeflare/run": "Bring Your Own Ray Code",
-    "ml/codeflare/training/byoc/form": "{\"Path to source\":\"$PWD/tests/kind/inputs/ray-basic\",\"Base image\":\"rayproject/ray:2.1.0\",\"Command line prefix\":\"python3 main.py\"}",
+    "ml/codeflare/training/byoc/form": "{\"Path to source\":\"$PWD/tests/kind/inputs/ray-basic\",\"Base image\":\"rayproject/ray:2.1.0-py38\",\"Command line prefix\":\"python3 main.py\"}",
     "kubernetes/choose/secret/image-pull": "No secret needed, since my image is public",
     "s3/choose/bucket/maybe": "My data is not stored in S3",
     "ml/ray/start/resources": {
