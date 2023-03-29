@@ -241,7 +241,7 @@ function test {
     
     # 4. validate the output of the job itself
     echo "[Test] Validating run output"
-    if grep -q SUCCEEDED $OUTPUT ; then
+    if grep -q Succeeded $OUTPUT ; then
         echo "[Test] ✅ Job submit output seems good!"
     else
         echo "[Test] ❌ Job submit output seems incomplete: $OUTPUT"
