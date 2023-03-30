@@ -86,7 +86,7 @@ export default async function dashboard(args: Arguments<Options>) {
   const { demo } = args.parsedOptions
   const scale = args.parsedOptions.s || 1
 
-  const kind = args.argvNoOptions[args.argvNoOptions.indexOf("dashboard") + 1]
+  const kind = args.argvNoOptions[args.argvNoOptions.indexOf("dashboard") + 1] || "all"
   const { jobId, profile } = await jobIdFrom(args)
 
   if (!isValidKindA(kind)) {
