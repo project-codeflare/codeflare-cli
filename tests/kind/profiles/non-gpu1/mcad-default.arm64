@@ -2,7 +2,7 @@
   "name": "mcad-default.arm64",
   "creationTime": 1660657756574,
   "lastModifiedTime": 1660747919298,
-  "lastUsedTime": 1680126433820,
+  "lastUsedTime": 1680221369322,
   "choices": {
     "madwizard/apriori/use-gpu": "don't use gpus",
     "madwizard/apriori/arch": "arm64",
