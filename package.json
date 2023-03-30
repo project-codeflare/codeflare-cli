@@ -140,7 +140,6 @@
     "@typescript-eslint/parser": "^5.53.0",
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.0.3",
     "electron": "^22.3.0",
     "eslint": "^8.34.0",
     "husky": "^8.0.3",
@@ -151,6 +150,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
+    "node-pty": "0.11.0-beta27",
     "@kui-shell/client": "file:./plugins/plugin-client-default",
     "@kui-shell/core": "13.1.3-dev-20230329-123301",
     "@kui-shell/plugin-bash-like": "13.1.3-dev-20230329-123301",
@@ -162,7 +162,6 @@
     "@kui-shell/plugin-kubectl": "13.1.3-dev-20230329-123301",
     "@kui-shell/plugin-madwizard": "13.1.3-dev-20230329-123301",
     "@kui-shell/plugin-patternfly4-themes": "13.1.3-dev-20230329-123301",
-    "@kui-shell/plugin-proxy-support": "13.1.3-dev-20230329-123301",
-    "node-pty": "0.11.0-beta27"
+    "@kui-shell/plugin-proxy-support": "13.1.3-dev-20230329-123301"
   }
 }
