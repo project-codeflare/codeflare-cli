@@ -16,10 +16,10 @@
     "s3/choose/bucket/maybe": "My data is not stored in S3",
     "ml/ray/start/resources": {
       "Number of Workers": 0,
-      "CPUs per worker": "600m",
+      "CPUs per worker": "200m",
       "GPUs per worker": 0,
-      "Memory per worker": "3Gi",
-      "Ephemeral Storage per worker": "5Gi"
+      "Memory per worker": "1.25Gi",
+      "Ephemeral Storage per worker": "2Gi"
     },
     "kubernetes/context": "kind-codeflare-test",
     "kubernetes/choose/ns": "default",
