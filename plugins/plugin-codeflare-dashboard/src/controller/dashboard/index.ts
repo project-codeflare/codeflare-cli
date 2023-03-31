@@ -39,7 +39,7 @@ function enterAltBufferMode() {
   console.log("\x1b[?1049h")
 }
 
-export function usage(cmd = "dashboard") {
+export function usage(cmd: string) {
   return `Usage: codeflare ${cmd} ${validKinds().join("|")} [<jobId>|-N]`
 }
 
@@ -67,7 +67,7 @@ async function lastNJob(profile: string, N: number) {
   }
 }
 
-export async function jobIdFrom(args: Arguments<Options>, cmd = "dashboard", offset = 2) {
+export async function jobIdFrom(args: Arguments<Options>, cmd: string, offset = 2) {
   const profile = args.parsedOptions.p || (await import("madwizard").then((_) => _.Profiles.lastUsed()))
 
   const jobIdFromCommandLine = args.argvNoOptions[args.argvNoOptions.indexOf(cmd) + offset]
@@ -80,19 +80,19 @@ export async function jobIdFrom(args: Arguments<Options>, cmd = "dashboard", off
   return { jobId, profile }
 }
 
-export default async function dashboard(args: Arguments<Options>) {
+export default async function dashboard(args: Arguments<Options>, cmd: "db" | "dashboard") {
   const { theme } = args.parsedOptions
 
   const { demo } = args.parsedOptions
   const scale = args.parsedOptions.s || 1
 
-  const kind = args.argvNoOptions[args.argvNoOptions.indexOf("dashboard") + 1] || "all"
-  const { jobId, profile } = await jobIdFrom(args)
+  const kind = args.argvNoOptions[args.argvNoOptions.indexOf(cmd) + 1] || "all"
+  const { jobId, profile } = await jobIdFrom(args, cmd)
 
   if (!isValidKindA(kind)) {
-    throw new Error(usage())
+    throw new Error(usage(cmd))
   } else if (!jobId) {
-    throw new Error(usage())
+    throw new Error(usage(cmd))
   }
 
   const gridFor = async (kind: "status" | "cpu" | "memory"): Promise<GridSpec> => {
@@ -118,7 +118,7 @@ export default async function dashboard(args: Arguments<Options>) {
   const db = dashboardUI(profile, jobId, await gridForA(kind), { scale })
 
   if (!db) {
-    throw new Error(usage())
+    throw new Error(usage(cmd))
   } else {
     const { render } = await import("ink")
 
