@@ -21,19 +21,19 @@ import type { TextProps } from "ink"
 export type Theme = [TextProps, TextProps, TextProps, TextProps, TextProps]
 
 export const red: Theme = [
-  { color: "#b30000" },
-  { color: "#e34a33" },
-  { color: "#fc8d59" },
-  { color: "#fdbb84" },
   { color: "#fdd49e" },
+  { color: "#fdbb84" },
+  { color: "#fc8d59" },
+  { color: "#e34a33" },
+  { color: "#b30000" },
 ]
 
 export const purple: Theme = [
-  { color: "#810f7c" },
-  { color: "#8856a7" },
-  { color: "#8c96c6" },
-  { color: "#9ebcda" },
   { color: "#bfd3e6" },
+  { color: "#9ebcda" },
+  { color: "#8c96c6" },
+  { color: "#8856a7" },
+  { color: "#810f7c" },
 ]
 
 /*
@@ -47,35 +47,35 @@ export const magenta: Theme = [
 */
 
 export const magenta: Theme = [
-  { color: "#7a0177" },
-  { color: "#c51b8a" },
-  { color: "#f768a1" },
-  { color: "#fa9fb5" },
   { color: "#fcc5c0" },
+  { color: "#fa9fb5" },
+  { color: "#f768a1" },
+  { color: "#c51b8a" },
+  { color: "#7a0177" },
 ]
 
 export const green: Theme = [
-  { color: "#006837" },
-  { color: "#31a354" },
-  { color: "#78c679" },
-  { color: "#addd8e" },
   { color: "#d9f0a3" },
+  { color: "#addd8e" },
+  { color: "#78c679" },
+  { color: "#31a354" },
+  { color: "#006837" },
 ]
 
 export const blue: Theme = [
-  { color: "#045a8d" },
-  { color: "#2b8cbe" },
-  { color: "#74a9cf" },
-  { color: "#a6bddb" },
   { color: "#d0d1e6" },
+  { color: "#a6bddb" },
+  { color: "#74a9cf" },
+  { color: "#2b8cbe" },
+  { color: "#045a8d" },
 ]
 
 export const rain: Theme = [
-  { color: "#016c59" },
-  { color: "#1c9099" },
-  { color: "#67a9cf" },
-  { color: "#a6bddb" },
   { color: "#d0d1e6" },
+  { color: "#a6bddb" },
+  { color: "#67a9cf" },
+  { color: "#1c9099" },
+  { color: "#016c59" },
 ]
 
 export const themes = {

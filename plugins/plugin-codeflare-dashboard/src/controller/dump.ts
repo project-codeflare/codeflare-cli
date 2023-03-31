@@ -51,7 +51,7 @@ export default async function dump(args: Arguments<Options>) {
   if (kind === "path") {
     // print the path to the data captured for the given jobId in the given profile
     const { dirname } = await import("path")
-    return Array.from(new Set(await pathsFor("cpu", profile, jobId).then((_) => _.map((_) => dirname(_)))))[0]
+    return Array.from(new Set(await pathsFor("cpu%", profile, jobId).then((_) => _.map((_) => dirname(dirname(_))))))[0]
   } else if (!args.parsedOptions.f) {
     const { createReadStream } = await import("fs")
     await Promise.all(

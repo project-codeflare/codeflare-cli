@@ -20,6 +20,7 @@ import tailf from "./tailf.js"
 import dashboardUI from "./db.js"
 import status from "./status.js"
 import utilization from "./utilization.js"
+import { SupportedGrid, isSupportedGrid } from "./grids.js"
 import { KindA, isValidKindA, validKinds } from "./kinds.js"
 import type { GridSpec } from "../../components/Dashboard/index.js"
 
@@ -39,8 +40,8 @@ function enterAltBufferMode() {
   console.log("\x1b[?1049h")
 }
 
-export function usage(cmd: string) {
-  return `Usage: codeflare ${cmd} ${validKinds().join("|")} [<jobId>|-N]`
+export function usage(cmd: string, extraKinds: string[] = []) {
+  return `Usage: codeflare ${cmd} ${extraKinds.concat(validKinds()).join("|")} [<jobId>|-N]`
 }
 
 async function lastNJob(profile: string, N: number) {
@@ -90,25 +91,29 @@ export default async function dashboard(args: Arguments<Options>, cmd: "db" | "d
   const { jobId, profile } = await jobIdFrom(args, cmd)
 
   if (!isValidKindA(kind)) {
-    throw new Error(usage(cmd))
+    throw new Error(usage(cmd, ["all"]))
   } else if (!jobId) {
-    throw new Error(usage(cmd))
+    throw new Error(usage(cmd, ["all"]))
   }
 
-  const gridFor = async (kind: "status" | "cpu" | "memory"): Promise<GridSpec> => {
+  const gridFor = async (kind: SupportedGrid): Promise<GridSpec> => {
     const tails = await tailf(kind, profile, jobId)
     return kind === "status"
       ? status(tails, { demo, theme, themeDefault: "patternfly" })
-      : kind === "cpu"
-      ? utilization(kind, tails, { demo, theme, themeDefault: "rain" })
-      : utilization(kind, tails, { demo, theme, themeDefault: "purple" })
+      : utilization(kind, tails, { demo, theme })
   }
 
   const gridForA = async (kind: KindA): Promise<null | GridSpec | GridSpec[]> => {
     if (kind === "all") {
-      const grids = await Promise.all([gridFor("status"), gridFor("cpu"), gridFor("memory")])
+      const grids = await Promise.all([
+        gridFor("status"),
+        gridFor("cpu%"),
+        gridFor("mem%"),
+        gridFor("gpu%"),
+        gridFor("gpumem%"),
+      ])
       return grids.filter(Boolean)
-    } else if (kind === "status" || kind === "cpu" || kind === "memory") {
+    } else if (isSupportedGrid(kind)) {
       return gridFor(kind)
     } else {
       return null
