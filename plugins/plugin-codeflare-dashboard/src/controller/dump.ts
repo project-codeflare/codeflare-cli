@@ -34,17 +34,25 @@ function usage() {
   return dbUsage("dump") + " [-f/--follow]"
 }
 
+/** Dump raw info, rather than nicely formatted into a dashboard */
 export default async function dump(args: Arguments<Options>) {
+  // what kind of data are we being asked to show
   const kind = args.argvNoOptions[args.argvNoOptions.indexOf("dump") + 1]
+
+  // and for which jobId and profile?
   const { jobId, profile } = await jobIdFrom(args, "dump")
 
-  if (!isValidKind(kind)) {
+  if (!(isValidKind(kind) || kind === "path")) {
     throw new Error(usage())
   } else if (!jobId) {
     throw new Error(usage())
   }
 
-  if (!args.parsedOptions.f) {
+  if (kind === "path") {
+    // print the path to the data captured for the given jobId in the given profile
+    const { dirname } = await import("path")
+    return Array.from(new Set(await pathsFor("cpu", profile, jobId).then((_) => _.map((_) => dirname(_)))))[0]
+  } else if (!args.parsedOptions.f) {
     const { createReadStream } = await import("fs")
     await Promise.all(
       (
