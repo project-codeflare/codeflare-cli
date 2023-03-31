@@ -34,7 +34,7 @@ function waitTillExists(filepath: string) {
   })
 }
 
-async function initTail(filepath: string): Promise<Tail> {
+async function initTail(filepath: string, split = true): Promise<Tail> {
   await waitTillExists(filepath)
 
   return new Promise<Tail>((resolve, reject) => {
@@ -47,7 +47,7 @@ async function initTail(filepath: string): Promise<Tail> {
     tail.start()
 
     resolve({
-      stream: tail.pipe(split2()),
+      stream: split ? tail.pipe(split2()) : tail,
       quit: tail.quit.bind(tail),
     })
   })
@@ -60,6 +60,11 @@ export async function pathsFor(kind: Kind, profile: string, jobId: string) {
   )
 }
 
-export default async function tailf(kind: Kind, profile: string, jobId: string): Promise<Promise<Tail>[]> {
-  return pathsFor(kind, profile, jobId).then((_) => _.map(initTail))
+export default async function tailf(
+  kind: Kind,
+  profile: string,
+  jobId: string,
+  split = true
+): Promise<Promise<Tail>[]> {
+  return pathsFor(kind, profile, jobId).then((_) => _.map((filepath) => initTail(filepath, split)))
 }
