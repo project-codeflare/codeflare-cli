@@ -18,6 +18,7 @@ import { KResponse, Registrar } from "@kui-shell/core"
 
 import { flags } from "./controller/dashboard/options.js"
 import type { Options as DashboardOptions } from "./controller/dashboard/index.js"
+import { Options as DumpOptions, flags as dumpFlags } from "./controller/dump.js"
 
 /** Register Kui Commands */
 export default function registerCodeflareCommands(registrar: Registrar) {
@@ -29,7 +30,9 @@ export default function registerCodeflareCommands(registrar: Registrar) {
     )
   )
 
-  registrar.listen<KResponse, DashboardOptions>("/codeflare/dump", (args) =>
-    import("./controller/dump.js").then((_) => _.default(args))
+  registrar.listen<KResponse, DumpOptions>(
+    "/codeflare/dump",
+    (args) => import("./controller/dump.js").then((_) => _.default(args)),
+    { flags: dumpFlags }
   )
 }

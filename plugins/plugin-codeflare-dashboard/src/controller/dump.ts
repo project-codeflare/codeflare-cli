@@ -18,35 +18,65 @@ import { Arguments } from "@kui-shell/core"
 
 import { pathsFor } from "./dashboard/tailf.js"
 import { isValidKind } from "./dashboard/kinds.js"
-import { Options, jobIdFrom, usage } from "./dashboard/index.js"
+import { Options as DashboardOptions, jobIdFrom, usage as dbUsage } from "./dashboard/index.js"
+
+export type Options = DashboardOptions & {
+  f: boolean
+  follow: boolean
+}
+
+export const flags = {
+  boolean: ["follow"],
+  alias: { follow: ["f"] },
+}
+
+function usage() {
+  return dbUsage("dump") + " [-f/--follow]"
+}
 
 export default async function dump(args: Arguments<Options>) {
   const kind = args.argvNoOptions[args.argvNoOptions.indexOf("dump") + 1]
   const { jobId, profile } = await jobIdFrom(args, "dump")
 
   if (!isValidKind(kind)) {
-    throw new Error(usage("dump"))
+    throw new Error(usage())
   } else if (!jobId) {
-    throw new Error(usage("dump"))
+    throw new Error(usage())
   }
 
-  const { createReadStream } = await import("fs")
-  await Promise.all(
-    (
-      await pathsFor(kind, profile, jobId)
-    ).map(
-      (filepath) =>
-        new Promise((resolve, reject) => {
-          try {
-            const rs = createReadStream(filepath)
-            rs.on("close", resolve)
-            rs.pipe(process.stdout)
-          } catch (err) {
-            reject(err)
-          }
-        })
+  if (!args.parsedOptions.f) {
+    const { createReadStream } = await import("fs")
+    await Promise.all(
+      (
+        await pathsFor(kind, profile, jobId)
+      ).map(
+        (filepath) =>
+          new Promise((resolve, reject) => {
+            try {
+              const rs = createReadStream(filepath)
+              rs.on("close", resolve)
+              rs.pipe(process.stdout)
+            } catch (err) {
+              reject(err)
+            }
+          })
+      )
     )
-  )
+  } else {
+    const once = async () => {
+      const tails = await import("./dashboard/tailf.js").then((_) => _.default(kind, profile, jobId, false))
+      await Promise.all(tails.map((_) => _.then((_) => _.stream.pipe(process.stdout))))
+      await Promise.all(tails.map((_) => new Promise((resolve) => _.then((_) => _.stream.on("close", resolve)))))
+      return true
+    }
+
+    try {
+      return once()
+    } catch (err) {
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+      once()
+    }
+  }
 
   return true
 }
