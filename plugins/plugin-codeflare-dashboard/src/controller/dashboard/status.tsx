@@ -58,6 +58,7 @@ const stateFor: Record<string, WorkerState> = {
 
   Failed: "Failed",
   FailedScheduling: "Failed",
+  Workers_Evicted: "Failed",
 }
 
 /**
