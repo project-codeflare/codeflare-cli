@@ -24,13 +24,13 @@
   },
   "devDependencies": {
     "@types/split2": "^3.2.1",
-    "react-devtools-core": "^4.27.2"
+    "react-devtools-core": "^4.27.4"
   },
   "dependencies": {
     "@logdna/tail-file": "^3.0.1",
     "chokidar": "^3.5.3",
     "ink": "^3.2.0",
-    "madwizard": "^7.0.3",
+    "madwizard": "^8.0.2",
     "pretty-ms": "^7.0.1",
     "strip-ansi": "6.0.0"
   }
