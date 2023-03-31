@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-type Kind = "status" | "gpu" | "cpu" | "memory" | "logs"
+import type { SupportedGrid } from "./grids.js"
+
+type Kind = SupportedGrid | "logs"
 export type KindA = Kind | "all"
 export default Kind
 
@@ -26,9 +28,10 @@ export const resourcePaths: Record<Kind, string[]> = {
     "events/runtime-env-setup.txt",
     "logs/job.txt",
   ],
-  gpu: ["resources/gpu.txt"],
-  cpu: ["resources/pod-vmstat.txt"],
-  memory: ["resources/pod-memory.txt"],
+  "gpu%": ["resources/gpu.txt"],
+  "gpumem%": ["resources/gpu.txt"],
+  "cpu%": ["resources/pod-vmstat.txt"],
+  "mem%": ["resources/pod-memory.txt"],
   logs: ["logs/job.txt"],
 }
 

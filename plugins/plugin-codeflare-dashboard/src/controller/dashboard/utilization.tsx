@@ -21,10 +21,11 @@ import type { Tail } from "./tailf.js"
 import type Options from "./options.js"
 import { isValidTheme, themes } from "./themes/utilization.js"
 import { OnData, Worker, GridSpec } from "../../components/Dashboard/index.js"
+import { SupportedUtilizationGrid, defaultUtilizationThemes, providerFor } from "./grids.js"
 
-type WorkerState = "0-20%" | "20-40%" | "40-60%" | "60-80%" | "80-100%"
+type WorkerState = "<20%" | "<40%" | "<60%" | "<80%" | "<100%"
 
-const states: WorkerState[] = ["0-20%", "20-40%", "40-60%", "60-80%", "80-100%"]
+const states: WorkerState[] = ["<20%", "<40%", "<60%", "<80%", "<100%"]
 
 /**
  * Maintain a model of live data from a given set of file streams
@@ -38,10 +39,15 @@ class Live {
   private stateFor(util: string): WorkerState {
     const percent = parseInt(util.replace(/%$/, ""), 10)
     const bucketWidth = ~~(100 / states.length)
-    return states[~~(percent / bucketWidth)]
+    return states[Math.min(~~(percent / bucketWidth), states.length - 1)]
   }
 
-  public constructor(private readonly tails: Promise<Tail>[], cb: OnData, styleOf: Record<WorkerState, TextProps>) {
+  public constructor(
+    expectedProvider: string,
+    private readonly tails: Promise<Tail>[],
+    cb: OnData,
+    styleOf: Record<WorkerState, TextProps>
+  ) {
     tails.map((tailf) => {
       tailf.then(({ stream }) => {
         stream.on("data", (data) => {
@@ -49,7 +55,11 @@ class Live {
             const line = stripAnsi(data)
             const cols = line.split(/\s+/)
 
-            const provider = !cols[0] ? undefined : cols[0].replace(/^\[/, "")
+            const provider = (!cols[0] ? undefined : cols[0].replace(/^\[/, "")) + (cols[1] ? " " + cols[1] : "")
+            if (provider !== expectedProvider) {
+              return
+            }
+
             const key = !cols[2] ? undefined : cols[2].replace(/\]$/, "")
             const metric = !provider || !key ? undefined : this.stateFor(key)
             const name = cols[3] ? cols[3].trim() : undefined
@@ -61,7 +71,7 @@ class Live {
             } else if (!metric) {
               // ignoring this line
               return
-            } else if (provider === "Workers" && (!/^pod\//.test(name) || /cleaner/.test(name))) {
+            } else if (!/^pod\//.test(name) || /cleaner/.test(name)) {
               // only track pod events, and ignore our custodial pods
               return
             } else {
@@ -178,11 +188,11 @@ function capitalize(str: string) {
 }
 
 export default function utilizationDashboard(
-  kind: "cpu" | "memory",
+  kind: SupportedUtilizationGrid,
   tails: Promise<Tail>[],
-  opts: Pick<Options, "demo" | "theme" | "themeDefault">
+  opts: Pick<Options, "demo" | "theme"> & Partial<Pick<Options, "themeDefault">>
 ): GridSpec {
-  const { theme: themeS = opts.themeDefault } = opts
+  const { theme: themeS = opts.themeDefault || defaultUtilizationThemes[kind] } = opts
   if (!isValidTheme(themeS)) {
     throw new Error("Invalid theme: " + themeS)
   }
@@ -198,7 +208,8 @@ export default function utilizationDashboard(
     if (opts.demo) {
       return new Demo(cb, styleOf)
     } else {
-      return new Live(tails, cb, styleOf)
+      const expectedProvider = providerFor[kind]
+      return new Live(expectedProvider, tails, cb, styleOf)
     }
   }
 
