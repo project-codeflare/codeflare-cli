@@ -21,10 +21,12 @@ import type { Options as DashboardOptions } from "./controller/dashboard/index.j
 
 /** Register Kui Commands */
 export default function registerCodeflareCommands(registrar: Registrar) {
-  registrar.listen<KResponse, DashboardOptions>(
-    "/codeflare/dashboard",
-    (args) => import("./controller/dashboard/index.js").then((_) => _.default(args)),
-    { flags }
+  ["db" as const, "dashboard" as const].forEach((db) =>
+    registrar.listen<KResponse, DashboardOptions>(
+      `/codeflare/${db}`,
+      (args) => import("./controller/dashboard/index.js").then((_) => _.default(args, db)),
+      { flags }
+    )
   )
 
   registrar.listen<KResponse, DashboardOptions>("/codeflare/dump", (args) =>
