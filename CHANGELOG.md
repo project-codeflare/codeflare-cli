@@ -1,3 +1,20 @@
+# [4.2.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.1.0...v4.2.0) (2023-03-31)
+
+### Bug Fixes
+
+- codeflare dashboard should default to all ([b65ebc3](https://github.com/project-codeflare/codeflare-cli/commit/b65ebc36b29765ea943e6fd1279a1ca4e54ebb77))
+- disable use of securityContext in ray pod specs ([cb14b5e](https://github.com/project-codeflare/codeflare-cli/commit/cb14b5e603e0000d5f5d5e2a1527836715950289))
+- improvements to s3 profile/bucket scanning ([ccf4858](https://github.com/project-codeflare/codeflare-cli/commit/ccf48580b88fa9dee1e240251e99c597bf06aa2a))
+- pick up fix for profile import --force ([183393d](https://github.com/project-codeflare/codeflare-cli/commit/183393d9ae46e4ed281eb50fdc026ddd1159a1fe))
+- pick up improved signal handling fixes from store and madwizard ([71d98ee](https://github.com/project-codeflare/codeflare-cli/commit/71d98ee1b15dda888617399d05bae53239c9f47b))
+- pick up improved signal handling fixes from store and madwizard ([35330f2](https://github.com/project-codeflare/codeflare-cli/commit/35330f2b6d17a0874cc0ceb9b38c7919141e525d))
+- tweaks to support running tests locally on apple silicon; probably arm generally ([f89e4e2](https://github.com/project-codeflare/codeflare-cli/commit/f89e4e22f3cacfe9a8ab8e46088a2d6ccc889555))
+
+### Features
+
+- do not automatically bring down cluster on ctrl+c ([d4d7877](https://github.com/project-codeflare/codeflare-cli/commit/d4d787706c0a5e6d5b4a42909367fb2505fe6aff))
+- new console-based dashboard ([95e1919](https://github.com/project-codeflare/codeflare-cli/commit/95e19198d33e63e9cac3754b9071b9f81d3107a7))
+
 # [4.1.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.0.0...v4.1.0) (2023-03-21)
 
 ### Bug Fixes
