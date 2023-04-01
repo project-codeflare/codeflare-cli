@@ -87,8 +87,10 @@ export default async function dashboard(args: Arguments<Options>, cmd: "db" | "d
   const { demo } = args.parsedOptions
   const scale = args.parsedOptions.s || 1
 
-  const kind = args.argvNoOptions[args.argvNoOptions.indexOf(cmd) + 1] || "all"
-  const { jobId, profile } = await jobIdFrom(args, cmd)
+  const jobIdOffset = args.argvNoOptions[args.argvNoOptions.indexOf(cmd) + 2] ? 2 : 1
+  const kindOffset = jobIdOffset === 2 ? 1 : 9999
+  const kind = args.argvNoOptions[args.argvNoOptions.indexOf(cmd) + kindOffset] || "all"
+  const { jobId, profile } = await jobIdFrom(args, cmd, jobIdOffset)
 
   if (!isValidKindA(kind)) {
     throw new Error(usage(cmd, ["all"]))
