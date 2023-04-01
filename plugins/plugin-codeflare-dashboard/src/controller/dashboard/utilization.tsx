@@ -17,6 +17,7 @@
 import stripAnsi from "strip-ansi"
 import type { TextProps } from "ink"
 
+import type Kind from "./kinds.js"
 import type { Tail } from "./tailf.js"
 import type Options from "./options.js"
 import { isValidTheme, themes } from "./themes/utilization.js"
@@ -183,8 +184,14 @@ class Demo {
   }
 }
 
+/** foo => Foo; fOO => Foo; FOO => Foo */
 function capitalize(str: string) {
-  return str[0].toUpperCase() + str.slice(1)
+  return str[0].toUpperCase() + str.slice(1).toLowerCase()
+}
+
+/** Displayed variant of `Kind` */
+function titleFor(kind: Kind) {
+  return capitalize(kind).replace(/(.*)mem/i, (_, p1) => p1 + (!p1 ? "" : " ") + "Memory")
 }
 
 export default function utilizationDashboard(
@@ -214,5 +221,5 @@ export default function utilizationDashboard(
   }
 
   const styledStates = states.map((state) => ({ state, style: styleOf[state] }))
-  return { title: capitalize(kind), initWatcher, states: styledStates }
+  return { title: titleFor(kind), initWatcher, states: styledStates }
 }
