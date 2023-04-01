@@ -22,7 +22,7 @@ import status from "./status.js"
 import utilization from "./utilization.js"
 import { SupportedGrid, isSupportedGrid } from "./grids.js"
 import { KindA, isValidKindA, validKinds } from "./kinds.js"
-import type { GridSpec } from "../../components/Dashboard/index.js"
+import type { GridSpec } from "../../components/Dashboard/types.js"
 
 export type Options = Arguments["parsedOptions"] & {
   s: number

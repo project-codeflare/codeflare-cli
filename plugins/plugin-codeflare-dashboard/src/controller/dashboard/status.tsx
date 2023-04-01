@@ -19,7 +19,7 @@ import type { TextProps } from "ink"
 
 import type { Tail } from "./tailf.js"
 import type Options from "./options.js"
-import { OnData, Worker, GridSpec } from "../../components/Dashboard/index.js"
+import type { OnData, Worker, GridSpec } from "../../components/Dashboard/types.js"
 import { isValidStatusTheme, statusThemes } from "./themes/status.js"
 
 type WorkerState = "Queued" | "Provisioning" | "Initializing" | "Running" | "Success" | "Failed"

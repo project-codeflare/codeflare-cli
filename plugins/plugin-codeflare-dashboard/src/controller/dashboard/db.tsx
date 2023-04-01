@@ -17,7 +17,9 @@
 import React from "react"
 
 import type Options from "./options.js"
-import Dashboard, { GridSpec } from "../../components/Dashboard/index.js"
+import type { GridSpec } from "../../components/Dashboard/types.js"
+
+import Dashboard from "../../components/Dashboard/index.js"
 
 /** Wrap the `grids` in a `Dashboard` UI */
 export default function db(
