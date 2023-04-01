@@ -160,7 +160,7 @@ class Grid extends React.PureComponent<GridProps> {
    * just the length of a side in the grid/heat map).
    */
   private get minMatrixSize() {
-    return 2
+    return 6
   }
 
   private matrixModel(): Worker[][] {
