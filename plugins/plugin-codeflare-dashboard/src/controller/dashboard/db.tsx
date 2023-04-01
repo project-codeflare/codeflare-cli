@@ -23,7 +23,7 @@ import Dashboard, { GridSpec } from "../../components/Dashboard/index.js"
 export default function db(
   profile: string,
   jobId: string,
-  grids: null | GridSpec | GridSpec[],
+  grids: null | GridSpec | (null | GridSpec)[],
   opts: Pick<Options, "scale">
 ) {
   if (!grids || (Array.isArray(grids) && grids.length === 0)) {
