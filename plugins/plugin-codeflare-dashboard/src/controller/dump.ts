@@ -42,7 +42,7 @@ export default async function dump(args: Arguments<Options>) {
   // and for which jobId and profile?
   const { jobId, profile } = await jobIdFrom(args, "dump")
 
-  if (!(isValidKind(kind) || kind === "path")) {
+  if (!(isValidKind(kind) || kind === "path" || kind === "env")) {
     throw new Error(usage())
   } else if (!jobId) {
     throw new Error(usage())
@@ -50,8 +50,10 @@ export default async function dump(args: Arguments<Options>) {
 
   if (kind === "path") {
     // print the path to the data captured for the given jobId in the given profile
-    const { dirname } = await import("path")
-    return Array.from(new Set(await pathsFor("cpu%", profile, jobId).then((_) => _.map((_) => dirname(dirname(_))))))[0]
+    return import("./path.js").then((_) => _.pathFor(profile, jobId))
+  } else if (kind === "env") {
+    // print job env vars
+    return JSON.stringify(await import("./env.js").then((_) => _.getJobEnv(profile, jobId)), undefined, 2)
   } else if (!args.parsedOptions.f) {
     const { createReadStream } = await import("fs")
     await Promise.all(
