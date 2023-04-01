@@ -103,16 +103,16 @@ export default async function dashboard(args: Arguments<Options>, cmd: "db" | "d
       : utilization(kind, tails, { demo, theme })
   }
 
-  const gridForA = async (kind: KindA): Promise<null | GridSpec | GridSpec[]> => {
+  const gridForA = async (kind: KindA): Promise<null | GridSpec | (null | GridSpec)[]> => {
     if (kind === "all") {
-      const grids = await Promise.all([
+      return Promise.all([
         gridFor("status"),
+        null, // newline
         gridFor("cpu%"),
         gridFor("mem%"),
         gridFor("gpu%"),
         gridFor("gpumem%"),
       ])
-      return grids.filter(Boolean)
     } else if (isSupportedGrid(kind)) {
       return gridFor(kind)
     } else {

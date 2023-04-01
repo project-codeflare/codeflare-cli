@@ -68,7 +68,7 @@ type Props = {
   /** Scale up the grid? [default: 1] */
   scale?: number
 
-  grids: GridSpec[]
+  grids: (null | GridSpec)[]
 }
 
 type State = {
@@ -95,9 +95,12 @@ type State = {
 }
 
 type GridProps = {
+  /** Position of legend w.r.t. the grid UI [default: "below"] */
+  legendPosition?: "right" | "below"
+
   scale: Props["scale"]
-  title: Props["grids"][number]["title"]
-  states: Props["grids"][number]["states"]
+  title: NonNullable<Props["grids"][number]>["title"]
+  states: NonNullable<Props["grids"][number]>["states"]
   workers: State["workers"][number]
 }
 
@@ -136,6 +139,8 @@ class Grid extends React.PureComponent<GridProps> {
   }
 
   private get emptyCell(): TextProps {
+    // TODO in light terminal themes, white-dim is a better choice
+    // than gray-dim
     return this.cellFor({ color: "gray", dimColor: true })
   }
 
@@ -199,16 +204,20 @@ class Grid extends React.PureComponent<GridProps> {
     return (
       <Box flexDirection="column">
         {A.filter(Boolean).map((AA, ridx) => (
+          /* legend row */
           <Box key={ridx} flexDirection="row" justifyContent="space-around">
             {AA.filter(Boolean).map((_, cidx) => (
+              /* legend entry (i.e. legend column) */
               <Box key={_.state} {...outerBoxProps}>
                 <Box {...innerBoxProps} marginLeft={1}>
+                  {/* legend entry label */}
                   <Box>
                     <Text {..._.style} bold>
                       {_.state}
                     </Text>
                   </Box>
 
+                  {/* legend entry value */}
                   <Box {...valueProps}>
                     <Text {..._.style}>{C[ridx][cidx] /*.toString().padStart(maxLen)*/}</Text>
                   </Box>
@@ -250,22 +259,45 @@ class Grid extends React.PureComponent<GridProps> {
     return <Text>{this.props.title}</Text>
   }
 
+  private get legendPosition() {
+    return this.props.legendPosition
+  }
+
   public render() {
+    const flexDirection = this.legendPosition === "below" ? "column" : "row"
+    const alignItems = this.legendPosition === "below" ? "center" : "center"
+    const legendBoxProps = this.legendPosition === "below" ? { marginTop: 1 } : { marginLeft: 2 }
+
     return (
-      <Box flexDirection="column" alignItems="center" justifyContent="center" paddingTop={1} paddingBottom={1}>
-        {this.title()}
-        {this.grid()}
-        <Box marginTop={1}>{this.legend()}</Box>
+      <Box
+        flexDirection={flexDirection}
+        alignItems={alignItems}
+        justifyContent="center"
+        paddingTop={1}
+        paddingBottom={1}
+      >
+        {/* title and grid */}
+        <Box flexDirection="column" alignItems="center">
+          {this.title()}
+          {this.grid()}
+        </Box>
+
+        {/* legend */}
+        <Box {...legendBoxProps}>{this.legend()}</Box>
       </Box>
     )
   }
 }
 
 export default class Dashboard extends React.PureComponent<Props, State> {
+  private get grids(): GridSpec[] {
+    return this.props.grids.filter((_) => _ !== null) as GridSpec[]
+  }
+
   public componentDidMount() {
     this.setState({
       workers: [],
-      watchers: this.props.grids.map((props, gridIdx) =>
+      watchers: this.grids.map((props, gridIdx) =>
         props.initWatcher((model: UpdatePayload) => this.onUpdate(gridIdx, model))
       ),
       agoInterval: setInterval(() => this.setState((curState) => ({ iter: (curState?.iter || 0) + 1 })), 5 * 1000),
@@ -388,26 +420,47 @@ export default class Dashboard extends React.PureComponent<Props, State> {
         // eslint-disable-next-line no-control-regex
         rows.push(<Text key={line + "-" + n}>{line.replace(/\x1b\x5B\[2J/g, "")}</Text>)
       }
-      return <React.Fragment>{rows}</React.Fragment>
+      return (
+        <Box marginTop={1} flexDirection="column">
+          {rows}
+        </Box>
+      )
     }
   }
 
+  private gridRows() {
+    const rows: { widx: number; grid: NonNullable<Props["grids"][number]> }[][] = []
+    for (let idx = 0, ridx = 0, widx = 0; idx < this.props.grids.length; idx++) {
+      const grid = this.props.grids[idx]
+      if (grid === null) {
+        ridx++
+      } else {
+        if (!rows[ridx]) {
+          rows[ridx] = []
+        }
+        rows[ridx].push({ grid, widx: widx++ })
+      }
+    }
+    return rows
+  }
+
   private body() {
-    return (
-      <Box justifyContent="space-around">
-        {this.props.grids.map((props, idx) => (
-          <Box key={props.title} marginLeft={2}>
+    return this.gridRows().map((row, ridx) => (
+      <Box key={ridx} justifyContent="space-around">
+        {row.map(({ grid, widx }) => (
+          <Box key={grid.title} marginLeft={2}>
             <Grid
-              key={props.title}
-              title={props.title}
+              key={grid.title}
+              title={grid.title}
               scale={this.props.scale}
-              states={props.states}
-              workers={this.state?.workers[idx] || []}
+              states={grid.states}
+              workers={this.state?.workers[widx] || []}
+              legendPosition={row.length === 1 ? "right" : "below"}
             />
           </Box>
         ))}
       </Box>
-    )
+    ))
   }
 
   public render() {

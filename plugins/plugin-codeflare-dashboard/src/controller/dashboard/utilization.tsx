@@ -24,9 +24,14 @@ import { isValidTheme, themes } from "./themes/utilization.js"
 import { OnData, Worker, GridSpec } from "../../components/Dashboard/index.js"
 import { SupportedUtilizationGrid, defaultUtilizationThemes, providerFor } from "./grids.js"
 
-type WorkerState = "<20%" | "<40%" | "<60%" | "<80%" | "<100%"
+/**
+ * The discrete/quantized utilization states. Note: this currently is
+ * assumed to be parallel to the ./themes/utilization.ts arrays.
+ */
+const states = ["<20%", "<40%", "<60%", "<80%", "<100%"]
 
-const states: WorkerState[] = ["<20%", "<40%", "<60%", "<80%", "<100%"]
+/** Type declaration for quantized utilization states */
+type WorkerState = (typeof states)[number]
 
 /**
  * Maintain a model of live data from a given set of file streams
@@ -40,7 +45,8 @@ class Live {
   private stateFor(util: string): WorkerState {
     const percent = parseInt(util.replace(/%$/, ""), 10)
     const bucketWidth = ~~(100 / states.length)
-    return states[Math.min(~~(percent / bucketWidth), states.length - 1)]
+    const bucketIdx = Math.min(~~(percent / bucketWidth), states.length - 1)
+    return states[bucketIdx]
   }
 
   public constructor(
