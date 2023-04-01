@@ -14,14 +14,8 @@
  * limitations under the License.
  */
 
-import doPlan from "../plan"
-import Input from "../Input"
+import { Tree } from "../Input"
 
-import importd from "./importd"
+const importe: Tree = { name: "EEE", children: [{ name: "Option 1: TabE1", children: [{ name: "echo EEE" }] }] }
 
-const IN5: Input = {
-  input: "guidebook-tree-model5.md",
-  tree: () => importd,
-}
-
-doPlan(IN5)
+export default importe
