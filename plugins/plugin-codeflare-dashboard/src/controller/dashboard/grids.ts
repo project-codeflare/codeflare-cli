@@ -15,7 +15,7 @@
  */
 
 import type Kind from "./kinds.js"
-import type { ValidTheme as ValidUtilizationTheme } from "./themes/utilization.js"
+import type { ValidTheme as ValidUtilizationTheme } from "./utilization/theme.js"
 
 export type SupportedUtilizationGrid = "cpu%" | "mem%" | "gpu%" | "gpumem%"
 

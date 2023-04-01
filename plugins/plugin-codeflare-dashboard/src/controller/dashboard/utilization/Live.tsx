@@ -17,29 +17,17 @@
 import stripAnsi from "strip-ansi"
 import type { TextProps } from "ink"
 
-import type Kind from "./kinds.js"
-import type { Tail } from "./tailf.js"
-import type Options from "./options.js"
-import type { OnData, Worker, GridSpec } from "../../components/Dashboard/types.js"
+import type { Tail } from "../tailf.js"
+import type { OnData, Worker } from "../../../components/Dashboard/types.js"
 
-import { isValidTheme, themes } from "./themes/utilization.js"
-import { SupportedUtilizationGrid, defaultUtilizationThemes, providerFor } from "./grids.js"
-
-/**
- * The discrete/quantized utilization states. Note: this currently is
- * assumed to be parallel to the ./themes/utilization.ts arrays.
- */
-const states = ["<20%", "<40%", "<60%", "<80%", "<100%"]
-
-/** Type declaration for quantized utilization states */
-type WorkerState = (typeof states)[number]
+import { WorkerState, states } from "./states.js"
 
 /**
  * Maintain a model of live data from a given set of file streams
  * (`tails`), and pump it into the given `cb` callback.
  *
  */
-class Live {
+export default class Live {
   /** Model of status per worker */
   private readonly workers: Record<string, Worker> = {}
 
@@ -147,86 +135,4 @@ class Live {
       })
     )
   }
-}
-
-/** A blinking lights demo that pumps random data into the UI */
-class Demo {
-  private readonly interval: ReturnType<typeof setInterval>
-
-  public constructor(cb: OnData, styleOf: Record<WorkerState, TextProps>) {
-    const randoState = () => states[Math.round(Math.random() * states.length) % states.length]
-
-    // the model, filled initially with random data
-    let workers = Array(50)
-      .fill(1)
-      .map((_, idx) => {
-        const metric = randoState()
-        return { name: String(idx), metric, firstUpdate: Date.now(), lastUpdate: Date.now(), style: styleOf[metric] }
-      })
-
-    // initial callback to the UI
-    cb({ workers })
-
-    // periodically, change a random number of worker states, randomly
-    this.interval = setInterval(() => {
-      const nChanged = Math.max(1, Math.min(Math.floor(Math.random() * 8), workers.length))
-      for (let idx = 0; idx < nChanged; idx++) {
-        const metric = randoState()
-        const idx = Math.round(Math.random() * workers.length) % workers.length
-
-        workers = [
-          ...workers.slice(0, idx),
-          Object.assign(workers[idx], { metric, lastUpdate: Date.now(), style: styleOf[metric] }),
-          ...workers.slice(idx + 1),
-        ]
-      }
-
-      // periodic callback to the UI
-      cb({ workers })
-    }, 1000)
-  }
-
-  public quit() {
-    clearInterval(this.interval)
-  }
-}
-
-/** foo => Foo; fOO => Foo; FOO => Foo */
-function capitalize(str: string) {
-  return str[0].toUpperCase() + str.slice(1).toLowerCase()
-}
-
-/** Displayed variant of `Kind` */
-function titleFor(kind: Kind) {
-  return capitalize(kind).replace(/(.*)mem/i, (_, p1) => p1 + (!p1 ? "" : " ") + "Memory")
-}
-
-export default function utilizationDashboard(
-  kind: SupportedUtilizationGrid,
-  tails: Promise<Tail>[],
-  opts: Pick<Options, "demo" | "theme"> & Partial<Pick<Options, "themeDefault">>
-): GridSpec {
-  const { theme: themeS = opts.themeDefault || defaultUtilizationThemes[kind] } = opts
-  if (!isValidTheme(themeS)) {
-    throw new Error("Invalid theme: " + themeS)
-  }
-
-  const theme = themes[themeS]
-
-  const styleOf = theme.reduce((M, t, idx) => {
-    M[states[idx]] = t
-    return M
-  }, {} as Record<WorkerState, TextProps>)
-
-  const initWatcher = (cb: OnData) => {
-    if (opts.demo) {
-      return new Demo(cb, styleOf)
-    } else {
-      const expectedProvider = providerFor[kind]
-      return new Live(expectedProvider, tails, cb, styleOf)
-    }
-  }
-
-  const styledStates = states.map((state) => ({ state, style: styleOf[state] }))
-  return { title: titleFor(kind), initWatcher, states: styledStates }
 }

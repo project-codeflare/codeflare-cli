@@ -17,56 +17,17 @@
 import stripAnsi from "strip-ansi"
 import type { TextProps } from "ink"
 
-import type { Tail } from "./tailf.js"
-import type Options from "./options.js"
-import type { OnData, Worker, GridSpec } from "../../components/Dashboard/types.js"
-import { isValidStatusTheme, statusThemes } from "./themes/status.js"
+import type { Tail } from "../tailf.js"
+import type { OnData, Worker } from "../../../components/Dashboard/types.js"
 
-type WorkerState = "Queued" | "Provisioning" | "Initializing" | "Running" | "Success" | "Failed"
-
-const states: WorkerState[] = ["Queued", "Provisioning", "Initializing", "Running", "Success", "Failed"]
-
-const stateFor: Record<string, WorkerState> = {
-  Pending: "Queued",
-  Queued: "Queued",
-  Job_Pending: "Initializing", // this comes after the job is submitted, but probably preparing deps
-
-  ContainerCreating: "Provisioning",
-  SuccessfulCreate: "Provisioning",
-  AddedInterface: "Provisioning",
-  Created: "Provisioning",
-  Scheduled: "Provisioning",
-
-  Unhealthy: "Provisioning", // service not yet ready... Initializing?
-
-  Initializing: "Initializing",
-  Installing: "Initializing",
-  Pulling: "Initializing",
-  Pulled: "Initializing",
-
-  Started: "Initializing",
-  Workers_Running: "Initializing",
-
-  Job_Running: "Running",
-
-  Success: "Success",
-  Succeeded: "Success",
-
-  // ignore these
-  // Workers_Terminating: "Success",
-  // Workers_Killing: "Success",
-
-  Failed: "Failed",
-  FailedScheduling: "Failed",
-  Workers_Evicted: "Failed",
-}
+import { WorkerState, stateFor } from "./states.js"
 
 /**
  * Maintain a model of live data from a given set of file streams
  * (`tails`), and pump it into the given `cb` callback.
  *
  */
-class Live {
+export default class Live {
   /** Model of status per worker */
   private readonly workers: Record<string, Worker> = {}
 
@@ -209,78 +170,4 @@ class Live {
       })
     )
   }
-}
-
-/** A blinking lights demo that pumps random data into the UI */
-class Demo {
-  private readonly interval: ReturnType<typeof setInterval>
-
-  public constructor(cb: OnData, styleOf: Record<WorkerState, TextProps>) {
-    const randoState = () => states[Math.round(Math.random() * states.length) % states.length]
-
-    // the model, filled initially with random data
-    let workers = Array(50)
-      .fill(1)
-      .map((_, idx) => {
-        const metric = randoState()
-        return { name: String(idx), metric, firstUpdate: Date.now(), lastUpdate: Date.now(), style: styleOf[metric] }
-      })
-
-    // initial callback to the UI
-    cb({ workers })
-
-    // periodically, change a random number of worker states, randomly
-    this.interval = setInterval(() => {
-      const nChanged = Math.max(1, Math.min(Math.floor(Math.random() * 8), workers.length))
-      for (let idx = 0; idx < nChanged; idx++) {
-        const metric = randoState()
-        const idx = Math.round(Math.random() * workers.length) % workers.length
-
-        workers = [
-          ...workers.slice(0, idx),
-          Object.assign(workers[idx], { metric, lastUpdate: Date.now(), style: styleOf[metric] }),
-          ...workers.slice(idx + 1),
-        ]
-      }
-
-      // periodic callback to the UI
-      cb({ workers })
-    }, 1000)
-  }
-
-  public quit() {
-    clearInterval(this.interval)
-  }
-}
-
-export default function statusDashboard(
-  tails: Promise<Tail>[],
-  opts: Pick<Options, "demo" | "theme" | "themeDefault">
-): GridSpec {
-  const { theme: themeS = opts.themeDefault } = opts
-  if (!isValidStatusTheme(themeS)) {
-    throw new Error("Invalid theme: " + themeS)
-  }
-
-  const theme = statusThemes[themeS]
-
-  const styleOf: Record<WorkerState, TextProps> = {
-    Queued: theme[0],
-    Provisioning: theme[1],
-    Initializing: theme[2],
-    Running: theme[3],
-    Success: theme[4],
-    Failed: theme[5],
-  }
-
-  const initWatcher = (cb: OnData) => {
-    if (opts.demo) {
-      return new Demo(cb, styleOf)
-    } else {
-      return new Live(tails, cb, styleOf)
-    }
-  }
-
-  const styledStates = states.map((state) => ({ state, style: styleOf[state] }))
-  return { title: "Worker Status", initWatcher, states: styledStates }
 }
