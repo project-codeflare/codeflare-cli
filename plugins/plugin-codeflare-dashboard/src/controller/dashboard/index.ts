@@ -81,6 +81,42 @@ export async function jobIdFrom(args: Arguments<Options>, cmd: string, offset = 
   return { jobId, profile }
 }
 
+/** @return grid model for the given `kind` for `jobId` in `profile` */
+async function gridFor(
+  kind: SupportedGrid,
+  profile: string,
+  jobId: string,
+  opts: Pick<Options, "demo" | "theme">
+): Promise<GridSpec> {
+  const tails = await tailf(kind, profile, jobId)
+  return kind === "status"
+    ? status(tails, { demo: opts.demo, theme: opts.theme, themeDefault: "colorbrewer" })
+    : utilization(kind, tails, opts)
+}
+
+/** @return all relevant grid models for `jobId` in `profile` */
+async function allGridsFor(profile: string, jobId: string, opts: Pick<Options, "demo" | "theme">) {
+  const usesGpus = opts.demo || (await import("../env.js").then((_) => _.usesGpus(profile, jobId)))
+
+  const all = [
+    gridFor("status", profile, jobId, opts),
+    null, // newline
+    gridFor("cpu%", profile, jobId, opts),
+  ]
+
+  if (usesGpus) {
+    all.push(gridFor("gpu%", profile, jobId, opts))
+  }
+
+  all.push(gridFor("mem%", profile, jobId, opts))
+
+  if (usesGpus) {
+    all.push(gridFor("gpumem%", profile, jobId, opts))
+  }
+
+  return Promise.all(all)
+}
+
 export default async function dashboard(args: Arguments<Options>, cmd: "db" | "dashboard") {
   const { theme } = args.parsedOptions
 
@@ -98,25 +134,11 @@ export default async function dashboard(args: Arguments<Options>, cmd: "db" | "d
     throw new Error(usage(cmd, ["all"]))
   }
 
-  const gridFor = async (kind: SupportedGrid): Promise<GridSpec> => {
-    const tails = await tailf(kind, profile, jobId)
-    return kind === "status"
-      ? status(tails, { demo, theme, themeDefault: "colorbrewer" })
-      : utilization(kind, tails, { demo, theme })
-  }
-
   const gridForA = async (kind: KindA): Promise<null | GridSpec | (null | GridSpec)[]> => {
     if (kind === "all") {
-      return Promise.all([
-        gridFor("status"),
-        null, // newline
-        gridFor("cpu%"),
-        gridFor("gpu%"),
-        gridFor("mem%"),
-        gridFor("gpumem%"),
-      ])
+      return allGridsFor(profile, jobId, { demo, theme })
     } else if (isSupportedGrid(kind)) {
-      return gridFor(kind)
+      return gridFor(kind, profile, jobId, { demo, theme })
     } else {
       return null
     }
