@@ -37,7 +37,7 @@ export type Options = Arguments["parsedOptions"] & {
 
 /** Behave like top, where the screen is cleared just for this process */
 function enterAltBufferMode() {
-  console.log("\x1b[?1049h")
+  process.stdout.write("\x1b[?1049h")
 }
 
 export function usage(cmd: string, extraKinds: string[] = []) {
