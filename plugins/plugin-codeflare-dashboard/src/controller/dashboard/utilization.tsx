@@ -20,8 +20,9 @@ import type { TextProps } from "ink"
 import type Kind from "./kinds.js"
 import type { Tail } from "./tailf.js"
 import type Options from "./options.js"
+import type { OnData, Worker, GridSpec } from "../../components/Dashboard/types.js"
+
 import { isValidTheme, themes } from "./themes/utilization.js"
-import { OnData, Worker, GridSpec } from "../../components/Dashboard/index.js"
 import { SupportedUtilizationGrid, defaultUtilizationThemes, providerFor } from "./grids.js"
 
 /**
