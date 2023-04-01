@@ -1,3 +1,24 @@
+## [4.2.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.2.0...v4.2.1) (2023-04-01)
+
+### Bug Fixes
+
+- add `codeflare dump path` to print out location of files ([dac71c1](https://github.com/project-codeflare/codeflare-cli/commit/dac71c1a080bf0b28adb29bca55f562f60f9f2f5))
+- add gpu stats to dashboard ([f315efc](https://github.com/project-codeflare/codeflare-cli/commit/f315efcc3ec5b9bacc7a3db294aa9f0e43cf82c0))
+- also accept `codeflare db` ([c6c18d9](https://github.com/project-codeflare/codeflare-cli/commit/c6c18d97d40df0e1fce78c912b77087440fbec1f))
+- bump store to pick up fix for installing arm32 kubectl on arm64 systems ([3fa32c4](https://github.com/project-codeflare/codeflare-cli/commit/3fa32c4627444deb7fb6e312cb31d2b6aea6d4e5))
+- bump store@7.4.3 to pick up fix for formatting issue in gpu stream ([4700ef4](https://github.com/project-codeflare/codeflare-cli/commit/4700ef4bf08536f9f0dfe5662038385707d63c34))
+- bump store@7.4.5 to pick up env.json capture ([38536df](https://github.com/project-codeflare/codeflare-cli/commit/38536df1595e9fb5b35543e7c740e87ba8c13f16))
+- codeflare dashboard -1 was not working ([c8e33c9](https://github.com/project-codeflare/codeflare-cli/commit/c8e33c97242f7b072c95f140b84dc2232120fa45))
+- codeflare dump should support -f/--follow ([e925f53](https://github.com/project-codeflare/codeflare-cli/commit/e925f5334283b7734176deaaa849f1e998d4893c))
+- dashboard should not show gpu grids for runs not using gpus ([8a3cdb3](https://github.com/project-codeflare/codeflare-cli/commit/8a3cdb397000af60e02e2abc3cfca171ed78ca44))
+- improve grid legend 'mem' -> 'Memory' ([9a76acc](https://github.com/project-codeflare/codeflare-cli/commit/9a76acc6885a444415c23d6fd9dde6150a632a7e))
+- increase min grid size from 2 to 6 ([cd17bbb](https://github.com/project-codeflare/codeflare-cli/commit/cd17bbb0573af4cc3d5052f6318d5e1f021985d6))
+- pull in improved gpu utilization format from store@7.4.2 ([f94cfc2](https://github.com/project-codeflare/codeflare-cli/commit/f94cfc206ffaeb114044c183583b4a71f3250b96))
+- support arranging dashboard grids into rows ([bf8d1f5](https://github.com/project-codeflare/codeflare-cli/commit/bf8d1f502af0bb94f5bd0016b4269eb87de10938))
+- update dashboard grid to use space-between rather than space-around for grid-of-grids row ([0c4c94c](https://github.com/project-codeflare/codeflare-cli/commit/0c4c94cb2584c9c565670fad9e59dd4f7f4ec17d))
+- update dashboard to support pod Evicted state ([605cdb8](https://github.com/project-codeflare/codeflare-cli/commit/605cdb88cd95d4d5fffaee0c3f34a0b2cded464a))
+- use colorbrewer theme for status ([3d79c2f](https://github.com/project-codeflare/codeflare-cli/commit/3d79c2f6874be06a3b5826f840056206147916e5))
+
 # [4.2.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.1.0...v4.2.0) (2023-03-31)
 
 ### Bug Fixes
