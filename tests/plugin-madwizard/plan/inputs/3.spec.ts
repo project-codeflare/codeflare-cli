@@ -16,7 +16,9 @@
 
 import doPlan from "../plan"
 import Input, { Tree } from "../Input"
-import { importe, importd } from "./1.spec"
+
+import importd from "./importd"
+import importe from "./importe"
 
 const snippetsInTab5: Tree = {
   name: "snippets-in-tab5.md",

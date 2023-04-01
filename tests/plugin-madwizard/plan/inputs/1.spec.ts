@@ -17,21 +17,14 @@
 import doPlan from "../plan"
 import Input, { Tree } from "../Input"
 
+import importd from "./importd"
+import importe from "./importe"
+
 const importa: (name?: string) => Tree = (name = "importa") => ({ name, children: [{ name: "echo AAA" }] })
 
 const importc: Tree = { name: "importc", children: [{ name: "echo CCC" }] }
 
 const option2Tab2: Tree = { name: "Option 2: Tab2", children: [importc] }
-
-const importe: Tree = { name: "EEE", children: [{ name: "Option 1: TabE1", children: [{ name: "echo EEE" }] }] }
-
-const importd: Tree = {
-  name: "DDD",
-  children: [
-    { name: "Option 1: SubTab1", children: [{ name: "echo AAA" }, { name: "echo AAA" }, { name: "echo AAA" }] },
-    { name: "Option 2: SubTab2", children: [{ name: "echo BBB" }] },
-  ],
-}
 
 const prerequisites = {
   name: "Prerequisites",

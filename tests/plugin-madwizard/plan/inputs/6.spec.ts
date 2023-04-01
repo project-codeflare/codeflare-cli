@@ -15,36 +15,12 @@
  */
 
 import doPlan from "../plan"
-import Input, { Tree } from "../Input"
-import { importd } from "./1.spec"
+import Input from "../Input"
+
+import importg from "./importg"
+import importd from "./importd"
 
 const filename = "guidebook-tree-model6.md"
-
-const messageForMacOS = "echo MMM"
-const messageForLinux = "echo LLL"
-const messageForWindows = "echo WWW"
-
-const messageForElectron =
-  process.platform === "linux" ? messageForLinux : process.platform === "darwin" ? messageForMacOS : messageForWindows
-
-// here, we will squash away the choice
-const importgForElectron: (name: string) => Tree = (name: string) => ({
-  name,
-  children: [{ name: messageForElectron }],
-})
-
-// here, we won't squash away the choice
-const importgForBrowser: (name: string) => Tree = (name: string) => ({
-  name,
-  children: [
-    { name: "Option 1: MacOS", children: [{ name: messageForMacOS }] },
-    { name: "Option 2: Linux", children: [{ name: messageForLinux }] },
-    { name: "Option 3: Windows", children: [{ name: messageForWindows }] },
-  ],
-})
-
-export const importg: (name?: string) => Tree = (name = "importg") =>
-  (process.env.MOCHA_RUN_TARGET || "electron") === "electron" ? importgForElectron(name) : importgForBrowser(name)
 
 const tree: Input["tree"] = () => [
   {

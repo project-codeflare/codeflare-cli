@@ -16,8 +16,9 @@
 
 import doPlan from "../plan"
 import Input from "../Input"
-import { importg } from "./6.spec"
-import { importd } from "./1.spec"
+
+import importg from "./importg"
+import importd from "./importd"
 
 const filename = "guidebook-tree-model7.md"
 
