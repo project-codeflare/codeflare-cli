@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
+import Heap from "heap"
 import stripAnsi from "strip-ansi"
 import type { TextProps } from "ink"
 
 import type { Tail } from "../tailf.js"
 import type { OnData, Worker } from "../../../components/Dashboard/types.js"
 
-import { WorkerState, stateFor } from "./states.js"
+import { WorkerState, rankFor, stateFor } from "./states.js"
+
+type Line = { line: string; stateRank: number; timestamp: number }
 
 /**
  * Maintain a model of live data from a given set of file streams
@@ -32,16 +35,21 @@ export default class Live {
   private readonly workers: Record<string, Worker> = {}
 
   /** Number of lines of output to retain. TODO this depends on height of terminal? */
-  private static readonly nLines = 18
+  private static readonly MAX_HEAP = 1000
 
-  /** Model of the last `Live.nLines` lines of output */
-  private readonly lines: string[] = Array(Live.nLines).fill("")
+  /** Model of the lines of output */
+  private readonly lines = new Heap<Line>((a, b) => {
+    if (a.line === b.line) {
+      return 0
+    }
 
-  /** Current insertion index into `this.lines` */
-  private linesInsertionIdx = 0
-
-  /** Current number of valid lines in `this.lines` */
-  private linesCount = 0
+    const stateDiff = a.stateRank - b.stateRank
+    if (stateDiff !== 0) {
+      return stateDiff
+    } else {
+      return a.timestamp - b.timestamp
+    }
+  })
 
   public constructor(private readonly tails: Promise<Tail>[], cb: OnData, styleOf: Record<WorkerState, TextProps>) {
     tails.map((tailf) => {
@@ -60,7 +68,7 @@ export default class Live {
 
             if (!name || !timestamp) {
               // console.error("Bad status record", line)
-              this.pushLineAndPublish(data, cb)
+              // this.pushLineAndPublish(data, metric, timestamp, cb)
               return
             } else if (!metric) {
               // ignoring this line
@@ -93,7 +101,7 @@ export default class Live {
 
                 // inform the UI that we have updates
                 cb({
-                  lines: this.pushLine(data),
+                  lines: this.pushLine(data, metric, timestamp),
                   workers: Object.values(this.workers),
                 })
               }
@@ -112,40 +120,45 @@ export default class Live {
     })
   }
 
+  private readonly lookup: Record<string, Line> = {}
   /** Add `line` to our circular buffer `this.lines` */
-  private pushLine(line: string) {
-    if (this.lines.includes(line)) {
-      // duplicate line
-      // the oldest is the one we are about to overwrite
-      let oldestIdx = this.linesInsertionIdx
-      if (this.lines[oldestIdx].length === 0) {
-        do {
-          oldestIdx = (oldestIdx + 1) % Live.nLines
-        } while (this.lines[oldestIdx].length === 0)
-      }
-      return { lines: this.lines, idx: oldestIdx, N: this.linesCount }
-    } else {
-      const idx = this.linesInsertionIdx
-      this.linesInsertionIdx = (this.linesInsertionIdx + 1) % Live.nLines
+  private pushLine(line: string, metric: WorkerState, timestamp: number) {
+    const key = line
+      .replace(/\s*(\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ)\s*/, "{timestamp}")
+      .replace(/pod\/torchx-\S+ /, "") // worker name in torchx
+      .replace(/pod\/ray-(head|worker)-\S+ /, "") // worker name in ray
+      .replace(/\* /, "") // wildcard worker name (codeflare)
+      .replace(/\x1b\x5B\[2J/g, "") // eslint-disable-line no-control-regex
+    // ^^^ [2J is part of clear screen; we don't want those to flow through
 
-      this.lines[idx] = line
-      this.linesCount = Math.min(this.lines.length, this.linesCount + 1)
-
-      // the oldest is the one we are about to overwrite
-      let oldestIdx = this.linesInsertionIdx
-      if (this.lines[oldestIdx].length === 0) {
-        do {
-          oldestIdx = (oldestIdx + 1) % Live.nLines
-        } while (this.lines[oldestIdx].length === 0)
-      }
-
-      return { lines: this.lines, idx: oldestIdx, N: this.linesCount }
+    const rec = {
+      timestamp,
+      stateRank: rankFor[metric],
+      line: key,
     }
+
+    const already = this.lookup[rec.line]
+    if (already) {
+      already.timestamp = timestamp
+      this.lines.updateItem(already)
+    } else {
+      this.lookup[rec.line] = rec
+      if (this.lines.size() >= Live.MAX_HEAP) {
+        this.lines.replace(rec)
+      } else {
+        this.lines.push(rec)
+      }
+    }
+
+    return this.lines
+      .toArray()
+      .slice(0, 18)
+      .sort((a, b) => a.timestamp - b.timestamp)
   }
 
   /** `pushLine` and then pass the updated model to `cb` */
-  private pushLineAndPublish(line: string, cb: OnData) {
-    cb({ lines: this.pushLine(line), workers: Object.values(this.workers) })
+  private pushLineAndPublish(line: string, metric: WorkerState, timestamp: number, cb: OnData) {
+    cb({ lines: this.pushLine(line, metric, timestamp), workers: Object.values(this.workers) })
   }
 
   private asMillisSinceEpoch(timestamp: string) {

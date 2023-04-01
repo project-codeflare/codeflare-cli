@@ -39,7 +39,7 @@ export type UpdatePayload = {
   workers: Worker[]
 
   /** Lines of raw output to be displayed */
-  lines?: { lines: string[]; idx: number; N: number }
+  lines?: { line: string; timestamp: number }[]
 }
 
 /** Callback from controller when it has updated data */
