@@ -23,8 +23,8 @@ export type SupportedGrid = "status" | SupportedUtilizationGrid
 
 export const defaultUtilizationThemes: Record<SupportedUtilizationGrid, ValidUtilizationTheme> = {
   "cpu%": "rain",
-  "mem%": "purple",
-  "gpu%": "red",
+  "mem%": "green",
+  "gpu%": "purple",
   "gpumem%": "magenta",
 }
 

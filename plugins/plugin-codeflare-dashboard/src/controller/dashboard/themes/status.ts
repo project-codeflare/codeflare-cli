@@ -16,63 +16,56 @@
 
 import type { TextProps } from "ink"
 
-type StatusThemeColor =
-  | "gray"
-  | "white"
-  | "lightYellow"
-  | "yellow"
-  | "lightBlue"
-  | "red"
-  | "blue"
-  | "magenta"
-  | "lightGreen"
-  | "green"
+export type StatusTheme = [TextProps, TextProps, TextProps, TextProps, TextProps, TextProps]
 
-export type StatusTheme = Record<StatusThemeColor, TextProps>
+/** This uses the user's terminal colors */
+export const user: StatusTheme = [
+  { color: "gray" },
+  { color: "magenta" },
+  { color: "blue" },
+  { color: "green", dimColor: true },
+  { color: "green" },
+  { color: "red" },
+]
 
-export const defaultStatusTheme: StatusTheme = {
-  gray: { color: "gray" },
-  white: { color: "white", dimColor: true },
-  lightYellow: { color: "yellow", dimColor: true },
-  yellow: { color: "yellow" },
-  lightBlue: { color: "blue" },
-  red: { color: "red" },
-  blue: { color: "cyan" },
-  magenta: { color: "magenta" },
-  lightGreen: { color: "green", dimColor: true },
-  green: { color: "green" },
-}
+export const carbon: StatusTheme = [
+  { color: "#8d8d8d" }, // gray50
+  { color: "#d4bbff" }, // purple30
+  { color: "#0072c3" }, // cyan50
+  { color: "#6fdc8c" }, // green30
+  { color: "#198038" }, // green60
+  { color: "#fa4d56" }, // red50
+]
 
-export const carbonStatusTheme: StatusTheme = {
-  gray: { color: "#8d8d8d" }, // gray50
-  white: { color: "#ff832b" }, // orange40
-  lightYellow: { color: "#fddc69" }, // yellow20
-  yellow: { color: "#8e6a00" }, // yellow60
-  lightBlue: { color: "#82cfff" }, // cyan30
-  red: { color: "#fa4d56" }, // red50
-  blue: { color: "#0072c3" }, // cyan50
-  magenta: { color: "#d4bbff" }, // purple30
-  lightGreen: { color: "#6fdc8c" }, // green30
-  green: { color: "#198038" }, // green60
-}
+export const patternfly: StatusTheme = [
+  { color: "#B8BBBE" }, // black-400
+  { color: "#A18FFF" }, // purple-300
+  { color: "#2B9AF3" }, // blue-300
+  { color: "#C8EB79" }, // light-green-200
+  { color: "#5BA352" }, // green-400
+  { color: "#C9190B" }, // red-100
+]
 
-export const patternflyStatusTheme: StatusTheme = {
-  gray: { color: "#B8BBBE" }, // black-400
-  white: { color: "#EC7A08" }, // orange-400
-  lightYellow: { color: "#F9E0A2" }, // gold-100
-  yellow: { color: "#C58C00" }, // gold-500
-  lightBlue: { color: "#35CAED" }, // light-blue-300
-  red: { color: "#C9190B" }, // red-100
-  blue: { color: "#2B9AF3" }, // blue-300
-  magenta: { color: "#A18FFF" }, // purple-300
-  lightGreen: { color: "#C8EB79" }, // light-green-200
-  green: { color: "#5BA352" }, // green-400
-}
+/** https://colorbrewer2.org/#type=qualitative&scheme=Paired&n=8 */
+export const colorbrewer: StatusTheme = [
+  { color: "#fddbc7" },
+  { color: "#ef8a62" },
+  { color: "#d1e5f0" },
+  { color: "#67a9cf" },
+  { color: "#2166ac" },
+  { color: "#b2182b" },
+  /*  { color: "#5e4fa2" },
+  { color: "#3288bd" },
+  { color: "#e6f598" },
+  { color: "#66c2a5" },
+  { color: "#d53e4f" },*/
+]
 
 export const statusThemes = {
-  user: defaultStatusTheme,
-  carbon: carbonStatusTheme,
-  patternfly: patternflyStatusTheme,
+  user,
+  carbon,
+  patternfly,
+  colorbrewer,
 }
 
 export type ValidTheme = keyof typeof statusThemes

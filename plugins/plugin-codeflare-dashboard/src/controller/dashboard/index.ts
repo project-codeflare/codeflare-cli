@@ -99,7 +99,7 @@ export default async function dashboard(args: Arguments<Options>, cmd: "db" | "d
   const gridFor = async (kind: SupportedGrid): Promise<GridSpec> => {
     const tails = await tailf(kind, profile, jobId)
     return kind === "status"
-      ? status(tails, { demo, theme, themeDefault: "patternfly" })
+      ? status(tails, { demo, theme, themeDefault: "colorbrewer" })
       : utilization(kind, tails, { demo, theme })
   }
 
@@ -109,8 +109,8 @@ export default async function dashboard(args: Arguments<Options>, cmd: "db" | "d
         gridFor("status"),
         null, // newline
         gridFor("cpu%"),
-        gridFor("mem%"),
         gridFor("gpu%"),
+        gridFor("mem%"),
         gridFor("gpumem%"),
       ])
     } else if (isSupportedGrid(kind)) {

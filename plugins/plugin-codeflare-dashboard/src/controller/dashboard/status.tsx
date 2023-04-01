@@ -265,12 +265,12 @@ export default function statusDashboard(
   const theme = statusThemes[themeS]
 
   const styleOf: Record<WorkerState, TextProps> = {
-    Queued: theme.gray,
-    Provisioning: theme.magenta,
-    Initializing: theme.lightBlue,
-    Running: theme.lightGreen,
-    Success: theme.green,
-    Failed: theme.red,
+    Queued: theme[0],
+    Provisioning: theme[1],
+    Initializing: theme[2],
+    Running: theme[3],
+    Success: theme[4],
+    Failed: theme[5],
   }
 
   const initWatcher = (cb: OnData) => {
