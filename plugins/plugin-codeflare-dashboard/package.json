@@ -23,12 +23,14 @@
     "access": "public"
   },
   "devDependencies": {
+    "@types/heap": "^0.2.31",
     "@types/split2": "^3.2.1",
     "react-devtools-core": "^4.27.4"
   },
   "dependencies": {
     "@logdna/tail-file": "^3.0.1",
     "chokidar": "^3.5.3",
+    "heap": "^0.2.7",
     "ink": "^3.2.0",
     "madwizard": "^8.0.3",
     "pretty-ms": "^7.0.1",

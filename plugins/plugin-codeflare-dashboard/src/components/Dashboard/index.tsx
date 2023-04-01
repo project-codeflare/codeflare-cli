@@ -86,7 +86,7 @@ export default class Dashboard extends React.PureComponent<Props, State> {
     this.setState((curState) => ({
       firstUpdate: (curState && curState.firstUpdate) || Date.now(), // TODO pull from the events
       lastUpdate: Date.now(), // TODO pull from the events
-      lines: !model.lines || model.lines.N === 0 ? curState?.lines : model.lines,
+      lines: !model.lines || model.lines.length === 0 ? curState?.lines : model.lines,
       workers: !curState?.workers
         ? [model.workers]
         : [...curState.workers.slice(0, gridIdx), model.workers, ...curState.workers.slice(gridIdx + 1)],
@@ -168,26 +168,26 @@ export default class Dashboard extends React.PureComponent<Props, State> {
     return prettyMillis(millis, { compact: true }) + " ago"
   }
 
-  private agos(timestamp: string) {
-    return this.ago(Date.now() - new Date(timestamp).getTime())
+  private agos(millis: number) {
+    return this.ago(Date.now() - millis)
   }
 
   private footer() {
     if (!this.lines) {
       return <React.Fragment />
     } else {
-      const rows = []
-      for (let idx = this.lines.idx, n = 0; n < this.lines.N; idx = (idx + 1) % this.lines.lines.length, n++) {
-        const line = this.lines.lines[idx]
-          .replace(/(\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ)/, (_, timestamp) => this.agos(timestamp))
-          .replace(/pod\/torchx-\S+ /, "") // worker name in torchx
-          .replace(/pod\/ray-(head|worker)-\S+ /, "") // worker name in ray
-          .replace(/\* /, "") // wildcard worker name (codeflare)
+      const rows = this.lines.map(({ line, timestamp }) => {
+        const txt = line.replace("{timestamp}", () => this.agos(timestamp))
+        //          .replace(/pod\/torchx-\S+ /, "") // worker name in torchx
+        //          .replace(/pod\/ray-(head|worker)-\S+ /, "") // worker name in ray
+        //          .replace(/\* /, "") // wildcard worker name (codeflare)
+        //          .replace(/\x1b\x5B\[2J/g, "")
+        // TODO timestamp
 
         // [2J is part of clear screen; we don't want those to flow through
         // eslint-disable-next-line no-control-regex
-        rows.push(<Text key={line + "-" + n}>{line.replace(/\x1b\x5B\[2J/g, "")}</Text>)
-      }
+        return <Text key={txt}>{txt}</Text>
+      })
       return (
         <Box marginTop={1} flexDirection="column">
           {rows}

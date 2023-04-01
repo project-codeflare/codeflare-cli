@@ -48,10 +48,14 @@ export async function getJobEnv(profile: string, jobId: string): Promise<Record<
 }
 
 export async function numGpus(profile: string, jobId: string): Promise<number> {
-  const env = await getJobEnv(profile, jobId)
+  try {
+    const env = await getJobEnv(profile, jobId)
 
-  const raw = env["NUM_GPUS"]
-  return typeof raw === "number" ? raw : typeof raw === "string" ? parseInt(raw, 10) : 0
+    const raw = env["NUM_GPUS"]
+    return typeof raw === "number" ? raw : typeof raw === "string" ? parseInt(raw, 10) : 0
+  } catch (err) {
+    return 0
+  }
 }
 
 export async function usesGpus(profile: string, jobId: string): Promise<boolean> {

@@ -19,6 +19,16 @@ export const states = ["Queued", "Provisioning", "Initializing", "Running", "Suc
 /** Type declaration for quantized utilization states */
 export type WorkerState = (typeof states)[number]
 
+/** Lower means more important */
+export const rankFor: Record<WorkerState, number> = {
+  Queued: 3,
+  Provisioning: 1,
+  Initializing: 2,
+  Running: 1,
+  Success: 0,
+  Failed: 0,
+}
+
 export const stateFor: Record<string, WorkerState> = {
   Pending: "Queued",
   Queued: "Queued",
@@ -32,9 +42,9 @@ export const stateFor: Record<string, WorkerState> = {
 
   Unhealthy: "Provisioning", // service not yet ready... Initializing?
 
-  Initializing: "Initializing",
-  Installing: "Initializing",
-  Pulling: "Initializing",
+  Initializing: "Provisioining",
+  Installing: "Provisioining",
+  Pulling: "Provisioining",
   Pulled: "Initializing",
 
   Started: "Initializing",
