@@ -36,16 +36,6 @@ export const purple: Theme = [
   { color: "#810f7c" },
 ]
 
-/*
-export const magenta: Theme = [
-  { color: "#" },
-  { color: "#" },
-  { color: "#" },
-  { color: "#" },
-  { color: "#" },
-]
-*/
-
 export const magenta: Theme = [
   { color: "#fcc5c0" },
   { color: "#fa9fb5" },
