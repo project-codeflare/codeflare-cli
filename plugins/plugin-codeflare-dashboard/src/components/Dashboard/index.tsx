@@ -205,7 +205,7 @@ class Grid extends React.PureComponent<GridProps> {
       <Box flexDirection="column">
         {A.filter(Boolean).map((AA, ridx) => (
           /* legend row */
-          <Box key={ridx} flexDirection="row" justifyContent="space-around">
+          <Box key={ridx} flexDirection="row" justifyContent="space-between">
             {AA.filter(Boolean).map((_, cidx) => (
               /* legend entry (i.e. legend column) */
               <Box key={_.state} {...outerBoxProps}>
