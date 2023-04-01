@@ -26,7 +26,7 @@ export const resourcePaths: Record<Kind, string[]> = {
     "events/job-status.txt",
     "events/pods.txt",
     "events/runtime-env-setup.txt",
-    "logs/job.txt",
+    // "logs/job.txt",
   ],
   "gpu%": ["resources/gpu.txt"],
   "gpumem%": ["resources/gpu.txt"],
