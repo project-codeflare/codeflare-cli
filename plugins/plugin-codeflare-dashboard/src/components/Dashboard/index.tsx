@@ -58,10 +58,6 @@ export type State = {
 }
 
 export default class Dashboard extends React.PureComponent<Props, State> {
-  private get grids(): GridSpec[] {
-    return this.props.grids.filter((_) => _ !== null) as GridSpec[]
-  }
-
   public componentDidMount() {
     this.setState({
       workers: [],
@@ -91,6 +87,13 @@ export default class Dashboard extends React.PureComponent<Props, State> {
         ? [model.workers]
         : [...curState.workers.slice(0, gridIdx), model.workers, ...curState.workers.slice(gridIdx + 1)],
     }))
+  }
+
+  /** @return the grid models, excluding the `null` linebreak indicators */
+  private get grids(): GridSpec[] {
+    // typescript@4.9 does not seem to be smart enough here, hence the
+    // type conversion :(
+    return this.props.grids.filter((_) => _ !== null) as GridSpec[]
   }
 
   /** @return current `lines` model */
@@ -164,28 +167,27 @@ export default class Dashboard extends React.PureComponent<Props, State> {
     )
   }
 
-  private ago(millis: number) {
-    return prettyMillis(millis, { compact: true }) + " ago"
+  /** @return pretty-printed milliseconds delta as e.g. "5m ago" */
+  private ago(millisDelta: number): string {
+    return prettyMillis(millisDelta, { compact: true }) + " ago"
   }
 
+  /** @return pretty-printed millis since epoch as delta from this moment in time e.g. "5m ago" */
   private agos(millis: number) {
     return this.ago(Date.now() - millis)
   }
 
+  /** Render log lines */
   private footer() {
     if (!this.lines) {
       return <React.Fragment />
     } else {
       const rows = this.lines.map(({ line, timestamp }) => {
+        // the controller (controller/dashboard/utilization/Live)
+        // leaves a {timestamp} breadcrumb in the raw line text, so
+        // that we,as the view, can inject a "5m ago" text, while
+        // preserving the ansi formatting that surrounds the timestamp
         const txt = line.replace("{timestamp}", () => this.agos(timestamp))
-        //          .replace(/pod\/torchx-\S+ /, "") // worker name in torchx
-        //          .replace(/pod\/ray-(head|worker)-\S+ /, "") // worker name in ray
-        //          .replace(/\* /, "") // wildcard worker name (codeflare)
-        //          .replace(/\x1b\x5B\[2J/g, "")
-        // TODO timestamp
-
-        // [2J is part of clear screen; we don't want those to flow through
-        // eslint-disable-next-line no-control-regex
         return <Text key={txt}>{txt}</Text>
       })
       return (
@@ -196,6 +198,11 @@ export default class Dashboard extends React.PureComponent<Props, State> {
     }
   }
 
+  /**
+   * We allow the controller to break the grids into rows via a `null`
+   * entry. This method performs that row decomposition, it does not
+   * do any react rendering.
+   */
   private gridRows() {
     const rows: { widx: number; grid: NonNullable<Props["grids"][number]> }[][] = []
     for (let idx = 0, ridx = 0, widx = 0; idx < this.props.grids.length; idx++) {
@@ -212,6 +219,7 @@ export default class Dashboard extends React.PureComponent<Props, State> {
     return rows
   }
 
+  /** Render the grids */
   private body() {
     return this.gridRows().map((row, ridx) => (
       <Box key={ridx} justifyContent="space-around">
