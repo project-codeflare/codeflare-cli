@@ -1,3 +1,11 @@
+## [4.2.2](https://github.com/project-codeflare/codeflare-cli/compare/v4.2.1...v4.2.2) (2023-04-02)
+
+### Bug Fixes
+
+- codeflare db has extra newline at top in alt buffer mode ([23130a4](https://github.com/project-codeflare/codeflare-cli/commit/23130a44eea5465cedb32947baff6aaa4ecbcd03))
+- for now, don't show application logs in dashboard ([cd881dc](https://github.com/project-codeflare/codeflare-cli/commit/cd881dc1bc4901e352c044e6d02a03a38146d953))
+- use a priority heap to choose most important events to display ([ca10943](https://github.com/project-codeflare/codeflare-cli/commit/ca109430ac74b0b1a48ebe36a62286666c6b081d))
+
 ## [4.2.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.2.0...v4.2.1) (2023-04-01)
 
 ### Bug Fixes
