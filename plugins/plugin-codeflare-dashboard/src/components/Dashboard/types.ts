@@ -24,6 +24,9 @@ export type Worker = {
   /** Current metric value */
   metric: string
 
+  /** History of metric values */
+  metricHistory: { valueTotal: number; metricIdxTotal: number; N: number }[]
+
   /** Color for grid cell and legend */
   style: TextProps
 
@@ -53,6 +56,13 @@ export type OnData = (payload: UpdatePayload) => void
 export type GridSpec = {
   /** title of grid */
   title: string
+
+  /**
+   * Is this metric not quantitative? If not, it will not be shown in
+   * average/temporal views, as it is not meaningful to compute the
+   * average of a qualitative metric.
+   */
+  isQualitative: boolean
 
   /** Names for distinct states */
   states: { state: string; style: TextProps }[]

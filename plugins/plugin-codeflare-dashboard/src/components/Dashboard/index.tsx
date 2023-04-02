@@ -18,8 +18,10 @@ import React from "react"
 import prettyMillis from "pretty-ms"
 import { Box, Spacer, Text } from "ink"
 
+import type { GridSpec, UpdatePayload, Worker } from "./types.js"
+
 import Grid from "./Grid.js"
-import type { GridSpec, UpdatePayload } from "./types.js"
+import Timeline from "./Timeline.js"
 
 export type Props = {
   /** CodeFlare Profile for this dashboard */
@@ -53,15 +55,18 @@ export type State = {
   /** Controller that allows us to shut down gracefully */
   watchers: { quit: () => void }[]
 
-  /** Model of current workers */
-  workers: UpdatePayload["workers"][]
+  /**
+   * Model of current workers; outer idx is grid index; inner idx is
+   * worker idx, i.e. for each grid, we have an array of Workers.
+   */
+  workers: Worker[][]
 }
 
 export default class Dashboard extends React.PureComponent<Props, State> {
   public componentDidMount() {
     this.setState({
       workers: [],
-      watchers: this.grids.map((props, gridIdx) =>
+      watchers: this.gridModels.map((props, gridIdx) =>
         props.initWatcher((model: UpdatePayload) => this.onUpdate(gridIdx, model))
       ),
       agoInterval: setInterval(() => this.setState((curState) => ({ iter: (curState?.iter || 0) + 1 })), 5 * 1000),
@@ -90,7 +95,7 @@ export default class Dashboard extends React.PureComponent<Props, State> {
   }
 
   /** @return the grid models, excluding the `null` linebreak indicators */
-  private get grids(): GridSpec[] {
+  private get gridModels(): GridSpec[] {
     // typescript@4.9 does not seem to be smart enough here, hence the
     // type conversion :(
     return this.props.grids.filter((_) => _ !== null) as GridSpec[]
@@ -220,7 +225,7 @@ export default class Dashboard extends React.PureComponent<Props, State> {
   }
 
   /** Render the grids */
-  private body() {
+  private grids() {
     return this.gridRows().map((row, ridx) => (
       <Box key={ridx} justifyContent="space-around">
         {row.map(({ grid, widx }) => (
@@ -237,6 +242,18 @@ export default class Dashboard extends React.PureComponent<Props, State> {
         ))}
       </Box>
     ))
+  }
+
+  /** Render the grids and timelines */
+  private body() {
+    return (
+      <Box flexDirection="column">
+        {this.grids()}
+        <Box marginTop={1}>
+          <Timeline gridModels={this.gridModels} workers={this.state?.workers} />
+        </Box>
+      </Box>
+    )
   }
 
   public render() {

@@ -18,15 +18,18 @@ import type { TextProps } from "ink"
 
 import type { Tail } from "../tailf.js"
 import type Options from "../options.js"
+import type HistoryConfig from "../history.js"
+import type { WorkerState } from "./states.js"
 import type { OnData, GridSpec } from "../../../components/Dashboard/types.js"
 
 import Demo from "./Demo.js"
 import Live from "./Live.js"
-import { WorkerState, states } from "./states.js"
+import { states } from "./states.js"
 import { isValidStatusTheme, statusThemes } from "./theme.js"
 
 export default function statusDashboard(
   tails: Promise<Tail>[],
+  historyConfig: HistoryConfig,
   opts: Pick<Options, "demo" | "theme" | "themeDefault">
 ): GridSpec {
   const { theme: themeS = opts.themeDefault } = opts
@@ -47,12 +50,12 @@ export default function statusDashboard(
 
   const initWatcher = (cb: OnData) => {
     if (opts.demo) {
-      return new Demo(cb, styleOf)
+      return new Demo(historyConfig, cb, styleOf)
     } else {
-      return new Live(tails, cb, styleOf)
+      return new Live(historyConfig, tails, cb, styleOf)
     }
   }
 
   const styledStates = states.map((state) => ({ state, style: styleOf[state] }))
-  return { title: "Worker Status", initWatcher, states: styledStates }
+  return { title: "Worker Status", isQualitative: true, initWatcher, states: styledStates }
 }

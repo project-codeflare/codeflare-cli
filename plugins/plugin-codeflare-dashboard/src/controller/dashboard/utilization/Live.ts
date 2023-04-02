@@ -18,9 +18,12 @@ import stripAnsi from "strip-ansi"
 import type { TextProps } from "ink"
 
 import type { Tail } from "../tailf.js"
+import type { WorkerState } from "./states.js"
+import type HistoryConfig from "../history.js"
 import type { OnData, Worker } from "../../../components/Dashboard/types.js"
 
-import { WorkerState, states } from "./states.js"
+import { states } from "./states.js"
+import { update as updateHistory } from "../history.js"
 
 /**
  * Maintain a model of live data from a given set of file streams
@@ -31,14 +34,16 @@ export default class Live {
   /** Model of status per worker */
   private readonly workers: Record<string, Worker> = {}
 
-  private stateFor(util: string): WorkerState {
-    const percent = parseInt(util.replace(/%$/, ""), 10)
+  private stateFor(util: string) {
+    const value = parseInt(util.replace(/%$/, ""), 10)
     const bucketWidth = ~~(100 / states.length)
-    const bucketIdx = Math.min(~~(percent / bucketWidth), states.length - 1)
-    return states[bucketIdx]
+    const metricIdx = Math.min(~~(value / bucketWidth), states.length - 1)
+
+    return { metricIdx, value }
   }
 
   public constructor(
+    historyConfig: HistoryConfig,
     expectedProvider: string,
     private readonly tails: Promise<Tail>[],
     cb: OnData,
@@ -51,23 +56,33 @@ export default class Live {
             const line = stripAnsi(data)
             const cols = line.split(/\s+/)
 
+            // worker name
+            const name = cols[3] ? cols[3].trim() : undefined
+
+            const rawTimestamp = cols[cols.length - 1]
+            const timestamp = this.asMillisSinceEpoch(rawTimestamp)
+
+            // e.g. CPU Utilization
             const provider = (!cols[0] ? undefined : cols[0].replace(/^\[/, "")) + (cols[1] ? " " + cols[1] : "")
             if (provider !== expectedProvider) {
               return
             }
 
-            const key = !cols[2] ? undefined : cols[2].replace(/\]$/, "")
-            const metric = !provider || !key ? undefined : this.stateFor(key)
-            const name = cols[3] ? cols[3].trim() : undefined
-            const timestamp = this.asMillisSinceEpoch(cols[cols.length - 1])
+            // 50%, 100% utilization
+            const percentStr = !cols[2] ? undefined : cols[2].replace(/\]$/, "")
+            if (!provider || !percentStr) {
+              // ignore this line
+              return
+            }
+
+            // cast the percentStr into a metricIdx, i.e. index into our quantized `states`
+            const { metricIdx, value } = this.stateFor(percentStr)
+            const metric = states[metricIdx]
 
             if (!name || !timestamp) {
               // console.error("Bad status record", line)
               return
-            } else if (!metric) {
-              // ignoring this line
-              return
-            } else if (!/^pod\//.test(name) || /cleaner/.test(name)) {
+            } else if ((name.includes("/") && !/^pod\//.test(name)) || /cleaner/.test(name)) {
               // only track pod events, and ignore our custodial pods
               return
             } else {
@@ -77,6 +92,7 @@ export default class Live {
                   this.workers[name] = {
                     name,
                     metric,
+                    metricHistory: updateHistory(value, metricIdx, timestamp, historyConfig),
                     firstUpdate: timestamp,
                     lastUpdate: timestamp,
                     style: styleOf[metric],
@@ -88,6 +104,13 @@ export default class Live {
                   this.workers[name].metric = metric
                   this.workers[name].lastUpdate = timestamp
                   this.workers[name].style = styleOf[metric]
+                  this.workers[name].metricHistory = updateHistory(
+                    value,
+                    metricIdx,
+                    timestamp,
+                    historyConfig,
+                    this.workers[name].metricHistory
+                  )
                 } else {
                   // out of date event, drop it
                   return

@@ -18,7 +18,7 @@
  * The discrete/quantized utilization states. Note: this currently is
  * assumed to be parallel to the ./themes/utilization.ts arrays.
  */
-export const states = ["<20%", "<40%", "<60%", "<80%", "<100%"]
+export const states = ["0-20%", "20-40%", "40-60%", "60-80%", "80-100%"]
 
 /** Type declaration for quantized utilization states */
 export type WorkerState = (typeof states)[number]
