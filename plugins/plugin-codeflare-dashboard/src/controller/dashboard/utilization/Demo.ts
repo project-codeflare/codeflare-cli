@@ -16,48 +16,16 @@
 
 import type { TextProps } from "ink"
 
+import type HistoryConfig from "../history.js"
+import type { WorkerState } from "./states.js"
 import type { OnData } from "../../../components/Dashboard/types.js"
 
-import { WorkerState, states } from "./states.js"
+import { states } from "./states.js"
+import GenericDemo from "../generic/Demo.js"
 
-/** A blinking lights demo that pumps random data into the UI */
-export default class Demo {
-  private readonly interval: ReturnType<typeof setInterval>
-
-  public constructor(cb: OnData, styleOf: Record<WorkerState, TextProps>) {
-    const randoState = () => states[Math.round(Math.random() * states.length) % states.length]
-
-    // the model, filled initially with random data
-    let workers = Array(50)
-      .fill(1)
-      .map((_, idx) => {
-        const metric = randoState()
-        return { name: String(idx), metric, firstUpdate: Date.now(), lastUpdate: Date.now(), style: styleOf[metric] }
-      })
-
-    // initial callback to the UI
-    cb({ workers })
-
-    // periodically, change a random number of worker states, randomly
-    this.interval = setInterval(() => {
-      const nChanged = Math.max(1, Math.min(Math.floor(Math.random() * 8), workers.length))
-      for (let idx = 0; idx < nChanged; idx++) {
-        const metric = randoState()
-        const idx = Math.round(Math.random() * workers.length) % workers.length
-
-        workers = [
-          ...workers.slice(0, idx),
-          Object.assign(workers[idx], { metric, lastUpdate: Date.now(), style: styleOf[metric] }),
-          ...workers.slice(idx + 1),
-        ]
-      }
-
-      // periodic callback to the UI
-      cb({ workers })
-    }, 1000)
-  }
-
-  public quit() {
-    clearInterval(this.interval)
+/** A blinking lights demo that pumps random utilization data into the UI */
+export default class Demo extends GenericDemo<WorkerState> {
+  public constructor(historyConfig: HistoryConfig, cb: OnData, styleOf: Record<WorkerState, TextProps>) {
+    super(states, false, historyConfig, cb, styleOf)
   }
 }

@@ -19,9 +19,11 @@ import stripAnsi from "strip-ansi"
 import type { TextProps } from "ink"
 
 import type { Tail } from "../tailf.js"
+import type HistoryConfig from "../history.js"
+import type { WorkerState } from "./states.js"
 import type { OnData, Worker } from "../../../components/Dashboard/types.js"
 
-import { WorkerState, rankFor, stateFor } from "./states.js"
+import { rankFor, stateFor } from "./states.js"
 
 type Line = { line: string; stateRank: number; timestamp: number }
 
@@ -51,7 +53,12 @@ export default class Live {
     }
   })
 
-  public constructor(private readonly tails: Promise<Tail>[], cb: OnData, styleOf: Record<WorkerState, TextProps>) {
+  public constructor(
+    historyConfig: HistoryConfig,
+    private readonly tails: Promise<Tail>[],
+    cb: OnData,
+    styleOf: Record<WorkerState, TextProps>
+  ) {
     tails.map((tailf) => {
       tailf.then(({ stream }) => {
         stream.on("data", (data) => {
@@ -83,6 +90,7 @@ export default class Live {
                   this.workers[name] = {
                     name,
                     metric,
+                    metricHistory: [],
                     firstUpdate: timestamp,
                     lastUpdate: timestamp,
                     style: styleOf[metric],

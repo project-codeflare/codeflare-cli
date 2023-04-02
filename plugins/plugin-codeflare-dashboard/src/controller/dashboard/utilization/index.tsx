@@ -19,10 +19,12 @@ import type { TextProps } from "ink"
 import type Kind from "../kinds.js"
 import type { Tail } from "../tailf.js"
 import type Options from "../options.js"
-import { SupportedUtilizationGrid, defaultUtilizationThemes, providerFor } from "../grids.js"
+import type HistoryConfig from "../history.js"
+import type { WorkerState } from "./states.js"
 import type { OnData, GridSpec } from "../../../components/Dashboard/types.js"
+import { SupportedUtilizationGrid, defaultUtilizationThemes, providerFor } from "../grids.js"
 
-import { WorkerState, states } from "./states.js"
+import { states } from "./states.js"
 import { isValidTheme, themes } from "./theme.js"
 
 import Demo from "./Demo.js"
@@ -41,6 +43,7 @@ function titleFor(kind: Kind) {
 export default function utilizationDashboard(
   kind: SupportedUtilizationGrid,
   tails: Promise<Tail>[],
+  historyConfig: HistoryConfig,
   opts: Pick<Options, "demo" | "theme"> & Partial<Pick<Options, "themeDefault">>
 ): GridSpec {
   const { theme: themeS = opts.themeDefault || defaultUtilizationThemes[kind] } = opts
@@ -57,13 +60,13 @@ export default function utilizationDashboard(
 
   const initWatcher = (cb: OnData) => {
     if (opts.demo) {
-      return new Demo(cb, styleOf)
+      return new Demo(historyConfig, cb, styleOf)
     } else {
       const expectedProvider = providerFor[kind]
-      return new Live(expectedProvider, tails, cb, styleOf)
+      return new Live(historyConfig, expectedProvider, tails, cb, styleOf)
     }
   }
 
   const styledStates = states.map((state) => ({ state, style: styleOf[state] }))
-  return { title: titleFor(kind), initWatcher, states: styledStates }
+  return { title: titleFor(kind), isQualitative: false, initWatcher, states: styledStates }
 }

@@ -22,6 +22,8 @@ import status from "./status/index.js"
 import utilization from "./utilization/index.js"
 import { SupportedGrid, isSupportedGrid } from "./grids.js"
 import { KindA, isValidKindA, validKinds } from "./kinds.js"
+
+import type HistoryConfig from "./history.js"
 import type { GridSpec } from "../../components/Dashboard/types.js"
 
 export type Options = Arguments["parsedOptions"] & {
@@ -86,32 +88,38 @@ async function gridFor(
   kind: SupportedGrid,
   profile: string,
   jobId: string,
+  historyConfig: HistoryConfig,
   opts: Pick<Options, "demo" | "theme">
 ): Promise<GridSpec> {
   const tails = await tailf(kind, profile, jobId)
   return kind === "status"
-    ? status(tails, { demo: opts.demo, theme: opts.theme, themeDefault: "colorbrewer" })
-    : utilization(kind, tails, opts)
+    ? status(tails, historyConfig, { demo: opts.demo, theme: opts.theme, themeDefault: "colorbrewer" })
+    : utilization(kind, tails, historyConfig, opts)
 }
 
 /** @return all relevant grid models for `jobId` in `profile` */
-async function allGridsFor(profile: string, jobId: string, opts: Pick<Options, "demo" | "theme">) {
+async function allGridsFor(
+  profile: string,
+  jobId: string,
+  historyConfig: HistoryConfig,
+  opts: Pick<Options, "demo" | "theme">
+) {
   const usesGpus = opts.demo || (await import("../env.js").then((_) => _.usesGpus(profile, jobId)))
 
   const all = [
-    gridFor("status", profile, jobId, opts),
+    gridFor("status", profile, jobId, historyConfig, opts),
     null, // newline
-    gridFor("cpu%", profile, jobId, opts),
+    gridFor("cpu%", profile, jobId, historyConfig, opts),
   ]
 
   if (usesGpus) {
-    all.push(gridFor("gpu%", profile, jobId, opts))
+    all.push(gridFor("gpu%", profile, jobId, historyConfig, opts))
   }
 
-  all.push(gridFor("mem%", profile, jobId, opts))
+  all.push(gridFor("mem%", profile, jobId, historyConfig, opts))
 
   if (usesGpus) {
-    all.push(gridFor("gpumem%", profile, jobId, opts))
+    all.push(gridFor("gpumem%", profile, jobId, historyConfig, opts))
   }
 
   return Promise.all(all)
@@ -134,17 +142,24 @@ export default async function dashboard(args: Arguments<Options>, cmd: "db" | "d
     throw new Error(usage(cmd, ["all"]))
   }
 
-  const gridForA = async (kind: KindA): Promise<null | GridSpec | (null | GridSpec)[]> => {
+  const gridForA = async (
+    kind: KindA,
+    historyConfig: HistoryConfig
+  ): Promise<null | GridSpec | (null | GridSpec)[]> => {
     if (kind === "all") {
-      return allGridsFor(profile, jobId, { demo, theme })
+      return allGridsFor(profile, jobId, historyConfig, { demo, theme })
     } else if (isSupportedGrid(kind)) {
-      return gridFor(kind, profile, jobId, { demo, theme })
+      return gridFor(kind, profile, jobId, historyConfig, { demo, theme })
     } else {
       return null
     }
   }
 
-  const db = dashboardUI(profile, jobId, await gridForA(kind), { scale })
+  const historyConfig: HistoryConfig = {
+    width: 5000,
+  }
+
+  const db = dashboardUI(profile, jobId, await gridForA(kind, historyConfig), { scale })
 
   if (!db) {
     throw new Error(usage(cmd))
