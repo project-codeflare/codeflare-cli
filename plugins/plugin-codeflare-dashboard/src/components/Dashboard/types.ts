@@ -16,6 +16,7 @@
 
 import type { TextProps } from "ink"
 
+/** Model of an individual worker on a job */
 export type Worker = {
   /** Identifier of this worker */
   name: string
@@ -33,7 +34,7 @@ export type Worker = {
   lastUpdate: number
 }
 
-/** Updated info from controller */
+/** Model that allows the controllers to pass updated `Worker` info */
 export type UpdatePayload = {
   /** Per-worker status info */
   workers: Worker[]
@@ -45,6 +46,10 @@ export type UpdatePayload = {
 /** Callback from controller when it has updated data */
 export type OnData = (payload: UpdatePayload) => void
 
+/**
+ * The controllers will populate this model for each of the grid/heat
+ * map UIs.
+ */
 export type GridSpec = {
   /** title of grid */
   title: string
