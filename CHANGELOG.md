@@ -1,3 +1,9 @@
+# [4.3.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.2.2...v4.3.0) (2023-04-03)
+
+### Features
+
+- history for dashboard ([100394b](https://github.com/project-codeflare/codeflare-cli/commit/100394b9070221c4411b47ae297f3df49d8fefe1))
+
 ## [4.2.2](https://github.com/project-codeflare/codeflare-cli/compare/v4.2.1...v4.2.2) (2023-04-02)
 
 ### Bug Fixes
