@@ -109,7 +109,7 @@ export default class Live {
 
                 // inform the UI that we have updates
                 cb({
-                  lines: this.pushLine(data, metric, timestamp),
+                  // lines: this.pushLine(data, metric, timestamp),
                   workers: Object.values(this.workers),
                 })
               }
@@ -166,7 +166,7 @@ export default class Live {
 
   /** `pushLine` and then pass the updated model to `cb` */
   private pushLineAndPublish(line: string, metric: WorkerState, timestamp: number, cb: OnData) {
-    cb({ lines: this.pushLine(line, metric, timestamp), workers: Object.values(this.workers) })
+    cb({ /* lines: this.pushLine(line, metric, timestamp), */ workers: Object.values(this.workers) })
   }
 
   private asMillisSinceEpoch(timestamp: string) {
