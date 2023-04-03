@@ -1,3 +1,10 @@
+## [4.3.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.3.0...v4.3.1) (2023-04-03)
+
+### Bug Fixes
+
+- bump store to pick up relpath and macos 3.9.6 fixes ([fbb362d](https://github.com/project-codeflare/codeflare-cli/commit/fbb362d555029e09f5714e7c6d5b0aef1711a457))
+- pull in another relpath to workdir fix ([d7768b9](https://github.com/project-codeflare/codeflare-cli/commit/d7768b97398062a33d26b31081fe15f4490ea586))
+
 # [4.3.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.2.2...v4.3.0) (2023-04-03)
 
 ### Features
