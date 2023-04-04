@@ -1,3 +1,9 @@
+## [4.3.2](https://github.com/project-codeflare/codeflare-cli/compare/v4.3.1...v4.3.2) (2023-04-04)
+
+### Bug Fixes
+
+- avoid events in dashboard UI for line ([184074c](https://github.com/project-codeflare/codeflare-cli/commit/184074c6380ee3e8fde73fb8869b95fb5b66130b))
+
 ## [4.3.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.3.0...v4.3.1) (2023-04-03)
 
 ### Bug Fixes
