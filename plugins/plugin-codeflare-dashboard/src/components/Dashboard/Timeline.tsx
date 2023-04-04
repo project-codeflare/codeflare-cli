@@ -19,6 +19,8 @@ import { Box, Text } from "ink"
 
 import type { GridSpec, Worker } from "./types.js"
 
+import { avg } from "./stats.js"
+
 type Props = {
   gridModels: GridSpec[]
   workers: Worker[][]
@@ -51,63 +53,12 @@ export default class Timeline extends React.PureComponent<Props> {
     }, 0)
   }
 
-  /** @return the accumulated `total` and count `N` across a set of `workers` for the given `timeIdx` */
-  private accum(workers: Worker[], timeIdx: number, field: "valueTotal" | "metricIdxTotal") {
-    return workers.reduce(
-      (A, worker) => {
-        const history = worker.metricHistory
-        if (history[timeIdx]) {
-          A.total += history[timeIdx][field]
-          A.N += history[timeIdx].N
-        }
-        return A
-      },
-      { total: 0, N: 0 }
-    )
-  }
-
-  /** @return average metric value across a set of `workers` for the given `timeIdx` */
-  private avg(workers: Worker[], timeIdx: number, field: "valueTotal" | "metricIdxTotal"): number {
-    const { total, N } = this.accum(workers, timeIdx, field)
-    if (N === 0) {
-      if (timeIdx === 0) return 0
-      else {
-        for (let t = timeIdx - 1; t >= 0; t--) {
-          const { total, N } = this.accum(workers, t, field)
-          if (N !== 0) {
-            return Math.round(total / N)
-          }
-        }
-        return 0
-      }
-    }
-
-    return Math.round(total / N)
-  }
-
-  /** @return long-term average, averaged over time and across a set of `workers` */
-  private longTermAvg(workers: Worker[], nTimes: number) {
-    const { total, N } = Array(nTimes)
-      .fill(0)
-      .map((_, timeIdx) => this.accum(workers, timeIdx, "valueTotal"))
-      .reduce(
-        (A, { total, N }) => {
-          A.total += total
-          A.N += N
-          return A
-        },
-        { total: 0, N: 0 }
-      )
-
-    return Math.round(total / N)
-  }
-
   /**
    * Render one cell to represent the average over the given `workers`
    * for the given grid, for the given time.
    */
   private cell(workers: Worker[], spec: GridSpec, timeIdx: number, isLatest: boolean) {
-    const metricIdx = this.avg(workers, timeIdx, "metricIdxTotal")
+    const metricIdx = avg(workers, "metricIdxTotal", timeIdx)
     const style = spec.states[metricIdx] ? spec.states[metricIdx].style : { color: "gray", dimColor: true }
 
     return (
@@ -135,12 +86,6 @@ export default class Timeline extends React.PureComponent<Props> {
           <Text>{spec.title.padStart(this.maxLabelLength)}</Text>
         </Box>
         <Box marginLeft={1}>{this.cells(workers, spec, nTimes, timeStartIdx)}</Box>
-        <Text>
-          {Math.round(this.avg(workers, nTimes - 1, "valueTotal"))
-            .toFixed()
-            .padStart(3) + "%"}
-        </Text>
-        <Text color="yellow"> μ={Math.round(this.longTermAvg(workers, nTimes)) + "%"}</Text>
       </React.Fragment>
     )
   }
@@ -155,7 +100,7 @@ export default class Timeline extends React.PureComponent<Props> {
 
     // to help us compute whether we are about to overflow terminal width
     const maxLabelLength = this.props.gridModels.reduce((N, spec) => {
-      return Math.max(N, "100% μ=100%".length + spec.title.length)
+      return Math.max(N, spec.title.length)
     }, 0)
 
     // once we overflow, display the suffix of history information, starting at this index

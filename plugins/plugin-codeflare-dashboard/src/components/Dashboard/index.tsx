@@ -235,6 +235,7 @@ export default class Dashboard extends React.PureComponent<Props, State> {
               title={grid.title}
               scale={this.props.scale}
               states={grid.states}
+              isQualitative={grid.isQualitative}
               workers={this.state?.workers[widx] || []}
               legendPosition={row.length === 1 ? "right" : "below"}
             />

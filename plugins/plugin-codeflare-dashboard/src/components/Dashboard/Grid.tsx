@@ -15,15 +15,18 @@
  */
 
 import React from "react"
-import { Box, BoxProps, Text, TextProps } from "ink"
+import { Box, BoxProps, Spacer, Text, TextProps } from "ink"
 
 import type { Props, State } from "./index.js"
 import type { UpdatePayload, Worker } from "./types.js"
+
+import { avg } from "./stats.js"
 
 type GridProps = {
   /** Position of legend w.r.t. the grid UI [default: "below"] */
   legendPosition?: "right" | "below"
 
+  isQualitative: boolean
   scale: Props["scale"]
   title: NonNullable<Props["grids"][number]>["title"]
   states: NonNullable<Props["grids"][number]>["states"]
@@ -182,7 +185,19 @@ export default class Grid extends React.PureComponent<GridProps> {
   }
 
   private title() {
-    return <Text>{this.props.title}</Text>
+    return (
+      <React.Fragment>
+        <Text>{this.props.title}</Text>
+        {this.props.isQualitative ? (
+          <React.Fragment />
+        ) : (
+          <React.Fragment>
+            <Spacer />
+            <Text color="yellow">μ={avg(this.props.workers)}%</Text>
+          </React.Fragment>
+        )}
+      </React.Fragment>
+    )
   }
 
   private get legendPosition() {
