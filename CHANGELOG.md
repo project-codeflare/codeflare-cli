@@ -1,3 +1,10 @@
+## [4.4.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.0...v4.4.1) (2023-04-04)
+
+### Bug Fixes
+
+- clean up stats code a bit, display average in grid ([f6c3385](https://github.com/project-codeflare/codeflare-cli/commit/f6c3385f5896aafbbd80e6f14452f2fff48efa59))
+- torchx runs may fail for users with long usernames ([9da63ff](https://github.com/project-codeflare/codeflare-cli/commit/9da63ff4a783819c4fb3c16af249cad82fb59875))
+
 # [4.4.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.3.2...v4.4.0) (2023-04-04)
 
 ### Features
