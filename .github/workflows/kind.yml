@@ -19,6 +19,7 @@ jobs:
           - non-gpu4/keep-it-simple # ray
           - non-gpu5/keep-it-simple # ray with dashdash args
           - non-gpu6/mcad-default # torchx
+          - non-gpu6-http/mcad-default # torchx, using an http fetch to get the workdir
           # - non-gpu1/ray-autoscaler
           - non-gpu1/mcad-default # ray
           - non-gpu1/mcad-coscheduler # ray
