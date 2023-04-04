@@ -1,6 +1,6 @@
 {
   "name": "@kui-shell/plugin-client",
-  "version": "4.3.2",
+  "version": "4.4.0",
   "description": "Kui plugin that offers client defintion",
   "main": "dist/headless/codeflare.min.js",
   "module": "mdist/index.js",

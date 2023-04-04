@@ -1,3 +1,9 @@
+# [4.4.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.3.2...v4.4.0) (2023-04-04)
+
+### Features
+
+- allow workdirs to point to github to pick up the source ([7a88067](https://github.com/project-codeflare/codeflare-cli/commit/7a880671662453be8fb1f583bfab55d695b288cf))
+
 ## [4.3.2](https://github.com/project-codeflare/codeflare-cli/compare/v4.3.1...v4.3.2) (2023-04-04)
 
 ### Bug Fixes
