@@ -1,3 +1,9 @@
+## [4.4.3](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.2...v4.4.3) (2023-04-05)
+
+### Bug Fixes
+
+- torchx install fails on zsh ([0b8a876](https://github.com/project-codeflare/codeflare-cli/commit/0b8a876171b50ab92b8d9bbae436aeeb049c6ab9))
+
 ## [4.4.2](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.1...v4.4.2) (2023-04-05)
 
 ### Bug Fixes
