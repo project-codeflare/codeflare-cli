@@ -32,7 +32,7 @@
     "chokidar": "^3.5.3",
     "heap": "^0.2.7",
     "ink": "^3.2.0",
-    "madwizard": "^8.0.12",
+    "madwizard": "^8.0.13",
     "pretty-ms": "^7.0.1",
     "strip-ansi": "6.0.0"
   }
