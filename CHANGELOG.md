@@ -1,3 +1,9 @@
+## [4.4.4](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.3...v4.4.4) (2023-04-05)
+
+### Bug Fixes
+
+- clean up content and coloring of helm install output ([98caf7c](https://github.com/project-codeflare/codeflare-cli/commit/98caf7c8ff19c3cd2341a388b4468df7de4588a1))
+
 ## [4.4.3](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.2...v4.4.3) (2023-04-05)
 
 ### Bug Fixes
