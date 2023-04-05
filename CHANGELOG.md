@@ -1,3 +1,10 @@
+## [4.4.2](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.1...v4.4.2) (2023-04-05)
+
+### Bug Fixes
+
+- sed RE error can occur in torchx log streamer ([5b32722](https://github.com/project-codeflare/codeflare-cli/commit/5b3272230348d164a7659c4ccd87041043ed6fa8))
+- torchx runs lacked visibility into NUM_GPUS setting ([25d60a6](https://github.com/project-codeflare/codeflare-cli/commit/25d60a6c8e97c23278e6dc47b53d28db7b6f370a))
+
 ## [4.4.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.0...v4.4.1) (2023-04-04)
 
 ### Bug Fixes
