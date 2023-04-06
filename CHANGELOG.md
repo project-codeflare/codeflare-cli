@@ -1,3 +1,9 @@
+## [4.4.6](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.5...v4.4.6) (2023-04-06)
+
+### Bug Fixes
+
+- improve the content of torchx event streams ([b3a65a7](https://github.com/project-codeflare/codeflare-cli/commit/b3a65a7c183b5d4df5b28aed89e34897906e7efa))
+
 ## [4.4.5](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.4...v4.4.5) (2023-04-06)
 
 ### Bug Fixes
