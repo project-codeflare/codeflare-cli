@@ -1,3 +1,10 @@
+## [4.4.5](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.4...v4.4.5) (2023-04-06)
+
+### Bug Fixes
+
+- improvements in dashboard for narrowing of window ([e9d4be2](https://github.com/project-codeflare/codeflare-cli/commit/e9d4be2e13446acf0ebcd29951abb52fcff57d89))
+- torchx script logic fails if python prefix is not python3 ([28308e2](https://github.com/project-codeflare/codeflare-cli/commit/28308e2af249f1c660e1c073fce91c4342e1373e))
+
 ## [4.4.4](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.3...v4.4.4) (2023-04-05)
 
 ### Bug Fixes
