@@ -138,7 +138,7 @@ export default class Grid extends React.PureComponent<GridProps> {
             {AA.filter(Boolean).map((_, cidx) => (
               /* legend entry (i.e. legend column) */
               <Box key={_.state} {...outerBoxProps}>
-                <Box {...innerBoxProps} marginLeft={1}>
+                <Box {...innerBoxProps}>
                   {/* legend entry label */}
                   <Box>
                     <Text {..._.style} bold>
