@@ -1,3 +1,9 @@
+## [4.4.7](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.6...v4.4.7) (2023-04-06)
+
+### Bug Fixes
+
+- torchx log output improvements ([a7e25db](https://github.com/project-codeflare/codeflare-cli/commit/a7e25db0b7e47cfa3a4384c6b9d843caeed13b70))
+
 ## [4.4.6](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.5...v4.4.6) (2023-04-06)
 
 ### Bug Fixes
