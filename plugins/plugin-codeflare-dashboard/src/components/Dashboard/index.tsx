@@ -128,7 +128,7 @@ export default class Dashboard extends React.PureComponent<Props, State> {
 
   private header() {
     return (
-      <Box borderStyle="singleDouble" flexDirection="column">
+      <Box flexDirection="column">
         <Box>
           <Text>
             <Text color="blue" bold>
@@ -229,7 +229,7 @@ export default class Dashboard extends React.PureComponent<Props, State> {
     return this.gridRows().map((row, ridx) => (
       <Box key={ridx} justifyContent="space-around">
         {row.map(({ grid, widx }) => (
-          <Box key={grid.title} marginLeft={2}>
+          <Box key={grid.title} marginLeft={1}>
             <Grid
               key={grid.title}
               title={grid.title}
