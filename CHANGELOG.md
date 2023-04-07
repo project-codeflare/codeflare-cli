@@ -1,3 +1,9 @@
+## [4.4.8](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.7...v4.4.8) (2023-04-07)
+
+### Bug Fixes
+
+- torchx exit handlers were not right ([dd1ee72](https://github.com/project-codeflare/codeflare-cli/commit/dd1ee72fb517f9015ee07b4fd2c0eddb136183c3))
+
 ## [4.4.7](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.6...v4.4.7) (2023-04-06)
 
 ### Bug Fixes
