@@ -42,10 +42,10 @@ export default class Live {
   /** Model of the lines of output */
   private readonly lines = new Heap<Line>((a, b) => {
     if (a.line === b.line) {
-      return 0
+      return a.timestamp - b.timestamp
     }
 
-    const stateDiff = a.stateRank - b.stateRank
+    const stateDiff = b.stateRank - a.stateRank
     if (stateDiff !== 0) {
       return stateDiff
     } else {
@@ -160,7 +160,7 @@ export default class Live {
 
     return this.lines
       .toArray()
-      .slice(0, 18)
+      .slice(0, 6)
       .sort((a, b) => a.timestamp - b.timestamp)
   }
 
