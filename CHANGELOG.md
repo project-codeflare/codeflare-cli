@@ -1,3 +1,12 @@
+## [4.4.9](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.8...v4.4.9) (2023-04-07)
+
+### Bug Fixes
+
+- adjust status themes to use diverging style ([4c9c7b8](https://github.com/project-codeflare/codeflare-cli/commit/4c9c7b81b622c1c7db0cee097eaa572592257b47))
+- lines output was showing least interesting events ([6426e9d](https://github.com/project-codeflare/codeflare-cli/commit/6426e9daa00755212db573983c7e102adac6c5cf))
+- torchx captured logs may not include Succeeded/Failed events ([5981b74](https://github.com/project-codeflare/codeflare-cli/commit/5981b74bc5851090fca5232f99b36f132a0ad6cc))
+- usesGpus needs to wait for env.json file to exist ([64e2659](https://github.com/project-codeflare/codeflare-cli/commit/64e2659e7710c2a2de49df1efedb09ddfc830194))
+
 ## [4.4.8](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.7...v4.4.8) (2023-04-07)
 
 ### Bug Fixes
