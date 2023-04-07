@@ -1,3 +1,10 @@
+## [4.4.11](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.10...v4.4.11) (2023-04-07)
+
+### Bug Fixes
+
+- heap comparator for lines incorrectly handles state ([1b448e1](https://github.com/project-codeflare/codeflare-cli/commit/1b448e1cfd5d5e2473f72f934c17cc2b0f619a80))
+- timestamps with millis not properly formatted in dashboard ui ([2f927ea](https://github.com/project-codeflare/codeflare-cli/commit/2f927ea8c04964849ca4a4a934eca3da309e7234))
+
 ## [4.4.10](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.9...v4.4.10) (2023-04-07)
 
 ### Bug Fixes
