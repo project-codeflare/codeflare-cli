@@ -26,7 +26,7 @@ export type Tail = {
   quit: TailFile["quit"]
 }
 
-function waitTillExists(filepath: string) {
+export function waitTillExists(filepath: string) {
   const watcher = chokidar.watch(filepath)
   return new Promise<void>((resolve, reject) => {
     watcher.on("add", () => resolve())

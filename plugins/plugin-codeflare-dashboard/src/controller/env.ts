@@ -35,10 +35,14 @@ function toRecord(nva: NameValue[]): Record<string, unknown> {
   }, {} as Record<string, unknown>)
 }
 
+async function getJobEnvFilepath(profile: string, jobId: string): Promise<string> {
+  return join(await import("./path.js").then((_) => _.pathFor(profile, jobId)), "env.json")
+}
+
 export async function getJobEnv(profile: string, jobId: string): Promise<Record<string, unknown>> {
-  const filepath = await import("./path.js").then((_) => _.pathFor(profile, jobId))
+  const filepath = await getJobEnvFilepath(profile, jobId)
   const nameValueArray = JSON.parse(
-    await import("fs/promises").then((_) => _.readFile(join(filepath, "env.json"))).then((_) => _.toString())
+    await import("fs/promises").then((_) => _.readFile(filepath)).then((_) => _.toString())
   )
   if (!isNameValueArray(nameValueArray)) {
     throw new Error("Malformatted env.json file")
@@ -48,6 +52,9 @@ export async function getJobEnv(profile: string, jobId: string): Promise<Record<
 }
 
 export async function numGpus(profile: string, jobId: string): Promise<number> {
+  const filepath = await getJobEnvFilepath(profile, jobId)
+  await import("./dashboard/tailf.js").then((_) => _.waitTillExists(filepath))
+
   try {
     const env = await getJobEnv(profile, jobId)
 
