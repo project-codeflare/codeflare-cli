@@ -46,7 +46,7 @@ export default class Live {
       return a.timestamp - b.timestamp
     }
 
-    const stateDiff = b.stateRank - a.stateRank
+    const stateDiff = a.stateRank - b.stateRank
     if (stateDiff !== 0) {
       return stateDiff
     } else {

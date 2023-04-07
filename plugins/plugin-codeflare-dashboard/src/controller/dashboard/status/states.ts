@@ -22,8 +22,8 @@ export type WorkerState = (typeof states)[number]
 /** Lower means more important */
 export const rankFor: Record<WorkerState, number> = {
   Queued: 3,
-  Provisioning: 1,
-  Initializing: 2,
+  Provisioning: 2,
+  Initializing: 4,
   Running: 1,
   Success: 0,
   Failed: 0,
