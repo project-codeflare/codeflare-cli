@@ -115,7 +115,7 @@ export default class Grid extends React.PureComponent<GridProps> {
   private legend() {
     const H = this.histoModel()
     const outerBoxProps: BoxProps = {
-      marginRight: 1,
+      marginRight: this.props.legendPosition === "right" ? 2 : 1,
       justifyContent: "flex-end",
     }
     const innerBoxProps: BoxProps = {
