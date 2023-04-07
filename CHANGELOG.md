@@ -1,3 +1,10 @@
+## [4.4.10](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.9...v4.4.10) (2023-04-07)
+
+### Bug Fixes
+
+- add --lines option to dashboard (plus code cleanup) ([202bde8](https://github.com/project-codeflare/codeflare-cli/commit/202bde8cf901fa496df9ef514c1ba2dd4ba7277e))
+- torchx wait-till-running fixes ([80ef75e](https://github.com/project-codeflare/codeflare-cli/commit/80ef75e22e053af48785db34cdeae628a12092f0))
+
 ## [4.4.9](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.8...v4.4.9) (2023-04-07)
 
 ### Bug Fixes
