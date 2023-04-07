@@ -46,7 +46,7 @@ export default function utilizationDashboard(
   historyConfig: HistoryConfig,
   opts: Pick<Options, "demo" | "theme"> & Partial<Pick<Options, "themeDefault">>
 ): GridSpec {
-  const { theme: themeS = opts.themeDefault || defaultUtilizationThemes[kind] } = opts
+  const themeS = opts.themeDefault || defaultUtilizationThemes[kind]
   if (!isValidTheme(themeS)) {
     throw new Error("Invalid theme: " + themeS)
   }

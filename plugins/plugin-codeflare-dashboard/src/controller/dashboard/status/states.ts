@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-export const states = ["Queued", "Provisioning", "Initializing", "Running", "Success", "Failed"]
+export const states = ["Failed", "Queued", "Provisioning", "Initializing", "Running", "Success"]
 
 /** Type declaration for quantized utilization states */
 export type WorkerState = (typeof states)[number]

@@ -93,7 +93,7 @@ async function gridFor(
 ): Promise<GridSpec> {
   const tails = await tailf(kind, profile, jobId)
   return kind === "status"
-    ? status(tails, historyConfig, { demo: opts.demo, theme: opts.theme, themeDefault: "colorbrewer" })
+    ? status(tails, historyConfig, { demo: opts.demo, theme: opts.theme })
     : utilization(kind, tails, historyConfig, opts)
 }
 
