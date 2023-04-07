@@ -18,6 +18,7 @@ import Heap from "heap"
 import stripAnsi from "strip-ansi"
 import type { TextProps } from "ink"
 
+import type Options from "../options.js"
 import type { Tail } from "../tailf.js"
 import type HistoryConfig from "../history.js"
 import type { WorkerState } from "./states.js"
@@ -57,7 +58,8 @@ export default class Live {
     historyConfig: HistoryConfig,
     private readonly tails: Promise<Tail>[],
     cb: OnData,
-    styleOf: Record<WorkerState, TextProps>
+    styleOf: Record<WorkerState, TextProps>,
+    private readonly opts: Pick<Options, "lines">
   ) {
     tails.map((tailf) => {
       tailf.then(({ stream }) => {
@@ -158,10 +160,14 @@ export default class Live {
       }
     }
 
-    return this.lines
-      .toArray()
-      .slice(0, 6)
-      .sort((a, b) => a.timestamp - b.timestamp)
+    if (this.opts.lines === 0) {
+      return []
+    } else {
+      return this.lines
+        .toArray()
+        .slice(0, this.opts.lines || 8)
+        .sort((a, b) => a.timestamp - b.timestamp)
+    }
   }
 
   /** `pushLine` and then pass the updated model to `cb` */

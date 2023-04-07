@@ -30,9 +30,9 @@ import { isValidStatusTheme, statusThemes } from "./theme.js"
 export default function statusDashboard(
   tails: Promise<Tail>[],
   historyConfig: HistoryConfig,
-  opts: Pick<Options, "demo" | "theme"> & Partial<Pick<Options, "themeDefault">>
+  opts: Pick<Options, "demo" | "theme" | "lines">
 ): GridSpec {
-  const { theme: themeS = opts.themeDefault || "colorbrewer6" } = opts
+  const { theme: themeS = "colorbrewer6" } = opts
   if (!isValidStatusTheme(themeS)) {
     throw new Error("Invalid theme: " + themeS)
   }
@@ -52,7 +52,7 @@ export default function statusDashboard(
     if (opts.demo) {
       return new Demo(historyConfig, cb, styleOf)
     } else {
-      return new Live(historyConfig, tails, cb, styleOf)
+      return new Live(historyConfig, tails, cb, styleOf, opts)
     }
   }
 
