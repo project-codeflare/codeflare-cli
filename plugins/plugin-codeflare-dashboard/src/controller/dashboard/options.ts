@@ -15,14 +15,22 @@
  */
 
 type Options = {
+  /** Run in blinking lights mode */
   demo: boolean
+
+  /** Scale up the grid? */
   scale: number
+
+  /** Theme to use for worker status */
   theme: string
-  themeDefault: string
+
+  /** Number of lines of log messages to show [default: 8] */
+  lines: number
 }
 
 export default Options
 
 export const flags = {
   boolean: ["demo"],
+  alias: { lines: ["l"], theme: ["t"], demo: ["d"], scale: ["s"] },
 }

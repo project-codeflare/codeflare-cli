@@ -89,12 +89,10 @@ async function gridFor(
   profile: string,
   jobId: string,
   historyConfig: HistoryConfig,
-  opts: Pick<Options, "demo" | "theme">
+  opts: Pick<Options, "demo" | "theme" | "lines">
 ): Promise<GridSpec> {
   const tails = await tailf(kind, profile, jobId)
-  return kind === "status"
-    ? status(tails, historyConfig, { demo: opts.demo, theme: opts.theme })
-    : utilization(kind, tails, historyConfig, opts)
+  return kind === "status" ? status(tails, historyConfig, opts) : utilization(kind, tails, historyConfig, opts)
 }
 
 /** @return all relevant grid models for `jobId` in `profile` */
@@ -102,7 +100,7 @@ async function allGridsFor(
   profile: string,
   jobId: string,
   historyConfig: HistoryConfig,
-  opts: Pick<Options, "demo" | "theme">
+  opts: Pick<Options, "demo" | "theme" | "lines">
 ) {
   const usesGpus = opts.demo || (await import("../env.js").then((_) => _.usesGpus(profile, jobId)))
 
@@ -126,9 +124,8 @@ async function allGridsFor(
 }
 
 export default async function dashboard(args: Arguments<Options>, cmd: "db" | "dashboard") {
-  const { theme } = args.parsedOptions
+  const { demo, theme, lines } = args.parsedOptions
 
-  const { demo } = args.parsedOptions
   const scale = args.parsedOptions.s || 1
 
   const jobIdOffset = args.argvNoOptions[args.argvNoOptions.indexOf(cmd) + 2] ? 2 : 1
@@ -147,9 +144,9 @@ export default async function dashboard(args: Arguments<Options>, cmd: "db" | "d
     historyConfig: HistoryConfig
   ): Promise<null | GridSpec | (null | GridSpec)[]> => {
     if (kind === "all") {
-      return allGridsFor(profile, jobId, historyConfig, { demo, theme })
+      return allGridsFor(profile, jobId, historyConfig, { demo, theme, lines })
     } else if (isSupportedGrid(kind)) {
-      return gridFor(kind, profile, jobId, historyConfig, { demo, theme })
+      return gridFor(kind, profile, jobId, historyConfig, { demo, theme, lines })
     } else {
       return null
     }
