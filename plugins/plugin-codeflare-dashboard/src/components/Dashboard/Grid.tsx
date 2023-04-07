@@ -62,9 +62,9 @@ export default class Grid extends React.PureComponent<GridProps> {
 
   // private readonly sizes = ["▁▁", "▃▃", "▅▅", "▆▆", "██", "■■"]
 
-  private readonly cell = "█▉"
+  private readonly defaultCell = "█▉"
   private cellFor(props: TextProps): TextProps {
-    return Object.assign({ children: this.cell }, props)
+    return Object.assign({ children: this.defaultCell }, props)
   }
 
   private get emptyCell(): TextProps {
@@ -89,7 +89,7 @@ export default class Grid extends React.PureComponent<GridProps> {
    * just the length of a side in the grid/heat map).
    */
   private get minMatrixSize() {
-    return 6
+    return 4
   }
 
   private matrixModel(): Worker[][] {
