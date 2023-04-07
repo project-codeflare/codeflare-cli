@@ -134,7 +134,7 @@ export default class Live {
   /** Add `line` to our circular buffer `this.lines` */
   private pushLine(line: string, metric: WorkerState, timestamp: number) {
     const key = line
-      .replace(/\s*(\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ)\s*/, "{timestamp}")
+      .replace(/\s*(\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?Z)\s*/, "{timestamp}")
       .replace(/pod\/torchx-\S+ /, "") // worker name in torchx
       .replace(/pod\/ray-(head|worker)-\S+ /, "") // worker name in ray
       .replace(/\* /, "") // wildcard worker name (codeflare)
