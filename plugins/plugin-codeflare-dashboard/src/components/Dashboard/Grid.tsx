@@ -17,8 +17,8 @@
 import React from "react"
 import { Box, BoxProps, Spacer, Text, TextProps } from "ink"
 
-import type { Props, State } from "./index.js"
-import type { UpdatePayload, Worker } from "./types.js"
+import type { Props } from "./index.js"
+import type { Worker } from "./types.js"
 
 import { avg } from "./stats.js"
 
@@ -30,7 +30,7 @@ type GridProps = {
   scale: Props["scale"]
   title: NonNullable<Props["grids"][number]>["title"]
   states: NonNullable<Props["grids"][number]>["states"]
-  workers: State["workers"][number]
+  workers: Worker[]
 }
 
 export default class Grid extends React.PureComponent<GridProps> {
@@ -74,7 +74,7 @@ export default class Grid extends React.PureComponent<GridProps> {
   }
 
   /** @return current `Worker[]` model */
-  private get workers(): UpdatePayload["workers"] {
+  private get workers(): Worker[] {
     return this.props.workers || []
   }
 

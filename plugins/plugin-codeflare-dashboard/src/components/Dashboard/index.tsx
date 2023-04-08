@@ -18,10 +18,11 @@ import React from "react"
 import prettyMillis from "pretty-ms"
 import { Box, Spacer, Text } from "ink"
 
-import type { GridSpec, UpdatePayload, Worker } from "./types.js"
+import type { GridSpec, UpdatePayload, LogLineUpdate, WorkersUpdate, Worker } from "./types.js"
 
 import Grid from "./Grid.js"
 import Timeline from "./Timeline.js"
+import { isWorkersUpdate } from "./types.js"
 
 export type Props = {
   /** CodeFlare Profile for this dashboard */
@@ -33,42 +34,39 @@ export type Props = {
   /** Scale up the grid? [default: 1] */
   scale?: number
 
+  /** Grid models, where null means to insert a line break */
   grids: (null | GridSpec)[]
 }
 
-export type State = {
-  /** millis since epoch of the first update */
-  firstUpdate: number
+export type State = Pick<WorkersUpdate, "events"> &
+  LogLineUpdate & {
+    /** millis since epoch of the first update */
+    firstUpdate: number
 
-  /** millis since epoch of the last update */
-  lastUpdate: number
+    /** millis since epoch of the last update */
+    lastUpdate: number
 
-  /** iteration count to help us keep "last updated ago" UI fresh */
-  iter: number
+    /** iteration count to help us keep "last updated ago" UI fresh */
+    iter: number
 
-  /** interval to keep "last updated ago" UI fresh */
-  agoInterval: ReturnType<typeof setInterval>
+    /** interval to keep "last updated ago" UI fresh */
+    agoInterval: ReturnType<typeof setInterval>
 
-  /** Lines of raw output to be displayed */
-  events: UpdatePayload["events"]
+    /** Controller that allows us to shut down gracefully */
+    watchers: { quit: () => void }[]
 
-  /** Controller that allows us to shut down gracefully */
-  watchers: { quit: () => void }[]
-
-  /**
-   * Model of current workers; outer idx is grid index; inner idx is
-   * worker idx, i.e. for each grid, we have an array of Workers.
-   */
-  workers: Worker[][]
-}
+    /**
+     * Model of current workers; outer idx is grid index; inner idx is
+     * worker idx, i.e. for each grid, we have an array of Workers.
+     */
+    workers: Worker[][]
+  }
 
 export default class Dashboard extends React.PureComponent<Props, State> {
   public componentDidMount() {
     this.setState({
       workers: [],
-      watchers: this.gridModels.map((props, gridIdx) =>
-        props.initWatcher((model: UpdatePayload) => this.onUpdate(gridIdx, model))
-      ),
+      watchers: this.gridModels.map((props, gridIdx) => props.initWatcher((model) => this.onUpdate(gridIdx, model))),
       agoInterval: setInterval(() => this.setState((curState) => ({ iter: (curState?.iter || 0) + 1 })), 5 * 1000),
     })
   }
@@ -87,8 +85,15 @@ export default class Dashboard extends React.PureComponent<Props, State> {
     this.setState((curState) => ({
       firstUpdate: (curState && curState.firstUpdate) || Date.now(), // TODO pull from the events
       lastUpdate: Date.now(), // TODO pull from the events
-      events: !model.events || model.events.length === 0 ? curState?.events : model.events,
-      workers: !curState?.workers
+      events: !isWorkersUpdate(model)
+        ? curState?.events
+        : !model.events || model.events.length === 0
+        ? curState?.events
+        : model.events,
+      logLine: !isWorkersUpdate(model) ? model.logLine : curState?.logLine,
+      workers: !isWorkersUpdate(model)
+        ? curState?.workers
+        : !curState?.workers
         ? [model.workers]
         : [...curState.workers.slice(0, gridIdx), model.workers, ...curState.workers.slice(gridIdx + 1)],
     }))
@@ -102,8 +107,13 @@ export default class Dashboard extends React.PureComponent<Props, State> {
   }
 
   /** @return current `events` model */
-  private get events(): UpdatePayload["events"] {
+  private get events(): State["events"] {
     return this.state?.events
+  }
+
+  /** @return current `logLine` model */
+  private get logLine(): State["logLine"] {
+    return this.state?.logLine
   }
 
   /** @return first update time */
@@ -184,17 +194,20 @@ export default class Dashboard extends React.PureComponent<Props, State> {
 
   /** Render log lines and events */
   private footer() {
-    if (!this.events) {
+    if (!this.events && !this.logLine) {
       return <React.Fragment />
     } else {
-      const rows = this.events.map(({ line, timestamp }) => {
-        // the controller (controller/dashboard/utilization/Live)
-        // leaves a {timestamp} breadcrumb in the raw line text, so
-        // that we,as the view, can inject a "5m ago" text, while
-        // preserving the ansi formatting that surrounds the timestamp
-        const txt = line.replace("{timestamp}", () => this.agos(timestamp))
-        return <Text key={txt}>{txt}</Text>
-      })
+      const rows = (this.events || [])
+        .map(({ line, timestamp }) => {
+          // the controller (controller/dashboard/utilization/Live)
+          // leaves a {timestamp} breadcrumb in the raw line text, so
+          // that we,as the view, can inject a "5m ago" text, while
+          // preserving the ansi formatting that surrounds the timestamp
+          const txt = line.replace("{timestamp}", () => this.agos(timestamp))
+          return <Text key={txt}>{txt}</Text>
+        })
+        .concat((this.logLine ? [this.logLine] : []).map((line) => <Text key={line}>{line}</Text>))
+
       return (
         <Box marginTop={1} flexDirection="column">
           {rows}

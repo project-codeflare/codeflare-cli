@@ -40,6 +40,9 @@ export default class Live {
   /** Number of lines of event output to retain. TODO this depends on height of terminal? */
   private static readonly MAX_HEAP = 1000
 
+  /** Model of logLines. TODO circular buffer and obey options.lines */
+  // private logLine = ""
+
   /** Model of the lines of output */
   private readonly events = new Heap<Event>((a, b) => {
     if (a.line === b.line) {
@@ -62,9 +65,13 @@ export default class Live {
     private readonly opts: Pick<Options, "events">
   ) {
     tails.map((tailf) => {
-      tailf.then(({ stream }) => {
+      tailf.then(({ kind, stream }) => {
         stream.on("data", (data) => {
           if (data) {
+            if (kind === "logs") {
+              this.pushLineAndPublish(data, cb)
+            }
+
             const line = stripAnsi(data)
             const cols = line.split(/\s+/)
 
@@ -77,7 +84,6 @@ export default class Live {
 
             if (!name || !timestamp) {
               // console.error("Bad status record", line)
-              // this.pushEventAndPublish(data, metric, timestamp, cb)
               return
             } else if (!metric) {
               // ignoring this line
@@ -130,6 +136,14 @@ export default class Live {
     })
   }
 
+  /** @return the most important events, to be shown in the UI */
+  private importantEvents() {
+    return this.events
+      .toArray()
+      .slice(0, this.opts.events || 8)
+      .sort((a, b) => a.timestamp - b.timestamp)
+  }
+
   private readonly lookup: Record<string, Event> = {}
   /** Add `line` to our heap `this.events` */
   private pushEvent(line: string, metric: WorkerState, timestamp: number) {
@@ -163,16 +177,21 @@ export default class Live {
     if (this.opts.events === 0) {
       return []
     } else {
-      return this.events
-        .toArray()
-        .slice(0, this.opts.events || 8)
-        .sort((a, b) => a.timestamp - b.timestamp)
+      return this.importantEvents()
     }
   }
 
-  /** `pushEvent` and then pass the updated model to `cb` */
-  private pushEventAndPublish(line: string, metric: WorkerState, timestamp: number, cb: OnData) {
-    cb({ events: this.pushEvent(line, metric, timestamp), workers: Object.values(this.workers) })
+  /** Helps with debouncing logLine updates */
+  private logLineTO: null | ReturnType<typeof setTimeout> = null
+
+  /** Add the given `line` to our logLines model and pass the updated model to `cb` */
+  private pushLineAndPublish(logLine: string, cb: OnData) {
+    if (logLine) {
+      // here we avoid a flood of React renders by batching them up a
+      // bit; i thought react 18 was supposed to help with this. hmm.
+      if (this.logLineTO) clearTimeout(this.logLineTO)
+      this.logLineTO = setTimeout(() => cb({ logLine }), 1)
+    }
   }
 
   private asMillisSinceEpoch(timestamp: string) {

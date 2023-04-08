@@ -16,6 +16,8 @@
 
 import { join } from "path"
 
+import { resourcePaths, filepathOf } from "./dashboard/kinds.js"
+
 type NameValue = { name: string; value: unknown }
 
 function isNameValue(obj: object): obj is NameValue {
@@ -36,7 +38,7 @@ function toRecord(nva: NameValue[]): Record<string, unknown> {
 }
 
 async function getJobEnvFilepath(profile: string, jobId: string): Promise<string> {
-  return join(await import("./path.js").then((_) => _.pathFor(profile, jobId)), "env.json")
+  return join(await import("./path.js").then((_) => _.pathFor("env", profile, jobId)), filepathOf(resourcePaths.env[0]))
 }
 
 export async function getJobEnv(profile: string, jobId: string): Promise<Record<string, unknown>> {
