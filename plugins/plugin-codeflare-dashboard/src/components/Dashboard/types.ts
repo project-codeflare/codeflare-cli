@@ -42,8 +42,8 @@ export type UpdatePayload = {
   /** Per-worker status info */
   workers: Worker[]
 
-  /** Lines of raw output to be displayed */
-  lines?: { line: string; timestamp: number }[]
+  /** Lines of raw event lines to be displayed */
+  events?: { line: string; timestamp: number }[]
 }
 
 /** Callback from controller when it has updated data */

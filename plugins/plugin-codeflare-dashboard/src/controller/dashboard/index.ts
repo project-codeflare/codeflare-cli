@@ -89,7 +89,7 @@ async function gridFor(
   profile: string,
   jobId: string,
   historyConfig: HistoryConfig,
-  opts: Pick<Options, "demo" | "theme" | "lines">
+  opts: Pick<Options, "demo" | "theme" | "events">
 ): Promise<GridSpec> {
   const tails = await tailf(kind, profile, jobId)
   return kind === "status" ? status(tails, historyConfig, opts) : utilization(kind, tails, historyConfig, opts)
@@ -100,7 +100,7 @@ async function allGridsFor(
   profile: string,
   jobId: string,
   historyConfig: HistoryConfig,
-  opts: Pick<Options, "demo" | "theme" | "lines">
+  opts: Pick<Options, "demo" | "theme" | "events">
 ) {
   const usesGpus = opts.demo || (await import("../env.js").then((_) => _.usesGpus(profile, jobId)))
 
@@ -124,7 +124,7 @@ async function allGridsFor(
 }
 
 export default async function dashboard(args: Arguments<Options>, cmd: "db" | "dashboard") {
-  const { demo, theme, lines } = args.parsedOptions
+  const { demo, theme, events } = args.parsedOptions
 
   const scale = args.parsedOptions.s || 1
 
@@ -144,9 +144,9 @@ export default async function dashboard(args: Arguments<Options>, cmd: "db" | "d
     historyConfig: HistoryConfig
   ): Promise<null | GridSpec | (null | GridSpec)[]> => {
     if (kind === "all") {
-      return allGridsFor(profile, jobId, historyConfig, { demo, theme, lines })
+      return allGridsFor(profile, jobId, historyConfig, { demo, theme, events })
     } else if (isSupportedGrid(kind)) {
-      return gridFor(kind, profile, jobId, historyConfig, { demo, theme, lines })
+      return gridFor(kind, profile, jobId, historyConfig, { demo, theme, events })
     } else {
       return null
     }

@@ -50,7 +50,7 @@ export type State = {
   agoInterval: ReturnType<typeof setInterval>
 
   /** Lines of raw output to be displayed */
-  lines: UpdatePayload["lines"]
+  events: UpdatePayload["events"]
 
   /** Controller that allows us to shut down gracefully */
   watchers: { quit: () => void }[]
@@ -87,7 +87,7 @@ export default class Dashboard extends React.PureComponent<Props, State> {
     this.setState((curState) => ({
       firstUpdate: (curState && curState.firstUpdate) || Date.now(), // TODO pull from the events
       lastUpdate: Date.now(), // TODO pull from the events
-      lines: !model.lines || model.lines.length === 0 ? curState?.lines : model.lines,
+      events: !model.events || model.events.length === 0 ? curState?.events : model.events,
       workers: !curState?.workers
         ? [model.workers]
         : [...curState.workers.slice(0, gridIdx), model.workers, ...curState.workers.slice(gridIdx + 1)],
@@ -101,9 +101,9 @@ export default class Dashboard extends React.PureComponent<Props, State> {
     return this.props.grids.filter((_) => _ !== null) as GridSpec[]
   }
 
-  /** @return current `lines` model */
-  private get lines(): UpdatePayload["lines"] {
-    return this.state?.lines
+  /** @return current `events` model */
+  private get events(): UpdatePayload["events"] {
+    return this.state?.events
   }
 
   /** @return first update time */
@@ -182,12 +182,12 @@ export default class Dashboard extends React.PureComponent<Props, State> {
     return this.ago(Date.now() - millis)
   }
 
-  /** Render log lines */
+  /** Render log lines and events */
   private footer() {
-    if (!this.lines) {
+    if (!this.events) {
       return <React.Fragment />
     } else {
-      const rows = this.lines.map(({ line, timestamp }) => {
+      const rows = this.events.map(({ line, timestamp }) => {
         // the controller (controller/dashboard/utilization/Live)
         // leaves a {timestamp} breadcrumb in the raw line text, so
         // that we,as the view, can inject a "5m ago" text, while

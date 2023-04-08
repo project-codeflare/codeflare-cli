@@ -26,7 +26,7 @@ import type { OnData, Worker } from "../../../components/Dashboard/types.js"
 
 import { rankFor, stateFor } from "./states.js"
 
-type Line = { line: string; stateRank: number; timestamp: number }
+type Event = { line: string; stateRank: number; timestamp: number }
 
 /**
  * Maintain a model of live data from a given set of file streams
@@ -37,11 +37,11 @@ export default class Live {
   /** Model of status per worker */
   private readonly workers: Record<string, Worker> = {}
 
-  /** Number of lines of output to retain. TODO this depends on height of terminal? */
+  /** Number of lines of event output to retain. TODO this depends on height of terminal? */
   private static readonly MAX_HEAP = 1000
 
   /** Model of the lines of output */
-  private readonly lines = new Heap<Line>((a, b) => {
+  private readonly events = new Heap<Event>((a, b) => {
     if (a.line === b.line) {
       return a.timestamp - b.timestamp
     }
@@ -59,7 +59,7 @@ export default class Live {
     private readonly tails: Promise<Tail>[],
     cb: OnData,
     styleOf: Record<WorkerState, TextProps>,
-    private readonly opts: Pick<Options, "lines">
+    private readonly opts: Pick<Options, "events">
   ) {
     tails.map((tailf) => {
       tailf.then(({ stream }) => {
@@ -77,7 +77,7 @@ export default class Live {
 
             if (!name || !timestamp) {
               // console.error("Bad status record", line)
-              // this.pushLineAndPublish(data, metric, timestamp, cb)
+              // this.pushEventAndPublish(data, metric, timestamp, cb)
               return
             } else if (!metric) {
               // ignoring this line
@@ -111,7 +111,7 @@ export default class Live {
 
                 // inform the UI that we have updates
                 cb({
-                  lines: this.pushLine(data, metric, timestamp),
+                  events: this.pushEvent(data, metric, timestamp),
                   workers: Object.values(this.workers),
                 })
               }
@@ -130,9 +130,9 @@ export default class Live {
     })
   }
 
-  private readonly lookup: Record<string, Line> = {}
-  /** Add `line` to our circular buffer `this.lines` */
-  private pushLine(line: string, metric: WorkerState, timestamp: number) {
+  private readonly lookup: Record<string, Event> = {}
+  /** Add `line` to our heap `this.events` */
+  private pushEvent(line: string, metric: WorkerState, timestamp: number) {
     const key = line
       .replace(/\s*(\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?Z)\s*/, "{timestamp}")
       .replace(/pod\/torchx-\S+ /, "") // worker name in torchx
@@ -150,29 +150,29 @@ export default class Live {
     const already = this.lookup[rec.line]
     if (already) {
       already.timestamp = timestamp
-      this.lines.updateItem(already)
+      this.events.updateItem(already)
     } else {
       this.lookup[rec.line] = rec
-      if (this.lines.size() >= Live.MAX_HEAP) {
-        this.lines.replace(rec)
+      if (this.events.size() >= Live.MAX_HEAP) {
+        this.events.replace(rec)
       } else {
-        this.lines.push(rec)
+        this.events.push(rec)
       }
     }
 
-    if (this.opts.lines === 0) {
+    if (this.opts.events === 0) {
       return []
     } else {
-      return this.lines
+      return this.events
         .toArray()
-        .slice(0, this.opts.lines || 8)
+        .slice(0, this.opts.events || 8)
         .sort((a, b) => a.timestamp - b.timestamp)
     }
   }
 
-  /** `pushLine` and then pass the updated model to `cb` */
-  private pushLineAndPublish(line: string, metric: WorkerState, timestamp: number, cb: OnData) {
-    cb({ lines: this.pushLine(line, metric, timestamp), workers: Object.values(this.workers) })
+  /** `pushEvent` and then pass the updated model to `cb` */
+  private pushEventAndPublish(line: string, metric: WorkerState, timestamp: number, cb: OnData) {
+    cb({ events: this.pushEvent(line, metric, timestamp), workers: Object.values(this.workers) })
   }
 
   private asMillisSinceEpoch(timestamp: string) {
