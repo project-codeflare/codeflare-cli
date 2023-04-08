@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
+import type Kind from "./dashboard/kinds.js"
 import { pathsFor } from "./dashboard/tailf.js"
 
 /** @return path to the data captured for the given jobId in the given profile */
-export async function pathFor(profile: string, jobId: string) {
+export async function pathFor(kind: Kind, profile: string, jobId: string): Promise<string> {
   const { dirname } = await import("path")
-  return Array.from(new Set(await pathsFor("cpu%", profile, jobId).then((_) => _.map((_) => dirname(dirname(_))))))[0]
+  return Array.from(new Set(await pathsFor(kind, profile, jobId).then((_) => _.map((_) => dirname(_.filepath)))))[0]
 }

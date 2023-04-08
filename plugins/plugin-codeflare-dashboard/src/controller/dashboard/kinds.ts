@@ -16,23 +16,38 @@
 
 import type { SupportedGrid } from "./grids.js"
 
-type Kind = SupportedGrid | "logs"
+type Kind = SupportedGrid | "logs" | "env"
 export type KindA = Kind | "all"
 export default Kind
 
-export const resourcePaths: Record<Kind, string[]> = {
+/** A filepath with a `Kind` discriminant to help understand the content of the `filepath` */
+export type KindedSource = { kind: Kind; filepath: string }
+
+/**
+ * A source to be tailf'd is either a string (the filepath to the
+ * source) or that plus a `Kind` discriminant.
+ */
+type Source = string | KindedSource
+
+/** Extract the `filepath` property of `source` */
+export function filepathOf(source: Source) {
+  return typeof source === "string" ? source : source.filepath
+}
+
+export const resourcePaths: Record<Kind, Source[]> = {
   status: [
     "events/kubernetes.txt",
     "events/job-status.txt",
     "events/pods.txt",
     "events/runtime-env-setup.txt",
-    // "logs/job.txt",
+    { kind: "logs", filepath: "logs/job.txt" },
   ],
   "gpu%": ["resources/gpu.txt"],
   "gpumem%": ["resources/gpu.txt"],
   "cpu%": ["resources/pod-vmstat.txt"],
   "mem%": ["resources/pod-memory.txt"],
   logs: ["logs/job.txt"],
+  env: ["env.json"],
 }
 
 export function validKinds() {

@@ -19,9 +19,10 @@ import split2 from "split2"
 import chokidar from "chokidar"
 import TailFile from "@logdna/tail-file"
 
-import Kind, { resourcePaths } from "./kinds.js"
+import Kind, { KindedSource, resourcePaths } from "./kinds.js"
 
 export type Tail = {
+  kind: Kind
   stream: import("stream").Readable
   quit: TailFile["quit"]
 }
@@ -34,7 +35,7 @@ export function waitTillExists(filepath: string) {
   })
 }
 
-async function initTail(filepath: string, split = true): Promise<Tail> {
+async function initTail({ kind, filepath }: KindedSource, split = true): Promise<Tail> {
   await waitTillExists(filepath)
 
   return new Promise<Tail>((resolve, reject) => {
@@ -47,17 +48,23 @@ async function initTail(filepath: string, split = true): Promise<Tail> {
     tail.start()
 
     resolve({
+      kind,
       stream: split ? tail.pipe(split2()) : tail,
       quit: tail.quit.bind(tail),
     })
   })
 }
 
-export async function pathsFor(kind: Kind, profile: string, jobId: string) {
+export async function pathsFor(mkind: Kind, profile: string, jobId: string) {
   const { Profiles } = await import("madwizard")
-  return resourcePaths[kind].map((resourcePath) =>
-    join(Profiles.guidebookJobDataPath({ profile }), jobId, resourcePath)
-  )
+  return resourcePaths[mkind].map((src) => {
+    const kind = typeof src === "string" ? mkind : src.kind
+    const resourcePath = typeof src === "string" ? src : src.filepath
+    return {
+      kind,
+      filepath: join(Profiles.guidebookJobDataPath({ profile }), jobId, resourcePath),
+    }
+  })
 }
 
 export default async function tailf(
@@ -66,5 +73,5 @@ export default async function tailf(
   jobId: string,
   split = true
 ): Promise<Promise<Tail>[]> {
-  return pathsFor(kind, profile, jobId).then((_) => _.map((filepath) => initTail(filepath, split)))
+  return pathsFor(kind, profile, jobId).then((_) => _.map((src) => initTail(src, split)))
 }

@@ -26,11 +26,14 @@ type Options = {
 
   /** Number of lines of events to show [default: 8] */
   events: number
+
+  /** Number of lines of application logs to show [default: 1] */
+  lines: number
 }
 
 export default Options
 
 export const flags = {
   boolean: ["demo"],
-  alias: { events: ["e"], theme: ["t"], demo: ["d"], scale: ["s"] },
+  alias: { events: ["e"], lines: ["l"], theme: ["t"], demo: ["d"], scale: ["s"] },
 }

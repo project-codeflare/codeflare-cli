@@ -37,13 +37,24 @@ export type Worker = {
   lastUpdate: number
 }
 
-/** Model that allows the controllers to pass updated `Worker` info */
-export type UpdatePayload = {
+export type LogLineUpdate = {
+  /** Log lines */
+  logLine: string
+}
+
+export type WorkersUpdate = {
   /** Per-worker status info */
   workers: Worker[]
 
   /** Lines of raw event lines to be displayed */
   events?: { line: string; timestamp: number }[]
+}
+
+/** Model that allows the controllers to pass updated `Worker` info */
+export type UpdatePayload = LogLineUpdate | WorkersUpdate
+
+export function isWorkersUpdate(update: UpdatePayload): update is WorkersUpdate {
+  return Array.isArray((update as WorkersUpdate).workers)
 }
 
 /** Callback from controller when it has updated data */

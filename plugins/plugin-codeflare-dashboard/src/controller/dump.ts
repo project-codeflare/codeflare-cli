@@ -17,7 +17,7 @@
 import { Arguments } from "@kui-shell/core"
 
 import { pathsFor } from "./dashboard/tailf.js"
-import { isValidKind } from "./dashboard/kinds.js"
+import { filepathOf, isValidKind } from "./dashboard/kinds.js"
 import { Options as DashboardOptions, jobIdFrom, usage as dbUsage } from "./dashboard/index.js"
 
 export type Options = DashboardOptions & {
@@ -50,7 +50,7 @@ export default async function dump(args: Arguments<Options>) {
 
   if (kind === "path") {
     // print the path to the data captured for the given jobId in the given profile
-    return import("./path.js").then((_) => _.pathFor(profile, jobId))
+    return import("./path.js").then((_) => _.pathFor("env", profile, jobId))
   } else if (kind === "env") {
     // print job env vars
     return JSON.stringify(await import("./env.js").then((_) => _.getJobEnv(profile, jobId)), undefined, 2)
@@ -60,10 +60,10 @@ export default async function dump(args: Arguments<Options>) {
       (
         await pathsFor(kind, profile, jobId)
       ).map(
-        (filepath) =>
+        (src) =>
           new Promise((resolve, reject) => {
             try {
-              const rs = createReadStream(filepath)
+              const rs = createReadStream(filepathOf(src))
               rs.on("close", resolve)
               rs.pipe(process.stdout)
             } catch (err) {
