@@ -24,13 +24,13 @@ type Options = {
   /** Theme to use for worker status */
   theme: string
 
-  /** Number of lines of log messages to show [default: 8] */
-  lines: number
+  /** Number of lines of events to show [default: 8] */
+  events: number
 }
 
 export default Options
 
 export const flags = {
   boolean: ["demo"],
-  alias: { lines: ["l"], theme: ["t"], demo: ["d"], scale: ["s"] },
+  alias: { events: ["e"], theme: ["t"], demo: ["d"], scale: ["s"] },
 }
