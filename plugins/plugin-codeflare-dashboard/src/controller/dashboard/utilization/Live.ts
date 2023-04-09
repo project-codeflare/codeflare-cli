@@ -51,7 +51,10 @@ export default class Live {
   ) {
     tails.map((tailf) => {
       tailf.then(({ stream }) => {
-        stream.on("data", (data) => {
+        // async here to improve interleaving (i.e. the async is used
+        // to introduce a thread yield), not because we have anything
+        // inherently asynchronous to do
+        stream.on("data", async (data) => {
           if (data) {
             const line = stripAnsi(data)
             const cols = line.split(/\s+/)
@@ -115,11 +118,6 @@ export default class Live {
                   // out of date event, drop it
                   return
                 }
-
-                // inform the UI that we have updates
-                cb({
-                  workers: Object.values(this.workers),
-                })
               }
 
               if (name === "*") {
@@ -129,6 +127,11 @@ export default class Live {
                 // this event affects a specific worker
                 update(name)
               }
+
+              // inform the UI that we have updates
+              cb({
+                workers: Object.values(this.workers),
+              })
             }
           }
         })

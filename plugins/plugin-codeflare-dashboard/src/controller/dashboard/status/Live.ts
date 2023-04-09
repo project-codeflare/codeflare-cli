@@ -181,16 +181,12 @@ export default class Live {
     }
   }
 
-  /** Helps with debouncing logLine updates */
-  private logLineTO: null | ReturnType<typeof setTimeout> = null
-
   /** Add the given `line` to our logLines model and pass the updated model to `cb` */
   private pushLineAndPublish(logLine: string, cb: OnData) {
     if (logLine) {
       // here we avoid a flood of React renders by batching them up a
       // bit; i thought react 18 was supposed to help with this. hmm.
-      if (this.logLineTO) clearTimeout(this.logLineTO)
-      this.logLineTO = setTimeout(() => cb({ logLine }), 1)
+      cb({ logLine })
     }
   }
 
