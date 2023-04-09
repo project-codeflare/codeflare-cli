@@ -69,79 +69,81 @@ export default class Live {
 
   public constructor(
     historyConfig: HistoryConfig,
-    private readonly tails: Promise<Tail>[],
+    private readonly tails: Promise<null | Tail>[],
     cb: OnData,
     styleOf: Record<WorkerState, TextProps>,
     private readonly opts: Pick<Options, "events">
   ) {
     tails.map((tailf) => {
-      tailf.then(({ kind, stream }) => {
-        stream.on("data", (data) => {
-          if (data) {
-            if (kind === "logs") {
-              this.pushLineAndPublish(data, cb)
-            }
+      tailf.then((tail) => {
+        if (tail) {
+          tail.stream.on("data", (data) => {
+            if (data) {
+              if (tail.kind === "logs") {
+                this.pushLineAndPublish(data, cb)
+              }
 
-            const line = stripAnsi(data)
-            const cols = line.split(/\s+/)
+              const line = stripAnsi(data)
+              const cols = line.split(/\s+/)
 
-            const provider = !cols[0] ? undefined : cols[0].replace(/^\[/, "")
-            const key = !cols[1] ? undefined : cols[1].replace(/\]$/, "")
-            const fullKey = (provider || "") + "_" + (key || "")
-            const metric = !provider || !key ? undefined : stateFor[fullKey] || stateFor[key]
-            const name = cols[2] ? cols[2].trim() : undefined
-            const timestamp = this.asMillisSinceEpoch(cols[cols.length - 1])
+              const provider = !cols[0] ? undefined : cols[0].replace(/^\[/, "")
+              const key = !cols[1] ? undefined : cols[1].replace(/\]$/, "")
+              const fullKey = (provider || "") + "_" + (key || "")
+              const metric = !provider || !key ? undefined : stateFor[fullKey] || stateFor[key]
+              const name = cols[2] ? cols[2].trim() : undefined
+              const timestamp = this.asMillisSinceEpoch(cols[cols.length - 1])
 
-            if (!name || !timestamp) {
-              // console.error("Bad status record", line)
-              return
-            } else if (!metric) {
-              // ignoring this line
-              return
-            } else if (provider === "Workers" && (!/^pod\//.test(name) || /cleaner/.test(name))) {
-              // only track pod events, and ignore our custodial pods
-              return
-            } else {
-              const update = (name: string) => {
-                if (!this.workers[name]) {
-                  // never seen this named worker before
-                  this.workers[name] = {
-                    name,
-                    metric,
-                    metricHistory: [],
-                    firstUpdate: timestamp,
-                    lastUpdate: timestamp,
-                    style: styleOf[metric],
+              if (!name || !timestamp) {
+                // console.error("Bad status record", line)
+                return
+              } else if (!metric) {
+                // ignoring this line
+                return
+              } else if (provider === "Workers" && (!/^pod\//.test(name) || /cleaner/.test(name))) {
+                // only track pod events, and ignore our custodial pods
+                return
+              } else {
+                const update = (name: string) => {
+                  if (!this.workers[name]) {
+                    // never seen this named worker before
+                    this.workers[name] = {
+                      name,
+                      metric,
+                      metricHistory: [],
+                      firstUpdate: timestamp,
+                      lastUpdate: timestamp,
+                      style: styleOf[metric],
+                    }
+                  } else if (this.workers[name].lastUpdate <= timestamp) {
+                    // we have seen it before, update the metric value and
+                    // timestamp; note that we only update the model if our
+                    // timestamp is after the lastUpdate for this worker
+                    this.workers[name].metric = metric
+                    this.workers[name].lastUpdate = timestamp
+                    this.workers[name].style = styleOf[metric]
+                  } else {
+                    // out of date event, drop it
+                    return
                   }
-                } else if (this.workers[name].lastUpdate <= timestamp) {
-                  // we have seen it before, update the metric value and
-                  // timestamp; note that we only update the model if our
-                  // timestamp is after the lastUpdate for this worker
-                  this.workers[name].metric = metric
-                  this.workers[name].lastUpdate = timestamp
-                  this.workers[name].style = styleOf[metric]
-                } else {
-                  // out of date event, drop it
-                  return
+
+                  // inform the UI that we have updates
+                  cb({
+                    events: this.pushEvent(data, metric, timestamp),
+                    workers: Object.values(this.workers),
+                  })
                 }
 
-                // inform the UI that we have updates
-                cb({
-                  events: this.pushEvent(data, metric, timestamp),
-                  workers: Object.values(this.workers),
-                })
-              }
-
-              if (name === "*") {
-                // this event affects every worker
-                Object.keys(this.workers).forEach(update)
-              } else {
-                // this event affects a specific worker
-                update(name)
+                if (name === "*") {
+                  // this event affects every worker
+                  Object.keys(this.workers).forEach(update)
+                } else {
+                  // this event affects a specific worker
+                  update(name)
+                }
               }
             }
-          }
-        })
+          })
+        }
       })
     })
   }
@@ -243,7 +245,9 @@ export default class Live {
       this.tails.map(async (_) => {
         try {
           const tail = await _
-          return tail.quit()
+          if (tail) {
+            return tail.quit()
+          }
         } catch (err) {
           // error initializing tailf, probably doesn't matter now that
           // we're cleaning up

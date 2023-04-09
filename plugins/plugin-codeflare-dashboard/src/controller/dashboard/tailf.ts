@@ -27,32 +27,57 @@ export type Tail = {
   quit: TailFile["quit"]
 }
 
-export function waitTillExists(filepath: string) {
-  const watcher = chokidar.watch(filepath)
-  return new Promise<void>((resolve, reject) => {
-    watcher.on("add", () => resolve())
-    watcher.on("error", reject)
+export function waitTillExists(filepath: string, okIf404 = true) {
+  return new Promise<boolean>((resolve, reject) => {
+    const watcher = chokidar.watch(filepath)
+
+    const closeAndResolve = async (exists = true) => {
+      await watcher.close()
+      resolve(exists)
+    }
+
+    const closeAndReject = async (err: unknown) => {
+      await watcher.close()
+      reject(err)
+    }
+
+    watcher.on("add", closeAndResolve)
+    watcher.on("error", closeAndReject)
+
+    // oof, we need to give up, at some point
+    const timeoutSeconds = process.env.FILE_WAIT_TIMEOUT ? parseInt(process.env.FILE_WAIT_TIMEOUT, 10) : 5
+    setTimeout(() => {
+      if (okIf404) {
+        closeAndResolve(false)
+      } else {
+        closeAndReject(new Error(`Could not find ${filepath} after ${timeoutSeconds} seconds`))
+      }
+    }, timeoutSeconds * 1000)
   })
 }
 
-async function initTail({ kind, filepath }: KindedSource, split = true): Promise<Tail> {
-  await waitTillExists(filepath)
+async function initTail({ kind, filepath }: KindedSource, split = true, okIf404 = true): Promise<null | Tail> {
+  const exists = await waitTillExists(filepath, okIf404)
 
-  return new Promise<Tail>((resolve, reject) => {
-    const tail = new TailFile(filepath, {
-      startPos: 0,
-      pollFileIntervalMs: 500,
+  if (!exists) {
+    return null
+  } else {
+    return new Promise<Tail>((resolve, reject) => {
+      const tail = new TailFile(filepath, {
+        startPos: 0,
+        pollFileIntervalMs: 500,
+      })
+
+      tail.once("tail_error", reject)
+      tail.start()
+
+      resolve({
+        kind,
+        stream: split ? tail.pipe(split2()) : tail,
+        quit: tail.quit.bind(tail),
+      })
     })
-
-    tail.once("tail_error", reject)
-    tail.start()
-
-    resolve({
-      kind,
-      stream: split ? tail.pipe(split2()) : tail,
-      quit: tail.quit.bind(tail),
-    })
-  })
+  }
 }
 
 export async function pathsFor(mkind: Kind, profile: string, jobId: string) {
@@ -71,7 +96,9 @@ export default async function tailf(
   kind: Kind,
   profile: string,
   jobId: string,
-  split = true
-): Promise<Promise<Tail>[]> {
-  return pathsFor(kind, profile, jobId).then((_) => _.map((src) => initTail(src, split)))
+  split = true,
+  okIf404 = true
+): Promise<Promise<null | Tail>[]> {
+  const paths = await pathsFor(kind, profile, jobId)
+  return paths.map((src) => initTail(src, split, okIf404))
 }
