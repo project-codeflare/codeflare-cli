@@ -37,9 +37,11 @@ export type Worker = {
   lastUpdate: number
 }
 
+export type TimestampedLine = { line: string; timestamp: number }
+
 export type LogLineUpdate = {
   /** Log lines */
-  logLine: string[]
+  logLine: TimestampedLine[]
 }
 
 export type WorkersUpdate = {
@@ -47,7 +49,7 @@ export type WorkersUpdate = {
   workers: Worker[]
 
   /** Lines of raw event lines to be displayed */
-  events?: { line: string; timestamp: number }[]
+  events?: TimestampedLine[]
 }
 
 /** Model that allows the controllers to pass updated `Worker` info */
