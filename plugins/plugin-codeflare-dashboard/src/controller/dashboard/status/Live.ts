@@ -19,6 +19,7 @@ import ansiRegex from "ansi-regex"
 import stripAnsi from "strip-ansi"
 import type { TextProps } from "ink"
 
+import stripColors from "../stripColors.js"
 import type Options from "../options.js"
 import type { Tail } from "../tailf.js"
 import type HistoryConfig from "../history.js"
@@ -80,7 +81,7 @@ export default class Live {
           tail.stream.on("data", (data) => {
             if (data) {
               if (tail.kind === "logs") {
-                this.pushLineAndPublish(data, cb)
+                this.pushLineAndPublish(stripColors(data), cb)
               }
 
               const line = stripAnsi(data)
@@ -174,7 +175,7 @@ export default class Live {
     const rec = {
       timestamp,
       stateRank: rankFor[metric],
-      line: key,
+      line: stripColors(key),
     }
 
     const already = this.lookup[rec.line]
