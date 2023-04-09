@@ -45,14 +45,12 @@ export function waitTillExists(filepath: string, okIf404 = true) {
     watcher.on("error", closeAndReject)
 
     // oof, we need to give up, at some point
-    const timeoutSeconds = process.env.FILE_WAIT_TIMEOUT ? parseInt(process.env.FILE_WAIT_TIMEOUT, 10) : 5
-    setTimeout(() => {
-      if (okIf404) {
-        closeAndResolve(false)
-      } else {
+    if (!okIf404) {
+      const timeoutSeconds = process.env.FILE_WAIT_TIMEOUT ? parseInt(process.env.FILE_WAIT_TIMEOUT, 10) : 5
+      setTimeout(() => {
         closeAndReject(new Error(`Could not find ${filepath} after ${timeoutSeconds} seconds`))
-      }
-    }, timeoutSeconds * 1000)
+      }, timeoutSeconds * 1000)
+    }
   })
 }
 
