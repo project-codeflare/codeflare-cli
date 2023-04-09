@@ -57,14 +57,16 @@ export default class Live {
   /** Model of the lines of output */
   private readonly events = new Heap<Event>((a, b) => {
     if (a.line === b.line) {
-      return a.timestamp - b.timestamp
+      // later timestamps get higher priority
+      return b.timestamp - a.timestamp
     }
 
     const stateDiff = a.stateRank - b.stateRank
     if (stateDiff !== 0) {
       return stateDiff
     } else {
-      return a.timestamp - b.timestamp
+      // later timestamps get higher priority
+      return b.timestamp - a.timestamp
     }
   })
 
@@ -83,6 +85,7 @@ export default class Live {
               if (tail.kind === "logs") {
                 // handle a log line
                 this.pushLineAndPublish(stripColors(data), cb)
+                return
               }
 
               // otherwise, treat it as an event
@@ -129,11 +132,7 @@ export default class Live {
                     return
                   }
 
-                  // inform the UI that we have updates
-                  cb({
-                    events: this.pushEvent(data, metric, timestamp),
-                    workers: Object.values(this.workers),
-                  })
+                  this.pushEvent(data, metric, timestamp)
                 }
 
                 if (name === "*") {
@@ -143,6 +142,12 @@ export default class Live {
                   // this event affects a specific worker
                   update(name)
                 }
+
+                // inform the UI that we have updates
+                cb({
+                  events: this.importantEvents(),
+                  workers: Object.values(this.workers),
+                })
               }
             }
           })
@@ -153,10 +158,14 @@ export default class Live {
 
   /** @return the most important events, to be shown in the UI */
   private importantEvents() {
-    return this.events
-      .toArray()
-      .slice(0, this.opts.events || 8)
-      .sort((a, b) => a.timestamp - b.timestamp)
+    if (this.opts.events === 0) {
+      return []
+    } else {
+      return this.events
+        .toArray()
+        .slice(0, this.opts.events || 8) // 8 highest priority
+        .sort((a, b) => a.timestamp - b.timestamp) // sorted by time
+    }
   }
 
   /** Replace any timestamps with a placeholder, so that the UI can use a "5m ago" style */
@@ -182,6 +191,7 @@ export default class Live {
   }
 
   private readonly lookup: Record<string, Event> = {}
+
   /** Add `line` to our heap `this.events` */
   private pushEvent(line: string, metric: WorkerState, timestamp: number) {
     const key = this.prepareLineForUI(line)
@@ -207,11 +217,11 @@ export default class Live {
       }
     }
 
-    if (this.opts.events === 0) {
+    /* if (this.opts.events === 0) {
       return []
     } else {
       return this.importantEvents()
-    }
+    } */
   }
 
   /** This helps us parse out a [W5] style prefix for loglines, so we can intuit the worker id of the log line */
