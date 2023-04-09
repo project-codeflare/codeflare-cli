@@ -57,15 +57,14 @@ export default class Timeline extends React.PureComponent<Props> {
    * Render one cell to represent the average over the given `workers`
    * for the given grid, for the given time.
    */
-  private cell(workers: Worker[], spec: GridSpec, timeIdx: number, isLatest: boolean) {
+  private cell(workers: Worker[], spec: GridSpec, timeIdx: number) {
     const metricIdx = avg(workers, "metricIdxTotal", timeIdx)
     const style = spec.states[metricIdx] ? spec.states[metricIdx].style : { color: "gray", dimColor: true }
 
     return (
-      <React.Fragment key={timeIdx}>
-        <Text {...style}>{this.block.historic}</Text>
-        <Text dimColor>{isLatest ? this.block.latest : ""}</Text>
-      </React.Fragment>
+      <Text {...style} key={timeIdx}>
+        {this.block.historic}
+      </Text>
     )
   }
 
@@ -73,7 +72,7 @@ export default class Timeline extends React.PureComponent<Props> {
   private cells(workers: Worker[], spec: GridSpec, nTimes: number, timeStartIdx: number) {
     return Array(nTimes - timeStartIdx)
       .fill(0)
-      .map((_, idx, A) => this.cell(workers, spec, idx + timeStartIdx, idx === A.length - 1))
+      .map((_, idx) => this.cell(workers, spec, idx + timeStartIdx))
   }
 
   /** Render the timeline UI for the given grid */
