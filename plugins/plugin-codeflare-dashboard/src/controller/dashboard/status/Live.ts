@@ -37,7 +37,7 @@ type Event = { line: string; stateRank: number; timestamp: number }
  * we received it. Perhaps suboptimal, but we cannot guarantee that
  * random log lines from applications are timestamped.
  */
-type LogLineRecord = { id: string; logLine: string; localMillis: number }
+type LogLineRecord = { id: string; line: string; timestamp: number }
 
 /**
  * Maintain a model of live data from a given set of file streams
@@ -81,9 +81,11 @@ export default class Live {
           tail.stream.on("data", (data) => {
             if (data) {
               if (tail.kind === "logs") {
+                // handle a log line
                 this.pushLineAndPublish(stripColors(data), cb)
               }
 
+              // otherwise, treat it as an event
               const line = stripAnsi(data)
               const cols = line.split(/\s+/)
 
@@ -162,14 +164,28 @@ export default class Live {
     return line.replace(/\s*(\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?Z)\s*/, "{timestamp}")
   }
 
+  /** Strip out the worker name from `line` */
+  private stripWorkerName(line: string) {
+    return line
+      .replace(/pod\/\S+-torchx-\S+ /, "") // worker name in torchx
+      .replace(/pod\/ray-(head|worker)-\S+ /, "") // worker name in ray
+      .replace(/\* /, "") // wildcard worker name (codeflare)
+  }
+
+  private stripPageClear(line: string) {
+    // eslint-disable-next-line no-control-regex
+    return line.replace(/\x1b\x5B\[2J/g, "")
+  }
+
+  private prepareLineForUI(line: string) {
+    return this.stripPageClear(this.stripWorkerName(this.timestamped(line)))
+  }
+
   private readonly lookup: Record<string, Event> = {}
   /** Add `line` to our heap `this.events` */
   private pushEvent(line: string, metric: WorkerState, timestamp: number) {
-    const key = this.timestamped(line)
-      .replace(/pod\/torchx-\S+ /, "") // worker name in torchx
-      .replace(/pod\/ray-(head|worker)-\S+ /, "") // worker name in ray
-      .replace(/\* /, "") // wildcard worker name (codeflare)
-      .replace(/\x1b\x5B\[2J/g, "") // eslint-disable-line no-control-regex
+    const key = this.prepareLineForUI(line)
+
     // ^^^ [2J is part of clear screen; we don't want those to flow through
 
     const rec = {
@@ -202,7 +218,7 @@ export default class Live {
   private readonly workerIdPattern = new RegExp("^(" + ansiRegex().source + ")?\\[([^\\]]+)\\]")
 
   private readonly timeSorter = (a: LogLineRecord, b: LogLineRecord): number => {
-    return a.localMillis - b.localMillis
+    return a.timestamp - b.timestamp
   }
 
   private readonly idSorter = (a: LogLineRecord, b: LogLineRecord): number => {
@@ -217,7 +233,9 @@ export default class Live {
       const match = logLine.match(this.workerIdPattern)
       const id = match ? match[2] : "notsure"
       if (id) {
-        this.logLine[id] = { id, logLine, localMillis: Date.now() }
+        const idx = logLine.lastIndexOf(" ")
+        const timestamp = idx < 0 ? undefined : this.asMillisSinceEpoch(stripAnsi(logLine.slice(idx + 1)))
+        this.logLine[id] = { id, line: this.prepareLineForUI(logLine), timestamp: timestamp || Date.now() }
 
         // display the k most recent logLines per worker, ordering the display by worker id
         const k = 4
@@ -225,8 +243,7 @@ export default class Live {
           logLine: Object.values(this.logLine)
             .sort(this.timeSorter) // so we can pick off the most recent
             .slice(0, k) // now pick off the k most recent
-            .sort(this.idSorter) // sort those k by worker id, so there is a consistent ordering in the UI
-            .map((_) => _.logLine), // and display just the logLine
+            .sort(this.idSorter), // sort those k by worker id, so there is a consistent ordering in the UI
         })
       }
     }

@@ -18,7 +18,7 @@ import React from "react"
 import prettyMillis from "pretty-ms"
 import { Box, Spacer, Text } from "ink"
 
-import type { GridSpec, UpdatePayload, LogLineUpdate, WorkersUpdate, Worker } from "./types.js"
+import type { GridSpec, UpdatePayload, LogLineUpdate, TimestampedLine, WorkersUpdate, Worker } from "./types.js"
 
 import Grid from "./Grid.js"
 import Timeline from "./Timeline.js"
@@ -210,21 +210,25 @@ export default class Dashboard extends React.PureComponent<Props, State> {
     return this.ago(Date.now() - millis)
   }
 
+  /**
+   * The controller (controller/dashboard/utilization/Live) leaves a
+   * {timestamp} breadcrumb in the raw line text, so that we,as the
+   * view, can inject a "5m ago" text, while preserving the ansi
+   * formatting that surrounds the timestamp.
+   */
+  private readonly textForLine = ({ line, timestamp }: TimestampedLine) => {
+    const txt = line.replace("{timestamp}", () => this.agos(timestamp))
+    return <Text key={txt}>{txt}</Text>
+  }
+
   /** Render log lines and events */
   private footer() {
     if (!this.events && !this.logLine) {
       return <React.Fragment />
     } else {
-      const eventRows = (this.events || []).map(({ line, timestamp }) => {
-        // the controller (controller/dashboard/utilization/Live)
-        // leaves a {timestamp} breadcrumb in the raw line text, so
-        // that we,as the view, can inject a "5m ago" text, while
-        // preserving the ansi formatting that surrounds the timestamp
-        const txt = line.replace("{timestamp}", () => this.agos(timestamp))
-        return <Text key={txt}>{txt}</Text>
-      })
+      const eventRows = (this.events || []).map(this.textForLine)
 
-      const logLineRows = (this.logLine ? this.logLine : []).map((line) => <Text key={line}>{line}</Text>)
+      const logLineRows = (this.logLine ? this.logLine : []).map(this.textForLine)
 
       return (
         <React.Fragment>
@@ -295,9 +299,7 @@ export default class Dashboard extends React.PureComponent<Props, State> {
     return (
       <Box flexDirection="column">
         {this.grids()}
-        <Box marginTop={1}>
-          <Timeline gridModels={this.gridModels} workers={this.state?.workers} />
-        </Box>
+        <Timeline gridModels={this.gridModels} workers={this.state?.workers} />
       </Box>
     )
   }
