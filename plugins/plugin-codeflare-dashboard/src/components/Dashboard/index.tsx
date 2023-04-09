@@ -80,23 +80,41 @@ export default class Dashboard extends React.PureComponent<Props, State> {
     }
   }
 
-  /** We have received an update from `this.props.initWatcher` */
+  /** Helps with debouncing updates of WorkersUpdate */
+  private updateDebounce1: (null | ReturnType<typeof setTimeout>)[] = []
+
+  /** Helps with debouncing updates of LogLineUpdate */
+  private updateDebounce2: (null | ReturnType<typeof setTimeout>)[] = []
+
+  /** We have received an update from a `GridSpec.initWatcher` */
   private readonly onUpdate = (gridIdx: number, model: UpdatePayload) => {
-    this.setState((curState) => ({
-      firstUpdate: (curState && curState.firstUpdate) || Date.now(), // TODO pull from the events
-      lastUpdate: Date.now(), // TODO pull from the events
-      events: !isWorkersUpdate(model)
-        ? curState?.events
-        : !model.events || model.events.length === 0
-        ? curState?.events
-        : model.events,
-      logLine: !isWorkersUpdate(model) ? model.logLine : curState?.logLine,
-      workers: !isWorkersUpdate(model)
-        ? curState?.workers
-        : !curState?.workers
-        ? [model.workers]
-        : [...curState.workers.slice(0, gridIdx), model.workers, ...curState.workers.slice(gridIdx + 1)],
-    }))
+    // to avoid a flurry of renders, we do some debouncing here
+    const bouncies = isWorkersUpdate(model) ? this.updateDebounce1 : this.updateDebounce2
+    const bouncey = bouncies[gridIdx]
+    if (bouncey !== null) clearTimeout(bouncey)
+
+    bouncies[gridIdx] = setTimeout(
+      () =>
+        this.setState((curState) => ({
+          lastUpdate: Date.now(), // TODO pull from the events
+          firstUpdate: (curState && curState.firstUpdate) || Date.now(), // TODO pull from the events
+
+          logLine: !isWorkersUpdate(model) ? model.logLine : curState?.logLine,
+
+          events: !isWorkersUpdate(model)
+            ? curState?.events
+            : !model.events || model.events.length === 0
+            ? curState?.events
+            : model.events,
+
+          workers: !isWorkersUpdate(model)
+            ? curState?.workers
+            : !curState?.workers
+            ? [model.workers]
+            : [...curState.workers.slice(0, gridIdx), model.workers, ...curState.workers.slice(gridIdx + 1)],
+        })),
+      0
+    )
   }
 
   /** @return the grid models, excluding the `null` linebreak indicators */
