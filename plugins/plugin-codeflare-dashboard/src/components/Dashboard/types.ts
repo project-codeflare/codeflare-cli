@@ -39,7 +39,7 @@ export type Worker = {
 
 export type LogLineUpdate = {
   /** Log lines */
-  logLine: string
+  logLine: string[]
 }
 
 export type WorkersUpdate = {

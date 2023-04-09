@@ -215,21 +215,35 @@ export default class Dashboard extends React.PureComponent<Props, State> {
     if (!this.events && !this.logLine) {
       return <React.Fragment />
     } else {
-      const rows = (this.events || [])
-        .map(({ line, timestamp }) => {
-          // the controller (controller/dashboard/utilization/Live)
-          // leaves a {timestamp} breadcrumb in the raw line text, so
-          // that we,as the view, can inject a "5m ago" text, while
-          // preserving the ansi formatting that surrounds the timestamp
-          const txt = line.replace("{timestamp}", () => this.agos(timestamp))
-          return <Text key={txt}>{txt}</Text>
-        })
-        .concat((this.logLine ? [this.logLine] : []).map((line) => <Text key={line}>{line}</Text>))
+      const eventRows = (this.events || []).map(({ line, timestamp }) => {
+        // the controller (controller/dashboard/utilization/Live)
+        // leaves a {timestamp} breadcrumb in the raw line text, so
+        // that we,as the view, can inject a "5m ago" text, while
+        // preserving the ansi formatting that surrounds the timestamp
+        const txt = line.replace("{timestamp}", () => this.agos(timestamp))
+        return <Text key={txt}>{txt}</Text>
+      })
+
+      const logLineRows = (this.logLine ? this.logLine : []).map((line) => <Text key={line}>{line}</Text>)
 
       return (
-        <Box marginTop={1} flexDirection="column">
-          {rows}
-        </Box>
+        <React.Fragment>
+          {eventRows.length === 0 ? (
+            <React.Fragment />
+          ) : (
+            <Box marginTop={1} flexDirection="column">
+              {eventRows}
+            </Box>
+          )}
+
+          {logLineRows.length === 0 ? (
+            <React.Fragment />
+          ) : (
+            <Box marginTop={1} flexDirection="column">
+              {logLineRows}
+            </Box>
+          )}
+        </React.Fragment>
       )
     }
   }

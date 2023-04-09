@@ -15,6 +15,7 @@
  */
 
 import Heap from "heap"
+import ansiRegex from "ansi-regex"
 import stripAnsi from "strip-ansi"
 import type { TextProps } from "ink"
 
@@ -29,6 +30,15 @@ import { rankFor, stateFor } from "./states.js"
 type Event = { line: string; stateRank: number; timestamp: number }
 
 /**
+ * Keep track of a local timestamp so we can prioritize and show the
+ * most recent; this is a "local" timestamp in that it does not
+ * indicate when the event was created on the server, but rather when
+ * we received it. Perhaps suboptimal, but we cannot guarantee that
+ * random log lines from applications are timestamped.
+ */
+type LogLineRecord = { id: string; logLine: string; localMillis: number }
+
+/**
  * Maintain a model of live data from a given set of file streams
  * (`tails`), and pump it into the given `cb` callback.
  *
@@ -41,7 +51,7 @@ export default class Live {
   private static readonly MAX_HEAP = 1000
 
   /** Model of logLines. TODO circular buffer and obey options.lines */
-  // private logLine = ""
+  private logLine: Record<string, LogLineRecord> = {}
 
   /** Model of the lines of output */
   private readonly events = new Heap<Event>((a, b) => {
@@ -144,11 +154,15 @@ export default class Live {
       .sort((a, b) => a.timestamp - b.timestamp)
   }
 
+  /** Replace any timestamps with a placeholder, so that the UI can use a "5m ago" style */
+  private timestamped(line: string) {
+    return line.replace(/\s*(\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?Z)\s*/, "{timestamp}")
+  }
+
   private readonly lookup: Record<string, Event> = {}
   /** Add `line` to our heap `this.events` */
   private pushEvent(line: string, metric: WorkerState, timestamp: number) {
-    const key = line
-      .replace(/\s*(\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?Z)\s*/, "{timestamp}")
+    const key = this.timestamped(line)
       .replace(/pod\/torchx-\S+ /, "") // worker name in torchx
       .replace(/pod\/ray-(head|worker)-\S+ /, "") // worker name in ray
       .replace(/\* /, "") // wildcard worker name (codeflare)
@@ -181,12 +195,37 @@ export default class Live {
     }
   }
 
+  /** This helps us parse out a [W5] style prefix for loglines, so we can intuit the worker id of the log line */
+  private readonly workerIdPattern = new RegExp("^(" + ansiRegex().source + ")?\\[([^\\]]+)\\]")
+
+  private readonly timeSorter = (a: LogLineRecord, b: LogLineRecord): number => {
+    return a.localMillis - b.localMillis
+  }
+
+  private readonly idSorter = (a: LogLineRecord, b: LogLineRecord): number => {
+    return a.id.localeCompare(b.id)
+  }
+
   /** Add the given `line` to our logLines model and pass the updated model to `cb` */
   private pushLineAndPublish(logLine: string, cb: OnData) {
     if (logLine) {
       // here we avoid a flood of React renders by batching them up a
       // bit; i thought react 18 was supposed to help with this. hmm.
-      cb({ logLine })
+      const match = logLine.match(this.workerIdPattern)
+      const id = match ? match[2] : "notsure"
+      if (id) {
+        this.logLine[id] = { id, logLine, localMillis: Date.now() }
+
+        // display the k most recent logLines per worker, ordering the display by worker id
+        const k = 4
+        cb({
+          logLine: Object.values(this.logLine)
+            .sort(this.timeSorter) // so we can pick off the most recent
+            .slice(0, k) // now pick off the k most recent
+            .sort(this.idSorter) // sort those k by worker id, so there is a consistent ordering in the UI
+            .map((_) => _.logLine), // and display just the logLine
+        })
+      }
     }
   }
 
