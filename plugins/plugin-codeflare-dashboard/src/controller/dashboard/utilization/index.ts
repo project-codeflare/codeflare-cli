@@ -42,7 +42,7 @@ function titleFor(kind: Kind) {
 
 export default function utilizationDashboard(
   kind: SupportedUtilizationGrid,
-  tails: Promise<Tail>[],
+  tails: Promise<null | Tail>[],
   historyConfig: HistoryConfig,
   opts: Pick<Options, "demo">
 ): GridSpec {

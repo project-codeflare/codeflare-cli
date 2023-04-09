@@ -75,8 +75,23 @@ export default async function dump(args: Arguments<Options>) {
   } else {
     const once = async () => {
       const tails = await import("./dashboard/tailf.js").then((_) => _.default(kind, profile, jobId, false))
-      await Promise.all(tails.map((_) => _.then((_) => _.stream.pipe(process.stdout))))
-      await Promise.all(tails.map((_) => new Promise((resolve) => _.then((_) => _.stream.on("close", resolve)))))
+      await Promise.all(
+        tails.map((_) =>
+          _.then((tail) => {
+            if (tail) tail.stream.pipe(process.stdout)
+          })
+        )
+      )
+      await Promise.all(
+        tails.map(
+          (_) =>
+            new Promise((resolve) =>
+              _.then((tail) => {
+                if (tail) tail.stream.on("close", resolve)
+              })
+            )
+        )
+      )
       return true
     }
 

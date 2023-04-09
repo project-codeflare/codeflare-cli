@@ -28,7 +28,7 @@ import { states } from "./states.js"
 import { isValidStatusTheme, statusThemes } from "./theme.js"
 
 export default function statusDashboard(
-  tails: Promise<Tail>[],
+  tails: Promise<null | Tail>[],
   historyConfig: HistoryConfig,
   opts: Pick<Options, "demo" | "theme" | "events">
 ): GridSpec {

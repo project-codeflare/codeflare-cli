@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import Debug from "debug"
 import { join } from "path"
 
 import { resourcePaths, filepathOf } from "./dashboard/kinds.js"
@@ -55,9 +56,15 @@ export async function getJobEnv(profile: string, jobId: string): Promise<Record<
 
 export async function numGpus(profile: string, jobId: string): Promise<number> {
   const filepath = await getJobEnvFilepath(profile, jobId)
-  await import("./dashboard/tailf.js").then((_) => _.waitTillExists(filepath))
 
   try {
+    await import("./dashboard/tailf.js")
+      .then((_) => _.waitTillExists(filepath))
+      .catch((err) => {
+        Debug("dashboard/controller/env")(err)
+        throw new Error("Could not find information about GPUs, assuming none")
+      })
+
     const env = await getJobEnv(profile, jobId)
 
     const raw = env["NUM_GPUS"]
