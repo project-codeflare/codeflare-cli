@@ -1,3 +1,22 @@
+# [4.5.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.11...v4.5.0) (2023-04-09)
+
+### Bug Fixes
+
+- don't bother displaying end marker in Timelines ([5ec57c0](https://github.com/project-codeflare/codeflare-cli/commit/5ec57c0d6d6dce9ee27f7d045e3e3bf6d3839e29))
+- improve performance of dashboard replay ([2388228](https://github.com/project-codeflare/codeflare-cli/commit/2388228840c019436c9a059eb05387b5deab01f5))
+- increase legend margins ([da7715a](https://github.com/project-codeflare/codeflare-cli/commit/da7715aad3f8e0ec48fe6511eb8dd79cf58f676d))
+- ray jobs emit job env.json only after job is running ([027e7bc](https://github.com/project-codeflare/codeflare-cli/commit/027e7bcdf42be0eadf8df623d5b923356416309b))
+- rename --lines to --events ([5ffce16](https://github.com/project-codeflare/codeflare-cli/commit/5ffce166e89a8c89272bc1b7ec451c89eec7c073))
+- some optimizations for dashboard status processing ([555ccc3](https://github.com/project-codeflare/codeflare-cli/commit/555ccc342f17341b4c4149e3ddebe996910d7ab5))
+- strip colors from dashboard log lines ([26a3234](https://github.com/project-codeflare/codeflare-cli/commit/26a32348950791151d6b4649d37093dd36866cc2))
+- strip node name from events and log lines ([a216fb0](https://github.com/project-codeflare/codeflare-cli/commit/a216fb0d2aab239d8ff9dcf367ec4846e5afa70e))
+- time out if we can't find gpu info ([4f1c237](https://github.com/project-codeflare/codeflare-cli/commit/4f1c237a745067121634de9eff9199aae88725f8))
+- when showing loglines, make sure to show most recent ([188aae6](https://github.com/project-codeflare/codeflare-cli/commit/188aae6ff200b1ca5dea409b5c51654adb8b7034))
+
+### Features
+
+- add log lines to dashboard ([0bf9ead](https://github.com/project-codeflare/codeflare-cli/commit/0bf9ead9b204d5ca88c591d3396004bbf7fbf255))
+
 ## [4.4.11](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.10...v4.4.11) (2023-04-07)
 
 ### Bug Fixes
