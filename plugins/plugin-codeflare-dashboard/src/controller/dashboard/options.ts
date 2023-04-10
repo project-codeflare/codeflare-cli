@@ -35,5 +35,5 @@ export default Options
 
 export const flags = {
   boolean: ["demo"],
-  alias: { events: ["e"], lines: ["l"], theme: ["t"], demo: ["d"], scale: ["s"] },
+  alias: { events: ["e"], lines: ["l"], theme: ["t"], demo: ["d"], scale: ["s"], "update-frequency": ["u"] },
 }

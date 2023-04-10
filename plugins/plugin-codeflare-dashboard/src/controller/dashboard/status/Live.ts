@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import Heap from "heap"
+import chalk from "chalk"
 import ansiRegex from "ansi-regex"
 import stripAnsi from "strip-ansi"
 import type { TextProps } from "ink"
@@ -28,7 +28,12 @@ import type { OnData, Worker } from "../../../components/Dashboard/types.js"
 
 import { rankFor, stateFor } from "./states.js"
 
-type Event = { line: string; stateRank: number; timestamp: number }
+type Lined = { line: string }
+type Timestamped = { timestamp: number }
+type Identified<T extends number | string> = { id: T }
+
+/** Event record */
+type Event = Identified<number> & Timestamped & Lined & { stateRank: number }
 
 /**
  * Keep track of a local timestamp so we can prioritize and show the
@@ -37,7 +42,12 @@ type Event = { line: string; stateRank: number; timestamp: number }
  * we received it. Perhaps suboptimal, but we cannot guarantee that
  * random log lines from applications are timestamped.
  */
-type LogLineRecord = { id: string; line: string; timestamp: number }
+type LogLineRecord = Identified<string> &
+  Timestamped &
+  Lined & {
+    /** Keep track of whether we've already shown a "heartbeat" message for each worker */
+    alreadySeenHeartbeat: boolean
+  }
 
 /**
  * Maintain a model of live data from a given set of file streams
@@ -45,30 +55,20 @@ type LogLineRecord = { id: string; line: string; timestamp: number }
  *
  */
 export default class Live {
-  /** Model of status per worker */
-  private readonly workers: Record<string, Worker> = {}
+  /** Give an ordinal identifier [0, numWorkers) to a worker name */
+  private ordinals: Record<string, number> = {}
+
+  /** Model of status per worker, indexed by the worker's ordinal */
+  private readonly workers: Worker[] = []
 
   /** Number of lines of event output to retain. TODO this depends on height of terminal? */
   private static readonly MAX_HEAP = 1000
 
-  /** Model of logLines. TODO circular buffer and obey options.lines */
+  /** Model of logLines */
   private logLine: Record<string, LogLineRecord> = {}
 
-  /** Model of the lines of output */
-  private readonly events = new Heap<Event>((a, b) => {
-    if (a.line === b.line) {
-      // later timestamps get higher priority
-      return b.timestamp - a.timestamp
-    }
-
-    const stateDiff = a.stateRank - b.stateRank
-    if (stateDiff !== 0) {
-      return stateDiff
-    } else {
-      // later timestamps get higher priority
-      return b.timestamp - a.timestamp
-    }
-  })
+  /** Model of the lines of output, indexed by worker ordinal */
+  private readonly events: Event[] = []
 
   public constructor(
     historyConfig: HistoryConfig,
@@ -84,7 +84,7 @@ export default class Live {
             if (data) {
               if (tail.kind === "logs") {
                 // handle a log line
-                this.pushLineAndPublish(stripColors(data), cb)
+                this.pushLineAndPublish(data, cb)
                 return
               }
 
@@ -110,9 +110,11 @@ export default class Live {
                 return
               } else {
                 const update = (name: string) => {
-                  if (!this.workers[name]) {
+                  const ordinal = this.ordinalOf(name)
+
+                  if (!this.workers[ordinal]) {
                     // never seen this named worker before
-                    this.workers[name] = {
+                    this.workers[ordinal] = {
                       name,
                       metric,
                       metricHistory: [],
@@ -120,24 +122,24 @@ export default class Live {
                       lastUpdate: timestamp,
                       style: styleOf[metric],
                     }
-                  } else if (this.workers[name].lastUpdate <= timestamp) {
+                  } else if (this.workers[ordinal].lastUpdate <= timestamp) {
                     // we have seen it before, update the metric value and
                     // timestamp; note that we only update the model if our
                     // timestamp is after the lastUpdate for this worker
-                    this.workers[name].metric = metric
-                    this.workers[name].lastUpdate = timestamp
-                    this.workers[name].style = styleOf[metric]
+                    this.workers[ordinal].metric = metric
+                    this.workers[ordinal].lastUpdate = timestamp
+                    this.workers[ordinal].style = styleOf[metric]
                   } else {
                     // out of date event, drop it
                     return
                   }
 
-                  this.pushEvent(data, metric, timestamp)
+                  this.pushEvent(ordinal, data, metric, timestamp)
                 }
 
                 if (name === "*") {
                   // this event affects every worker
-                  Object.keys(this.workers).forEach(update)
+                  this.workers.forEach((_) => update(_.name))
                 } else {
                   // this event affects a specific worker
                   update(name)
@@ -146,7 +148,7 @@ export default class Live {
                 // inform the UI that we have updates
                 cb({
                   events: this.importantEvents(),
-                  workers: Object.values(this.workers),
+                  workers: this.workers,
                 })
               }
             }
@@ -154,18 +156,6 @@ export default class Live {
         }
       })
     })
-  }
-
-  /** @return the most important events, to be shown in the UI */
-  private importantEvents() {
-    if (this.opts.events === 0) {
-      return []
-    } else {
-      return this.events
-        .toArray()
-        .slice(0, this.opts.events || 8) // 8 highest priority
-        .sort((a, b) => a.timestamp - b.timestamp) // sorted by time
-    }
   }
 
   /** Replace any timestamps with a placeholder, so that the UI can use a "5m ago" style */
@@ -184,68 +174,97 @@ export default class Live {
   private stripPageClear(line: string) {
     // eslint-disable-next-line no-control-regex
     return line.replace(/\x1b\x5B\[2J/g, "")
-  }
-
-  private prepareLineForUI(line: string) {
-    return this.stripPageClear(this.stripWorkerName(this.timestamped(line)))
-  }
-
-  private readonly lookup: Record<string, Event> = {}
-
-  /** Add `line` to our heap `this.events` */
-  private pushEvent(line: string, metric: WorkerState, timestamp: number) {
-    const key = this.prepareLineForUI(line)
-
     // ^^^ [2J is part of clear screen; we don't want those to flow through
+  }
 
+  /** Strip off offending elements, such as certain ansi control characters */
+  private prepareLineForUI(line: string) {
+    return stripColors(this.stripPageClear(this.stripWorkerName(this.timestamped(line))))
+  }
+
+  /** Add `line` to our `this.model */
+  private pushEvent(ordinal: number, rawLine: string, metric: WorkerState, timestamp: number) {
     const rec = {
+      id: ordinal,
       timestamp,
       stateRank: rankFor[metric],
-      line: stripColors(key),
+      line: this.ordinalPrefix(ordinal) + this.prepareLineForUI(rawLine),
     }
 
-    const already = this.lookup[rec.line]
-    if (already) {
-      already.timestamp = timestamp
-      this.events.updateItem(already)
-    } else {
-      this.lookup[rec.line] = rec
-      if (this.events.size() >= Live.MAX_HEAP) {
-        this.events.replace(rec)
-      } else {
-        this.events.push(rec)
-      }
-    }
-
-    /* if (this.opts.events === 0) {
-      return []
-    } else {
-      return this.importantEvents()
-    } */
+    this.events[ordinal] = rec
   }
 
   /** This helps us parse out a [W5] style prefix for loglines, so we can intuit the worker id of the log line */
   private readonly workerIdPattern = new RegExp("^(" + ansiRegex().source + ")?\\[([^\\]]+)\\]")
 
-  private readonly timeSorter = (a: LogLineRecord, b: LogLineRecord): number => {
+  /** @return the [0,numWorkers) ordinal for the given `workerName` */
+  private ordinalOf(workerName: string): number {
+    if (workerName in this.ordinals) {
+      return this.ordinals[workerName]
+    } else {
+      return (this.ordinals[workerName] = Object.keys(this.ordinals).length)
+    }
+  }
+
+  /** See if we already have extracted an ordinal in the logline */
+  private ordinalFromLine(logLine: string) {
+    const match = logLine.match(this.workerIdPattern)
+    return match ? match[2] : "notsure"
+  }
+
+  /** @return a pretty signifier of a worker's ordinal */
+  private ordinalPrefix(ordinal: number) {
+    return chalk.bold.yellow(`[W${ordinal}] `)
+  }
+
+  private readonly timeSorter = (a: Timestamped, b: Timestamped): number => {
     return a.timestamp - b.timestamp
   }
 
-  private readonly idSorter = (a: LogLineRecord, b: LogLineRecord): number => {
+  private readonly idSorterS = (a: Identified<string>, b: Identified<string>): number => {
     return a.id.localeCompare(b.id)
+  }
+
+  private readonly idSorterN = (a: Identified<number>, b: Identified<number>): number => {
+    return a.id - b.id
+  }
+
+  /** @return the most important events, to be shown in the UI */
+  private importantEvents() {
+    if (this.opts.events === 0) {
+      // user asked to show no events
+      return []
+    } else {
+      const k = this.opts.events || 8
+      return (
+        this.events
+          // .sort(this.timeSorter)
+          .slice(0, k)
+          .sort(this.idSorterN)
+      )
+    }
   }
 
   /** Add the given `line` to our logLines model and pass the updated model to `cb` */
   private pushLineAndPublish(logLine: string, cb: OnData) {
     if (logLine) {
-      // here we avoid a flood of React renders by batching them up a
-      // bit; i thought react 18 was supposed to help with this. hmm.
-      const match = logLine.match(this.workerIdPattern)
-      const id = match ? match[2] : "notsure"
+      const id = this.ordinalFromLine(logLine)
       if (id) {
+        const isHeartbeat = /Job is active/.test(logLine)
+        const alreadySeenHeartbeat = this.logLine[id] && this.logLine[id].alreadySeenHeartbeat
+        if (isHeartbeat && alreadySeenHeartbeat) {
+          // don't repeat the point...
+          return
+        }
+
         const idx = logLine.lastIndexOf(" ")
         const timestamp = idx < 0 ? undefined : this.asMillisSinceEpoch(stripAnsi(logLine.slice(idx + 1)))
-        this.logLine[id] = { id, line: this.prepareLineForUI(logLine), timestamp: timestamp || Date.now() }
+        this.logLine[id] = {
+          id,
+          line: this.prepareLineForUI(logLine),
+          timestamp: timestamp || Date.now(),
+          alreadySeenHeartbeat: alreadySeenHeartbeat || isHeartbeat,
+        }
 
         // display the k most recent logLines per worker, ordering the display by worker id
         const k = 4
@@ -253,7 +272,7 @@ export default class Live {
           logLine: Object.values(this.logLine)
             .sort(this.timeSorter) // so we can pick off the most recent
             .slice(0, k) // now pick off the k most recent
-            .sort(this.idSorter), // sort those k by worker id, so there is a consistent ordering in the UI
+            .sort(this.idSorterS), // sort those k by worker id, so there is a consistent ordering in the UI
         })
       }
     }

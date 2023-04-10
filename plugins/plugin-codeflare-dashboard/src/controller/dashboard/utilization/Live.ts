@@ -34,6 +34,11 @@ export default class Live {
   /** Model of status per worker */
   private readonly workers: Record<string, Worker> = {}
 
+  /**
+   * Map a [0,100] number-as-string to a `metricIdx`, which is an
+   * index into the `states` array, and also return the parsed integer
+   * `value`.
+   */
   private stateFor(util: string) {
     const value = parseInt(util.replace(/%$/, ""), 10)
     const bucketWidth = ~~(100 / states.length)
@@ -86,7 +91,7 @@ export default class Live {
               if (!name || !timestamp) {
                 // console.error("Bad status record", line)
                 return
-              } else if ((name.includes("/") && !/^pod\//.test(name)) || /cleaner/.test(name)) {
+              } else if (!/^pod\//.test(name) || /cleaner/.test(name)) {
                 // only track pod events, and ignore our custodial pods
                 return
               } else {
