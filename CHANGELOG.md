@@ -1,3 +1,9 @@
+## [4.5.2](https://github.com/project-codeflare/codeflare-cli/compare/v4.5.1...v4.5.2) (2023-04-10)
+
+### Bug Fixes
+
+- status grid UI was not re-rendering on model change ([fe4d189](https://github.com/project-codeflare/codeflare-cli/commit/fe4d18928feffd354e22952d03e20ede82639808))
+
 ## [4.5.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.5.0...v4.5.1) (2023-04-10)
 
 ### Bug Fixes
