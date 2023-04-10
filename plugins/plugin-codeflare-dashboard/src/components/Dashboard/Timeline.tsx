@@ -33,12 +33,13 @@ export default class Timeline extends React.PureComponent<Props> {
     latest: "▏",
   }
 
+  /** This will help us compute whether we are about to overflow terminal width. */
   private get maxLabelLength() {
     return this.props.gridModels.filter((_) => !_.isQualitative).reduce((N, { title }) => Math.max(N, title.length), 0)
   }
 
   /** @return max number of time cells, across all grids and all workers */
-  private nTimeCells() {
+  private get nTimeCells() {
     // outer loop: iterate across grids
     return this.props?.workers.reduce((nTimes, _) => {
       if (Array.isArray(_) && _.length > 0) {
@@ -95,17 +96,13 @@ export default class Timeline extends React.PureComponent<Props> {
       return <React.Fragment />
     }
 
-    const nTimes = this.nTimeCells()
+    // timeStartIdx: once we overflow the viewport's width, we display
+    // the suffix of history information, starting at this index
+    //                                        /- we have a 1-cell margin between row labels and timeline cells
+    const timeStartIdx = Math.abs(Math.max(0, 1 + this.nTimeCells + this.maxLabelLength - process.stdout.columns))
+    //             total number of cells in the model -/           \- room for row labels  \- fit in viewport
 
-    // to help us compute whether we are about to overflow terminal width
-    const maxLabelLength = this.props.gridModels.reduce((N, spec) => {
-      return Math.max(N, spec.title.length)
-    }, 0)
-
-    // once we overflow, display the suffix of history information, starting at this index
-    const timeStartIdx = Math.abs(Math.max(0, nTimes + maxLabelLength - process.stdout.columns))
-
-    if (nTimes === 0) {
+    if (this.nTimeCells === 0) {
       // none of the grids have any temporal information, yet
       return <React.Fragment />
     } else {
@@ -113,7 +110,9 @@ export default class Timeline extends React.PureComponent<Props> {
       return (
         <Box flexDirection="column">
           {this.props.workers.map((workers, gridIdx) => (
-            <Box key={gridIdx}>{this.timeline(workers, this.props.gridModels[gridIdx], nTimes, timeStartIdx)}</Box>
+            <Box key={gridIdx}>
+              {this.timeline(workers, this.props.gridModels[gridIdx], this.nTimeCells, timeStartIdx)}
+            </Box>
           ))}
         </Box>
       )

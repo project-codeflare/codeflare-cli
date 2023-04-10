@@ -35,6 +35,10 @@ export type Options = Arguments["parsedOptions"] & {
   p: string
   profile: string
   theme: string
+
+  /** Frequency of updates to the timeline, in seconds */
+  u: number
+  "update-frequency": number
 }
 
 /** Behave like top, where the screen is cleared just for this process */
@@ -153,7 +157,7 @@ export default async function dashboard(args: Arguments<Options>, cmd: "db" | "d
   }
 
   const historyConfig: HistoryConfig = {
-    width: 5000,
+    width: args.parsedOptions.u ? 1000 * args.parsedOptions.u : 5000,
   }
 
   const db = dashboardUI(profile, jobId, await gridForA(kind, historyConfig), { scale })
