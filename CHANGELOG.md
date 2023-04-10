@@ -1,3 +1,9 @@
+## [4.5.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.5.0...v4.5.1) (2023-04-10)
+
+### Bug Fixes
+
+- index events by worker ordinal, as we attempt to do for log lines ([0ac7b91](https://github.com/project-codeflare/codeflare-cli/commit/0ac7b9170ad91fdf0b1934371a36409316445279))
+
 # [4.5.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.4.11...v4.5.0) (2023-04-09)
 
 ### Bug Fixes
