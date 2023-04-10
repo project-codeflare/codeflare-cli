@@ -110,8 +110,9 @@ export default class Dashboard extends React.PureComponent<Props, State> {
           workers: !isWorkersUpdate(model)
             ? curState?.workers
             : !curState?.workers
-            ? [model.workers]
-            : [...curState.workers.slice(0, gridIdx), model.workers, ...curState.workers.slice(gridIdx + 1)],
+            ? [model.workers] // i think this is wrong. don't we need to preserve indexing?
+            : [...curState.workers.slice(0, gridIdx), model.workers.slice(), ...curState.workers.slice(gridIdx + 1)],
+          //                                                       ^^^^^^^ ugh, we could optimize this to check for changes
         })),
       0
     )
