@@ -28,6 +28,7 @@ jobs:
     - run: npm ci
 
     - name: Build production app
+      shell: bash
       env:
         NO_INSTALLER: true
       run: npm run build:electron:${{ runner.os }}:${{ runner.arch }}
