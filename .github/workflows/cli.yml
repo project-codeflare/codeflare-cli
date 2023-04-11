@@ -32,6 +32,7 @@ jobs:
     #   if: matrix.os == 'ubuntu-latest'
 
     - run: npm ci && npm run build:headless
+      shell: bash
       env:
         NODE_OPTIONS: "--max_old_space_size=8192"
 
