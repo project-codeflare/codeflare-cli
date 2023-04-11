@@ -25,23 +25,23 @@
   "devDependencies": {
     "@types/debug": "^4.1.7",
     "@types/needle": "^3.2.0",
-    "@types/react": "^18.0.28",
+    "@types/react": "^18.0.34",
     "@types/react-dom": "18.0.11",
     "@types/split2": "^3.2.1"
   },
   "dependencies": {
     "@guidebooks/store": "^7.5.18",
     "@logdna/tail-file": "^3.0.1",
-    "@patternfly/react-charts": "^6.94.18",
-    "@patternfly/react-core": "^4.276.6",
-    "asciinema-player": "^3.1.0",
+    "@patternfly/react-charts": "^6.94.19",
+    "@patternfly/react-core": "^4.276.8",
+    "asciinema-player": "^3.2.0",
     "chokidar": "^3.5.3",
-    "madwizard": "^8.0.13",
+    "madwizard": "^9.0.2",
     "needle": "^3.2.0",
-    "open": "^8.4.2",
+    "open": "^9.1.0",
     "pretty-bytes": "^6.1.0",
-    "pretty-ms": "^7.0.1",
-    "split2": "^4.1.0",
-    "strip-ansi": "6.0.0"
+    "pretty-ms": "^8.0.0",
+    "split2": "^4.2.0",
+    "strip-ansi": "7.0.1"
   }
 }
