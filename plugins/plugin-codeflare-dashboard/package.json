@@ -30,8 +30,8 @@
     "@logdna/tail-file": "^3.0.1",
     "chokidar": "^3.5.3",
     "ink": "^3.2.0",
-    "madwizard": "^8.0.13",
-    "pretty-ms": "^7.0.1",
-    "strip-ansi": "6.0.0"
+    "madwizard": "^9.0.2",
+    "pretty-ms": "^8.0.0",
+    "strip-ansi": "7.0.1"
   }
 }
