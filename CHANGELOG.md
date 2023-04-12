@@ -1,3 +1,9 @@
+# [4.7.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.6.2...v4.7.0) (2023-04-12)
+
+### Features
+
+- avoid websocat in ml/ray/run/logs ([53551cd](https://github.com/project-codeflare/codeflare-cli/commit/53551cd81d424846cd305bce7767cc5b80094884))
+
 ## [4.6.2](https://github.com/project-codeflare/codeflare-cli/compare/v4.6.1...v4.6.2) (2023-04-12)
 
 ### Bug Fixes
