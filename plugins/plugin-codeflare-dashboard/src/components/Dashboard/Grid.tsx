@@ -208,10 +208,12 @@ export default class Grid extends React.PureComponent<GridProps> {
     const flexDirection = this.legendPosition === "below" ? "column" : "row"
     const alignItems = this.legendPosition === "below" ? "center" : "center"
     const legendBoxProps = this.legendPosition === "below" ? { marginTop: 1 } : { marginLeft: 2 }
+    const flexWrap = this.legendPosition === "right" ? "wrap" : "nowrap"
 
     return (
       <Box
         flexDirection={flexDirection}
+        flexWrap={flexWrap}
         alignItems={alignItems}
         justifyContent="center"
         paddingTop={1}
