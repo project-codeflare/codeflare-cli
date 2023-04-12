@@ -1,3 +1,15 @@
+# [4.6.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.5.2...v4.6.0) (2023-04-12)
+
+### Bug Fixes
+
+- leverage ink 4's flexWrap in the dashboard grid ([a76b21e](https://github.com/project-codeflare/codeflare-cli/commit/a76b21ee3e1d7b57dd803a98038987fde0075eac))
+- non-async subprocs are not killed ([62a6d72](https://github.com/project-codeflare/codeflare-cli/commit/62a6d7228818a268a94a7f246357517815a9f014))
+
+### Features
+
+- bump ink 3 -> 4 which requires node16 module resolution ([47b9e97](https://github.com/project-codeflare/codeflare-cli/commit/47b9e97d4e372da3828bc747e926a1b802438012))
+- bump to kui's new babel-less prescan ([a05108d](https://github.com/project-codeflare/codeflare-cli/commit/a05108d9f9ed15254c6683cb9f041dab12ac8ce7))
+
 ## [4.5.2](https://github.com/project-codeflare/codeflare-cli/compare/v4.5.1...v4.5.2) (2023-04-10)
 
 ### Bug Fixes
