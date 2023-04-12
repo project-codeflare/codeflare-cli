@@ -1,3 +1,9 @@
+## [4.6.2](https://github.com/project-codeflare/codeflare-cli/compare/v4.6.1...v4.6.2) (2023-04-12)
+
+### Bug Fixes
+
+- improved debug output for codeflare dashboard command ([0bc93b5](https://github.com/project-codeflare/codeflare-cli/commit/0bc93b56007f15348d08e45a4c49c4a45c96b288))
+
 ## [4.6.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.6.0...v4.6.1) (2023-04-12)
 
 # [4.6.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.5.2...v4.6.0) (2023-04-12)
