@@ -1,3 +1,5 @@
+## [4.6.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.6.0...v4.6.1) (2023-04-12)
+
 # [4.6.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.5.2...v4.6.0) (2023-04-12)
 
 ### Bug Fixes
