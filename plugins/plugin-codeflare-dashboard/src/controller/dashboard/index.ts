@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import Debug from "debug"
 import type { Arguments } from "@kui-shell/core"
 
 import tailf from "./tailf.js"
@@ -128,6 +129,9 @@ async function allGridsFor(
 }
 
 export default async function dashboard(args: Arguments<Options>, cmd: "db" | "dashboard") {
+  const debug = Debug("plugin-codeflare-dashboard/controller/dashboard")
+  debug("setup")
+
   const { demo, theme, events } = args.parsedOptions
 
   const scale = args.parsedOptions.s || 1
@@ -136,6 +140,9 @@ export default async function dashboard(args: Arguments<Options>, cmd: "db" | "d
   const kindOffset = jobIdOffset === 2 ? 1 : 9999
   const kind = args.argvNoOptions[args.argvNoOptions.indexOf(cmd) + kindOffset] || "all"
   const { jobId, profile } = await jobIdFrom(args, cmd, jobIdOffset)
+
+  debug("jobId", jobId)
+  debug("profile", profile)
 
   if (!isValidKindA(kind)) {
     throw new Error(usage(cmd, ["all"]))
@@ -160,14 +167,17 @@ export default async function dashboard(args: Arguments<Options>, cmd: "db" | "d
     width: args.parsedOptions.u ? 1000 * args.parsedOptions.u : 5000,
   }
 
-  const db = dashboardUI(profile, jobId, await gridForA(kind, historyConfig), { scale })
+  const grids = await gridForA(kind, historyConfig)
+  debug("grids", grids)
+
+  const db = dashboardUI(profile, jobId, grids, { scale })
 
   if (!db) {
     throw new Error(usage(cmd))
   } else {
     const { render } = await import("ink")
 
-    if (process.env.ALT !== "false") {
+    if (process.env.ALT !== "false" && !debug.enabled) {
       enterAltBufferMode()
     }
 
