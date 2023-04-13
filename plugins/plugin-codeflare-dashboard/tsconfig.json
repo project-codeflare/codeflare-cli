@@ -6,8 +6,6 @@
     "composite": true,
     "jsx": "react",
     "outDir": "mdist",
-    "rootDir": "src",
-    "module": "node16",
-    "moduleResolution": "node16"
+    "rootDir": "src"
   }
 }
