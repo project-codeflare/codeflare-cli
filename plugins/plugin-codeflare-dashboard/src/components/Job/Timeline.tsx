@@ -28,10 +28,7 @@ type Props = {
 
 export default class Timeline extends React.PureComponent<Props> {
   /** Text to use for one cell's worth of time */
-  private readonly block = {
-    historic: "■",
-    latest: "▏",
-  }
+  private readonly block = "■"
 
   /** This will help us compute whether we are about to overflow terminal width. */
   private get maxLabelLength() {
@@ -64,7 +61,7 @@ export default class Timeline extends React.PureComponent<Props> {
 
     return (
       <Text {...style} key={timeIdx}>
-        {this.block.historic}
+        {this.block}
       </Text>
     )
   }

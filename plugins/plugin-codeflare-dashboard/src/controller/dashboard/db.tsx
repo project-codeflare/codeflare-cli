@@ -17,9 +17,9 @@
 import React from "react"
 
 import type Options from "./options.js"
-import type { GridSpec } from "../../components/Dashboard/types.js"
+import type { GridSpec } from "../../components/Job/types.js"
 
-import Dashboard from "../../components/Dashboard/index.js"
+import Job from "../../components/Job/index.js"
 
 /** Wrap the `grids` in a `Dashboard` UI */
 export default function db(
@@ -31,8 +31,6 @@ export default function db(
   if (!grids || (Array.isArray(grids) && grids.length === 0)) {
     return null
   } else {
-    return (
-      <Dashboard profile={profile} jobId={jobId} scale={opts.scale} grids={Array.isArray(grids) ? grids : [grids]} />
-    )
+    return <Job profile={profile} jobId={jobId} scale={opts.scale} grids={Array.isArray(grids) ? grids : [grids]} />
   }
 }

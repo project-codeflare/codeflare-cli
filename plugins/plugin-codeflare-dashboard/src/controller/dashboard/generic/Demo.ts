@@ -17,7 +17,7 @@
 import type { TextProps } from "ink"
 
 import type HistoryConfig from "../history.js"
-import type { OnData } from "../../../components/Dashboard/types.js"
+import type { OnData } from "../../../components/Job/types.js"
 
 import { update } from "../history.js"
 

@@ -34,6 +34,24 @@ type Options = {
 export default Options
 
 export const flags = {
-  boolean: ["demo"],
-  alias: { events: ["e"], lines: ["l"], theme: ["t"], demo: ["d"], scale: ["s"], "update-frequency": ["u"] },
+  boolean: [
+    // TODO these are top-specific
+    "redact",
+
+    // generic?
+    "demo",
+  ],
+  alias: {
+    // TODO these are node-specific
+    indices: ["i"],
+    namespace: ["n"],
+    "all-namespaces": ["A"],
+
+    events: ["e"],
+    lines: ["l"],
+    theme: ["t"],
+    demo: ["d"],
+    scale: ["s"],
+    "update-frequency": ["u"],
+  },
 }

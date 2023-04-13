@@ -14,18 +14,7 @@
  * limitations under the License.
  */
 
-import type { TextProps } from "ink"
-
-import type HistoryConfig from "../history.js"
-import type { WorkerState } from "./states.js"
-import type { OnData } from "../../../components/Job/types.js"
-
-import { states } from "./states.js"
-import GenericDemo from "../generic/Demo.js"
-
-/** A blinking lights demo that pumps random utilization data into the UI */
-export default class Demo extends GenericDemo<WorkerState> {
-  public constructor(historyConfig: HistoryConfig, cb: OnData, styleOf: Record<WorkerState, TextProps>) {
-    super(states, false, historyConfig, cb, styleOf)
-  }
+/** Behave like top, where the screen is cleared just for this process */
+export function enterAltBufferMode() {
+  process.stdout.write("\x1b[?1049h")
 }
