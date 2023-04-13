@@ -1,3 +1,9 @@
+## [4.7.2](https://github.com/project-codeflare/codeflare-cli/compare/v4.7.1...v4.7.2) (2023-04-13)
+
+### Bug Fixes
+
+- improve smooth streaming of ray logs ([aa05ee7](https://github.com/project-codeflare/codeflare-cli/commit/aa05ee7efa6cd2105f671bb9feb2725ea84b3f22))
+
 ## [4.7.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.7.0...v4.7.1) (2023-04-13)
 
 ### Bug Fixes
