@@ -24,7 +24,7 @@ import type Options from "../options.js"
 import type { Tail } from "../tailf.js"
 import type HistoryConfig from "../history.js"
 import type { WorkerState } from "./states.js"
-import type { OnData, Worker } from "../../../components/Dashboard/types.js"
+import type { OnData, Worker } from "../../../components/Job/types.js"
 
 import { rankFor, stateFor } from "./states.js"
 

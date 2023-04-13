@@ -16,18 +16,24 @@
 
 import { KResponse, Registrar } from "@kui-shell/core"
 
+import type { MyOptions as TopOptions } from "./controller/dashboard/top.js"
+import type { Options as DashboardOptions } from "./controller/dashboard/job.js"
+
 import { flags } from "./controller/dashboard/options.js"
-import type { Options as DashboardOptions } from "./controller/dashboard/index.js"
 import { Options as DumpOptions, flags as dumpFlags } from "./controller/dump.js"
 
 /** Register Kui Commands */
 export default function registerCodeflareCommands(registrar: Registrar) {
-  ["db" as const, "dashboard" as const].forEach((db) =>
-    registrar.listen<KResponse, DashboardOptions>(
-      `/codeflare/${db}`,
-      (args) => import("./controller/dashboard/index.js").then((_) => _.default(args, db)),
-      { flags }
-    )
+  registrar.listen<KResponse, DashboardOptions>(
+    `/codeflare/top/job`,
+    (args) => import("./controller/dashboard/job.js").then((_) => _.default(args)),
+    { flags }
+  )
+
+  registrar.listen<KResponse, TopOptions>(
+    `/codeflare/top`,
+    (args) => import("./controller/dashboard/top.js").then((_) => _.default(args)),
+    { flags }
   )
 
   registrar.listen<KResponse, DumpOptions>(

@@ -18,7 +18,7 @@ import { Arguments } from "@kui-shell/core"
 
 import { pathsFor } from "./dashboard/tailf.js"
 import { filepathOf, isValidKind } from "./dashboard/kinds.js"
-import { Options as DashboardOptions, jobIdFrom, usage as dbUsage } from "./dashboard/index.js"
+import { Options as DashboardOptions, jobIdFrom, usage as dbUsage } from "./dashboard/job.js"
 
 export type Options = DashboardOptions & {
   f: boolean

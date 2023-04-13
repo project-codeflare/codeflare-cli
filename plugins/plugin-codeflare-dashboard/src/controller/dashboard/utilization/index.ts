@@ -21,7 +21,7 @@ import type { Tail } from "../tailf.js"
 import type Options from "../options.js"
 import type HistoryConfig from "../history.js"
 import type { WorkerState } from "./states.js"
-import type { OnData, GridSpec } from "../../../components/Dashboard/types.js"
+import type { OnData, GridSpec } from "../../../components/Job/types.js"
 import { SupportedUtilizationGrid, defaultUtilizationThemes, providerFor } from "../grids.js"
 
 import { states } from "./states.js"

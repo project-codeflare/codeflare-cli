@@ -18,7 +18,7 @@ import type { TextProps } from "ink"
 
 import type HistoryConfig from "../history.js"
 import type { WorkerState } from "./states.js"
-import type { OnData } from "../../../components/Dashboard/types.js"
+import type { OnData } from "../../../components/Job/types.js"
 
 import { states } from "./states.js"
 import GenericDemo from "../generic/Demo.js"

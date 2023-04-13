@@ -21,11 +21,13 @@ import tailf from "./tailf.js"
 import dashboardUI from "./db.js"
 import status from "./status/index.js"
 import utilization from "./utilization/index.js"
+
+import { enterAltBufferMode } from "./term.js"
 import { SupportedGrid, isSupportedGrid } from "./grids.js"
 import { KindA, isValidKindA, validKinds } from "./kinds.js"
 
 import type HistoryConfig from "./history.js"
-import type { GridSpec } from "../../components/Dashboard/types.js"
+import type { GridSpec } from "../../components/Job/types.js"
 
 export type Options = Arguments["parsedOptions"] & {
   s: number
@@ -40,11 +42,6 @@ export type Options = Arguments["parsedOptions"] & {
   /** Frequency of updates to the timeline, in seconds */
   u: number
   "update-frequency": number
-}
-
-/** Behave like top, where the screen is cleared just for this process */
-function enterAltBufferMode() {
-  process.stdout.write("\x1b[?1049h")
 }
 
 export function usage(cmd: string, extraKinds: string[] = []) {
@@ -128,7 +125,7 @@ async function allGridsFor(
   return Promise.all(all)
 }
 
-export default async function dashboard(args: Arguments<Options>, cmd: "db" | "dashboard") {
+export default async function dashboard(args: Arguments<Options>) {
   const debug = Debug("plugin-codeflare-dashboard/controller/dashboard")
   debug("setup")
 
@@ -136,18 +133,18 @@ export default async function dashboard(args: Arguments<Options>, cmd: "db" | "d
 
   const scale = args.parsedOptions.s || 1
 
-  const jobIdOffset = args.argvNoOptions[args.argvNoOptions.indexOf(cmd) + 2] ? 2 : 1
+  const jobIdOffset = args.argvNoOptions[args.argvNoOptions.indexOf("job") + 2] ? 2 : 1
   const kindOffset = jobIdOffset === 2 ? 1 : 9999
-  const kind = args.argvNoOptions[args.argvNoOptions.indexOf(cmd) + kindOffset] || "all"
-  const { jobId, profile } = await jobIdFrom(args, cmd, jobIdOffset)
+  const kind = args.argvNoOptions[args.argvNoOptions.indexOf("job") + kindOffset] || "all"
+  const { jobId, profile } = await jobIdFrom(args, "job", jobIdOffset)
 
   debug("jobId", jobId)
   debug("profile", profile)
 
   if (!isValidKindA(kind)) {
-    throw new Error(usage(cmd, ["all"]))
+    throw new Error(usage("top job", ["all"]))
   } else if (!jobId) {
-    throw new Error(usage(cmd, ["all"]))
+    throw new Error(usage("top job", ["all"]))
   }
 
   const gridForA = async (
@@ -173,7 +170,7 @@ export default async function dashboard(args: Arguments<Options>, cmd: "db" | "d
   const db = dashboardUI(profile, jobId, grids, { scale })
 
   if (!db) {
-    throw new Error(usage(cmd))
+    throw new Error(usage("top job"))
   } else {
     const { render } = await import("ink")
 
