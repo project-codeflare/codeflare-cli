@@ -9,7 +9,7 @@ metadata:
   name: codeflare-self-test-role
 rules:
 - apiGroups: [""]
-  resources: ["pods", "pods/exec", "services", "events", "serviceaccounts", "configmaps"]
+  resources: ["pods", "pods/exec", "pods/log", "services", "events", "serviceaccounts", "configmaps"]
   verbs: ["create", "delete", "get", "watch", "list"]
 - apiGroups: [""]
   resources: ["secrets"]
