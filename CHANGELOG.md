@@ -1,3 +1,9 @@
+## [4.7.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.7.0...v4.7.1) (2023-04-13)
+
+### Bug Fixes
+
+- revert to ink@3 due to weird codeflare db silent failures ([cec4559](https://github.com/project-codeflare/codeflare-cli/commit/cec4559f0c5a8fa9fab88f398e36c2ccfe3251cf))
+
 # [4.7.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.6.2...v4.7.0) (2023-04-12)
 
 ### Features
