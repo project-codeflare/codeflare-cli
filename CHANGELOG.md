@@ -1,3 +1,9 @@
+## [4.7.3](https://github.com/project-codeflare/codeflare-cli/compare/v4.7.2...v4.7.3) (2023-04-13)
+
+### Bug Fixes
+
+- further improvements to ray log streaming ([7c0f6a8](https://github.com/project-codeflare/codeflare-cli/commit/7c0f6a85668a391bfdc14ea3ca2de6c9f32f302f))
+
 ## [4.7.2](https://github.com/project-codeflare/codeflare-cli/compare/v4.7.1...v4.7.2) (2023-04-13)
 
 ### Bug Fixes
