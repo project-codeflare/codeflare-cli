@@ -277,7 +277,7 @@ export default class Dashboard extends React.PureComponent<Props, State> {
   /** Render the grids */
   private grids() {
     return this.gridRows().map((row, ridx) => (
-      <Box key={ridx} justifyContent="space-around" flexWrap="wrap">
+      <Box key={ridx} justifyContent="space-around">
         {row.map(({ grid, widx }) => (
           <Box key={grid.title} marginLeft={1}>
             <Grid
