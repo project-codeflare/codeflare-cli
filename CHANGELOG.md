@@ -1,3 +1,9 @@
+# [4.8.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.7.3...v4.8.0) (2023-04-16)
+
+### Features
+
+- cross-job ("top") dashboard ([380b413](https://github.com/project-codeflare/codeflare-cli/commit/380b413b7008398ae47f24e767c376fe7772e558))
+
 ## [4.7.3](https://github.com/project-codeflare/codeflare-cli/compare/v4.7.2...v4.7.3) (2023-04-13)
 
 ### Bug Fixes
