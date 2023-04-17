@@ -16,74 +16,21 @@
 
 import Debug from "debug"
 import type { Arguments } from "@kui-shell/core"
+import type Options from "./options.js"
 
-import tailf from "./tailf.js"
-import dashboardUI from "./db.js"
+import tailf from "../tailf.js"
+import usage from "../usage.js"
+import dashboardUI from "../db.js"
 import status from "./status/index.js"
 import utilization from "./utilization/index.js"
 
-import { enterAltBufferMode } from "./term.js"
+import jobIdFrom from "./jobid.js"
+import { enterAltBufferMode } from "../term.js"
+import { KindA, isValidKindA } from "./kinds.js"
 import { SupportedGrid, isSupportedGrid } from "./grids.js"
-import { KindA, isValidKindA, validKinds } from "./kinds.js"
 
 import type HistoryConfig from "./history.js"
-import type { GridSpec } from "../../components/Job/types.js"
-
-export type Options = Arguments["parsedOptions"] & {
-  s: number
-  scale: number
-
-  demo: boolean
-
-  p: string
-  profile: string
-  theme: string
-
-  /** Frequency of updates to the timeline, in seconds */
-  u: number
-  "update-frequency": number
-}
-
-export function usage(cmd: string, extraKinds: string[] = []) {
-  return `Usage: codeflare ${cmd} ${extraKinds.concat(validKinds()).join("|")} [<jobId>|-N]`
-}
-
-async function lastNJob(profile: string, N: number) {
-  const [{ join }, { readdir, stat }, { Profiles }] = await Promise.all([
-    import("path"),
-    import("fs/promises"),
-    import("madwizard"),
-  ])
-
-  const dir = Profiles.guidebookJobDataPath({ profile })
-  const files = await readdir(dir)
-  if (files.length === 0) {
-    throw new Error("No jobs available")
-    return
-  }
-
-  const cTimes = await Promise.all(files.map((_) => stat(join(dir, _)).then((_) => _.ctime.getTime())))
-  const sorted = files.map((file, idx) => ({ file, lastM: cTimes[idx] })).sort((a, b) => b.lastM - a.lastM)
-
-  if (!sorted[N]) {
-    throw new Error("Specified historical job not available")
-  } else {
-    return sorted[N].file
-  }
-}
-
-export async function jobIdFrom(args: Arguments<Options>, cmd: string, offset = 2) {
-  const profile = args.parsedOptions.p || (await import("madwizard").then((_) => _.Profiles.lastUsed()))
-
-  const jobIdFromCommandLine = args.argvNoOptions[args.argvNoOptions.indexOf(cmd) + offset]
-  const jobId = /^-\d+$/.test(jobIdFromCommandLine)
-    ? await lastNJob(profile, -parseInt(jobIdFromCommandLine, 10))
-    : jobIdFromCommandLine === undefined
-    ? await lastNJob(profile, 0)
-    : jobIdFromCommandLine
-
-  return { jobId, profile }
-}
+import type { GridSpec } from "../../../components/Job/types.js"
 
 /** @return grid model for the given `kind` for `jobId` in `profile` */
 async function gridFor(
@@ -104,7 +51,7 @@ async function allGridsFor(
   historyConfig: HistoryConfig,
   opts: Pick<Options, "demo" | "theme" | "events">
 ) {
-  const usesGpus = opts.demo || (await import("../env.js").then((_) => _.usesGpus(profile, jobId)))
+  const usesGpus = opts.demo || (await import("../../env.js").then((_) => _.usesGpus(profile, jobId)))
 
   const all = [
     gridFor("status", profile, jobId, historyConfig, opts),

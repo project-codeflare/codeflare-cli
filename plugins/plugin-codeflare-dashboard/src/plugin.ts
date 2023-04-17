@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-import { KResponse, Registrar } from "@kui-shell/core"
-
+import type { KResponse, Registrar } from "@kui-shell/core"
 import type { MyOptions as TopOptions } from "./controller/dashboard/top.js"
-import type { Options as DashboardOptions } from "./controller/dashboard/job.js"
+import type DashboardOptions from "./controller/dashboard/job/options.js"
 
 import { flags } from "./controller/dashboard/options.js"
 import { Options as DumpOptions, flags as dumpFlags } from "./controller/dump.js"
@@ -26,7 +25,7 @@ import { Options as DumpOptions, flags as dumpFlags } from "./controller/dump.js
 export default function registerCodeflareCommands(registrar: Registrar) {
   registrar.listen<KResponse, DashboardOptions>(
     `/codeflare/top/job`,
-    (args) => import("./controller/dashboard/job.js").then((_) => _.default(args)),
+    (args) => import("./controller/dashboard/job/index.js").then((_) => _.default(args)),
     { flags }
   )
 

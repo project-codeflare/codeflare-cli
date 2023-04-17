@@ -19,7 +19,7 @@ import split2 from "split2"
 import chokidar from "chokidar"
 import TailFile from "@logdna/tail-file"
 
-import Kind, { KindedSource, resourcePaths } from "./kinds.js"
+import Kind, { KindedSource, resourcePaths } from "./job/kinds.js"
 
 export type Tail = {
   kind: Kind

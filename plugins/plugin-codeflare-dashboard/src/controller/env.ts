@@ -17,7 +17,7 @@
 import Debug from "debug"
 import { join } from "path"
 
-import { resourcePaths, filepathOf } from "./dashboard/kinds.js"
+import { resourcePaths, filepathOf } from "./dashboard/job/kinds.js"
 
 type NameValue = { name: string; value: unknown }
 

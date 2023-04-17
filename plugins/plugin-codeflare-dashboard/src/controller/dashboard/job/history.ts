@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import type { Worker } from "../../components/Job/types.js"
+import type { Worker } from "../../../components/Job/types.js"
 
 /** Configuration governining the history model of states per worker */
 type HistoryConfig = {

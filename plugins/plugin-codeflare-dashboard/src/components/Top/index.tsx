@@ -25,8 +25,8 @@ import type { JobRec, HostRec, PodRec, OnData, UpdatePayload, Resource, Resource
 import defaultValueFor from "./defaults.js"
 import { Breakdown, ValidResources } from "./types.js"
 
-import { themes } from "../../controller/dashboard/utilization/theme.js"
-import { defaultUtilizationThemes } from "../../controller/dashboard/grids.js"
+import { themes } from "../../controller/dashboard/job/utilization/theme.js"
+import { defaultUtilizationThemes } from "../../controller/dashboard/job/grids.js"
 
 type UI = {
   /** Force a refresh */
