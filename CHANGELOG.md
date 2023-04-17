@@ -1,3 +1,15 @@
+# [4.10.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.9.0...v4.10.0) (2023-04-17)
+
+### Bug Fixes
+
+- add 'app.kubernetes.io/managed-by: codeflare' label to custodian ([09663ac](https://github.com/project-codeflare/codeflare-cli/commit/09663ace61ad65aaac5514e6a65a82a844c75306))
+- improve custodian log smooth streaming ([2e1a929](https://github.com/project-codeflare/codeflare-cli/commit/2e1a929cee5aa68967c4909a036e8dc5ed1e04ed))
+
+### Features
+
+- add custodian base image Dockerfile ([43634e9](https://github.com/project-codeflare/codeflare-cli/commit/43634e9247413036f1b4476548e6a953e221c369))
+- improve custodian support for torchx, use smaller base image ([873c8d4](https://github.com/project-codeflare/codeflare-cli/commit/873c8d4834368fe8ac980983bab7f15498517758))
+
 # [4.9.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.8.1...v4.9.0) (2023-04-17)
 
 ### Features
