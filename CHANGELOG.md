@@ -1,3 +1,9 @@
+## [4.8.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.8.0...v4.8.1) (2023-04-17)
+
+### Bug Fixes
+
+- improvements for deferring load of ink npm ([66dd77d](https://github.com/project-codeflare/codeflare-cli/commit/66dd77d771aa9b40cba8c35bad96d1d0e72cb9a9))
+
 # [4.8.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.7.3...v4.8.0) (2023-04-16)
 
 ### Features
