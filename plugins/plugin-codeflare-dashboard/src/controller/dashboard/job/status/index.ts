@@ -16,11 +16,11 @@
 
 import type { TextProps } from "ink"
 
-import type { Tail } from "../tailf.js"
+import type { Tail } from "../../tailf.js"
 import type Options from "../options.js"
 import type HistoryConfig from "../history.js"
 import type { WorkerState } from "./states.js"
-import type { OnData, GridSpec } from "../../../components/Job/types.js"
+import type { OnData, GridSpec } from "../../../../components/Job/types.js"
 
 import Demo from "./Demo.js"
 import Live from "./Live.js"

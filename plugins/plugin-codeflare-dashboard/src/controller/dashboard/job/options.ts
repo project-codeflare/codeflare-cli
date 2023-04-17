@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-import type { TextProps } from "ink"
+import type { ParsedOptions } from "@kui-shell/core"
 
-import type HistoryConfig from "../history.js"
-import type { WorkerState } from "./states.js"
-import type { OnData } from "../../../components/Job/types.js"
+type Options = ParsedOptions & {
+  s: number
+  scale: number
 
-import { states } from "./states.js"
-import GenericDemo from "../generic/Demo.js"
+  demo: boolean
 
-/** A blinking lights demo that pumps random status data into the UI */
-export default class Demo extends GenericDemo<WorkerState> {
-  public constructor(historyConfig: HistoryConfig, cb: OnData, styleOf: Record<WorkerState, TextProps>) {
-    super(states, true, historyConfig, cb, styleOf)
-  }
+  p: string
+  profile: string
+  theme: string
+
+  /** Frequency of updates to the timeline, in seconds */
+  u: number
+  "update-frequency": number
 }
+
+export default Options

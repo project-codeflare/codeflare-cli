@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-import { Arguments } from "@kui-shell/core"
+import type { Arguments } from "@kui-shell/core"
+import type DashboardOptions from "./dashboard/job/options.js"
 
-import { pathsFor } from "./dashboard/tailf.js"
-import { filepathOf, isValidKind } from "./dashboard/kinds.js"
-import { Options as DashboardOptions, jobIdFrom, usage as dbUsage } from "./dashboard/job.js"
+import dbUsage from "./dashboard/usage.js"
 
 export type Options = DashboardOptions & {
   f: boolean
@@ -36,6 +35,12 @@ function usage() {
 
 /** Dump raw info, rather than nicely formatted into a dashboard */
 export default async function dump(args: Arguments<Options>) {
+  const [{ pathsFor }, { filepathOf, isValidKind }, { default: jobIdFrom }] = await Promise.all([
+    import("./dashboard/tailf.js"),
+    import("./dashboard/job/kinds.js"),
+    import("./dashboard/job/jobid.js"),
+  ])
+
   // what kind of data are we being asked to show
   const kind = args.argvNoOptions[args.argvNoOptions.indexOf("dump") + 1]
 

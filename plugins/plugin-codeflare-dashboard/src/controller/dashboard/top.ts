@@ -16,7 +16,7 @@
 
 import type { Arguments } from "@kui-shell/core"
 
-import type { Options } from "./job.js"
+import type Options from "./job/options.js"
 import type { OnData, HostRec, PodRec, ResourceSpec, UpdatePayload } from "../../components/Top/types.js"
 
 import { enterAltBufferMode } from "./term.js"

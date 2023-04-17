@@ -14,11 +14,18 @@
  * limitations under the License.
  */
 
-import type Kind from "./dashboard/job/kinds.js"
-import { pathsFor } from "./dashboard/tailf.js"
+import type { TextProps } from "ink"
 
-/** @return path to the data captured for the given jobId in the given profile */
-export async function pathFor(kind: Kind, profile: string, jobId: string): Promise<string> {
-  const { dirname } = await import("path")
-  return Array.from(new Set(await pathsFor(kind, profile, jobId).then((_) => _.map((_) => dirname(_.filepath)))))[0]
+import type HistoryConfig from "../history.js"
+import type { WorkerState } from "./states.js"
+import type { OnData } from "../../../../components/Job/types.js"
+
+import { states } from "./states.js"
+import GenericDemo from "../generic/Demo.js"
+
+/** A blinking lights demo that pumps random status data into the UI */
+export default class Demo extends GenericDemo<WorkerState> {
+  public constructor(historyConfig: HistoryConfig, cb: OnData, styleOf: Record<WorkerState, TextProps>) {
+    super(states, true, historyConfig, cb, styleOf)
+  }
 }

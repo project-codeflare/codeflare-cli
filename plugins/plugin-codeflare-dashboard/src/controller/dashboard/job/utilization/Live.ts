@@ -17,10 +17,10 @@
 import stripAnsi from "strip-ansi"
 import type { TextProps } from "ink"
 
-import type { Tail } from "../tailf.js"
+import type { Tail } from "../../tailf.js"
 import type { WorkerState } from "./states.js"
 import type HistoryConfig from "../history.js"
-import type { OnData, Worker } from "../../../components/Job/types.js"
+import type { OnData, Worker } from "../../../../components/Job/types.js"
 
 import { states } from "./states.js"
 import { update as updateHistory } from "../history.js"

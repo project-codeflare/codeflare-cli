@@ -19,12 +19,12 @@ import ansiRegex from "ansi-regex"
 import stripAnsi from "strip-ansi"
 import type { TextProps } from "ink"
 
-import stripColors from "../stripColors.js"
+import stripColors from "../../stripColors.js"
 import type Options from "../options.js"
-import type { Tail } from "../tailf.js"
+import type { Tail } from "../../tailf.js"
 import type HistoryConfig from "../history.js"
 import type { WorkerState } from "./states.js"
-import type { OnData, Worker } from "../../../components/Job/types.js"
+import type { OnData, Worker } from "../../../../components/Job/types.js"
 
 import { rankFor, stateFor } from "./states.js"
 
