@@ -1,3 +1,9 @@
+# [4.9.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.8.1...v4.9.0) (2023-04-17)
+
+### Features
+
+- rename self-destruct to logs; and increase ttl timeout on its job ([c5fe948](https://github.com/project-codeflare/codeflare-cli/commit/c5fe9483728dc79b854d78eba6469fa243c30013))
+
 ## [4.8.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.8.0...v4.8.1) (2023-04-17)
 
 ### Bug Fixes
