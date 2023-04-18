@@ -44,9 +44,24 @@ export type HostRec = { host: string; jobs: JobRec[] }
 export type Breakdown = Record<Resource, number>
 
 /** Updated host model */
-export type UpdatePayload = {
+type JobsByHost = {
+  /** Model */
   hosts: HostRec[]
+
+  /** Statistics over the model */
   stats: { min: Breakdown; tot: Record<string, Breakdown> }
 }
+
+/** The cluster focus of the model */
+export type Context = {
+  /** Kubernetes cluster name */
+  cluster: string
+
+  /** Kubernetes namespace */
+  namespace: string
+}
+
+/** Updated model */
+export type UpdatePayload = Context & JobsByHost
 
 export type OnData = (payload: UpdatePayload) => void

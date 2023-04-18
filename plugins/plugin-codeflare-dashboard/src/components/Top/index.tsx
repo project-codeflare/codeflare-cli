@@ -16,18 +16,16 @@
 
 import Debug from "debug"
 import React from "react"
-import prettyMillis from "pretty-ms"
-import prettyBytes from "pretty-bytes"
 import { emitKeypressEvents } from "readline"
-import { Box, Text, TextProps, render } from "ink"
+import { Box, Text, render } from "ink"
 
-import type { JobRec, HostRec, PodRec, OnData, UpdatePayload, Resource, ResourceSpec } from "./types.js"
+import type Group from "./Group.js"
+import type { OnData, UpdatePayload, ResourceSpec } from "./types.js"
 
+import JobBox from "./JobBox.js"
 import defaultValueFor from "./defaults.js"
-import { Breakdown, ValidResources } from "./types.js"
 
-import { themes } from "../../controller/dashboard/job/utilization/theme.js"
-import { defaultUtilizationThemes } from "../../controller/dashboard/job/grids.js"
+import Header from "./Header.js"
 
 type UI = {
   /** Force a refresh */
@@ -36,15 +34,6 @@ type UI = {
 
 type Props = UI & {
   initWatcher: (cb: OnData) => void
-}
-
-type Group = {
-  groupIdx: number
-  job: JobRec
-  ctime: number
-  hosts: HostRec[]
-  pods: PodRec[]
-  stats: { min: Breakdown; tot: Breakdown }
 }
 
 type State = UI & {
@@ -65,9 +54,6 @@ type State = UI & {
 }
 
 class Top extends React.PureComponent<Props, State> {
-  /** Text to use for one cell's worth of time */
-  private readonly block = "■" // "▇"
-
   /**
    * % is remainder, we want modulo
    *
@@ -206,52 +192,9 @@ class Top extends React.PureComponent<Props, State> {
     )
   }
 
-  private longestHostName(hosts: HostRec[]) {
-    return hosts.reduce((max, { host }) => Math.max(max, host.length), 0)
-  }
-
-  private format(quantity: number, resource: Resource) {
-    switch (resource) {
-      case "cpu": {
-        const formattedQuantity =
-          quantity < 1000 ? `${quantity}m` : (quantity / 1000).toFixed(2).replace(/0+$/, "").replace(/\.$/, "")
-        return formattedQuantity + " " + (formattedQuantity === "1" ? "cpu" : "cpus")
-      }
-      case "mem":
-        return prettyBytes(quantity, { space: false })
-      default:
-      case "gpu":
-        return quantity + " gpus"
-    }
-  }
-
   /** Do we have a selected group? */
   private get hasSelection() {
     return this.state?.selectedGroupIdx >= 0 && this.state?.selectedGroupIdx < this.state.groups.length
-  }
-
-  private styleOfResource(resource: Resource): TextProps {
-    switch (resource) {
-      case "cpu":
-        return themes[defaultUtilizationThemes["cpu%"]][2]
-
-      case "mem":
-        return themes[defaultUtilizationThemes["mem%"]][2]
-
-      default:
-      case "gpu":
-        return themes[defaultUtilizationThemes["gpu%"]][2]
-    }
-  }
-
-  private styleOfGroup(group: Group, baseStyle: TextProps): TextProps {
-    return Object.assign({}, baseStyle, {
-      dimColor: this.hasSelection && this.state?.selectedGroupIdx !== group.groupIdx,
-    })
-  }
-
-  private styleOfGroupForResource(group: Group, resource: Resource): TextProps {
-    return this.styleOfGroup(group, this.styleOfResource(resource))
   }
 
   private mostOf({ request, limit }: ResourceSpec, defaultValue: number) {
@@ -266,103 +209,36 @@ class Top extends React.PureComponent<Props, State> {
     }
   }
 
-  /** Render a number of cells in a line */
-  private nCells(
-    N: number,
-    labelSingular: string,
-    labelPlural: string,
-    style: TextProps,
-    value: number | string = N,
-    key = labelSingular
-  ) {
-    return (
-      <Box key={key}>
-        <Box marginRight={1}>
-          {Array(N)
-            .fill(0)
-            .map((_, idx) => (
-              <Text key={idx} {...style}>
-                {this.block}
-              </Text>
-            ))}
+  private body() {
+    if (this.state.groups.length === 0) {
+      return <Text>No active jobs</Text>
+    } else {
+      return (
+        <Box flexWrap="wrap">
+          {this.state.groups.map((group) => (
+            <JobBox
+              key={group.job.name}
+              group={group}
+              isSelected={!this.hasSelection ? "no-selection" : this.state?.selectedGroupIdx === group.groupIdx}
+              min={this.state.rawModel.stats.min}
+            />
+          ))}
         </Box>
-        <Box flexWrap="nowrap">
-          <Text {...style}>
-            {value} {value === 1 ? labelSingular : labelPlural}
-          </Text>
-        </Box>
-      </Box>
-    )
-  }
-
-  /** Render cells for one `resource` for one `group` */
-  private resourceLine(group: Group, resource: Resource) {
-    const unit = this.state.rawModel.stats.min[resource]
-    const tot = group.stats.tot[resource]
-    const amnt = tot / group.hosts.length
-    const N = Math.round(amnt / unit)
-
-    return this.nCells(
-      N,
-      "",
-      "",
-      this.styleOfGroupForResource(group, resource),
-      this.format(amnt, resource) + "/node",
-      resource
-    )
-  }
-
-  /** Render one `group` (one job) */
-  private group(group: Group, groupIdx: number) {
-    const isSelected = this.state.selectedGroupIdx === groupIdx
-
-    const titleStyle: TextProps = isSelected
-      ? {
-          inverse: true,
-        }
-      : this.hasSelection
-      ? { dimColor: true }
-      : { bold: true }
-
-    return (
-      <Box key={group.job.name} flexDirection="column" borderStyle={isSelected ? "bold" : "single"}>
-        <Box>
-          <Box flexGrow={1}>
-            <Text {...titleStyle}>{group.job.name.slice(0, 34) + (group.job.name.length > 34 ? "…" : "")}</Text>
-          </Box>
-          <Box justifyContent="flex-end" marginLeft={2}>
-            <Text color="cyan">
-              {
-                prettyMillis(Date.now() - group.ctime, { unitCount: 2, secondsDecimalDigits: 0 }).padEnd(
-                  7
-                ) /* 'XXm YYs'.length */
-              }
-            </Text>
-          </Box>
-        </Box>
-
-        {this.nCells(group.hosts.length, "node", "nodes", this.styleOfGroup(group, { color: "yellow" }))}
-        {ValidResources.filter((resource) => group.stats.tot[resource] !== 0).map((resource) =>
-          this.resourceLine(group, resource)
-        )}
-        {this.nCells(
-          group.pods.length / group.hosts.length,
-          "worker/node",
-          "workers/node",
-          this.styleOfGroup(group, { color: "white" })
-        )}
-      </Box>
-    )
+      )
+    }
   }
 
   public render() {
     if (!this.state?.groups) {
       // TODO spinner? this means we haven't received the first data set, yet
       return <React.Fragment />
-    } else if (this.state.groups.length === 0) {
-      return <Text>No active jobs</Text>
     } else {
-      return <Box flexWrap="wrap">{this.state.groups.map((_, idx) => this.group(_, idx))}</Box>
+      return (
+        <Box flexDirection="column">
+          <Header cluster={this.state.rawModel.cluster} namespace={this.state.rawModel.namespace} />
+          <Box marginTop={1}>{this.body()}</Box>
+        </Box>
+      )
     }
   }
 }
