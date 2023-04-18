@@ -1,3 +1,16 @@
+## [4.10.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.10.0...v4.10.1) (2023-04-18)
+
+### Bug Fixes
+
+- add --me option to allow only showing jobs owned by me ([8e7f7b5](https://github.com/project-codeflare/codeflare-cli/commit/8e7f7b50a3bbfa2a5742d1a2a1fc935aa4c5c55e))
+- add app.kubernetes.io/owner label to pod ([89c4b79](https://github.com/project-codeflare/codeflare-cli/commit/89c4b7912917a2be0cacc3740a2f817c0fbf60bf))
+- allow Escape key to remove selection ([0cafbd6](https://github.com/project-codeflare/codeflare-cli/commit/0cafbd6401e142d01c70e260b336b7c3eb0f63a5))
+- avoid setRawMode if stdin is not a tty ([a0b4c9d](https://github.com/project-codeflare/codeflare-cli/commit/a0b4c9d294b8c90650691702d04a1c54d66eca2e))
+- improve formatting of duration to use 1d 10h style ([9a7d94f](https://github.com/project-codeflare/codeflare-cli/commit/9a7d94fcbba8d75b99b2cee3d6489d1abcc6016a))
+- top node selection UI is buggy ([687bce2](https://github.com/project-codeflare/codeflare-cli/commit/687bce260a7fc571aef1a57b2a85bb9511ed7c8f))
+- torchx cluster name may end with a dash ([2af582b](https://github.com/project-codeflare/codeflare-cli/commit/2af582bd554fdbe83ae79a60574bb930b3a7e776))
+- try to import ink only at the top level ([6b008c3](https://github.com/project-codeflare/codeflare-cli/commit/6b008c38ae35beb1ac9b5b3f47fd5e136db3b4e2))
+
 # [4.10.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.9.0...v4.10.0) (2023-04-17)
 
 ### Bug Fixes
