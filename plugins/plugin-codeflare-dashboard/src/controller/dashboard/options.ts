@@ -36,6 +36,7 @@ export default Options
 export const flags = {
   boolean: [
     // TODO these are top-specific
+    "me",
     "redact",
 
     // generic?
