@@ -264,17 +264,10 @@ export default async function jobsController(args: Arguments<MyOptions>) {
   }
 
   debug("loading UI dependencies")
-  const [{ render }, { createElement }, { default: Top }] = await Promise.all([
-    import("ink"),
-    import("react"),
-    import("../../components/Top/index.js"),
-  ])
+  const [{ default: render }] = await Promise.all([import("../../components/Top/index.js")])
 
   debug("rendering")
-  const { waitUntilExit } = await render(createElement(Top, { initWatcher }))
-  debug("initial render done")
-
-  await waitUntilExit()
+  await render({ initWatcher })
   debug("exiting")
   return true
 }
