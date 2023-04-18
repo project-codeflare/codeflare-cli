@@ -1,0 +1,6 @@
+pyarrow
+pandas
+ibm-cos-sdk
+
+# helpful and small utilities
+psutil
