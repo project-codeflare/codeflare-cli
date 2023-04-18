@@ -26,6 +26,10 @@ export type MyOptions = Options & {
   /** Don't show job names in the UI */
   redact: boolean
 
+  /** Show just my jobs */
+  m: boolean
+  me: boolean
+
   /** Show jobs for one namespace */
   n: string
   namespace: string
@@ -127,7 +131,7 @@ export default async function jobsController(args: Arguments<MyOptions>) {
     "bash",
     [
       "-c",
-      `"while true; do kubectl get pod ${ns} --no-headers -o=custom-columns=NAME:.metadata.name,JOB:'.metadata.labels.app\\.kubernetes\\.io/instance',HOST:.status.hostIP,CPU:'.spec.containers[0].resources.requests.cpu',CPUL:'.spec.containers[0].resources.limits.cpu',MEM:'.spec.containers[0].resources.requests.memory',MEML:'.spec.containers[0].resources.limits.memory',GPU:.spec.containers[0].resources.requests.'nvidia\\.com/gpu',GPUL:.spec.containers[0].resources.limits.'nvidia\\.com/gpu',JOB2:'.metadata.labels.appwrapper\\.mcad\\.ibm\\.com',CTIME:.metadata.creationTimestamp; echo '${recordSeparator}'; sleep 2; done"`,
+      `"while true; do kubectl get pod ${ns} --no-headers -o=custom-columns=NAME:.metadata.name,JOB:'.metadata.labels.app\\.kubernetes\\.io/instance',HOST:.status.hostIP,CPU:'.spec.containers[0].resources.requests.cpu',CPUL:'.spec.containers[0].resources.limits.cpu',MEM:'.spec.containers[0].resources.requests.memory',MEML:'.spec.containers[0].resources.limits.memory',GPU:.spec.containers[0].resources.requests.'nvidia\\.com/gpu',GPUL:.spec.containers[0].resources.limits.'nvidia\\.com/gpu',JOB2:'.metadata.labels.appwrapper\\.mcad\\.ibm\\.com',CTIME:.metadata.creationTimestamp,USER:'.metadata.labels.app\\.kubernetes\\.io/owner'; echo '${recordSeparator}'; sleep 2; done"`,
     ],
     { shell: "/bin/bash", stdio: ["ignore", "pipe", "inherit"] }
   )
@@ -167,6 +171,8 @@ export default async function jobsController(args: Arguments<MyOptions>) {
   }
 
   const initWatcher = (cb: OnData) => {
+    const me = process.env.USER || "NOUSER"
+
     child.on("error", (err) => console.error(err))
 
     let leftover = ""
@@ -191,11 +197,13 @@ export default async function jobsController(args: Arguments<MyOptions>) {
             job: A[1] === "<none>" ? A[9] : A[1],
             host: A[2],
             ctime: A[10] === "<none>" ? Date.now() : new Date(A[10]).getTime(),
+            owner: A[11],
             cpu: { request: parseCpu(A[3]), limit: parseCpu(A[4]) },
             mem: { request: parseMem(A[5]), limit: parseMem(A[6]) },
             gpu: { request: parseGpu(A[7]), limit: parseGpu(A[8]) },
           }))
-          .filter((_) => _.job && _.job !== "<none>")
+          .filter((_) => _.job && _.job !== "<none>") // exclude pods not associated with a job
+          .filter((_) => !args.parsedOptions.me || _.owner === me) // exclude pods not owned by me?
           .map((rec) =>
             Object.assign(rec, {
               jobIdx: jobIdxFor(rec.job),
