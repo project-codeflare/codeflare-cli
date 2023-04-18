@@ -1,0 +1,10 @@
+numpy>=1.17.2
+torch>=1.11.0
+pytorch-lightning>=2.0.0
+future>=0.17.1
+PyYAML>=5.1
+tqdm>=4.57.0
+fsspec[http]>=2021.06.1
+
+# Examples
+torchvision>=0.12.0
