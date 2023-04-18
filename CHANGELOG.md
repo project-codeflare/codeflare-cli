@@ -1,3 +1,9 @@
+## [4.10.2](https://github.com/project-codeflare/codeflare-cli/compare/v4.10.1...v4.10.2) (2023-04-18)
+
+### Bug Fixes
+
+- pick up wasm loading fixes from kui ([0ac0cf4](https://github.com/project-codeflare/codeflare-cli/commit/0ac0cf41bf5151d4df1d1c87a4905bb9bddfc879))
+
 ## [4.10.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.10.0...v4.10.1) (2023-04-18)
 
 ### Bug Fixes
