@@ -122,6 +122,9 @@ class Top extends React.PureComponent<Props, State> {
         this.setState((curState) => ({ refreshCycle: (curState?.refreshCycle || 0) + 1 }))
       } else {
         switch (key.name) {
+          case "escape":
+            this.setState({ selectedGroupIdx: -1 })
+            break
           case "left":
           case "right":
             if (this.state.groups) {
