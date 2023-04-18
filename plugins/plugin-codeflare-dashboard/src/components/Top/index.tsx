@@ -186,11 +186,11 @@ class Top extends React.PureComponent<Props, State> {
         return M
       }, {} as Record<string, Omit<State["groups"][number], "groupIdx">>)
     )
-      .map((group, groupIdx) => Object.assign(group, { groupIdx }))
       .sort(this.sorter)
+      .map((group, groupIdx) => Object.assign(group, { groupIdx }))
   }
 
-  private readonly sorter = (a: Group, b: Group) => {
+  private readonly sorter = (a: Omit<Group, "groupIdx">, b: Omit<Group, "groupIdx">) => {
     return (
       a.stats.tot.cpu + a.stats.tot.mem + a.stats.tot.gpu - (b.stats.tot.cpu + b.stats.tot.mem + b.stats.tot.gpu) ||
       a.job.name.localeCompare(b.job.name)
@@ -311,19 +311,23 @@ class Top extends React.PureComponent<Props, State> {
       ? {
           inverse: true,
         }
-      : {}
+      : this.hasSelection
+      ? { dimColor: true }
+      : { bold: true }
 
     return (
       <Box key={group.job.name} flexDirection="column" borderStyle={isSelected ? "bold" : "single"}>
         <Box>
           <Box flexGrow={1}>
-            <Text bold {...titleStyle}>
-              {group.job.name}
-            </Text>
+            <Text {...titleStyle}>{group.job.name.slice(0, 34) + (group.job.name.length > 34 ? "…" : "")}</Text>
           </Box>
           <Box justifyContent="flex-end" marginLeft={2}>
             <Text color="cyan">
-              {prettyMillis(Date.now() - group.ctime, { unitCount: 2, secondsDecimalDigits: 0 })}
+              {
+                prettyMillis(Date.now() - group.ctime, { unitCount: 2, secondsDecimalDigits: 0 }).padEnd(
+                  7
+                ) /* 'XXm YYs'.length */
+              }
             </Text>
           </Box>
         </Box>
@@ -349,11 +353,7 @@ class Top extends React.PureComponent<Props, State> {
     } else if (this.state.groups.length === 0) {
       return <Text>No active jobs</Text>
     } else {
-      return (
-        <Box flexWrap="wrap" gap={1}>
-          {this.state.groups.map((_, idx) => this.group(_, idx))}
-        </Box>
-      )
+      return <Box flexWrap="wrap">{this.state.groups.map((_, idx) => this.group(_, idx))}</Box>
     }
   }
 }
