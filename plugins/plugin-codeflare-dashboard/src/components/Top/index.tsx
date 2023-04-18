@@ -321,7 +321,9 @@ export default class NodesDashboard extends React.PureComponent<Props, State> {
             </Text>
           </Box>
           <Box justifyContent="flex-end" marginLeft={2}>
-            <Text color="cyan">{prettyMillis(Date.now() - group.ctime, { compact: true })}</Text>
+            <Text color="cyan">
+              {prettyMillis(Date.now() - group.ctime, { unitCount: 2, secondsDecimalDigits: 0 })}
+            </Text>
           </Box>
         </Box>
 
