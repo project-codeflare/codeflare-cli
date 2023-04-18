@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import Debug from "debug"
 import type { Arguments } from "@kui-shell/core"
 
 import type Options from "./job/options.js"
@@ -117,7 +118,9 @@ type Model = Record<string, Record<string, Record<string, PodRec>>>
 //                  host            job            name
 
 export default async function jobsController(args: Arguments<MyOptions>) {
-  const ns = args.parsedOptions.A ? "-A" : args.parsedOptions.n ? `-n ${args.parsedOptions.n}` : ""
+  const debug = Debug("plugin-codeflare-dashboard/controller/top")
+  const ns = args.parsedOptions.A ? "--all-namespaces" : args.parsedOptions.n ? `-n ${args.parsedOptions.n}` : ""
+  debug("ns", ns || "using namespace from user current context")
 
   if (process.env.ALT !== "false") {
     enterAltBufferMode()
@@ -126,6 +129,7 @@ export default async function jobsController(args: Arguments<MyOptions>) {
   // To help us parse out one "record's" worth of output from kubectl
   const recordSeparator = "-----------"
 
+  debug("spawning watcher...")
   const { spawn } = await import("child_process")
   const child = spawn(
     "bash",
@@ -135,6 +139,7 @@ export default async function jobsController(args: Arguments<MyOptions>) {
     ],
     { shell: "/bin/bash", stdio: ["ignore", "pipe", "inherit"] }
   )
+  debug("spawned watcher")
 
   const jobIndices: Record<string, number> = {} // lookup
   const jobOcc: (undefined | string)[] = [] // occupancy vector
@@ -171,6 +176,7 @@ export default async function jobsController(args: Arguments<MyOptions>) {
   }
 
   const initWatcher = (cb: OnData) => {
+    debug("init watcher callbacks")
     const me = process.env.USER || "NOUSER"
 
     child.on("error", (err) => console.error(err))
@@ -257,13 +263,19 @@ export default async function jobsController(args: Arguments<MyOptions>) {
     })
   }
 
+  debug("loading UI dependencies")
   const [{ render }, { createElement }, { default: Top }] = await Promise.all([
     import("ink"),
     import("react"),
     import("../../components/Top/index.js"),
   ])
+
+  debug("rendering")
   const { waitUntilExit } = await render(createElement(Top, { initWatcher }))
+  debug("initial render done")
+
   await waitUntilExit()
+  debug("exiting")
   return true
 }
 
