@@ -117,10 +117,56 @@ function leastOf({ request, limit }: ResourceSpec, defaultValue: number): number
 type Model = Record<string, Record<string, Record<string, PodRec>>>
 //                  host            job            name
 
+async function getCurrentCluster(): Promise<string> {
+  const { execFile } = await import("child_process")
+  return new Promise((resolve, reject) => {
+    try {
+      execFile("kubectl", ["config", "view", "--minify", "-o=jsonpath={.clusters[0].name}"], (err, stdout, stderr) => {
+        if (err) {
+          console.error(stderr)
+          reject(err)
+        } else {
+          // trim off port
+          resolve(stdout.replace(/:\d+$/, ""))
+        }
+      })
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
+
+async function getCurrentNamespace(): Promise<string> {
+  const { execFile } = await import("child_process")
+  return new Promise((resolve, reject) => {
+    try {
+      execFile("kubectl", ["config", "view", "--minify", "-o=jsonpath={..namespace}"], (err, stdout, stderr) => {
+        if (err) {
+          console.error(stderr)
+          reject(err)
+        } else {
+          resolve(stdout)
+        }
+      })
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
+
+async function getNamespaceFromArgsOrCurrent(args: Arguments<MyOptions>) {
+  const namespace = args.parsedOptions.A ? "All Namespaces" : args.parsedOptions.n || (await getCurrentNamespace())
+  const namespaceCommandLineOption = args.parsedOptions.A
+    ? "--all-namespaces"
+    : args.parsedOptions.n
+    ? `-n ${args.parsedOptions.n}`
+    : ""
+
+  return { namespace, namespaceCommandLineOption }
+}
+
 export default async function jobsController(args: Arguments<MyOptions>) {
   const debug = Debug("plugin-codeflare-dashboard/controller/top")
-  const ns = args.parsedOptions.A ? "--all-namespaces" : args.parsedOptions.n ? `-n ${args.parsedOptions.n}` : ""
-  debug("ns", ns || "using namespace from user current context")
 
   if (process.env.ALT !== "false") {
     enterAltBufferMode()
@@ -129,13 +175,20 @@ export default async function jobsController(args: Arguments<MyOptions>) {
   // To help us parse out one "record's" worth of output from kubectl
   const recordSeparator = "-----------"
 
+  const [cluster, { namespace, namespaceCommandLineOption }] = await Promise.all([
+    getCurrentCluster(),
+    getNamespaceFromArgsOrCurrent(args),
+  ])
+  debug("cluster", cluster)
+  debug("namespace", namespace || "using namespace from user current context")
+
   debug("spawning watcher...")
   const { spawn } = await import("child_process")
   const child = spawn(
     "bash",
     [
       "-c",
-      `"while true; do kubectl get pod ${ns} --no-headers -o=custom-columns=NAME:.metadata.name,JOB:'.metadata.labels.app\\.kubernetes\\.io/instance',HOST:.status.hostIP,CPU:'.spec.containers[0].resources.requests.cpu',CPUL:'.spec.containers[0].resources.limits.cpu',MEM:'.spec.containers[0].resources.requests.memory',MEML:'.spec.containers[0].resources.limits.memory',GPU:.spec.containers[0].resources.requests.'nvidia\\.com/gpu',GPUL:.spec.containers[0].resources.limits.'nvidia\\.com/gpu',JOB2:'.metadata.labels.appwrapper\\.mcad\\.ibm\\.com',CTIME:.metadata.creationTimestamp,USER:'.metadata.labels.app\\.kubernetes\\.io/owner'; echo '${recordSeparator}'; sleep 2; done"`,
+      `"while true; do kubectl get pod ${namespaceCommandLineOption} --no-headers -o=custom-columns=NAME:.metadata.name,JOB:'.metadata.labels.app\\.kubernetes\\.io/instance',HOST:.status.hostIP,CPU:'.spec.containers[0].resources.requests.cpu',CPUL:'.spec.containers[0].resources.limits.cpu',MEM:'.spec.containers[0].resources.requests.memory',MEML:'.spec.containers[0].resources.limits.memory',GPU:.spec.containers[0].resources.requests.'nvidia\\.com/gpu',GPUL:.spec.containers[0].resources.limits.'nvidia\\.com/gpu',JOB2:'.metadata.labels.appwrapper\\.mcad\\.ibm\\.com',CTIME:.metadata.creationTimestamp,USER:'.metadata.labels.app\\.kubernetes\\.io/owner'; echo '${recordSeparator}'; sleep 2; done"`,
     ],
     { shell: "/bin/bash", stdio: ["ignore", "pipe", "inherit"] }
   )
@@ -258,7 +311,7 @@ export default async function jobsController(args: Arguments<MyOptions>) {
           })),
         }))
 
-        cb(stats(hosts))
+        cb(Object.assign({ cluster, namespace }, stats(hosts)))
       }
     })
   }
@@ -292,7 +345,7 @@ function gcd(a: number, b: number) {
 }
 
 /** Extract min/total values for resource demand */
-function stats(hosts: HostRec[]): UpdatePayload {
+function stats(hosts: HostRec[]): Pick<UpdatePayload, "hosts" | "stats"> {
   // find the min cpu, total cpu, etc.
   const stats = hosts
     .flatMap((_) => _.jobs.flatMap((_) => _.pods))
