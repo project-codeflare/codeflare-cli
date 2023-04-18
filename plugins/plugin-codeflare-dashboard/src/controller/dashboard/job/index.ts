@@ -20,7 +20,6 @@ import type Options from "./options.js"
 
 import tailf from "../tailf.js"
 import usage from "../usage.js"
-import dashboardUI from "../db.js"
 import status from "./status/index.js"
 import utilization from "./utilization/index.js"
 
@@ -114,19 +113,15 @@ export default async function dashboard(args: Arguments<Options>) {
   const grids = await gridForA(kind, historyConfig)
   debug("grids", grids)
 
-  const db = dashboardUI(profile, jobId, grids, { scale })
-
-  if (!db) {
+  if (grids === null || (Array.isArray(grids) && grids.length === 0)) {
     throw new Error(usage("top job"))
   } else {
-    const { render } = await import("ink")
+    const [{ default: render }] = await Promise.all([import("../../../components/Job/index.js")])
 
     if (process.env.ALT !== "false" && !debug.enabled) {
       enterAltBufferMode()
     }
-
-    const { waitUntilExit } = await render(db)
-    await waitUntilExit()
+    await render({ profile, jobId, scale, grids: Array.isArray(grids) ? grids : [grids] })
     return true
   }
 }

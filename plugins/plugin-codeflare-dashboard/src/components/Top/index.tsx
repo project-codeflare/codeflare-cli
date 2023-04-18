@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
+import Debug from "debug"
 import React from "react"
 import prettyMillis from "pretty-ms"
 import prettyBytes from "pretty-bytes"
-import { Box, Text, TextProps } from "ink"
 import { emitKeypressEvents } from "readline"
+import { Box, Text, TextProps, render } from "ink"
 
 import type { JobRec, HostRec, PodRec, OnData, UpdatePayload, Resource, ResourceSpec } from "./types.js"
 
@@ -63,7 +64,7 @@ type State = UI & {
   refresher: ReturnType<typeof setInterval>
 }
 
-export default class NodesDashboard extends React.PureComponent<Props, State> {
+class Top extends React.PureComponent<Props, State> {
   /** Text to use for one cell's worth of time */
   private readonly block = "■" // "▇"
 
@@ -342,7 +343,10 @@ export default class NodesDashboard extends React.PureComponent<Props, State> {
   }
 
   public render() {
-    if (!this.state?.groups || this.state.groups.length === 0) {
+    if (!this.state?.groups) {
+      // TODO spinner? this means we haven't received the first data set, yet
+      return <React.Fragment />
+    } else if (this.state.groups.length === 0) {
       return <Text>No active jobs</Text>
     } else {
       return (
@@ -352,4 +356,13 @@ export default class NodesDashboard extends React.PureComponent<Props, State> {
       )
     }
   }
+}
+
+export default async function renderTop(props: Props) {
+  const debug = Debug("plugin-codeflare-dashboard/components/Top")
+
+  debug("rendering")
+  const { waitUntilExit } = await render(<Top {...props} />)
+  debug("initial render done")
+  await waitUntilExit()
 }

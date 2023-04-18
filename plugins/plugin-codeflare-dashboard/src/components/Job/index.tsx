@@ -16,7 +16,7 @@
 
 import React from "react"
 import prettyMillis from "pretty-ms"
-import { Box, Spacer, Text } from "ink"
+import { Box, Spacer, Text, render } from "ink"
 
 import type { GridSpec, UpdatePayload, LogLineUpdate, TimestampedLine, WorkersUpdate, Worker } from "./types.js"
 
@@ -62,7 +62,7 @@ export type State = Pick<WorkersUpdate, "events"> &
     workers: Worker[][]
   }
 
-export default class Dashboard extends React.PureComponent<Props, State> {
+class Job extends React.PureComponent<Props, State> {
   public componentDidMount() {
     this.setState({
       workers: [],
@@ -314,4 +314,10 @@ export default class Dashboard extends React.PureComponent<Props, State> {
       </Box>
     )
   }
+}
+
+/** Wrap the `grids` in a `<Job/>` UI */
+export default async function renderJob(props: Props) {
+  const { waitUntilExit } = render(<Job {...props} />)
+  await waitUntilExit()
 }
