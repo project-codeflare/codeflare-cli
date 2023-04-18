@@ -105,12 +105,18 @@ class Top extends React.PureComponent<Props, State> {
   }
 
   private cleanupKeyboardEvents() {
-    // TODO do we also need to exit raw mode on ctrl+c?
-    process.stdin.setRawMode(false)
+    if (process.stdin.isTTY) {
+      // TODO do we also need to exit raw mode on ctrl+c?
+      process.stdin.setRawMode(false)
+    }
   }
 
   /** Handle keyboard events from the user */
   private initKeyboardEvents() {
+    if (!process.stdin.isTTY) {
+      return
+    }
+
     // these are necessary to get keypress events on process.stdin
     emitKeypressEvents(process.stdin)
     process.stdin.setRawMode(true)
