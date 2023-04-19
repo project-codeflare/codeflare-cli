@@ -20,7 +20,7 @@ import type { Arguments } from "@kui-shell/core"
 import type TopOptions from "./options.js"
 
 import { enterAltBufferMode } from "../term.js"
-import { getCurrentCluster, getCurrentNamespace, changeContext } from "../../kubernetes.js"
+import { getCurrentContext, getCurrentCluster, getCurrentNamespace, changeContext } from "../../kubernetes.js"
 
 import initWatcher from "./watcher.js"
 
@@ -36,7 +36,12 @@ export default async function jobsController(args: Arguments<TopOptions>) {
   }
 
   // these will be the initial values of cluster and namespace focus
-  const [cluster, ns] = await Promise.all([getCurrentCluster(), getNamespaceFromArgsOrCurrent(args)])
+  const [context, cluster, ns] = await Promise.all([
+    getCurrentContext(),
+    getCurrentCluster(),
+    getNamespaceFromArgsOrCurrent(args),
+  ])
+  debug("context", context)
   debug("cluster", cluster)
   debug("namespace", ns || "using namespace from user current context")
 
@@ -45,6 +50,7 @@ export default async function jobsController(args: Arguments<TopOptions>) {
 
   debug("rendering")
   await render({
+    context,
     cluster,
     namespace: ns,
     initWatcher: initWatcher.bind(args.parsedOptions),

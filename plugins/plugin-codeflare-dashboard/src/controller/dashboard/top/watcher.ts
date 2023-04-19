@@ -27,9 +27,9 @@ import defaultValueFor from "../../../components/Top/defaults.js"
 type Model = Record<string, Record<string, Record<string, PodRec>>>
 //                  host            job            name
 
-export default async function initWatcher(this: TopOptions, { cluster, namespace: ns }: Context, cb: OnData) {
+export default async function initWatcher(this: TopOptions, { context, cluster, namespace: ns }: Context, cb: OnData) {
   const debug = Debug("plugin-codeflare-dashboard/controller/top")
-  debug("init watcher callbacks", cluster, ns)
+  debug("init watcher callbacks", context, cluster, ns)
 
   // To help us parse out one "record's" worth of output from kubectl
   const recordSeparator = "-----------"
@@ -76,15 +76,36 @@ export default async function initWatcher(this: TopOptions, { cluster, namespace
     "bash",
     [
       "-c",
-      `"while true; do kubectl get pod -n ${ns} --no-headers -o=custom-columns=NAME:.metadata.name,JOB:'.metadata.labels.app\\.kubernetes\\.io/instance',HOST:.status.hostIP,CPU:'.spec.containers[0].resources.requests.cpu',CPUL:'.spec.containers[0].resources.limits.cpu',MEM:'.spec.containers[0].resources.requests.memory',MEML:'.spec.containers[0].resources.limits.memory',GPU:.spec.containers[0].resources.requests.'nvidia\\.com/gpu',GPUL:.spec.containers[0].resources.limits.'nvidia\\.com/gpu',JOB2:'.metadata.labels.appwrapper\\.mcad\\.ibm\\.com',CTIME:.metadata.creationTimestamp,USER:'.metadata.labels.app\\.kubernetes\\.io/owner'; echo '${recordSeparator}'; sleep 2; done"`,
+      `"while true; do kubectl get pod --context ${context} -n ${ns} --no-headers -o=custom-columns=NAME:.metadata.name,JOB:'.metadata.labels.app\\.kubernetes\\.io/instance',HOST:.status.hostIP,CPU:'.spec.containers[0].resources.requests.cpu',CPUL:'.spec.containers[0].resources.limits.cpu',MEM:'.spec.containers[0].resources.requests.memory',MEML:'.spec.containers[0].resources.limits.memory',GPU:.spec.containers[0].resources.requests.'nvidia\\.com/gpu',GPUL:.spec.containers[0].resources.limits.'nvidia\\.com/gpu',JOB2:'.metadata.labels.appwrapper\\.mcad\\.ibm\\.com',CTIME:.metadata.creationTimestamp,USER:'.metadata.labels.app\\.kubernetes\\.io/owner'; echo '${recordSeparator}'; sleep 2; done"`,
     ],
-    { shell: "/bin/bash", stdio: ["ignore", "pipe", "inherit"] }
+    { shell: "/bin/bash", stdio: ["ignore", "pipe", "pipe"] }
   )
   debug("spawned watcher")
-  process.on("exit", () => child.kill())
 
-  child.on("error", (err) => console.error(err))
-  child.on("exit", (code) => debug("watcher subprocess exiting", code))
+  const killit = () => child.kill()
+  process.once("exit", killit)
+
+  let message = ""
+  child.stderr.on("data", (data) => {
+    const msg = data.toString()
+    if (message !== msg) {
+      message += msg
+    }
+  })
+
+  child.once("error", (err) => {
+    console.error(err)
+    process.off("exit", killit)
+  })
+
+  child.once("exit", (code) => {
+    debug("watcher subprocess exiting", code)
+    process.off("exit", killit)
+
+    if (code !== 0 && message.length > 0) {
+      cb({ context, cluster, namespace: ns, message })
+    }
+  })
 
   let leftover = ""
   child.stdout.on("data", (data) => {
@@ -163,7 +184,7 @@ export default async function initWatcher(this: TopOptions, { cluster, namespace
         })),
       }))
 
-      cb(Object.assign({ cluster, namespace: ns }, stats(hosts)))
+      cb(Object.assign({ context, cluster, namespace: ns }, stats(hosts)))
     }
   })
 

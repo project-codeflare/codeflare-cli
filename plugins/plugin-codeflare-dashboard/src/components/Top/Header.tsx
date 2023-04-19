@@ -30,7 +30,7 @@ export default class Header extends React.PureComponent<Props> {
             <Text color="blue" bold>
               {"Cluster   " /* Cheapo alignment with "Namespace" */}
             </Text>
-            {this.props.cluster}
+            {this.props.cluster.replace(/:\d+$/, "")}
           </Text>
 
           <Spacer />

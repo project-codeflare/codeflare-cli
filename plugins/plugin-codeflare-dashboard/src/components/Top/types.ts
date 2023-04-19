@@ -54,6 +54,9 @@ type JobsByHost = {
 
 /** The cluster focus of the model */
 export type Context = {
+  /** Kubernetes context name */
+  context: string
+
   /** Kubernetes cluster name */
   cluster: string
 
@@ -61,13 +64,23 @@ export type Context = {
   namespace: string
 }
 
+/** Oops, something bad happened while fetching a model update */
+export type UpdateError = Context & { message: string }
+
 /** Updated model */
 export type UpdatePayload = Context & JobsByHost
 
-export type OnData = (payload: UpdatePayload) => void
+/** Updated model or error in doing so */
+export type UpdatePayloadOrError = (Context & JobsByHost) | UpdateError
+
+export function isError(payload: UpdatePayloadOrError): payload is UpdateError {
+  return typeof payload === "object" && typeof (payload as UpdateError).message === "string"
+}
+
+export type OnData = (payload: UpdatePayloadOrError) => void
 
 export type WatcherInitializer = (context: Context, cb: OnData) => Promise<{ kill(): void }>
 
-export type ChangeContextRequest = { which: "context" | "namespace"; from: string; dir: "down" | "up" }
+export type ChangeContextRequest = { which: "cluster" | "namespace"; context: Context; dir: "down" | "up" }
 
-export type ChangeContextRequestHandler = (req: ChangeContextRequest) => Promise<string | undefined>
+export type ChangeContextRequestHandler = (req: ChangeContextRequest) => Promise<Context | undefined>
