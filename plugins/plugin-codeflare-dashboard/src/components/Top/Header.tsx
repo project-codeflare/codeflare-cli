@@ -26,14 +26,22 @@ export default class Header extends React.PureComponent<Props> {
     return (
       <Box flexDirection="column">
         <Box>
-          <Text>
-            <Text color="blue" bold>
-              {"Cluster   " /* Cheapo alignment with "Namespace" */}
+          <Box>
+            <Text>
+              <Text color="magenta" bold>
+                {"Cluster   " /* Cheapo alignment with "Namespace" */}
+              </Text>
+              {this.props.cluster.replace(/:\d+$/, "")}
             </Text>
-            {this.props.cluster.replace(/:\d+$/, "")}
-          </Text>
+          </Box>
 
           <Spacer />
+
+          <Box marginLeft={1} justifyContent="flex-end">
+            <Text dimColor color="magenta">
+              <Text bold>PageUp/PageDown</Text>
+            </Text>
+          </Box>
         </Box>
 
         <Box>
@@ -43,6 +51,14 @@ export default class Header extends React.PureComponent<Props> {
                 Namespace{" "}
               </Text>
               {this.props.namespace}
+            </Text>
+          </Box>
+
+          <Spacer />
+
+          <Box marginLeft={1} justifyContent="flex-end">
+            <Text dimColor color="blue">
+              <Text bold>Left/Right</Text>
             </Text>
           </Box>
         </Box>
