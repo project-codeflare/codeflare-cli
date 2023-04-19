@@ -1,3 +1,12 @@
+## [4.10.3](https://github.com/project-codeflare/codeflare-cli/compare/v4.10.2...v4.10.3) (2023-04-19)
+
+### Bug Fixes
+
+- add cluster and namespace to Top ui ([736cf3b](https://github.com/project-codeflare/codeflare-cli/commit/736cf3b994df0e7a9b6eecded999836b12c58be4))
+- restore flex-wrapping of grid (again) ([10ced2a](https://github.com/project-codeflare/codeflare-cli/commit/10ced2a1720107538ded8e7b60ce1356f8d736a2))
+- Top should allow pageup/pagedown to cycle through clusters ([a67b424](https://github.com/project-codeflare/codeflare-cli/commit/a67b424294858b5c5d3cafa79e3531e68a140b25))
+- Top should allow uparrown/downarrow to cycle through namespaces ([acd51c3](https://github.com/project-codeflare/codeflare-cli/commit/acd51c32d77b967e5b999e6d1528d7e8b0abe52c))
+
 ## [4.10.2](https://github.com/project-codeflare/codeflare-cli/compare/v4.10.1...v4.10.2) (2023-04-18)
 
 ### Bug Fixes
