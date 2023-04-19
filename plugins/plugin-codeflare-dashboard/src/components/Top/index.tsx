@@ -22,17 +22,18 @@ import { Box, Text, render } from "ink"
 import type Group from "./Group.js"
 import type {
   Context,
-  ChangeContextRequest,
   ChangeContextRequestHandler,
   WatcherInitializer,
+  UpdateError,
   UpdatePayload,
+  UpdatePayloadOrError,
   ResourceSpec,
 } from "./types.js"
 
-import JobBox from "./JobBox.js"
-import defaultValueFor from "./defaults.js"
-
 import Header from "./Header.js"
+import JobBox from "./JobBox.js"
+import { isError } from "./types.js"
+import defaultValueFor from "./defaults.js"
 
 type UI = {
   /** Force a refresh */
@@ -54,6 +55,9 @@ type State = UI & {
 
   /** Model from controller */
   rawModel: UpdatePayload
+
+  /** Error in updating model? */
+  updateError: null | UpdateError
 
   /** Our grouping of `rawModel` */
   groups: Group[]
@@ -83,17 +87,17 @@ class Top extends React.PureComponent<Props, State> {
     return this.state?.selectedGroupIdx >= 0 && this.state?.selectedGroupIdx < this.state.groups.length
   }
 
+  private clearCurrentJobSelection() {
+    this.setState({ selectedGroupIdx: -1 })
+  }
+
   /** Current cluster context */
   private get currentContext() {
     return {
+      context: this.state?.rawModel?.context || this.props.context,
       cluster: this.state?.rawModel?.cluster || this.props.cluster,
       namespace: this.state?.rawModel?.namespace || this.props.namespace,
     }
-  }
-
-  /** Updated cluster context */
-  private updatedContext({ which }: Pick<ChangeContextRequest, "which">, next: string) {
-    return Object.assign(this.currentContext, which === "namespace" ? { namespace: next } : { cluster: next })
   }
 
   public async componentDidMount() {
@@ -131,6 +135,28 @@ class Top extends React.PureComponent<Props, State> {
     }
   }
 
+  private async cycleThroughContexts(which: "namespace" | "cluster", dir: "up" | "down") {
+    if (this.currentContext) {
+      const updatedContext = await this.props.changeContext({ which, context: this.currentContext, dir })
+
+      if (updatedContext) {
+        this.reinit(updatedContext)
+      }
+    }
+  }
+
+  private cycleThroughJobs(dir: "left" | "right") {
+    if (this.state.groups) {
+      const incr = dir === "left" ? -1 : 1
+      this.setState((curState) => ({
+        selectedGroupIdx:
+          curState?.selectedGroupIdx === undefined
+            ? 0
+            : this.mod(curState.selectedGroupIdx + incr, curState.groups.length + 1),
+      }))
+    }
+  }
+
   /** Handle keyboard events from the user */
   private initKeyboardEvents() {
     if (!process.stdin.isTTY) {
@@ -149,46 +175,23 @@ class Top extends React.PureComponent<Props, State> {
       } else {
         switch (key.name) {
           case "escape":
-            this.setState({ selectedGroupIdx: -1 })
+            this.clearCurrentJobSelection()
             break
+
           case "up":
           case "down":
-            /** Change context selection */
-            if (this.state?.rawModel.namespace) {
-              this.props
-                .changeContext({ which: "namespace", from: this.state.rawModel.namespace, dir: key.name })
-                .then((next) => {
-                  if (next) {
-                    this.reinit(this.updatedContext({ which: "namespace" }, next))
-                  }
-                })
-            }
+            this.cycleThroughContexts("namespace", key.name)
+            break
+
+          case "pageup":
+          case "pagedown":
+            this.cycleThroughContexts("cluster", key.name === "pageup" ? "up" : "down")
             break
 
           case "left":
           case "right":
-            /** Change job selection */
-            if (this.state.groups) {
-              const incr = key.name === "left" ? -1 : 1
-              this.setState((curState) => ({
-                selectedGroupIdx:
-                  curState?.selectedGroupIdx === undefined
-                    ? 0
-                    : this.mod(curState.selectedGroupIdx + incr, curState.groups.length + 1),
-              }))
-            }
+            this.cycleThroughJobs(key.name)
             break
-          /*case "i":
-            this.setState((curState) => ({ blockCells: !this.useBlocks(curState) }))
-            break*/
-          /*case "g":
-            this.setState((curState) => ({
-              groupHosts: !this.groupHosts(curState),
-              groups: !curState?.rawModel
-                ? curState?.groups
-                : this.groupBy(curState.rawModel, !this.groupHosts(curState)),
-            }))
-            break */
         }
       }
     })
@@ -198,28 +201,38 @@ class Top extends React.PureComponent<Props, State> {
     return { min: { cpu: 0, mem: 0, gpu: 0 }, tot: {} }
   }
 
-  private reinit(context: Context) {
+  private async reinit(context: Context) {
     if (this.state?.watcher) {
       this.state?.watcher.kill()
     }
-    this.setState({ groups: [], rawModel: Object.assign({ hosts: [], stats: this.emptyStats }, context) })
-    this.props.initWatcher(context, this.onData)
+    this.setState({
+      groups: [],
+      updateError: null,
+      watcher: await this.props.initWatcher(context, this.onData),
+      rawModel: Object.assign({ hosts: [], stats: this.emptyStats }, context),
+    })
   }
 
   /** We have received data from the controller */
-  private readonly onData = (rawModel: UpdatePayload) => {
+  private readonly onData = (rawModel: UpdatePayloadOrError) => {
     if (rawModel.cluster !== this.currentContext.cluster || rawModel.namespace !== this.currentContext.namespace) {
       // this is straggler data from the prior context
       return
-    }
-
-    this.setState((curState) => {
-      if (JSON.stringify(curState?.rawModel) === JSON.stringify(rawModel)) {
-        return null
-      } else {
-        return { rawModel, groups: this.groupBy(rawModel) }
+    } else if (isError(rawModel)) {
+      // update error
+      if (!this.state?.updateError || JSON.stringify(rawModel) !== JSON.stringify(this.state.updateError)) {
+        this.setState({ updateError: rawModel })
       }
-    })
+    } else {
+      // good update from current context
+      this.setState((curState) => {
+        if (JSON.stringify(curState?.rawModel) === JSON.stringify(rawModel)) {
+          return null
+        } else {
+          return { rawModel, groups: this.groupBy(rawModel) }
+        }
+      })
+    }
   }
 
   private groupBy(model: UpdatePayload): State["groups"] {
@@ -272,7 +285,9 @@ class Top extends React.PureComponent<Props, State> {
   }
 
   private body() {
-    if (this.state.groups.length === 0) {
+    if (this.state?.updateError) {
+      return <Text color="red">{this.state.updateError.message}</Text>
+    } else if (this.state.groups.length === 0) {
       return <Text>No active jobs</Text>
     } else {
       return (
@@ -291,13 +306,13 @@ class Top extends React.PureComponent<Props, State> {
   }
 
   public render() {
-    if (!this.state?.groups) {
+    if (!this.state?.updateError && !this.state?.groups) {
       // TODO spinner? this means we haven't received the first data set, yet
       return <React.Fragment />
     } else {
       return (
         <Box flexDirection="column">
-          <Header cluster={this.state.rawModel.cluster} namespace={this.state.rawModel.namespace} />
+          <Header {...this.currentContext} />
           <Box marginTop={1}>{this.body()}</Box>
         </Box>
       )
