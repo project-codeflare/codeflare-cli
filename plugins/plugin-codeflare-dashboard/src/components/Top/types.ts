@@ -65,3 +65,9 @@ export type Context = {
 export type UpdatePayload = Context & JobsByHost
 
 export type OnData = (payload: UpdatePayload) => void
+
+export type WatcherInitializer = (context: Context, cb: OnData) => Promise<{ kill(): void }>
+
+export type ChangeContextRequest = { which: "context" | "namespace"; from: string; dir: "down" | "up" }
+
+export type ChangeContextRequestHandler = (req: ChangeContextRequest) => Promise<string | undefined>

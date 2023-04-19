@@ -20,7 +20,14 @@ import { emitKeypressEvents } from "readline"
 import { Box, Text, render } from "ink"
 
 import type Group from "./Group.js"
-import type { OnData, UpdatePayload, ResourceSpec } from "./types.js"
+import type {
+  Context,
+  ChangeContextRequest,
+  ChangeContextRequestHandler,
+  WatcherInitializer,
+  UpdatePayload,
+  ResourceSpec,
+} from "./types.js"
 
 import JobBox from "./JobBox.js"
 import defaultValueFor from "./defaults.js"
@@ -32,11 +39,19 @@ type UI = {
   refreshCycle?: number
 }
 
-type Props = UI & {
-  initWatcher: (cb: OnData) => void
-}
+type Props = UI &
+  Context /* initial context */ & {
+    /** UI is ready to consume model updates */
+    initWatcher: WatcherInitializer
+
+    /** Ui wants to change context */
+    changeContext: ChangeContextRequestHandler
+  }
 
 type State = UI & {
+  /** Current watcher */
+  watcher: { kill(): void }
+
   /** Model from controller */
   rawModel: UpdatePayload
 
@@ -63,8 +78,27 @@ class Top extends React.PureComponent<Props, State> {
     return ((n % d) + d) % d
   }
 
-  public componentDidMount() {
-    this.props.initWatcher(this.onData)
+  /** Do we have a selected group? */
+  private get hasSelection() {
+    return this.state?.selectedGroupIdx >= 0 && this.state?.selectedGroupIdx < this.state.groups.length
+  }
+
+  /** Current cluster context */
+  private get currentContext() {
+    return {
+      cluster: this.state?.rawModel?.cluster || this.props.cluster,
+      namespace: this.state?.rawModel?.namespace || this.props.namespace,
+    }
+  }
+
+  /** Updated cluster context */
+  private updatedContext({ which }: Pick<ChangeContextRequest, "which">, next: string) {
+    return Object.assign(this.currentContext, which === "namespace" ? { namespace: next } : { cluster: next })
+  }
+
+  public async componentDidMount() {
+    this.setState({ watcher: await this.props.initWatcher(this.currentContext, this.onData) })
+
     this.initRefresher()
     this.initKeyboardEvents()
   }
@@ -117,8 +151,23 @@ class Top extends React.PureComponent<Props, State> {
           case "escape":
             this.setState({ selectedGroupIdx: -1 })
             break
+          case "up":
+          case "down":
+            /** Change context selection */
+            if (this.state?.rawModel.namespace) {
+              this.props
+                .changeContext({ which: "namespace", from: this.state.rawModel.namespace, dir: key.name })
+                .then((next) => {
+                  if (next) {
+                    this.reinit(this.updatedContext({ which: "namespace" }, next))
+                  }
+                })
+            }
+            break
+
           case "left":
           case "right":
+            /** Change job selection */
             if (this.state.groups) {
               const incr = key.name === "left" ? -1 : 1
               this.setState((curState) => ({
@@ -145,8 +194,25 @@ class Top extends React.PureComponent<Props, State> {
     })
   }
 
+  private get emptyStats(): UpdatePayload["stats"] {
+    return { min: { cpu: 0, mem: 0, gpu: 0 }, tot: {} }
+  }
+
+  private reinit(context: Context) {
+    if (this.state?.watcher) {
+      this.state?.watcher.kill()
+    }
+    this.setState({ groups: [], rawModel: Object.assign({ hosts: [], stats: this.emptyStats }, context) })
+    this.props.initWatcher(context, this.onData)
+  }
+
   /** We have received data from the controller */
-  private readonly onData = (rawModel: UpdatePayload) =>
+  private readonly onData = (rawModel: UpdatePayload) => {
+    if (rawModel.cluster !== this.currentContext.cluster || rawModel.namespace !== this.currentContext.namespace) {
+      // this is straggler data from the prior context
+      return
+    }
+
     this.setState((curState) => {
       if (JSON.stringify(curState?.rawModel) === JSON.stringify(rawModel)) {
         return null
@@ -154,6 +220,7 @@ class Top extends React.PureComponent<Props, State> {
         return { rawModel, groups: this.groupBy(rawModel) }
       }
     })
+  }
 
   private groupBy(model: UpdatePayload): State["groups"] {
     return Object.values(
@@ -190,11 +257,6 @@ class Top extends React.PureComponent<Props, State> {
       a.stats.tot.cpu + a.stats.tot.mem + a.stats.tot.gpu - (b.stats.tot.cpu + b.stats.tot.mem + b.stats.tot.gpu) ||
       a.job.name.localeCompare(b.job.name)
     )
-  }
-
-  /** Do we have a selected group? */
-  private get hasSelection() {
-    return this.state?.selectedGroupIdx >= 0 && this.state?.selectedGroupIdx < this.state.groups.length
   }
 
   private mostOf({ request, limit }: ResourceSpec, defaultValue: number) {
