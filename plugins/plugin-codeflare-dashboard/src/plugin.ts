@@ -15,7 +15,7 @@
  */
 
 import type { KResponse, Registrar } from "@kui-shell/core"
-import type { MyOptions as TopOptions } from "./controller/dashboard/top.js"
+import type TopOptions from "./controller/dashboard/top/options.js"
 import type DashboardOptions from "./controller/dashboard/job/options.js"
 
 import { flags } from "./controller/dashboard/options.js"
@@ -31,7 +31,7 @@ export default function registerCodeflareCommands(registrar: Registrar) {
 
   registrar.listen<KResponse, TopOptions>(
     `/codeflare/top`,
-    (args) => import("./controller/dashboard/top.js").then((_) => _.default(args)),
+    (args) => import("./controller/dashboard/top/index.js").then((_) => _.default(args)),
     { flags }
   )
 
