@@ -58,7 +58,7 @@ export default class Header extends React.PureComponent<Props> {
 
           <Box marginLeft={1} justifyContent="flex-end">
             <Text dimColor color="blue">
-              <Text bold>Left/Right</Text>
+              <Text bold>Up/Down</Text>
             </Text>
           </Box>
         </Box>
