@@ -1,3 +1,12 @@
+## [4.10.4](https://github.com/project-codeflare/codeflare-cli/compare/v4.10.3...v4.10.4) (2023-04-19)
+
+### Bug Fixes
+
+- add keyboard shortcut hints ([b5d59ed](https://github.com/project-codeflare/codeflare-cli/commit/b5d59ed4646e3ddc7abf8d33777ba57e037347dc))
+- another tweak to try to address ink loading bugs ([c55e2b2](https://github.com/project-codeflare/codeflare-cli/commit/c55e2b2bd1eeb82ff78108c3e87d5bb711d0050e))
+- clean up custodian command, and rename container 'logs' ([729a1c6](https://github.com/project-codeflare/codeflare-cli/commit/729a1c6c34d625ba6b78f62ffe57e88c5ce8c5a7))
+- namespace keyboard shortcuts were incorrect ([c071020](https://github.com/project-codeflare/codeflare-cli/commit/c071020d4415182fb552a828019bf754e97c5045))
+
 ## [4.10.3](https://github.com/project-codeflare/codeflare-cli/compare/v4.10.2...v4.10.3) (2023-04-19)
 
 ### Bug Fixes
