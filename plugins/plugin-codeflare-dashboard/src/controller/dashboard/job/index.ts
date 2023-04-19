@@ -31,6 +31,8 @@ import { SupportedGrid, isSupportedGrid } from "./grids.js"
 import type HistoryConfig from "./history.js"
 import type { GridSpec } from "../../../components/Job/types.js"
 
+import render from "../../../components/Job/index.js"
+
 /** @return grid model for the given `kind` for `jobId` in `profile` */
 async function gridFor(
   kind: SupportedGrid,
@@ -116,8 +118,6 @@ export default async function dashboard(args: Arguments<Options>) {
   if (grids === null || (Array.isArray(grids) && grids.length === 0)) {
     throw new Error(usage("top job"))
   } else {
-    const [{ default: render }] = await Promise.all([import("../../../components/Job/index.js")])
-
     if (process.env.ALT !== "false" && !debug.enabled) {
       enterAltBufferMode()
     }
