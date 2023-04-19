@@ -23,6 +23,7 @@ import { enterAltBufferMode } from "../term.js"
 import { getCurrentContext, getCurrentCluster, getCurrentNamespace, changeContext } from "../../kubernetes.js"
 
 import initWatcher from "./watcher.js"
+import render from "../../../components/Top/index.js"
 
 export async function getNamespaceFromArgsOrCurrent(args: Arguments<TopOptions>) {
   return /*args.parsedOptions.A ? "All Namespaces" :*/ args.parsedOptions.n || (await getCurrentNamespace())
@@ -44,9 +45,6 @@ export default async function jobsController(args: Arguments<TopOptions>) {
   debug("context", context)
   debug("cluster", cluster)
   debug("namespace", ns || "using namespace from user current context")
-
-  debug("loading UI dependencies")
-  const [{ default: render }] = await Promise.all([import("../../../components/Top/index.js")])
 
   debug("rendering")
   await render({
