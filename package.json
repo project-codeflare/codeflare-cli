@@ -128,10 +128,10 @@
     }
   },
   "devDependencies": {
-    "@kui-shell/builder": "13.1.3-dev-20230418-152720",
-    "@kui-shell/proxy": "13.1.3-dev-20230418-152720",
-    "@kui-shell/react": "13.1.3-dev-20230418-152720",
-    "@kui-shell/webpack": "13.1.3-dev-20230418-152720",
+    "@kui-shell/builder": "13.1.3-dev-20230420-095250",
+    "@kui-shell/proxy": "13.1.3-dev-20230420-095250",
+    "@kui-shell/react": "13.1.3-dev-20230420-095250",
+    "@kui-shell/webpack": "13.1.3-dev-20230420-095250",
     "@playwright/test": "^1.32.3",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
@@ -149,16 +149,16 @@
   "dependencies": {
     "node-pty": "0.11.0-beta27",
     "@kui-shell/client": "file:./plugins/plugin-client-default",
-    "@kui-shell/core": "13.1.3-dev-20230418-152720",
-    "@kui-shell/plugin-bash-like": "13.1.3-dev-20230418-152720",
-    "@kui-shell/plugin-client-common": "13.1.3-dev-20230418-152720",
+    "@kui-shell/core": "13.1.3-dev-20230420-095250",
+    "@kui-shell/plugin-bash-like": "13.1.3-dev-20230420-095250",
+    "@kui-shell/plugin-client-common": "13.1.3-dev-20230420-095250",
     "@kui-shell/plugin-codeflare": "file:./plugins/plugin-codeflare",
     "@kui-shell/plugin-codeflare-dashboard": "file:./plugins/plugin-codeflare-dashboard",
-    "@kui-shell/plugin-core-support": "13.1.3-dev-20230418-152720",
-    "@kui-shell/plugin-electron-components": "13.1.3-dev-20230418-152720",
-    "@kui-shell/plugin-kubectl": "13.1.3-dev-20230418-152720",
-    "@kui-shell/plugin-madwizard": "13.1.3-dev-20230418-152720",
-    "@kui-shell/plugin-patternfly4-themes": "13.1.3-dev-20230418-152720",
-    "@kui-shell/plugin-proxy-support": "13.1.3-dev-20230418-152720"
+    "@kui-shell/plugin-core-support": "13.1.3-dev-20230420-095250",
+    "@kui-shell/plugin-electron-components": "13.1.3-dev-20230420-095250",
+    "@kui-shell/plugin-kubectl": "13.1.3-dev-20230420-095250",
+    "@kui-shell/plugin-madwizard": "13.1.3-dev-20230420-095250",
+    "@kui-shell/plugin-patternfly4-themes": "13.1.3-dev-20230420-095250",
+    "@kui-shell/plugin-proxy-support": "13.1.3-dev-20230420-095250"
   }
 }
