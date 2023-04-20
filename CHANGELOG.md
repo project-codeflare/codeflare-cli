@@ -1,3 +1,14 @@
+# [4.11.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.10.5...v4.11.0) (2023-04-20)
+
+### Bug Fixes
+
+- force yoga.wasm to be loaded as a file resource ([214250a](https://github.com/project-codeflare/codeflare-cli/commit/214250a79f3e2d14420d2387ed439c80e6dcdc16))
+- update kind tests to delete new name of cleaner -> logs ([1d26251](https://github.com/project-codeflare/codeflare-cli/commit/1d26251afec65690ac3586cc3d153c3e89f40832))
+
+### Features
+
+- update custodian to track cpu, mem, and gpu utilization ([dfbf0a9](https://github.com/project-codeflare/codeflare-cli/commit/dfbf0a96128b82a4d1fd09e62a15e03063902aea))
+
 ## [4.10.5](https://github.com/project-codeflare/codeflare-cli/compare/v4.10.4...v4.10.5) (2023-04-20)
 
 ### Bug Fixes
