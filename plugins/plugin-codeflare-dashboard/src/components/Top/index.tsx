@@ -82,13 +82,18 @@ class Top extends React.PureComponent<Props, State> {
     return ((n % d) + d) % d
   }
 
+  /** Indicates the absence of a job selection */
+  private get NO_SELECTION() {
+    return -1
+  }
+
   /** Do we have a selected group? */
   private get hasSelection() {
     return this.state?.selectedGroupIdx >= 0 && this.state?.selectedGroupIdx < this.state.groups.length
   }
 
   private clearCurrentJobSelection() {
-    this.setState({ selectedGroupIdx: -1 })
+    this.setState({ selectedGroupIdx: this.NO_SELECTION })
   }
 
   /** Current cluster context */
@@ -208,6 +213,7 @@ class Top extends React.PureComponent<Props, State> {
     this.setState({
       groups: [],
       updateError: null,
+      selectedGroupIdx: this.NO_SELECTION,
       watcher: await this.props.initWatcher(context, this.onData),
       rawModel: Object.assign({ hosts: [], stats: this.emptyStats }, context),
     })
