@@ -37,21 +37,21 @@ export async function kubectl(argv: string[], kubectl = "kubectl", quiet = false
   })
 }
 
-export async function getCurrentContext(): Promise<string> {
+export function getCurrentContext(): Promise<string> {
   return kubectl(["config", "current-context"]).then((_) => _.trim())
 }
 
-export async function getCurrentCluster(): Promise<string> {
+export function getCurrentCluster(): Promise<string> {
   // minify limits the view output to show only the current context
   return kubectl(["config", "view", "--minify", "-o=jsonpath={.clusters[0].name}"])
 }
 
-export async function getCurrentNamespace(): Promise<string> {
+export function getCurrentNamespace(): Promise<string> {
   // minify limits the view output to show only the current context
   return kubectl(["config", "view", "--minify", "-o=jsonpath={..namespace}"])
 }
 
-export async function getCurrentClusterOfContext(context: string): Promise<string> {
+export function getCurrentClusterOfContext(context: string): Promise<string> {
   return kubectl([
     "config",
     "view",
@@ -59,7 +59,7 @@ export async function getCurrentClusterOfContext(context: string): Promise<strin
   ]).then((_) => _.split(/\n/)[0])
 }
 
-export async function getCurrentNamespaceOfContext(context: string): Promise<string> {
+export function getCurrentNamespaceOfContext(context: string): Promise<string> {
   return kubectl([
     "config",
     "view",
@@ -76,7 +76,7 @@ function listNamespaces(context: string): Promise<string[]> {
 }
 
 /** @return a list of available contexts */
-async function listContexts(): Promise<string[]> {
+function listContexts(): Promise<string[]> {
   return kubectl(["config", "get-contexts", "-o=name"]).then((_) => _.split(/\n/))
 }
 
