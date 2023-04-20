@@ -177,7 +177,7 @@ function onexit {
     fi
 
     # just in case...
-    (kubectl delete job ray-cleaner-codeflare-test-ray-cluster || exit 0)
+    (kubectl delete job logs-codeflare-test-ray-cluster || exit 0)
 
     if [ -z "$NO_KIND" ]; then
         # don't kill ourselves if we're running in a container
