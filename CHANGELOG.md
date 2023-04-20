@@ -1,3 +1,11 @@
+## [4.10.5](https://github.com/project-codeflare/codeflare-cli/compare/v4.10.4...v4.10.5) (2023-04-20)
+
+### Bug Fixes
+
+- clear selection when changing context ([29e689f](https://github.com/project-codeflare/codeflare-cli/commit/29e689fa8c25c7b2cd1bf9440db2070b71273e3b))
+- failures on kind against default namespace ([96f555f](https://github.com/project-codeflare/codeflare-cli/commit/96f555f4e855080aa833e40582a02956570e14ef))
+- pick up wasm webpack fix from kui ([f8f62e8](https://github.com/project-codeflare/codeflare-cli/commit/f8f62e86a34df48d05d96787f93b7718c5693dd0))
+
 ## [4.10.4](https://github.com/project-codeflare/codeflare-cli/compare/v4.10.3...v4.10.4) (2023-04-19)
 
 ### Bug Fixes
