@@ -50,7 +50,7 @@ export default class Header extends React.PureComponent<Props> {
               <Text color="blue" bold>
                 Namespace{" "}
               </Text>
-              {this.props.namespace}
+              {this.props.namespace || "default"}
             </Text>
           </Box>
 
