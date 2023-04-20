@@ -35,5 +35,14 @@
     "pretty-bytes": "^6.1.0",
     "pretty-ms": "^8.0.0",
     "strip-ansi": "^7.0.1"
+  },
+  "kui": {
+    "webpack": {
+      "rules": {
+        "file-loader": [
+          "yoga\\.wasm$"
+        ]
+      }
+    }
   }
 }
