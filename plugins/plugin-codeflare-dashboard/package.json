@@ -31,7 +31,7 @@
     "@logdna/tail-file": "^3.0.1",
     "chokidar": "^3.5.3",
     "ink": "^4.1.0",
-    "madwizard": "^9.0.4",
+    "madwizard": "^9.0.5",
     "pretty-bytes": "^6.1.0",
     "pretty-ms": "^8.0.0",
     "strip-ansi": "^7.0.1"
