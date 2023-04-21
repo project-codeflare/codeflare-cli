@@ -1,3 +1,9 @@
+## [4.11.2](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.1...v4.11.2) (2023-04-21)
+
+### Bug Fixes
+
+- shorter uuids resulted in uppercase kubernetes resource names ([f11c0c8](https://github.com/project-codeflare/codeflare-cli/commit/f11c0c8b43d86e44fa11468c9acf125b82e83e14))
+
 ## [4.11.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.0...v4.11.1) (2023-04-21)
 
 ### Bug Fixes
