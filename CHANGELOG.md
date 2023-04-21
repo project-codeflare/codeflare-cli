@@ -1,3 +1,9 @@
+## [4.11.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.0...v4.11.1) (2023-04-21)
+
+### Bug Fixes
+
+- use shorter uuids, custodian trackers for runtime-env and worker status ([ba6eaeb](https://github.com/project-codeflare/codeflare-cli/commit/ba6eaebceeb61daba7a3d8ae1e4908681801c043))
+
 # [4.11.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.10.5...v4.11.0) (2023-04-20)
 
 ### Bug Fixes
