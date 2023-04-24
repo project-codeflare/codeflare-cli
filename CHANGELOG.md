@@ -1,3 +1,11 @@
+## [4.11.3](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.2...v4.11.3) (2023-04-24)
+
+### Bug Fixes
+
+- add `fsspec[s3]` to lightning image, and `conda clean -afy` ([3f8f4ed](https://github.com/project-codeflare/codeflare-cli/commit/3f8f4ed14620b85009c988abf72c6af3002513de))
+- fix for torchx+s3 and lightning+s3 ([77637d4](https://github.com/project-codeflare/codeflare-cli/commit/77637d4655294a82a2e43144c603872b86bb1a42))
+- improve support for pytorch lightning's fsspec[s3] support ([6cdbdd5](https://github.com/project-codeflare/codeflare-cli/commit/6cdbdd581c4468bd5d2010fd218095d6ccc3ec3c))
+
 ## [4.11.2](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.1...v4.11.2) (2023-04-21)
 
 ### Bug Fixes
