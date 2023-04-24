@@ -48,6 +48,7 @@ RUN echo "TARGETARCH=$TARGETARCH" && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /root/.cache && \
-    rm -rf /var/lib/apt/lists/* && \
+        rm -rf /var/lib/apt/lists/* && \
+    conda clean -afy && \
     chgrp -R 0 /root && \
     chmod -R g+rwX /root
