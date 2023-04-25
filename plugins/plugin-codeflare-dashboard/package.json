@@ -39,7 +39,7 @@
   "kui": {
     "webpack": {
       "rules": {
-        "file-loader": [
+        "uint8array-loader": [
           "yoga\\.wasm$"
         ]
       }
