@@ -1,3 +1,9 @@
+## [4.11.4](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.3...v4.11.4) (2023-04-25)
+
+### Bug Fixes
+
+- another fix for loading yoga.wasm (codeflare top exits silently) ([3a10932](https://github.com/project-codeflare/codeflare-cli/commit/3a1093209c18c3eb6e94c20ac744b6732f0ec0a0))
+
 ## [4.11.3](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.2...v4.11.3) (2023-04-24)
 
 ### Bug Fixes
