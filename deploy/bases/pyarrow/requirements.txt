@@ -2,5 +2,11 @@ pyarrow
 pandas
 ibm-cos-sdk
 
+# https://www.h5py.org/
+h5py
+
+# https://pypi.org/project/einops/
+einops
+
 # helpful and small utilities
 psutil

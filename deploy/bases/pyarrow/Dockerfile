@@ -1,4 +1,4 @@
-FROM ghcr.io/project-codeflare/lightning:0.0.5
+FROM ghcr.io/project-codeflare/lightning:0.0.6
 
 ENV \
     DEBIAN_FRONTEND="noninteractive" \
