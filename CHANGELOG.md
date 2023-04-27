@@ -1,3 +1,11 @@
+## [4.11.7](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.6...v4.11.7) (2023-04-27)
+
+### Bug Fixes
+
+- avoid helm delete in custodian for now ([6a12f44](https://github.com/project-codeflare/codeflare-cli/commit/6a12f44318ae5d7965aa499fe68082e182308eed))
+- increase memory for ray head logs container ([85385f1](https://github.com/project-codeflare/codeflare-cli/commit/85385f1f6ef8915d7756707c310a5bd23ad4718c))
+- increase memory for runtime-env custodian pod ([c7f2f19](https://github.com/project-codeflare/codeflare-cli/commit/c7f2f1987210d661a9f3d4effd39c8d7a1d31193))
+
 ## [4.11.6](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.5...v4.11.6) (2023-04-27)
 
 ### Bug Fixes
