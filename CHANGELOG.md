@@ -1,3 +1,10 @@
+## [4.11.5](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.4...v4.11.5) (2023-04-27)
+
+### Bug Fixes
+
+- improve custodian memory requests for larger jobs ([0201c00](https://github.com/project-codeflare/codeflare-cli/commit/0201c00e528325bf84142bb8ab98a8b008352294))
+- remove reliance on wget in ray head container ([6018e7f](https://github.com/project-codeflare/codeflare-cli/commit/6018e7fc8290fa85de6f3e312228c7f8d875d56e))
+
 ## [4.11.4](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.3...v4.11.4) (2023-04-25)
 
 ### Bug Fixes
