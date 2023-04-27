@@ -1,3 +1,10 @@
+## [4.11.6](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.5...v4.11.6) (2023-04-27)
+
+### Bug Fixes
+
+- add h5py to pyarrow base image ([dd9875f](https://github.com/project-codeflare/codeflare-cli/commit/dd9875f3045cade5612a6fb26cef2a13a01db28e))
+- torchx volume mount paths may have extra quotes ([5db0410](https://github.com/project-codeflare/codeflare-cli/commit/5db0410b9b3bd599b5793dc80a5690a874084c6f))
+
 ## [4.11.5](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.4...v4.11.5) (2023-04-27)
 
 ### Bug Fixes
