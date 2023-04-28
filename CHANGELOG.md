@@ -1,3 +1,10 @@
+## [4.11.8](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.7...v4.11.8) (2023-04-28)
+
+### Bug Fixes
+
+- add websocat to custodian to avoid having to wget it every time ([2334b1d](https://github.com/project-codeflare/codeflare-cli/commit/2334b1dfc92985abda726a87e98b30d57c37039e))
+- increase resilience to network disconnects, restore helm delete in custodian ([5a47eb7](https://github.com/project-codeflare/codeflare-cli/commit/5a47eb7752355c2a6b187d4e917642c8837403e4))
+
 ## [4.11.7](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.6...v4.11.7) (2023-04-27)
 
 ### Bug Fixes
