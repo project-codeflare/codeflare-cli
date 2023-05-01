@@ -1,3 +1,9 @@
+## [4.11.9](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.8...v4.11.9) (2023-05-01)
+
+### Bug Fixes
+
+- wait for ray workers prior to server-side job submit ([0d8731f](https://github.com/project-codeflare/codeflare-cli/commit/0d8731ff1570b3d43d7a414973935e65e877b5b3))
+
 ## [4.11.8](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.7...v4.11.8) (2023-04-28)
 
 ### Bug Fixes
