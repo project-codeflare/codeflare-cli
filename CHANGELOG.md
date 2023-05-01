@@ -1,3 +1,9 @@
+## [4.11.10](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.9...v4.11.10) (2023-05-01)
+
+### Bug Fixes
+
+- increase resilience to network disconnects for torchx ([9097cd0](https://github.com/project-codeflare/codeflare-cli/commit/9097cd0d0049373b6000f68d040adbc5e5ca318c))
+
 ## [4.11.9](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.8...v4.11.9) (2023-05-01)
 
 ### Bug Fixes
