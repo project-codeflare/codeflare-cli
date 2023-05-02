@@ -1,3 +1,9 @@
+## [4.11.11](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.10...v4.11.11) (2023-05-01)
+
+### Bug Fixes
+
+- increase ray gcs rpc timeout to 30s ([1c62309](https://github.com/project-codeflare/codeflare-cli/commit/1c6230944d3a945c5ef507b5107ac76a71abf3cf))
+
 ## [4.11.10](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.9...v4.11.10) (2023-05-01)
 
 ### Bug Fixes
