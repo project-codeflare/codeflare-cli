@@ -179,7 +179,12 @@ export default class JobBox extends React.PureComponent<Props> {
       <React.Fragment>
         {this.nCells(hosts.length, "node", "nodes", this.styleOfGroup({ color: "yellow" }))}
         {ValidResources.filter((resource) => stats.tot[resource] !== 0).map((resource) => this.resourceLine(resource))}
-        {this.nCells(pods.length / hosts.length, "worker/node", "workers/node", this.styleOfGroup({ color: "white" }))}
+        {this.nCells(
+          Math.round(pods.length / hosts.length),
+          "worker/node",
+          "workers/node",
+          this.styleOfGroup({ color: "white" })
+        )}
       </React.Fragment>
     )
   }
