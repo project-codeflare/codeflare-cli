@@ -1,3 +1,9 @@
+## [4.11.12](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.11...v4.11.12) (2023-05-02)
+
+### Bug Fixes
+
+- use initContainer to wait for ray workers ([3abe1e3](https://github.com/project-codeflare/codeflare-cli/commit/3abe1e3abc40b7a9fd220da610dff9fe37b3ebb5))
+
 ## [4.11.11](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.10...v4.11.11) (2023-05-01)
 
 ### Bug Fixes
