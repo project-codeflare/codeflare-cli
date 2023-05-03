@@ -1,3 +1,13 @@
+# [4.12.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.12...v4.12.0) (2023-05-03)
+
+### Bug Fixes
+
+- codeflare top may fail due to Array(fractionalnumber) ([cee32ec](https://github.com/project-codeflare/codeflare-cli/commit/cee32ec8a44cdf675431ccae0b1794ed6b0bfbaa))
+
+### Features
+
+- improve multinic and NCCL performance ([f2f9a56](https://github.com/project-codeflare/codeflare-cli/commit/f2f9a563cc05dd4f6aa4e637b23d86c2a2c61769))
+
 ## [4.11.12](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.11...v4.11.12) (2023-05-02)
 
 ### Bug Fixes
