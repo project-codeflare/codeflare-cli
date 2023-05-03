@@ -1,3 +1,9 @@
+## [4.12.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.12.0...v4.12.1) (2023-05-03)
+
+### Bug Fixes
+
+- improve torchx support for running multiple gpus per pod ([70d522e](https://github.com/project-codeflare/codeflare-cli/commit/70d522eb583d4e3274f6f1361426cc97064370b1))
+
 # [4.12.0](https://github.com/project-codeflare/codeflare-cli/compare/v4.11.12...v4.12.0) (2023-05-03)
 
 ### Bug Fixes
