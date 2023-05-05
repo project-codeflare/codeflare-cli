@@ -1,3 +1,10 @@
+## [4.12.2](https://github.com/project-codeflare/codeflare-cli/compare/v4.12.1...v4.12.2) (2023-05-05)
+
+### Bug Fixes
+
+- avoid downloading helm chart on every run (cache it) ([17ac5da](https://github.com/project-codeflare/codeflare-cli/commit/17ac5dac0e997909980e9ae95d9609c554ac8313))
+- custodian pods can linger forever ([9276869](https://github.com/project-codeflare/codeflare-cli/commit/9276869f82945a5d9f3f0b2662093da0111f6281))
+
 ## [4.12.1](https://github.com/project-codeflare/codeflare-cli/compare/v4.12.0...v4.12.1) (2023-05-03)
 
 ### Bug Fixes
