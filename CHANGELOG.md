@@ -1,3 +1,9 @@
+## [4.12.3](https://github.com/project-codeflare/codeflare-cli/compare/v4.12.2...v4.12.3) (2023-05-09)
+
+### Bug Fixes
+
+- multinic detection was broken; also was hard-wiring name of resource ([da9341b](https://github.com/project-codeflare/codeflare-cli/commit/da9341b38aafb6ffbeb368481fe16db718797799))
+
 ## [4.12.2](https://github.com/project-codeflare/codeflare-cli/compare/v4.12.1...v4.12.2) (2023-05-05)
 
 ### Bug Fixes
