@@ -1,3 +1,9 @@
+## [4.12.4](https://github.com/project-codeflare/codeflare-cli/compare/v4.12.3...v4.12.4) (2023-05-11)
+
+### Bug Fixes
+
+- improve cpu utilization metrics, and retry on ray head initContainer ([9f35d12](https://github.com/project-codeflare/codeflare-cli/commit/9f35d1282844ff5df7296c60e86b6e3dec9c2c59))
+
 ## [4.12.3](https://github.com/project-codeflare/codeflare-cli/compare/v4.12.2...v4.12.3) (2023-05-09)
 
 ### Bug Fixes
