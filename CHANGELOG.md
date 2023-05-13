@@ -1,3 +1,9 @@
+## [4.12.5](https://github.com/project-codeflare/codeflare-cli/compare/v4.12.4...v4.12.5) (2023-05-13)
+
+### Bug Fixes
+
+- update s3fs pvc to prevent its caching mechanism from consuming all available ephemeral storage ([a88602b](https://github.com/project-codeflare/codeflare-cli/commit/a88602bed999bcab3f01a1ff5f212bda58d16046))
+
 ## [4.12.4](https://github.com/project-codeflare/codeflare-cli/compare/v4.12.3...v4.12.4) (2023-05-11)
 
 ### Bug Fixes
