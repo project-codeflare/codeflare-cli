@@ -1,3 +1,9 @@
+## [4.12.6](https://github.com/project-codeflare/codeflare-cli/compare/v4.12.5...v4.12.6) (2023-05-25)
+
+### Bug Fixes
+
+- more EOF protection fixes ([1506ef2](https://github.com/project-codeflare/codeflare-cli/commit/1506ef29b957258679dd0662823fe82cf40f85cd))
+
 ## [4.12.5](https://github.com/project-codeflare/codeflare-cli/compare/v4.12.4...v4.12.5) (2023-05-13)
 
 ### Bug Fixes
